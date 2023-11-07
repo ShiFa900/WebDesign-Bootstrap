@@ -8,9 +8,68 @@ html {
   font-size: 62.5%;
 }
 
+.container {
+  max-width: 576px;
+  padding: 0 3.2rem;
+  margin: 0 auto;
+}
+
 body {
-  font-family: "open-sans", sans-serif;
+  /* font-family: Arial, Helvetica, sans-serif; */
+  font-family: "Times New Roman", Times, serif;
   font-weight: 500;
   line-height: 1;
   color: #555;
+}
+
+.first-heading {
+  font-size: 4.2rem;
+}
+
+.second-heading {
+  font-size: 3.4rem;
+}
+
+.third-heading {
+  font-size: 2.4rem;
+}
+
+.login-content * :focus {
+  outline: none;
+  border: none;
+  box-shadow: 0 0 0 0.8rem rgba(1, 116, 188, 0.18);
+}
+
+.btn {
+  border: none;
+  background: none;
+  font-family: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.icon {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+.form-control,
+.btn--form {
+  border: 1px solid #0174be;
+  border-radius: 2px;
+  padding: 1.2rem;
+}
+
+.btn--form {
+  padding: 1.2rem 2.4rem;
+  font-size: 1.4rem;
+  letter-spacing: 1.05px;
+  background-color: #015d98;
+  color: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.btn--form:hover,
+.btn--form:active {
+  background-color: #1a82c5;
 }

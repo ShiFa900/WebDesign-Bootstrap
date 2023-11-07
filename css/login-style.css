@@ -1,1 +1,50 @@
+/* LOGIN SECTION */
+.login-section {
+  padding: 9.6rem 0;
+}
 
+.login-box {
+  /* display: grid;
+  grid-template-columns: 1fr 1fr; */
+  padding: 3.6rem;
+  /* background-color: #cce3f2; */
+}
+
+.login-img {
+  /* gambar tidak akan ditampilkan pada mobile */
+  display: none;
+}
+
+.heading-content {
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  line-height: 1.5;
+}
+
+.heading-content span {
+  color: #0174be;
+  text-decoration: underline;
+}
+
+.form-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin: 2.4rem 0;
+}
+
+.form-content-footer a,
+.form-content-footer {
+  text-decoration: none;
+  font-size: 1.4rem;
+}
+
+.btn-container {
+  display: flex;
+  column-gap: 3.6rem;
+  margin-top: 3.6rem;
+}
+
+label {
+  font-size: 1.8rem;
+  margin-bottom: 2.4rem;
+}

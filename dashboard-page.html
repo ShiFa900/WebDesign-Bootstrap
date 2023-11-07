@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PerMap&mdash;Dashboard</title>
+
+    <link rel="stylesheet" href="css/dashboard-style.css" />
+    <link rel="stylesheet" href="css/general.css" />
+
+    <!-- link icon -->
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+  </head>
+  <body>
+    <main>
+      <header class="header">
+        <div class="header-section">
+          <!-- Nama aplikasi -->
+          <div class="header-app-name">
+            <p class="header-title">PerMap</p>
+            <span class="header-title-sm">Persons Management App</span>
+          </div>
+          <!-- akun yang berhasil masuk -->
+          <div class="header-user">
+            <ion-icon
+              name="person"
+              class="icon icon-user-header"
+              title="lorem@gmail.com"
+            ></ion-icon>
+            <span class="header-title-sm">lorem@gmail.com</span>
+          </div>
+        </div>
+      </header>
+
+      <section class="dashboard-section">
+        <div class="dashboard">
+          <div class="dashboard-nav">
+            <ul class="content-list">
+              <li>
+                <a class="dashboard-nav-content" href="#">Dashboard</a>
+              </li>
+              <li>
+                <a class="dashboard-nav-content" href="#">Persons</a>
+              </li>
+              <li>
+                <a class="dashboard-nav-content">My account </a>
+                <ul class="content-list-inside">
+                  <li>
+                    <a class="dashboard-nav-content" href="#">Edit profile</a>
+                  </li>
+                  <li>
+                    <a class="dashboard-nav-content" href="#">Logout</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+
+          <div class="dashboard-content">
+            <div class="content-header">
+              <span class="content-title">Persons</span>
+              <button class="btn btn--form">
+                <ion-icon name="add" class="icon"></ion-icon>
+                <!-- uppercase -->
+                <span>Add</span>
+              </button>
+            </div>
+
+            <div class="search-section form-content">
+              <input id="search-item" type="text" class="form-control" />
+              <button class="btn btn--form">Search</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

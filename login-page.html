@@ -3,45 +3,74 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login page</title>
 
     <link rel="stylesheet" href="css/general.css" />
     <link rel="stylesheet" href="css/login-style.css" />
+
+    <!-- Link font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Rubik:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>PerMap &mdash; Login page</title>
   </head>
   <body>
     <main>
       <section class="login-section">
-        <div class="login">
-          <!-- logo untuk web -->
-          <div class="login-header">
-            <h1 class="first-heading">PMA - Persons Management App</h1>
-          </div>
-          <div class="login-content">
-            <p class="login-content-header">Masuk ke halaman administrasi</p>
-            <form class="login-form">
-              <div class="form-content">
-                <label for="email">Email</label>
-                <input
-                  id="email"
-                  type="email"
-                  placeholder="Email"
-                  required
-                  class="form-control"
-                />
+        <div class="login container">
+          <div class="login-box">
+            <!-- logo untuk web -->
+            <div class="login-img">
+              <img
+                class="login-img"
+                alt="person login into aplication"
+                src="properties/persons.svg"
+              />
+            </div>
+            <div class="login-content">
+              <div class="login-header">
+                <h2 class="third-heading heading-content">
+                  Hello, <br />
+                  Welcome to <span>PerMap</span>!
+                </h2>
               </div>
-              <div class="form-content">
-                <label for="password">Password</label>
-                <input
-                  id="password"
-                  type="password"
-                  placeholder="Password"
-                  required
-                  class="form-control"
-                />
-              </div>
-            </form>
+              <form class="login-form">
+                <div class="form-content">
+                  <label for="email">Email</label>
+                  <input
+                    id="email"
+                    type="email"
+                    placeholder="Email"
+                    required
+                    class="form-control"
+                  />
+                </div>
+                <div class="form-content">
+                  <label for="password">Password</label>
+                  <input
+                    id="password"
+                    type="password"
+                    placeholder="Password"
+                    required
+                    class="form-control"
+                  />
+                </div>
+                <span class="form-content-footer"
+                  >Don't have an account? <a href="#">Create account</a></span
+                >
+                <div class="btn-container">
+                  <input class="btn btn--form" type="submit" value="login" />
+                  <!-- 
+                    jika data belum diisi, create akun juga belum bisa diisi.
+                    Butuh perbaikan (mungkin pakai JS)
+                   -->
+                </div>
+              </form>
+            </div>
           </div>
-          <button class="btn btn--form">login</button>
         </div>
       </section>
     </main>
