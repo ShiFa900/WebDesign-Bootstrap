@@ -1,3 +1,13 @@
+/* COLOR */
+/* 
+#0d3c59
+#003172
+#0174be
+#015d98 
+#1a82c5
+#FFC436
+ */
+
 * {
   margin: 0;
   padding: 0;
@@ -72,4 +82,42 @@ body {
 .btn--form:hover,
 .btn--form:active {
   background-color: #1a82c5;
+}
+
+/*====================*/
+/* MOBILE NAVIGATION */
+/*====================*/
+
+/* MOBILE */
+.btn-mobile-nav {
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  /* display: none; */
+}
+
+.icon-mobile-nav {
+  height: 4.8rem;
+  width: 4.8rem;
+  color: #333;
+}
+
+.icon-mobile-nav[name="close-outline"] {
+  display: none;
+}
+
+/*====================*/
+/* GRID */
+/*====================*/
+
+.grid {
+  display: grid;
+  column-gap: 6.4rem;
+  row-gap: 9.6rem;
+}
+
+.col-sm-2 {
+  display: grid;
+  grid-template-columns: 1rem 1.5rem;
 }

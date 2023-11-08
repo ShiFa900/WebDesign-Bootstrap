@@ -1,0 +1,70 @@
+/* HEADER */
+
+/* NAVIGATION */
+
+.dashboard {
+  background-color: #015d98;
+}
+
+.main-nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+  /* align-items: center; */
+}
+
+.main-nav-list a:link,
+.main-nav-list a:visited {
+  cursor: pointer;
+  transition: all 0.1s ease-in;
+}
+
+.main-nav-list a:hover,
+.main-nav-list a:active {
+  background-color: #0174be;
+}
+
+.nav-title {
+  font-size: 1.8rem;
+  font-weight: 500;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid #ffff;
+  color: #ffff;
+
+  text-transform: uppercase;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  column-gap: 1.2rem;
+  font-size: 1.8rem;
+}
+
+.dashboard-icon,
+.main-nav-link {
+  color: #ffff;
+  text-decoration: none;
+}
+
+.sidebar-nav {
+  display: none;
+}
+
+.sidebar-top .main-nav-list {
+  display: flex;
+  flex-direction: row;
+  gap: 2.4rem;
+}
+/* bagian dashboard header belum selesai */
+
+/* DASHBOARD SECTION */
+
+.dashboard-section {
+  padding: 9.6rem 0;
+}
+
+.dashboard {
+  display: flex;
+}

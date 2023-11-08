@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- link icon -->
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+
+    <!-- link styling -->
+    <link rel="stylesheet" href="css/general.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+
+    <title>PerMap &mdash; Dashboard</title>
+  </head>
+  <body>
+    <main>
+      <section class="dashboard-section">
+        <div class="dashboard container">
+          <nav class="sidebar-nav">
+            <ul class="main-nav-list">
+              <li class="nav-item">
+                <a href="#" class="main-nav-link">logo</a>
+              </li>
+              <li class="nav-title">Dashboard</li>
+              <li class="nav-item">
+                <a class="main-nav-link" href="#">Persons</a>
+              </li>
+
+              <li class="nav-title">my account</li>
+
+              <li class="nav-item">
+                <ion-icon
+                  name="create-outline"
+                  class="icon dashboard-icon"
+                ></ion-icon>
+                <a class="main-nav-link" href="#"> Edit profile</a>
+              </li>
+              <li class="nav-item">
+                <ion-icon
+                  name="log-out-outline"
+                  class="icon dashboard-icon"
+                ></ion-icon>
+                <a class="main-nav-link" href="#"> Log out</a>
+              </li>
+            </ul>
+          </nav>
+          <button class="btn-mobile-nav">
+            <ion-icon
+              class="icon icon-mobile-nav"
+              name="menu-outline"
+            ></ion-icon>
+            <!-- <ion-icon class="icon-mobile-nav" name="close-outline"></ion-icon> -->
+          </button>
+
+          <div class="dashboard-content">
+            <header class="header">
+              <nav class="sidebar-top">
+                <ul class="main-nav-list">
+                  <li class="nav-item">
+                    <a href="#" class="nav-list-icon"
+                      ><ion-icon name="notifications" class="icon"></ion-icon
+                    ></a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-list-icon"
+                      ><ion-icon name="person" class="icon"></ion-icon>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </header>
+            <div class="content"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

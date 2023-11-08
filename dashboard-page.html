@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PerMap&mdash;Dashboard</title>
 
-    <link rel="stylesheet" href="css/dashboard-style.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
     <link rel="stylesheet" href="css/general.css" />
+    <!-- <link rel="stylesheet" href="queri/dashboard.css" /> -->
 
     <!-- link icon -->
     <script
@@ -19,50 +20,66 @@
     ></script>
   </head>
   <body>
-    <main>
-      <header class="header">
-        <div class="header-section">
-          <!-- Nama aplikasi -->
-          <div class="header-app-name">
-            <p class="header-title">PerMap</p>
-            <span class="header-title-sm">Persons Management App</span>
-          </div>
-          <!-- akun yang berhasil masuk -->
-          <div class="header-user">
-            <ion-icon
-              name="person"
-              class="icon icon-user-header"
-              title="lorem@gmail.com"
-            ></ion-icon>
-            <span class="header-title-sm">lorem@gmail.com</span>
-          </div>
-        </div>
-      </header>
-
-      <section class="dashboard-section">
-        <div class="dashboard">
-          <div class="dashboard-nav">
-            <ul class="content-list">
+    <header class="header container">
+      <!-- side bar content -->
+      <nav class="dashboard-nav sidebar">
+        <ul class="sidebar-list">
+          <li>
+            <a class="dashboard-nav-content" href="#">Dashboard</a>
+          </li>
+          <li>
+            <a class="dashboard-nav-content" href="#">Persons</a>
+          </li>
+          <li>
+            <a class="dashboard-nav-content">My account </a>
+            <ul class="content-list-inside">
               <li>
-                <a class="dashboard-nav-content" href="#">Dashboard</a>
+                <a class="dashboard-nav-content" href="#">Edit profile</a>
               </li>
               <li>
-                <a class="dashboard-nav-content" href="#">Persons</a>
-              </li>
-              <li>
-                <a class="dashboard-nav-content">My account </a>
-                <ul class="content-list-inside">
-                  <li>
-                    <a class="dashboard-nav-content" href="#">Edit profile</a>
-                  </li>
-                  <li>
-                    <a class="dashboard-nav-content" href="#">Logout</a>
-                  </li>
-                </ul>
+                <a class="dashboard-nav-content" href="#">Logout</a>
               </li>
             </ul>
-          </div>
+          </li>
+        </ul>
+      </nav>
+      <!-- logo menu -->
+      <button class="btn-mobile-nav">
+        <ion-icon class="icon-mobile-nav" name="menu-outline"></ion-icon>
+        <ion-icon class="icon-mobile-nav" name="close-outline"></ion-icon>
+      </button>
 
+      <nav class="dashboard-nav">
+        <ul class="header-list">
+          <li>
+            <a class="dashboard-nav-content" href="#">
+              <!-- gambar logo -->
+              logo
+            </a>
+          </li>
+          <li>
+            <ion-icon
+              name="notifications"
+              class="icon icon-user-header"
+            ></ion-icon>
+          </li>
+          <li>
+            <div class="header-user">
+              <ion-icon
+                name="person"
+                class="icon icon-user-header"
+                title="lorem@gmail.com"
+              ></ion-icon>
+              <span class="header-title-sm">lorem@gmail.com</span>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="dashboard-section">
+        <div class="dashboard container">
           <div class="dashboard-content">
             <div class="content-header">
               <span class="content-title">Persons</span>
