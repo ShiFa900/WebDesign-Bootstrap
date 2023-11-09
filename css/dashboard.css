@@ -1,70 +1,46 @@
 /* HEADER */
 
+.header {
+  padding: 2.4rem;
+  background-color: #015d98;
+  /* box-shadow: 0 2.4rem 3.6rem rgba(0, 0, 0, 0.775); */
+}
+
+.header-content {
+  justify-content: space-between;
+}
+
+.header .icon {
+  color: #ffff;
+}
+
+.header-items {
+  gap: 2.4rem;
+}
+
 /* NAVIGATION */
 
-.dashboard {
-  background-color: #015d98;
-}
+.nav {
+  align-items: center;
+  column-gap: 5px;
 
-.main-nav-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 2.4rem;
-  /* align-items: center; */
-}
-
-.main-nav-list a:link,
-.main-nav-list a:visited {
-  cursor: pointer;
-  transition: all 0.1s ease-in;
-}
-
-.main-nav-list a:hover,
-.main-nav-list a:active {
-  background-color: #0174be;
-}
-
-.nav-title {
-  font-size: 1.8rem;
-  font-weight: 500;
-  padding: 1.2rem 0;
-  border-bottom: 1px solid #ffff;
+  text-decoration: none;
   color: #ffff;
-
-  text-transform: uppercase;
+  font-size: 1.6rem;
 }
 
-.nav-item {
+.nav-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.nav-link {
   display: flex;
   align-items: center;
-  column-gap: 1.2rem;
-  font-size: 1.8rem;
 }
-
-.dashboard-icon,
-.main-nav-link {
-  color: #ffff;
-  text-decoration: none;
-}
-
-.sidebar-nav {
-  display: none;
-}
-
-.sidebar-top .main-nav-list {
-  display: flex;
-  flex-direction: row;
-  gap: 2.4rem;
-}
-/* bagian dashboard header belum selesai */
 
 /* DASHBOARD SECTION */
 
-.dashboard-section {
-  padding: 9.6rem 0;
-}
-
 .dashboard {
-  display: flex;
+  background-color: aliceblue;
 }
