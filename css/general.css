@@ -25,8 +25,8 @@ html {
 } */
 
 body {
-  /* font-family: Arial, Helvetica, sans-serif; */
-  font-family: "Times New Roman", Times, serif;
+  font-family: Arial, Helvetica, sans-serif;
+  /* font-family: "Open-sans", sans-serif; */
   font-weight: 500;
   line-height: 1;
   color: #555;
@@ -54,7 +54,7 @@ body {
   border: none;
   background: none;
   font-family: inherit;
-  color: inherit;
+  /* color: inherit; */
   cursor: pointer;
 }
 

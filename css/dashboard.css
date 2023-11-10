@@ -1,16 +1,17 @@
 /* HEADER */
 
 .header {
-  padding: 2.4rem;
+  height: 9.6rem;
   background-color: #015d98;
   /* box-shadow: 0 2.4rem 3.6rem rgba(0, 0, 0, 0.775); */
 }
 
-.header-content {
+.header-content,
+.header-nav {
   justify-content: space-between;
 }
 
-.header .icon {
+.header-nav .icon {
   color: #ffff;
 }
 
@@ -32,15 +33,35 @@
 .nav-list {
   list-style: none;
   padding-left: 0;
-}
-
-.nav-link {
-  display: flex;
-  align-items: center;
+  row-gap: 2.4rem;
+  grid-template-columns: 1fr;
 }
 
 /* DASHBOARD SECTION */
 
-.dashboard {
-  background-color: aliceblue;
+/* SIDEBAR */
+.sidebar-heading {
+  text-align: center;
+}
+
+.nav-item .sidebar-icon {
+  color: #015d98;
+}
+
+.nav-title {
+  border-bottom: 1px solid #015d98;
+  padding-bottom: 1.2rem;
+  font-size: 1.4rem;
+  letter-spacing: 0.75px;
+
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.nav-item,
+.nav-link {
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  column-gap: 1.4rem;
 }

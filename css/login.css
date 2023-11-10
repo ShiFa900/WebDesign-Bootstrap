@@ -2,6 +2,7 @@
 .login-section {
   /* padding: 16.6rem 0; */
   height: 100vh;
+  font-family: "Times New Roman", Times, serif;
 }
 
 .login-img {
@@ -28,7 +29,7 @@
   cursor: pointer;
 }
 
-.form-content {
+.form-label {
   margin: 2.4rem 0;
   /* width: 50%; */
 }
