@@ -1,6 +1,5 @@
 /* LOGIN SECTION */
 .login-section {
-  /* padding: 16.6rem 0; */
   height: 100vh;
   font-family: "Times New Roman", Times, serif;
 }
@@ -24,11 +23,6 @@
   text-decoration: underline;
 }
 
-.form-control {
-  font-size: 1.6rem;
-  cursor: pointer;
-}
-
 .form-label {
   margin: 2.4rem 0;
   /* width: 50%; */
@@ -36,7 +30,6 @@
 
 .form-content-footer a,
 .form-content-footer {
-  text-decoration: none;
   font-size: 1.4rem;
 }
 
