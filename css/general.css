@@ -44,11 +44,12 @@ body {
   font-size: 2.4rem;
 }
 
-.login-content * :focus {
+/* .login-content,
+.search-form * :focus {
   outline: none;
   border: none;
   box-shadow: 0 0 0 0.8rem rgba(1, 116, 188, 0.18);
-}
+} */
 
 .btn {
   border: none;
@@ -65,10 +66,21 @@ body {
 }
 
 .form-control,
+.form-control-sm,
 .btn--form {
   border: 1px solid #0174be;
+  cursor: pointer;
+
   border-radius: 2px;
+}
+
+.form-control {
+  font-size: 1.6rem;
   padding: 1.2rem;
+}
+
+.form-control-sm {
+  font-size: 1.4rem;
 }
 
 .btn--form {
@@ -86,35 +98,3 @@ body {
   background-color: #1a82c5;
   color: #ffffff;
 }
-
-.form-control {
-  font-size: 1.6rem;
-  cursor: pointer;
-}
-
-/*====================*/
-/* MOBILE NAVIGATION */
-/*====================*/
-
-/* MOBILE */
-.btn-mobile-nav {
-  border: none;
-  background: none;
-  cursor: pointer;
-
-  /* display: none; */
-}
-
-.icon-mobile-nav {
-  height: 4.8rem;
-  width: 4.8rem;
-  color: #222;
-}
-
-.icon-mobile-nav[name="close-outline"] {
-  display: none;
-}
-
-/*====================*/
-/* GRID */
-/*====================*/

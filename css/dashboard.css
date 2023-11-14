@@ -2,6 +2,7 @@
 
 .header {
   height: 9.6rem;
+  padding: 0 1.4rem;
   background-color: #015d98;
   color: #ffff;
 
@@ -13,34 +14,93 @@
   --bs-bg-opacity: 0;
 }
 
-/* NAVIGATION */
+.avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
 
-.nav-list {
-  list-style: none;
-  padding-left: 0;
+.avatar-md {
+  width: 3.4rem;
+  height: 3.4rem;
+  font-size: 1rem;
+}
+
+.avatar-img {
+  border-radius: 50%;
+  width: 100%;
+  height: auto;
+}
+
+.nav-link {
+  cursor: pointer;
+}
+
+/* NAVIGATION ON SIDEBAR*/
+
+ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
   row-gap: 2.4rem;
-  grid-template-columns: 1fr;
+
+  /* margin: 0; */
+  /* padding: 0; */
 }
 
 /* DASHBOARD SECTION */
 
-.content-wrapper {
-  justify-content: space-between;
+.dashboard {
+  padding: 3.6rem 0;
 }
 
 .btn-content {
   background-color: #ffc436;
   padding: 1.2rem;
+  border-radius: 50%;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+}
+
+.btn-outline-success:hover,
+.btn-outline-success:active {
+  background-color: #ffc436;
+  color: #333;
+}
+
+/* TABLE */
+
+td {
+  font-size: 1.6rem;
+}
+
+.table-nav {
+  padding: 1.2rem;
+  background-color: #ffc436;
 }
 
 /* SIDEBAR */
 
-.nav-item .icon {
+.sidebar-icon {
   color: #015d98;
 }
 
+.offcanvas.offcanvas-start {
+  width: 320px;
+}
+
+.offcanvas-body {
+  justify-content: space-between;
+  padding: 0;
+}
+
 .nav-title {
-  /* font-size: 1.4rem; */
+  font-size: 1em;
   letter-spacing: 0.75px;
 
   text-transform: uppercase;
@@ -65,7 +125,8 @@
   background-color: #015d98;
 }
 
-.nav-item-person {
+/* menunjukkan user sedang berada di page mana */
+/* .nav-item-highlight {
   background-color: #e6f1f9;
-  padding: 1.2rem;
-}
+  padding: 1.2rem 0;
+} */
