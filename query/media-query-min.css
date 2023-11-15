@@ -1,0 +1,7 @@
+@media (min-width: 992px) {
+  .col-lg-9 {
+    left: 25%;
+    padding: 9.6rem;
+    position: relative;
+  }
+}

@@ -81,6 +81,7 @@ body {
 
 .form-control-sm {
   font-size: 1.4rem;
+  padding: 0.75rem;
 }
 
 .btn--form {
@@ -96,5 +97,9 @@ body {
 .btn--form:hover,
 .btn--form:active {
   background-color: #1a82c5;
+  color: #ffffff;
+}
+
+.btn-primary {
   color: #ffffff;
 }

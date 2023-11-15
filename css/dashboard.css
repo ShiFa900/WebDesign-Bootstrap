@@ -6,12 +6,28 @@
   background-color: #015d98;
   color: #ffff;
 
-  box-shadow: 0 0.2rem 0.3rem rgba(0, 0, 0, 0.546);
-  justify-content: space-between;
+  box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.532);
+  position: fixed;
+  left: 0;
+  right: 0;
 }
 
 .bg-body-tertiary {
   --bs-bg-opacity: 0;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+
+  font-size: 1.6rem;
+  padding: 1.2rem;
+}
+
+.dropdown-item:hover,
+.dropdown-item:active {
+  background-color: #e6f1f9;
 }
 
 .avatar {
@@ -26,12 +42,17 @@
   width: 3.4rem;
   height: 3.4rem;
   font-size: 1rem;
+  margin: 0 1.2rem;
 }
 
 .avatar-img {
   border-radius: 50%;
-  width: 100%;
   height: auto;
+}
+
+.profile-text {
+  color: #fff;
+  font-size: 1.6rem;
 }
 
 .nav-link {
@@ -52,51 +73,95 @@ ul {
 
 /* DASHBOARD SECTION */
 
-.dashboard {
-  padding: 3.6rem 0;
-}
+/* .dashboard-content {
+  position: fixed;
+  top: 95px;
+  right: 0;
+  left: 0;
+  bottom: 0;
+} */
 
-.btn-content {
+/* .header-nav {
+  border-right: 1px solid #015d98;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+} */
+
+/* .nav-wrapper {
+  position: relative;
+} */
+
+/* .btn-content {
   background-color: #ffc436;
   padding: 1.2rem;
   border-radius: 50%;
 }
 
-.search-form {
-  display: flex;
-  align-items: center;
-}
-
 .btn-outline-success:hover,
 .btn-outline-success:active {
-  background-color: #ffc436;
+  background-color: #ffc436 !important;
   color: #333;
 }
 
+.table > :not(caption) > * > * {
+  padding: 1.2rem;
+} */
+
 /* TABLE */
 
-td {
+/* .table {
+  padding: 6.4rem 0;
+  color: #333;
+}
+
+td,
+th {
   font-size: 1.6rem;
 }
 
+thead th {
+  border-bottom: none;
+} */
+
 .table-nav {
-  padding: 1.2rem;
+  padding: 0.2rem 0.75rem;
   background-color: #ffc436;
+  color: #333;
+  border-radius: 2px;
 }
 
 /* SIDEBAR */
+/* 
+.header-nav {
+  position: fixed;
+  top: 95px;
+  left: 0;
+  bottom: 0;
+  z-index: 9999;
+  border-right: 1px solid #015d98;
+} */
+
+.sidebar {
+  position: fixed;
+  border-right: 1px solid #015d98;
+
+  top: 95px;
+  left: 0;
+  bottom: 0;
+  z-index: 999;
+}
+
+/* .dashboard-content {
+  position: absolute;
+} */
 
 .sidebar-icon {
   color: #015d98;
 }
 
 .offcanvas.offcanvas-start {
-  width: 320px;
-}
-
-.offcanvas-body {
-  justify-content: space-between;
-  padding: 0;
+  width: 300px;
 }
 
 .nav-title {
@@ -113,10 +178,6 @@ td {
   display: flex;
   align-items: center;
   column-gap: 0.75rem;
-}
-
-.menu-btn {
-  color: #ffff;
 }
 
 .btn-primary.menu-btn:hover,
