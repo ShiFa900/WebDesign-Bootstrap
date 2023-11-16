@@ -7,9 +7,9 @@
   color: #ffff;
 
   box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.532);
-  position: fixed;
+  /* position: fixed;
   left: 0;
-  right: 0;
+  right: 0; */
 }
 
 .bg-body-tertiary {
@@ -73,46 +73,41 @@ ul {
 
 /* DASHBOARD SECTION */
 
-/* .dashboard-content {
+.dashboard-content {
+  /* background-color: #003322; */
+  /* top: 12%; */
+  right: 1%;
+  left: 16%;
+  /* width: 75%; */
   position: fixed;
-  top: 95px;
-  right: 0;
-  left: 0;
-  bottom: 0;
-} */
+}
 
-/* .header-nav {
-  border-right: 1px solid #015d98;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-} */
-
-/* .nav-wrapper {
-  position: relative;
-} */
-
-/* .btn-content {
+.btn-content {
   background-color: #ffc436;
   padding: 1.2rem;
   border-radius: 50%;
 }
 
+.btn-outline-success {
+  background-color: #ffc436;
+  color: #333;
+  padding: 0.6rem 1rem;
+  border-radius: 0;
+}
+
 .btn-outline-success:hover,
 .btn-outline-success:active {
-  background-color: #ffc436 !important;
+  background-color: #e6b031 !important;
   color: #333;
 }
 
-.table > :not(caption) > * > * {
-  padding: 1.2rem;
-} */
-
 /* TABLE */
 
-/* .table {
-  padding: 6.4rem 0;
-  color: #333;
+.table {
+  height: 100%;
+  margin-top: 2.4rem;
+
+  --bs-table-color: none;
 }
 
 td,
@@ -120,9 +115,20 @@ th {
   font-size: 1.6rem;
 }
 
-thead th {
-  border-bottom: none;
-} */
+tbody tr td:last-child {
+  display: flex;
+  justify-content: end;
+}
+
+thead tr {
+  background-color: #015d98;
+  color: #e6f1f9;
+  text-transform: uppercase;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
 
 .table-nav {
   padding: 0.2rem 0.75rem;
@@ -131,30 +137,27 @@ thead th {
   border-radius: 2px;
 }
 
+.table > :not(caption) > * > * {
+  background: none;
+}
+
+.table > tbody {
+  vertical-align: baseline;
+}
+
 /* SIDEBAR */
-/* 
-.header-nav {
-  position: fixed;
-  top: 95px;
-  left: 0;
-  bottom: 0;
-  z-index: 9999;
-  border-right: 1px solid #015d98;
-} */
 
 .sidebar {
+  /* background-color: #0033; */
   position: fixed;
-  border-right: 1px solid #015d98;
 
+  border-right: 1px solid #015d98;
   top: 95px;
   left: 0;
+  right: 85%;
   bottom: 0;
   z-index: 999;
 }
-
-/* .dashboard-content {
-  position: absolute;
-} */
 
 .sidebar-icon {
   color: #015d98;
