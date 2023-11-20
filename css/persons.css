@@ -1,0 +1,169 @@
+/* HEADER */
+
+.header {
+  height: 70px;
+  padding: 0 1.4rem;
+  background-color: #015d98;
+  color: #ffff;
+
+  box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.532);
+  position: fixed;
+  left: 0;
+  right: 0;
+}
+
+.bg-body-tertiary {
+  --bs-bg-opacity: 0;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+
+  font-size: 1.6rem;
+  padding: 1.2rem;
+}
+
+.dropdown-item:hover,
+.dropdown-item:active {
+  background-color: #e6f1f9;
+}
+
+.avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+.avatar-md {
+  width: 3.4rem;
+  height: 3.4rem;
+  font-size: 1rem;
+  margin: 0 1.2rem;
+}
+
+.avatar-img {
+  border-radius: 50%;
+  height: auto;
+}
+
+.profile-text {
+  color: #fff;
+  font-size: 1.6rem;
+}
+
+.nav-link {
+  cursor: pointer;
+}
+
+/* NAVIGATION ON SIDEBAR*/
+
+ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.4rem;
+  padding-left: 0;
+
+  /* margin: 0; */
+  /* padding: 0; */
+}
+
+li ul .nav-link {
+  padding-left: 1.2rem;
+}
+
+/* PERSONS SECTION */
+
+.person-content {
+  top: 100px;
+  right: 0;
+  left: 255px;
+}
+
+.btn-content {
+  background-color: #ffc436;
+  padding: 1.2rem;
+  border-radius: 50%;
+}
+
+.btn-outline-success {
+  background-color: #ffc436;
+  color: #333;
+  padding: 0.6rem 1rem;
+  border-radius: 2px;
+}
+
+.btn-outline-success:hover,
+.btn-outline-success:active {
+  background-color: #e6b031 !important;
+  color: #333;
+}
+
+/* TABLE */
+
+.table-section {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.09);
+}
+
+.table {
+  height: 100%;
+
+  --bs-table-color: none;
+}
+
+td,
+th {
+  font-size: 1.6rem;
+}
+
+tbody tr td:last-child {
+  display: flex;
+  justify-content: end;
+}
+
+thead tr {
+  background-color: #015d98;
+  color: #e6f1f9;
+  text-transform: uppercase;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.table-nav {
+  padding: 0.2rem 0.75rem;
+  border: 1px solid #015d98;
+  color: #333;
+  border-radius: 2px;
+}
+
+.view-btn {
+  background-color: #015d98;
+  color: #fff;
+}
+
+.view-btn:hover,
+.view-btn:active {
+  color: #fff !important;
+  background-color: #1a82c5;
+}
+
+.table > :not(caption) > * > * {
+  background: none;
+  padding: 1.2rem;
+}
+
+.table > tbody {
+  vertical-align: baseline;
+}
+
+/* menunjukkan user seng berada di page mana */
+/* .nav-item-highlight {
+  background-color: #e6f1f9;
+  padding: 1.2rem 0;
+} */

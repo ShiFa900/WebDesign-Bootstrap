@@ -6,8 +6,15 @@
   }
 } */
 
-@media (max-width: 1199) {
+@media (max-width: 1200px) {
+  .person-content,
   .dashboard-content {
-    left: 0px;
+    left: 0;
+    right: 0;
+  }
+
+  .sidebar {
+    width: 0;
+    display: none;
   }
 }
