@@ -14,7 +14,7 @@
 }
 
 .dashboard-card {
-  column-gap: 2.4rem;
+  width: 30%;
 }
 
 .number {
@@ -34,9 +34,9 @@
 
 .card {
   background-color: #fafafa;
+  box-shadow: 0 0.1rem 0.5rem rgba(1, 94, 152, 0.273);
 
-  width: 350px;
-  margin-bottom: 2.4rem;
+  margin-bottom: 3.2rem;
   padding: 1.2rem;
 
   border-radius: 5px;
@@ -53,7 +53,7 @@
 .card-link {
   font-size: 1.6rem;
   padding-bottom: 2px;
-  border-bottom: 3px solid #015d98;
+  border-bottom: 2px solid #1a82c5;
   text-decoration: none;
 }
 

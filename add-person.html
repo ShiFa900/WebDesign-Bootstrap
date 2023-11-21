@@ -29,11 +29,11 @@
     <!-- link styling -->
     <link rel="stylesheet" href="css/general.css" />
     <link rel="stylesheet" href="css/persons.css" />
-    <link rel="stylesheet" href="sidebar.html" />
+    <link rel="stylesheet" href="css/add-person.css" />
 
     <link rel="stylesheet" href="query/media-query-min.css" />
 
-    <title>PerMap &mdash; Persons</title>
+    <title>PerMap &mdash; Add new person</title>
   </head>
   <body>
     <header
@@ -121,7 +121,7 @@
               </li>
 
               <li class="nav-item" id="person-active">
-                <a href="persons.html" class="nav-link active">
+                <a href="#" class="nav-link active">
                   <ion-icon
                     name="person-outline"
                     class="icon sidebar-icon"
@@ -173,186 +173,168 @@
         </div>
 
         <div class="w-100">
-          <div class="person-content position-absolute px-5">
-            <div class="content-wrapper d-flex justify-content-between">
-              <div class="left d-flex gap-4">
-                <h1 class="h1 d-flex align-items-center">Persons</h1>
-                <div class="add-person d-flex justify-content-end mb-0">
-                  <a href="add-person.html" class="nav-link btn-content">
-                    <ion-icon name="person-add-outline" class="icon"></ion-icon>
-                  </a>
-                </div>
-              </div>
-
-              <div class="right d-flex gap-4 align-items-center">
-                <div class="dropdown">
-                  <button
-                    class="btn btn-secondary dropdown-toggle"
-                    type="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <ion-icon
-                      name="filter-outline"
-                      class="icon filter-icon"
-                    ></ion-icon>
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a class="dropdown-item" href="#">Productive ages</a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">Children</a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">Elderly</a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">Passed away</a>
-                    </li>
-                  </ul>
-                </div>
-                <form
-                  role="search"
-                  class="search-form d-flex align-items-center"
-                >
-                  <div class="form-search d-none d-lg-block w-100 me-2">
-                    <input
-                      id="search"
-                      class="form-control form-control-sm"
-                      type="search"
-                      placeholder="Search"
-                      aria-label="Search"
-                    />
-                  </div>
-                  <button class="btn btn-outline-success" type="submit">
-                    <ion-icon name="search-outline" class="icon"></ion-icon>
-                  </button>
-                </form>
-              </div>
+          <div class="add-person-content position-absolute px-5">
+            <div class="page-header">
+              <h1 class="h1">Add person</h1>
             </div>
 
-            <div
-              class="table-section table-responsive"
-              style="margin-top: 6rem"
-            >
-              <table class="table" style="min-width: 800px">
-                <thead>
-                  <tr style="height: 50px; vertical-align: middle">
-                    <th scope="col">No</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Full Name</th>
-                    <th scope="col">Role</th>
-                    <th scope="col"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>komi.san@gmail.com</td>
-                    <td>Shoko Komi</td>
-                    <td>ADMIN</td>
-                    <td>
-                      <button class="btn">
-                        <a href="#" class="nav-link table-nav">Edit</a>
-                      </button>
-                      <button class="btn">
-                        <a href="#" class="nav-link table-nav view-btn">View</a>
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>OjimaSama@gmail.com</td>
-                    <td>Najima Osana</td>
-                    <td>MEMBER</td>
-                    <td>
-                      <button class="btn">
-                        <a href="#" class="nav-link table-nav">Edit</a>
-                      </button>
-                      <button class="btn">
-                        <a href="#" class="nav-link table-nav view-btn">View</a>
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>Ayayaki@gmail.com</td>
-                    <td>Rui Ayaki</td>
-                    <td>MEMBER</td>
+            <div class="row">
+              <div class="col-xxl-12">
+                <form class="new-person-form" action="#">
+                  <div class="row">
+                    <div class="col-xxl-6 col-xl-6 col-lg-6 new-person-form">
+                      <div class="mb-3 form-input">
+                        <label for="f-name" class="form-label"
+                          >First name<span id="star">*</span></label
+                        >
+                        <input
+                          id="f-name"
+                          type="text"
+                          placeholder="First name"
+                          required
+                          class="form-control"
+                        />
+                      </div>
+                      <div class="mb-3 form-input">
+                        <label for="l-name" class="form-label"
+                          >Last name<span id="star">*</span></label
+                        >
 
-                    <td>
-                      <button class="btn">
-                        <a href="#" class="nav-link table-nav">Edit</a>
-                      </button>
-                      <button class="btn">
-                        <a href="#" class="nav-link table-nav view-btn">View</a>
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>4</td>
-                    <td>rubi@gmail.com</td>
-                    <td>Rubi</td>
-                    <td>MEMBER</td>
+                        <input
+                          id="l-name"
+                          type="text"
+                          placeholder="Last name"
+                          required
+                          class="form-control"
+                        />
+                      </div>
+                      <div class="mb-3 form-input">
+                        <label for="staticEmail" class="form-label"
+                          >NIK<span id="star">*</span></label
+                        >
+                        <input
+                          id="staticEmail"
+                          type="text"
+                          placeholder="NIK"
+                          required
+                          class="form-control"
+                        />
+                      </div>
+                      <div class="mb-3 form-input">
+                        <label for="staticEmail" class="form-label"
+                          >Email<span id="star">*</span></label
+                        >
+                        <input
+                          id="staticEmail"
+                          type="email"
+                          placeholder="Email"
+                          required
+                          class="form-control"
+                        />
+                      </div>
 
-                    <td>
-                      <button class="btn">
-                        <a href="#" class="nav-link table-nav">Edit</a>
-                      </button>
-                      <button class="btn">
-                        <a href="#" class="nav-link table-nav view-btn">View</a>
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>5</td>
-                    <td>miyako@gmail.com</td>
-                    <td>Shiku Miya</td>
-                    <td>MEMBER</td>
+                      <div class="mb-3 form-input">
+                        <label for="datePicker" class="form-label"
+                          >Date of birth<span id="star">*</span></label
+                        >
+                        <input
+                          id="datePicker"
+                          type="date"
+                          placeholder="Date of birth"
+                          required
+                          class="form-control"
+                        />
+                      </div>
 
-                    <td>
-                      <button class="btn">
-                        <a href="#" class="nav-link table-nav">Edit</a>
-                      </button>
-                      <button class="btn">
-                        <a href="#" class="nav-link table-nav view-btn">View</a>
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>6</td>
-                    <td>ferolo@gmail.com</td>
-                    <td>Ai Shoto</td>
-                    <td>MEMBER</td>
+                      <div class="mb-3 form-input">
+                        <label for="sex-dropdown" class="form-label"
+                          >Sex<span id="star">*</span></label
+                        >
+                        <select
+                          class="form-select form-select-sm form-control"
+                          required
+                          aria-label="Small select example"
+                        >
+                          <option selected>Open this select menu</option>
+                          <option value="1">Male</option>
+                          <option value="2">Female</option>
+                          <option value="3">Better not say</option>
+                        </select>
+                      </div>
 
-                    <td>
-                      <button class="btn">
-                        <a href="#" class="nav-link table-nav">Edit</a>
-                      </button>
-                      <button class="btn">
-                        <a href="#" class="nav-link table-nav view-btn">View</a>
-                      </button>
-                    </td>
-                  </tr>
+                      <div class="mb-3 form-input">
+                        <div
+                          class="form-check form-switch d-flex align-items-center column-gap-3"
+                        >
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            role="switch"
+                            id="flexSwitchCheckDefault"
+                            style="width: 4rem; height: 2.4rem"
+                          />
+                          <label
+                            class="form-check-label"
+                            for="flexSwitchCheckDefault"
+                            >This person is alive</label
+                          >
+                        </div>
+                      </div>
+                    </div>
 
-                  <tr>
-                    <td>7</td>
-                    <td>KochengOyen@gmail.com</td>
-                    <td>Aji Santoso</td>
-                    <td>MEMBER</td>
+                    <div class="col-xxl-5 col-xl-6 col-lg-6 new-person-form">
+                      <div class="mb-3 form-input">
+                        <label for="note" class="form-label"
+                          >Internal notes</label
+                        >
+                        <div class="form-floating">
+                          <textarea
+                            class="form-control"
+                            placeholder="Leave a comment here"
+                            id="floatingTextarea2 note"
+                            style="height: 145px"
+                          ></textarea>
+                        </div>
+                      </div>
 
-                    <td>
-                      <button class="btn">
-                        <a href="#" class="nav-link table-nav">Edit</a>
-                      </button>
-                      <button class="btn">
-                        <a href="#" class="nav-link table-nav view-btn">View</a>
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                      <div class="mb-3 form-input">
+                        <label for="role-dropdown" class="form-label"
+                          >Role</label
+                        >
+                        <select
+                          class="form-select form-select-sm form-control"
+                          aria-label="Small select example"
+                        >
+                          <option selected>Admin</option>
+                          <option value="1">Member</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    class="btn-container d-flex column-gap-5"
+                    style="margin: 2.4rem 0 4.8rem 0"
+                  >
+                    <input
+                      class="btn btn-primary btn--form"
+                      type="submit"
+                      value="Save"
+                    />
+
+                    <input
+                      class="btn btn-primary btn--form"
+                      type="submit"
+                      value="Cancel"
+                      style="
+                        background: none;
+                        border: 1px solid #015d98;
+                        color: #015d98;
+                      "
+                    />
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>

@@ -1,20 +1,37 @@
-/* @media (min-width: 992px) {
-  .col-lg-9 {
-    right: 0;
-    bottom: -100px;
-    position: relative;
-  }
-} */
-
 @media (max-width: 1200px) {
   .person-content,
-  .dashboard-content {
+  .dashboard-content,
+  .add-person-content {
     left: 0;
     right: 0;
   }
+}
 
-  .sidebar {
-    width: 0;
-    display: none;
+@media (min-width: 1200px) {
+  .dashboard-content,
+  .person-content,
+  .add-person-content {
+    left: 0;
+    right: 0;
   }
 }
+
+@media (min-width: 1400px) {
+  .dashboard-content,
+  .person-content,
+  .add-person-content {
+    left: 250px;
+  }
+}
+
+@media (max-width: 992px) {
+  .dashboard-card {
+    width: 100%;
+  }
+}
+
+/* @media (min-width: 992px) {
+  .new-person-form {
+    width: 100%;
+  }
+} */

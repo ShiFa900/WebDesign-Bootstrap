@@ -30,11 +30,10 @@
     <link rel="stylesheet" href="css/general.css" />
     <link rel="stylesheet" href="css/persons.css" />
     <link rel="stylesheet" href="css/dashboard.css" />
-    <link rel="stylesheet" href="sidebar.html" />
 
     <link rel="stylesheet" href="query/media-query-min.css" />
 
-    <title>PerMap &mdash; Dashboard</title>
+    <title>Welcome to PerMap!</title>
   </head>
   <body>
     <header
@@ -45,7 +44,7 @@
       <div class="head-wrapper d-flex align-items-center gap-3">
         <!-- menu sidebar belum tersedia -->
         <button
-          class="btn btn-primary d-xl-none"
+          class="btn btn-primary d-xxl-none"
           type="button"
           data-bs-toggle="offcanvas"
           data-bs-target="#offcanvasScrolling"
@@ -108,10 +107,10 @@
 
     <main>
       <section class="dashboard-section d-flex position-relative">
-        <div class="sidebar d-none d-xl-block">
+        <div class="sidebar d-none d-xxl-block d-xl-none">
           <nav class="header-nav d-flex flex-column justify-content-between">
             <ul>
-              <li class="nav-item nav-item-highlight" id="dashboard-active">
+              <li class="nav-item" id="dashboard-active">
                 <a href="#" class="nav-link active">
                   <ion-icon
                     name="speedometer-outline"
@@ -121,7 +120,7 @@
                 </a>
               </li>
 
-              <li class="nav-item nav-item-highlight">
+              <li class="nav-item">
                 <a href="persons.html" class="nav-link active">
                   <ion-icon
                     name="person-outline"
@@ -175,100 +174,150 @@
 
         <div class="w-100">
           <div class="dashboard-content px-5 position-absolute">
-            <div class="dashboard-card-header">
-              <h1 class="h1" style="font-weight: 600">Hi, Komi San,</h1>
-              <p class="header-sm-title">
+            <div class="page-header">
+              <h1 class="h1">Hi, Komi San,</h1>
+              <p class="header-sm-title" style="margin-bottom: 3rem">
                 You were logged in previously in
-                <strong>Monday, 19 November 2023 10:43 PM</strong>
+                <strong>Sunday, 19 November 2023 10:43 PM</strong>
               </p>
             </div>
 
-            <div class="row mt-5rem">
-              <div class="dashboard-card col-12 col-xxl-3 col-xl-4 col-md-6">
+            <div class="row column-gap-5">
+              <div
+                class="dashboard-card col-12 col-xxl-4 col-xl-4 col-lg-4 col-md-6"
+              >
                 <div class="card">
-                  <div class="card-body">
+                  <div class="card-body" style="overflow: hidden">
                     <p class="number">153</p>
                     <h4 class="card-subtitle mb-2 text-body-secondary">
                       Number of persons
                     </h4>
-                    <p class="card-text">
-                      Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                      Odio deserunt delectus...
+                    <p
+                      class="card-text"
+                      style="
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        overflow: hidden;
+                      "
+                    >
+                      Explicabo quaerat expedita sunt nesciunt blanditiis neque
+                      ratione officia, Lorem, ipsum dolor sit amet consectetur
+                      adipisicing elit. Laudantium rem hic illum praesentium
+                      repellat quam voluptate sapiente doloribus, odit maiores,
+                      fuga magnam.
                     </p>
                     <a href="#" class="card-link">More &rarr;</a>
                   </div>
                 </div>
               </div>
-              <div class="dashboard-card col-12 col-xxl-3 col-xl-4 col-md-6">
+              <div
+                class="dashboard-card col-12 col-xxl-4 col-xl-4 col-lg-4 col-md-6"
+              >
                 <div class="card">
-                  <div class="card-body">
+                  <div class="card-body" style="overflow: hidden">
                     <p class="number">87</p>
                     <h4 class="card-subtitle mb-2 text-body-secondary">
                       In productive ages
                     </h4>
-                    <p class="card-text">
+                    <p
+                      class="card-text"
+                      style="
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        overflow: hidden;
+                      "
+                    >
                       Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Nam magnam qui earum...
+                      Nam qui earum, Lorem, ipsum dolor sit amet consectetur
+                      adipisicing elit. Est non, quo, nulla quasi dolores
+                      accusantium assumenda dolorum sed, animi placeat maiores
+                      libero eius perspiciatis nobis. Non eos assumenda
+                      molestiae incidunt.
                     </p>
                     <a href="#" class="card-link">More &rarr;</a>
                   </div>
                 </div>
               </div>
-              <div class="dashboard-card col-12 col-xxl-3 col-xl-4 col-md-6">
+              <div
+                class="dashboard-card col-12 col-xxl-4 col-xl-4 col-lg-4 col-md-6"
+              >
                 <div class="card">
-                  <div class="card-body">
+                  <div class="card-body" style="overflow: hidden">
                     <p class="number">29</p>
                     <h4 class="card-subtitle mb-2 text-body-secondary">
                       Children
                     </h4>
-                    <p class="card-text">
+                    <p
+                      class="card-text"
+                      style="
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        overflow: hidden;
+                      "
+                    >
                       Lorem ipsum dolor sit amet consectetur adipisicing elit
-                      facere perspiciatis obcaecati...
+                      Reprehenderit Lorem ipsum dolor sit amet, consectetur
+                      adipisicing elit. Consequatur, exercitationem eos odit,
+                      velit aperiam perspiciatis atque asperiores quia
+                      architecto minima quis deserunt reiciendis. Corporis
+                      neque, assumenda omnis voluptate rem recusandae.
                     </p>
                     <a href="#" class="card-link">More &rarr;</a>
                   </div>
                 </div>
               </div>
-              <div class="dashboard-card col-12 col-xxl-3 col-xl-4 col-md-6">
+              <div
+                class="dashboard-card col-12 col-xxl-4 col-xl-4 col-lg-4 col-md-6"
+              >
                 <div class="card">
-                  <div class="card-body">
+                  <div class="card-body" style="overflow: hidden">
                     <p class="number">22</p>
                     <h4 class="card-subtitle mb-2 text-body-secondary">
                       Elderly
                     </h4>
-                    <p class="card-text">
+                    <p
+                      class="card-text"
+                      style="
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        overflow: hidden;
+                      "
+                    >
                       Lorem ipsum dolor sit amet consectetur adipisicing elit
-                      Reprehenderit...
+                      Reprehenderit Lorem ipsum dolor sit amet, consectetur
+                      adipisicing elit. Ipsum quibusdam excepturi voluptatibus
+                      hic eveniet, corporis quae suscipit distinctio eos quo sit
+                      doloribus a rem blanditiis fugiat quis odit, nulla
+                      corrupti!
                     </p>
                     <a href="#" class="card-link">More &rarr;</a>
                   </div>
                 </div>
               </div>
-              <div class="dashboard-card col-12 col-xxl-3 col-xl-4 col-md-6">
+
+              <div
+                class="dashboard-card col-12 col-xxl-4 col-xl-4 col-lg-4 col-md-6"
+              >
                 <div class="card">
-                  <div class="card-body">
-                    <p class="number">3</p>
-                    <h4 class="card-subtitle mb-2 text-body-secondary">
-                      Not active
-                    </h4>
-                    <p class="card-text">
-                      Explicabo quaerat expedita sunt nesciunt blanditiis neque
-                      ratione officia...
-                    </p>
-                    <a href="#" class="card-link">More &rarr;</a>
-                  </div>
-                </div>
-              </div>
-              <div class="dashboard-card col-12 col-xxl-3 col-xl-4 col-md-6">
-                <div class="card">
-                  <div class="card-body">
-                    <p class="number">2</p>
+                  <div class="card-body" style="overflow: hidden">
+                    <p class="number">5</p>
                     <h4 class="card-subtitle mb-2 text-body-secondary">
                       Passed away
                     </h4>
-                    <p class="card-text">
+                    <p
+                      class="card-text"
+                      style="
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        overflow: hidden;
+                      "
+                    >
                       Explicabo quaerat expedita sunt nesciunt blanditiis neque
-                      ratione officia...
+                      ratione officia Lorem ipsum dolor sit amet consectetur
+                      adipisicing elit. Architecto, culpa error perferendis quis
+                      quos voluptate nostrum nemo, omnis debitis aliquam quam
+                      magni. Unde, sunt laboriosam? Provident doloribus error
+                      nam dignissimos.
                     </p>
                     <a href="#" class="card-link">More &rarr;</a>
                   </div>
@@ -311,7 +360,7 @@
           <div class="offcanvas-body">
             <ul>
               <li class="nav-item">
-                <a href="#" class="nav-link active">
+                <a href="dashboard.html" class="nav-link active">
                   <ion-icon
                     name="speedometer-outline"
                     class="icon sidebar-icon"
@@ -321,7 +370,7 @@
               </li>
 
               <li class="nav-item nav-item-highlight">
-                <a href="persons.html" class="nav-link">
+                <a href="#" class="nav-link">
                   <ion-icon
                     name="person-outline"
                     class="icon sidebar-icon"

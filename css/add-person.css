@@ -1,0 +1,19 @@
+.add-person-content {
+  top: 100px;
+  right: 0;
+  left: 255px;
+}
+
+#star {
+  color: red;
+}
+
+.form-input {
+  margin: 2.4rem 0;
+  font-size: 1.6rem;
+}
+
+.form-check-input:checked {
+  border: none;
+  background-color: #ffc436;
+}
