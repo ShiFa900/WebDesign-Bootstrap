@@ -1,0 +1,11 @@
+.my-profile-content {
+  top: 100px;
+  right: 0;
+  left: 255px;
+}
+
+.form-input input,
+.form-input select {
+  border: none;
+  background-color: #fafafa;
+}

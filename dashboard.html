@@ -44,7 +44,7 @@
       <div class="head-wrapper d-flex align-items-center gap-3">
         <!-- menu sidebar belum tersedia -->
         <button
-          class="btn btn-primary d-xxl-none"
+          class="btn btn-primary d-xxl-none d-xl-none d-lg-none"
           type="button"
           data-bs-toggle="offcanvas"
           data-bs-target="#offcanvasScrolling"
@@ -75,7 +75,7 @@
 
             <ul class="dropdown-menu">
               <li>
-                <a class="dropdown-item" href="#"
+                <a class="dropdown-item" href="my-profile.html"
                   ><ion-icon
                     name="person-circle-outline"
                     class="icon"
@@ -107,11 +107,11 @@
 
     <main>
       <section class="dashboard-section d-flex position-relative">
-        <div class="sidebar d-none d-xxl-block d-xl-none">
+        <div class="sidebar d-none d-lg-block">
           <nav class="header-nav d-flex flex-column justify-content-between">
             <ul>
               <li class="nav-item" id="dashboard-active">
-                <a href="#" class="nav-link active">
+                <a href="dashboard.html" class="nav-link active">
                   <ion-icon
                     name="speedometer-outline"
                     class="icon sidebar-icon"
@@ -133,7 +133,7 @@
               <li>
                 <ul>
                   <li class="nav-item">
-                    <a href="#" class="nav-link active">
+                    <a href="my-profile.html" class="nav-link active">
                       <ion-icon
                         name="create-outline"
                         class="icon sidebar-icon"
@@ -176,30 +176,23 @@
           <div class="dashboard-content px-5 position-absolute">
             <div class="page-header">
               <h1 class="h1">Hi, Komi San,</h1>
-              <p class="header-sm-title" style="margin-bottom: 3rem">
+              <p class="header-sm-title">
                 You were logged in previously in
                 <strong>Sunday, 19 November 2023 10:43 PM</strong>
               </p>
             </div>
 
-            <div class="row column-gap-5">
+            <div class="row column-gap-5 dashboard">
               <div
                 class="dashboard-card col-12 col-xxl-4 col-xl-4 col-lg-4 col-md-6"
               >
                 <div class="card">
-                  <div class="card-body" style="overflow: hidden">
+                  <div class="card-body">
                     <p class="number">153</p>
                     <h4 class="card-subtitle mb-2 text-body-secondary">
                       Number of persons
                     </h4>
-                    <p
-                      class="card-text"
-                      style="
-                        text-overflow: ellipsis;
-                        white-space: nowrap;
-                        overflow: hidden;
-                      "
-                    >
+                    <p class="card-text">
                       Explicabo quaerat expedita sunt nesciunt blanditiis neque
                       ratione officia, Lorem, ipsum dolor sit amet consectetur
                       adipisicing elit. Laudantium rem hic illum praesentium
@@ -214,19 +207,12 @@
                 class="dashboard-card col-12 col-xxl-4 col-xl-4 col-lg-4 col-md-6"
               >
                 <div class="card">
-                  <div class="card-body" style="overflow: hidden">
+                  <div class="card-body">
                     <p class="number">87</p>
                     <h4 class="card-subtitle mb-2 text-body-secondary">
                       In productive ages
                     </h4>
-                    <p
-                      class="card-text"
-                      style="
-                        text-overflow: ellipsis;
-                        white-space: nowrap;
-                        overflow: hidden;
-                      "
-                    >
+                    <p class="card-text">
                       Lorem ipsum dolor sit amet consectetur adipisicing elit.
                       Nam qui earum, Lorem, ipsum dolor sit amet consectetur
                       adipisicing elit. Est non, quo, nulla quasi dolores
@@ -242,19 +228,12 @@
                 class="dashboard-card col-12 col-xxl-4 col-xl-4 col-lg-4 col-md-6"
               >
                 <div class="card">
-                  <div class="card-body" style="overflow: hidden">
+                  <div class="card-body">
                     <p class="number">29</p>
                     <h4 class="card-subtitle mb-2 text-body-secondary">
                       Children
                     </h4>
-                    <p
-                      class="card-text"
-                      style="
-                        text-overflow: ellipsis;
-                        white-space: nowrap;
-                        overflow: hidden;
-                      "
-                    >
+                    <p class="card-text">
                       Lorem ipsum dolor sit amet consectetur adipisicing elit
                       Reprehenderit Lorem ipsum dolor sit amet, consectetur
                       adipisicing elit. Consequatur, exercitationem eos odit,
@@ -270,19 +249,12 @@
                 class="dashboard-card col-12 col-xxl-4 col-xl-4 col-lg-4 col-md-6"
               >
                 <div class="card">
-                  <div class="card-body" style="overflow: hidden">
+                  <div class="card-body">
                     <p class="number">22</p>
                     <h4 class="card-subtitle mb-2 text-body-secondary">
                       Elderly
                     </h4>
-                    <p
-                      class="card-text"
-                      style="
-                        text-overflow: ellipsis;
-                        white-space: nowrap;
-                        overflow: hidden;
-                      "
-                    >
+                    <p class="card-text">
                       Lorem ipsum dolor sit amet consectetur adipisicing elit
                       Reprehenderit Lorem ipsum dolor sit amet, consectetur
                       adipisicing elit. Ipsum quibusdam excepturi voluptatibus
@@ -299,19 +271,12 @@
                 class="dashboard-card col-12 col-xxl-4 col-xl-4 col-lg-4 col-md-6"
               >
                 <div class="card">
-                  <div class="card-body" style="overflow: hidden">
+                  <div class="card-body">
                     <p class="number">5</p>
                     <h4 class="card-subtitle mb-2 text-body-secondary">
                       Passed away
                     </h4>
-                    <p
-                      class="card-text"
-                      style="
-                        text-overflow: ellipsis;
-                        white-space: nowrap;
-                        overflow: hidden;
-                      "
-                    >
+                    <p class="card-text">
                       Explicabo quaerat expedita sunt nesciunt blanditiis neque
                       ratione officia Lorem ipsum dolor sit amet consectetur
                       adipisicing elit. Architecto, culpa error perferendis quis
@@ -359,7 +324,7 @@
         >
           <div class="offcanvas-body">
             <ul>
-              <li class="nav-item">
+              <li class="nav-item" id="dashboard-active">
                 <a href="dashboard.html" class="nav-link active">
                   <ion-icon
                     name="speedometer-outline"
@@ -370,7 +335,7 @@
               </li>
 
               <li class="nav-item nav-item-highlight">
-                <a href="#" class="nav-link">
+                <a href="persons.html" class="nav-link">
                   <ion-icon
                     name="person-outline"
                     class="icon sidebar-icon"
@@ -382,7 +347,7 @@
               <li>
                 <ul>
                   <li class="nav-item">
-                    <a href="#" class="nav-link active">
+                    <a href="my-profile.html" class="nav-link active">
                       <ion-icon
                         name="create-outline"
                         class="icon sidebar-icon"

@@ -21,7 +21,7 @@
   align-items: center;
   gap: 1.4rem;
 
-  font-size: 1.6rem;
+  /* font-size: 1.6rem; */
   padding: 1.2rem;
 }
 
@@ -41,7 +41,7 @@
 .avatar-md {
   width: 3.4rem;
   height: 3.4rem;
-  font-size: 1rem;
+  /* font-size: 1rem; */
   margin: 0 1.2rem;
 }
 
@@ -52,7 +52,7 @@
 
 .profile-text {
   color: #fff;
-  font-size: 1.6rem;
+  /* font-size: 1.6rem; */
 }
 
 .nav-link {
@@ -65,7 +65,6 @@ ul {
   list-style-type: none;
   display: flex;
   flex-direction: column;
-  row-gap: 1.4rem;
   padding-left: 0;
 
   /* margin: 0; */
@@ -107,22 +106,24 @@ li ul .nav-link {
 
 .table-section {
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.09);
+
+  margin-top: 6rem;
 }
 
 .table {
   height: 100%;
-
+  min-width: 800px;
   --bs-table-color: none;
 }
 
-td,
+/* td,
 th {
   font-size: 1.6rem;
-}
+} */
 
 tbody tr td:last-child {
   display: flex;
-  justify-content: end;
+  justify-content: start;
 }
 
 thead tr {
@@ -155,7 +156,6 @@ tbody tr:nth-child(even) {
 
 .table > :not(caption) > * > * {
   background: none;
-  padding: 1.2rem;
 }
 
 .table > tbody {

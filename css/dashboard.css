@@ -2,7 +2,7 @@
 
 .header-sm-title {
   font-size: 1.6rem;
-  margin-bottom: 2.4rem;
+  margin-bottom: 3rem;
 
   line-height: 1.6;
 }
@@ -15,6 +15,10 @@
 
 .dashboard-card {
   width: 30%;
+}
+
+.dashboard {
+  margin-top: 6rem;
 }
 
 .number {
@@ -48,6 +52,10 @@
   letter-spacing: 0.5px;
   margin-top: 1.4rem;
   color: inherit;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .card-link {

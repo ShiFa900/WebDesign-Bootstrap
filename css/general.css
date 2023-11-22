@@ -15,9 +15,9 @@
   box-sizing: border-box;
 }
 
-html {
+/* html {
   font-size: 62.5%;
-}
+} */
 
 /* .row {
   --bs-gutter-x: 0;
@@ -31,6 +31,7 @@ body {
   color: #444;
 }
 
+/* HEADER */
 .first-heading {
   font-size: 4.2rem;
 }
@@ -43,6 +44,13 @@ body {
   font-size: 2.4rem;
 }
 
+.page-header {
+  border-left: 5px solid #ffc436;
+  background-color: #fff9eb;
+  padding: 1rem;
+}
+
+/* BUTTON */
 .btn {
   border: none;
   background: none;
@@ -57,43 +65,17 @@ body {
   color: #333;
 }
 
-.btn-secondary {
+.btn-secondary,
+.btn-primary {
+  color: #333;
   --bs-btn-active-bg: none !important;
   --bs-btn-active-border-color: none;
 }
 
-.icon {
-  width: 2.4rem;
-  height: 2.4rem;
-}
-
-.filter-icon {
-  color: #333;
-}
-
-.form-control,
-.form-control-sm,
-.btn--form {
-  border: 1px solid #015d98;
-  cursor: pointer;
-
-  border-radius: 2px;
-}
-
-.form-control {
-  font-size: 1.6rem;
-  padding: 1.2rem;
-}
-
-.form-control-sm {
-  font-size: 1.4rem;
-  padding: 0.75rem;
-}
-
 .btn--form {
   padding: 1.02rem 2.4rem;
-  font-size: 1.6rem;
-  letter-spacing: 1.05px;
+  /* font-size: 1.6rem; */
+  letter-spacing: 1.75px;
 
   background-color: #015d98;
   color: #ffffff;
@@ -110,11 +92,67 @@ body {
   color: #ffffff;
 }
 
+.btn-primary.menu-btn:hover,
+.btn-primary.menu-btn:active {
+  border: none;
+  background-color: #015d98;
+}
+
+.btn-container {
+  margin: 2.4rem 0;
+}
+
+/* ICON */
+.icon {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.filter-icon {
+  color: #333;
+}
+
+/* FORM */
+.form-control,
+.form-control-sm,
+.btn--form {
+  border: 1px solid #015d98;
+  cursor: pointer;
+
+  border-radius: 2px;
+}
+
+.form-control {
+  /* font-size: 1.6rem; */
+  padding: 1.2rem;
+}
+
+.form-control-sm {
+  /* font-size: 1.4rem; */
+  padding: 0.75rem;
+}
+
+.form-input {
+  margin: 2.4rem 0;
+  /* font-size: 1.6rem; */
+}
+
+.form-input .form-floating textarea {
+  height: 100px;
+}
+
 /* HIGHLIGHT WHEN ACTIVE */
 
 #dashboard-active,
 #person-active {
   background-color: #e6f1f9;
+}
+
+/* UTILITIES (not specific) */
+.has-border {
+  background: none;
+  border: 1px solid #015d98;
+  color: #015d98;
 }
 
 /* SIDEBAR */
@@ -146,7 +184,7 @@ body {
 }
 
 .nav-title {
-  font-size: 1.2em;
+  /* font-size: 1.2em; */
   letter-spacing: 1.75px;
 
   text-transform: uppercase;
@@ -155,7 +193,7 @@ body {
 
 .nav-item,
 .nav-link {
-  font-size: 1.6rem;
+  /* font-size: 1.6rem; */
   display: flex;
   align-items: center;
   column-gap: 0.75rem;
@@ -172,8 +210,7 @@ body {
   background-color: #e6eef9;
 }
 
-.btn-primary.menu-btn:hover,
-.btn-primary.menu-btn:active {
-  border: none;
-  background-color: #015d98;
+/* ID */
+#star {
+  color: red;
 }

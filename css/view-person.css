@@ -1,0 +1,36 @@
+.view-person-content {
+  top: 100px;
+  right: 0;
+  left: 255px;
+}
+
+.form-input input,
+.form-input select {
+  border: none;
+  background-color: #fafafa;
+}
+
+.modal-footer .btn-primary {
+  color: #333;
+}
+
+.delete-btn {
+  background-color: red;
+  cursor: pointer;
+  border: none;
+}
+
+.modal-title,
+.modal-footer button {
+  font-size: 1.6rem;
+}
+
+.modal-footer button:nth-child(2):hover {
+  background: none;
+  border: 1px solid #015d98;
+  color: #015d98;
+}
+
+.btn-block {
+  background-color: #ffc436;
+}

@@ -1,25 +1,31 @@
-@media (max-width: 1200px) {
+/* @media (max-width: 1200px) {
   .person-content,
   .dashboard-content,
-  .add-person-content {
+  .add-person-content,
+  .view-person-content,
+  .my-profile-content {
     left: 0;
     right: 0;
   }
-}
+} */
 
-@media (min-width: 1200px) {
+/* @media (min-width: 1200px) {
   .dashboard-content,
   .person-content,
-  .add-person-content {
+  .add-person-content,
+  .view-person-content,
+  .my-profile-content {
     left: 0;
     right: 0;
   }
-}
+} */
 
 @media (min-width: 1400px) {
   .dashboard-content,
   .person-content,
-  .add-person-content {
+  .add-person-content,
+  .view-person-content,
+  .my-profile-content {
     left: 250px;
   }
 }
@@ -28,10 +34,23 @@
   .dashboard-card {
     width: 100%;
   }
+
+  .person-content,
+  .dashboard-content,
+  .add-person-content,
+  .view-person-content,
+  .my-profile-content {
+    left: 0;
+    right: 0;
+  }
 }
 
-/* @media (min-width: 992px) {
-  .new-person-form {
-    width: 100%;
+@media (min-width: 992px) {
+  .person-content,
+  .dashboard-content,
+  .add-person-content,
+  .view-person-content,
+  .my-profile-content {
+    left: 250px;
   }
-} */
+}
