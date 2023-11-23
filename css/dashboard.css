@@ -1,8 +1,8 @@
 /* DASHBOARD CONTENT */
 
 .header-sm-title {
-  font-size: 1.6rem;
-  margin-bottom: 3rem;
+  font-size: 1.2rem;
+  margin-bottom: 0rem;
 
   line-height: 1.6;
 }
@@ -13,16 +13,17 @@
   left: 255px;
 }
 
-.dashboard-card {
+/* .dashboard-card {
   width: 30%;
-}
+} */
 
 .dashboard {
-  margin-top: 6rem;
+  margin: 2rem 0;
+  row-gap: 3.6rem;
 }
 
 .number {
-  font-size: 6.4rem;
+  font-size: 4.4rem;
   font-weight: 600;
   margin-bottom: 1.2rem;
   opacity: 80%;
@@ -32,26 +33,23 @@
 }
 
 .card-subtitle {
-  font-size: 1.8rem;
   font-weight: 600;
 }
 
 .card {
-  background-color: #fafafa;
-  box-shadow: 0 0.1rem 0.5rem rgba(1, 94, 152, 0.273);
+  background-color: #ebf4fa;
+  box-shadow: 0 0.5rem 0.75rem rgba(12, 12, 12, 0.12);
 
-  margin-bottom: 3.2rem;
   padding: 1.2rem;
 
   border-radius: 5px;
+  border: none;
 }
 
 .card-text {
-  font-size: 1.4rem;
-  line-height: 1.75;
   letter-spacing: 0.5px;
   margin-top: 1.4rem;
-  color: inherit;
+  color: #444;
 
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -59,7 +57,6 @@
 }
 
 .card-link {
-  font-size: 1.6rem;
   padding-bottom: 2px;
   border-bottom: 2px solid #1a82c5;
   text-decoration: none;

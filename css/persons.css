@@ -16,49 +16,6 @@
   --bs-bg-opacity: 0;
 }
 
-.dropdown-item {
-  display: flex;
-  align-items: center;
-  gap: 1.4rem;
-
-  /* font-size: 1.6rem; */
-  padding: 1.2rem;
-}
-
-.dropdown-item:hover,
-.dropdown-item:active {
-  background-color: #e6f1f9;
-}
-
-.avatar {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  vertical-align: middle;
-}
-
-.avatar-md {
-  width: 3.4rem;
-  height: 3.4rem;
-  /* font-size: 1rem; */
-  margin: 0 1.2rem;
-}
-
-.avatar-img {
-  border-radius: 50%;
-  height: auto;
-}
-
-.profile-text {
-  color: #fff;
-  /* font-size: 1.6rem; */
-}
-
-.nav-link {
-  cursor: pointer;
-}
-
 /* NAVIGATION ON SIDEBAR*/
 
 ul {
@@ -85,14 +42,14 @@ li ul .nav-link {
 
 .btn-content {
   background-color: #ffc436;
-  padding: 1.2rem;
+  padding: 1rem 1rem;
   border-radius: 50%;
 }
 
 .btn-outline-success {
   background-color: #ffc436;
   color: #333;
-  padding: 0.6rem 1rem;
+  padding: 0.3rem 0.5rem;
   border-radius: 2px;
 }
 
@@ -120,11 +77,6 @@ li ul .nav-link {
 th {
   font-size: 1.6rem;
 } */
-
-tbody tr td:last-child {
-  display: flex;
-  justify-content: start;
-}
 
 thead tr {
   background-color: #015d98;
@@ -161,6 +113,39 @@ tbody tr:nth-child(even) {
 .table > tbody {
   vertical-align: baseline;
 }
+
+thead tr {
+  height: 55px;
+  vertical-align: middle;
+
+  /* position: fixed;
+  right: 25%;
+  left: 25%;
+  z-index: 9999;
+  width: 100%; */
+}
+
+tr th {
+  width: auto;
+}
+
+/* FORM */
+.right select option {
+  padding: 1.2rem;
+}
+
+/* PAGINATION */
+.pagination {
+  margin-top: 2.4rem;
+}
+/* CONTENT */
+/* .content-wrapper {
+  position: fixed;
+  z-index: 999;
+  right: 50px;
+  left: 300px;
+  background-color: #fff;
+} */
 
 /* menunjukkan user seng berada di page mana */
 /* .nav-item-highlight {

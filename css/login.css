@@ -24,13 +24,8 @@
 }
 
 .form-label {
-  margin: 2.4rem 0;
+  margin: 1.2rem 0;
   /* width: 50%; */
-}
-
-.form-content-footer a,
-.form-content-footer {
-  font-size: 1.4rem;
 }
 
 .btn-container {
@@ -40,6 +35,6 @@
 }
 
 label {
-  font-size: 1.8rem;
-  margin-bottom: 2.4rem;
+  font-size: 1.2rem;
+  margin-bottom: 1.4rem;
 }

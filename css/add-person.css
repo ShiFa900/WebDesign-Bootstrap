@@ -10,10 +10,25 @@
 }
 
 .form-check .form-check-input {
-  width: 4rem;
-  height: 2rem;
+  width: 3rem;
+  height: 1.6rem;
 }
 
 .form-input .form-floating textarea {
   height: 145px;
+}
+
+.form-input input,
+.form-input select,
+.form-input textarea {
+  border: 1px solid #ddd;
+}
+
+.form-floating > .form-control:not(:placeholder-shown) {
+  padding-top: 1rem;
+}
+
+.form-input span {
+  font-size: 0.85rem;
+  color: #015d98;
 }

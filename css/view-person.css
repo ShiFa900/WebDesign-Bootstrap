@@ -15,19 +15,23 @@
 }
 
 .delete-btn {
-  background-color: red;
+  background-color: #db1d30;
   cursor: pointer;
   border: none;
 }
 
+.delete-btn:hover {
+  background-color: #ff0000;
+}
+
 .modal-title,
 .modal-footer button {
-  font-size: 1.6rem;
+  font-size: 1rem;
 }
 
 .modal-footer button:nth-child(2):hover {
   background: none;
-  border: 1px solid #015d98;
+  /* border: 1px solid #015d98; */
   color: #015d98;
 }
 
