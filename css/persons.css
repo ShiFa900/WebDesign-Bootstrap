@@ -8,6 +8,7 @@
 
   box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.532);
   position: fixed;
+  z-index: 999;
   left: 0;
   right: 0;
 }
@@ -62,9 +63,8 @@ li ul .nav-link {
 /* TABLE */
 
 .table-section {
+  margin-top: 3.6rem;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.09);
-
-  margin-top: 6rem;
 }
 
 .table {
@@ -138,6 +138,7 @@ tr th {
 .pagination {
   margin-top: 2.4rem;
 }
+
 /* CONTENT */
 /* .content-wrapper {
   position: fixed;

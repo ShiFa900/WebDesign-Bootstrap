@@ -24,10 +24,6 @@
   border: 1px solid #ddd;
 }
 
-.form-floating > .form-control:not(:placeholder-shown) {
-  padding-top: 1rem;
-}
-
 .form-input span {
   font-size: 0.85rem;
   color: #015d98;

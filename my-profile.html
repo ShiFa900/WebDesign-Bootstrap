@@ -26,6 +26,14 @@
       src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
     ></script>
 
+    <!-- link font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Open+Sans:wght@400;500;600;700&family=Rubik:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
     <!-- link styling -->
     <link rel="stylesheet" href="css/general.css" />
     <link rel="stylesheet" href="css/persons.css" />
@@ -184,8 +192,8 @@
                   <div class="row">
                     <div class="col-xxl-8 col-xl-8 col-lg-10 col-12">
                       <div class="mb-3 form-input">
-                        <label for="f-name" class="form-label"
-                          >First name<span id="star">*</span></label
+                        <label for="f-name" class="form-label required"
+                          >First name</label
                         >
 
                         <input
@@ -196,9 +204,7 @@
                         />
                       </div>
                       <div class="mb-3 form-input">
-                        <label for="l-name" class="form-label"
-                          >Last name<span id="star">*</span></label
-                        >
+                        <label for="l-name" class="form-label">Last name</label>
                         <input
                           id="l-name"
                           type="text"
@@ -207,9 +213,7 @@
                         />
                       </div>
                       <div class="mb-3 form-input">
-                        <label for="nik" class="form-label"
-                          >NIK<span id="star">*</span></label
-                        >
+                        <label for="nik" class="form-label required">NIK</label>
                         <input
                           id="nik"
                           type="text"
@@ -218,8 +222,8 @@
                         />
                       </div>
                       <div class="mb-3 form-input">
-                        <label for="staticEmail" class="form-label"
-                          >Email<span id="star">*</span></label
+                        <label for="staticEmail" class="form-label required"
+                          >Email</label
                         >
                         <input
                           id="staticEmail"
@@ -230,8 +234,8 @@
                       </div>
 
                       <div class="mb-3 form-input">
-                        <label for="datePicker" class="form-label"
-                          >Date of birth<span id="star">*</span></label
+                        <label for="datePicker" class="form-label required"
+                          >Date of birth</label
                         >
                         <input
                           id="datePicker"
@@ -241,8 +245,8 @@
                       </div>
 
                       <div class="mb-3 form-input">
-                        <label for="sex-dropdown" class="form-label"
-                          >Sex<span id="star">*</span></label
+                        <label for="sex-dropdown" class="form-label required"
+                          >Sex</label
                         >
                         <select
                           class="form-select form-control"
@@ -292,7 +296,7 @@ Aku komi, dan aku cantik.
 
                       <!-- ROLE -->
                       <!-- <div class="mb-3 form-input">
-                      <label for="role-dropdown" class="form-label">Role</label>
+                      <label for="role-dropdown" class="form-label required">Role</label>
                       <select
                         class="form-select form-select-sm form-control"
                         aria-label="Small select example"
@@ -365,7 +369,7 @@ Aku komi, dan aku cantik.
                 </a>
               </li>
 
-              <li class="nav-item nav-item-highlight" id="person-active">
+              <li class="nav-item nav-item-highlight">
                 <a href="persons.html" class="nav-link">
                   <ion-icon
                     name="person-outline"
@@ -377,7 +381,7 @@ Aku komi, dan aku cantik.
               <li class="nav-title fourth-heading">My account</li>
               <li>
                 <ul>
-                  <li class="nav-item">
+                  <li class="nav-item" id="profile-active">
                     <a href="my-profile.html" class="nav-link active">
                       <ion-icon
                         name="create-outline"

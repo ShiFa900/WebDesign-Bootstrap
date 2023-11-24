@@ -38,6 +38,10 @@
     left: 0;
     right: 0;
   }
+
+  .form-select-sm {
+    width: 20%;
+  }
 }
 
 @media (min-width: 992px) {
@@ -47,6 +51,10 @@
   .view-person-content,
   .my-profile-content {
     left: 250px;
+  }
+
+  .form-select-sm {
+    width: 20%;
   }
 }
 

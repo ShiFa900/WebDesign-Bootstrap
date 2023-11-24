@@ -26,6 +26,14 @@
       src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
     ></script>
 
+    <!-- link font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Open+Sans:wght@400;500;600;700&family=Rubik:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
     <!-- link styling -->
     <link rel="stylesheet" href="css/general.css" />
     <link rel="stylesheet" href="css/persons.css" />
@@ -177,15 +185,14 @@
             <div class="page-header">
               <h1 class="first-heading">Add person</h1>
             </div>
-
             <div class="row">
               <div class="col-xxl-12">
                 <form class="new-person-form" action="#">
                   <div class="row">
                     <div class="col-xxl-6 col-xl-6 col-lg-6 new-person-form">
                       <div class="mb-3 form-input">
-                        <label for="f-name" class="form-label"
-                          >First name<span id="star">*</span></label
+                        <label for="f-name" class="form-label required"
+                          >First name</label
                         >
                         <input
                           id="f-name"
@@ -196,22 +203,17 @@
                         />
                       </div>
                       <div class="mb-3 form-input">
-                        <label for="l-name" class="form-label"
-                          >Last name<span id="star">*</span></label
-                        >
+                        <label for="l-name" class="form-label">Last name</label>
 
                         <input
                           id="l-name"
                           type="text"
                           placeholder="Last name"
-                          required
                           class="form-control"
                         />
                       </div>
                       <div class="mb-3 form-input">
-                        <label for="nik" class="form-label"
-                          >NIK<span id="star">*</span></label
-                        >
+                        <label for="nik" class="form-label required">NIK</label>
                         <input
                           id="nik"
                           type="text"
@@ -222,8 +224,8 @@
                         <span><em>NIK must be at least 16 characters</em></span>
                       </div>
                       <div class="mb-3 form-input">
-                        <label for="staticEmail" class="form-label"
-                          >Email<span id="star">*</span></label
+                        <label for="staticEmail" class="form-label required"
+                          >Email</label
                         >
                         <input
                           id="staticEmail"
@@ -235,8 +237,8 @@
                       </div>
 
                       <div class="mb-3 form-input">
-                        <label for="datePicker" class="form-label"
-                          >Date of birth<span id="star">*</span></label
+                        <label for="datePicker" class="form-label required"
+                          >Date of birth</label
                         >
                         <input
                           id="datePicker"
@@ -248,8 +250,8 @@
                       </div>
 
                       <div class="mb-3 form-input">
-                        <label for="sex-dropdown" class="form-label"
-                          >Sex<span id="star">*</span></label
+                        <label for="sex-dropdown" class="form-label required"
+                          >Sex</label
                         >
                         <select
                           class="form-select form-control"
