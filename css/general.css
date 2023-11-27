@@ -127,6 +127,14 @@ body {
   cursor: pointer;
 }
 
+.logo {
+  height: 3rem;
+}
+
+.offcanvas-header .logo {
+  height: 4rem;
+}
+
 /* BUTTON */
 .btn {
   border: none;
@@ -270,7 +278,7 @@ body {
 }
 
 .header-nav {
-  padding-top: 110px;
+  padding-top: 90px;
   width: 250px;
   height: 100%;
 }

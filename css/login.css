@@ -11,6 +11,12 @@
   width: 100%;
 }
 
+.login-icon {
+  height: 6rem;
+  display: flex;
+  justify-content: center;
+}
+
 .heading-content {
   text-transform: uppercase;
   letter-spacing: 1.5px;
