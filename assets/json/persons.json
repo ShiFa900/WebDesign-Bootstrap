@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "firstName": "Rui",
+        "lastName": "Ayaki",
+        "nik": "1092836172830027",
+        "email": "Ayayaki@gmail.com",
+        "birthDate": "1523586241",
+        "sex": "Male",
+        "internalNote": "akdhsahdak adhkha akolalka ksdfbus",
+        "role": 0,
+        "password": "ayam"
+    },
+    {
+        "id": 2,
+        "firstName": "Shiku",
+        "lastName": "Miya",
+        "nik": "0978231653427288",
+        "email": "miyako@gmail.com",
+        "birthDate": "1523586241",
+        "sex": "Male",
+        "internalNote": "akdhsahdak adhkha akolalka ksdfbus",
+        "role": 0,
+        "password": "shiku"
+    },
+    {
+        "id": 3,
+        "firstName": "Sarah",
+        "lastName": "Eti",
+        "nik": "0012991234784624",
+        "email": "kumalKelapa@gmail.com",
+        "birthDate": "1497925611",
+        "sex": "Female",
+        "internalNote": "sakdjksa ladjio aslhdiop lahdioo",
+        "role": 1,
+        "password": "sarah"
+    }
+]

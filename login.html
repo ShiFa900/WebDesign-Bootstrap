@@ -8,73 +8,73 @@
     <link
       rel="apple-touch-icon"
       sizes="57x57"
-      href="properties/favicon/apple-icon-57x57.png"
+      href="assets/properties/favicon/apple-icon-57x57.png"
     />
     <link
       rel="apple-touch-icon"
       sizes="60x60"
-      href="properties/favicon/apple-icon-60x60.png"
+      href="assets/properties/favicon/apple-icon-60x60.png"
     />
     <link
       rel="apple-touch-icon"
       sizes="72x72"
-      href="properties/favicon/apple-icon-72x72.png"
+      href="assets/properties/favicon/apple-icon-72x72.png"
     />
     <link
       rel="apple-touch-icon"
       sizes="76x76"
-      href="properties/favicon/apple-icon-76x76.png"
+      href="assets/properties/favicon/apple-icon-76x76.png"
     />
     <link
       rel="apple-touch-icon"
       sizes="114x114"
-      href="properties/favicon/apple-icon-114x114.png"
+      href="assets/properties/favicon/apple-icon-114x114.png"
     />
     <link
       rel="apple-touch-icon"
       sizes="120x120"
-      href="properties/favicon/apple-icon-120x120.png"
+      href="assets/properties/favicon/apple-icon-120x120.png"
     />
     <link
       rel="apple-touch-icon"
       sizes="144x144"
-      href="properties/favicon/apple-icon-144x144.png"
+      href="assets/properties/favicon/apple-icon-144x144.png"
     />
     <link
       rel="apple-touch-icon"
       sizes="152x152"
-      href="properties/favicon/apple-icon-152x152.png"
+      href="assets/properties/favicon/apple-icon-152x152.png"
     />
     <link
       rel="apple-touch-icon"
       sizes="180x180"
-      href="properties/favicon/apple-icon-180x180.png"
+      href="assets/properties/favicon/apple-icon-180x180.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="192x192"
-      href="properties/favicon/android-icon-192x192.png"
+      href="assets/properties/favicon/android-icon-192x192.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="properties/favicon/favicon-32x32.png"
+      href="assets/properties/favicon/favicon-32x32.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="96x96"
-      href="properties/favicon/favicon-96x96.png"
+      href="assets/properties/favicon/favicon-96x96.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="properties/favicon/favicon-16x16.png"
+      href="assets/properties/favicon/favicon-16x16.png"
     />
-    <link rel="manifest" href="properties/favicon/manifest.json" />
+    <link rel="manifest" href="assets/properties/favicon/manifest.json" />
     <meta name="msapplication-TileColor" content="#ffffff" />
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
     <meta name="theme-color" content="#ffffff" />
@@ -87,8 +87,8 @@
     />
 
     <!-- Link for import -->
-    <link rel="stylesheet" href="css/general.css" />
-    <link rel="stylesheet" href="css/login.css" />
+    <link rel="stylesheet" href="assets/css/general.css" />
+    <link rel="stylesheet" href="assets/css/login.css" />
 
     <!-- Link font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -113,7 +113,7 @@
               <img
                 class="login-img"
                 alt="person login into aplication"
-                src="properties/Creative team-cuate.svg"
+                src="assets/properties/Creative team-cuate.svg"
               />
             </div>
 
@@ -126,11 +126,15 @@
                     Welcome to <span>PerMap</span>!
                   </h2>
                 </div>
-                <form class="login-form" action="#">
+                <form
+                  class="login-form"
+                  action="#"
+                >
                   <div class="mb-3 row">
                     <label for="staticEmail" class="form-label">Email</label>
                     <div class="col-sm-12">
                       <input
+                        name="email"
                         id="staticEmail"
                         type="email"
                         placeholder="Email"
@@ -144,6 +148,7 @@
 
                     <div class="col-sm-12">
                       <input
+                        name="password"
                         id="password"
                         type="password"
                         placeholder="Password"
@@ -158,6 +163,7 @@
                   >
                   <div class="btn-container">
                     <input
+                      name="login-button"
                       class="btn btn-primary btn--form"
                       type="submit"
                       value="login"
