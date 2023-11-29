@@ -1,22 +1,16 @@
 <?php
 
-require_once __DIR__ . "/../assets/json/jsonLoadData.php";
-
-function userExist(array $data): bool
-{
-  for ($i = 0; $i < count($data); $i++) {
-    if ($_POST["email"] == $data[$i]["email"] && $_POST["password"] == $data[$i]["password"]) {
-
-      //         echo "hello " . $_POST["password"];
-      return true;
-    }
-  }
-  return false;
-}
+require_once __DIR__ . "/../assets/json/json-load-data.php";
+require_once __DIR__ . "/utils.php";
 
 
-$data = getAll();
-if (userExist($data)) {
+
+// mencari logic untuk membedakan error ketika salah menginput pass atau email, 
+// dan error ketika akun user tidak ditemukan (belum sign in)
+
+
+$userExist = userExist();
+if ($userExist != []) {
   redirect("../dashboard.php", true);
 } else {
   redirect("../login.php", "error=1");
@@ -32,29 +26,6 @@ function redirect($url, $getParams)
   die();
 }
 
-function getAll(): array
-{
-  // we need to convert it into array of Person
-  $persons = loadDataFromJson("persons.json");
-  $result = [];
-      for ($i = 0; $i <= count($persons); $i++) {
-          $person = [
-              "id" => $persons[$i]["id"],
-              "firstName" => $persons[$i]["firstName"],
-              "lastName" => $persons[$i]["lastName"],
-              "nik" => $persons[$i]["nik"],
-              "email" => $persons[$i]["email"],
-              "birthDate" => $persons[$i]["birthDate"],
-              "sex" => $persons[$i]["sex"],
-              "internalNote" => $persons[$i]["internalNote"],
-              "role" => $persons[$i]["role"],
-              "password" => $persons[$i]["password"]
-          ];
-
-          $result[] = $person;
-      }
-  return $result;
-}
 
 
 // NOTE

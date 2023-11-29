@@ -82,12 +82,16 @@
                   </div>
                 </div>
 
-                <?php if (isset($_GET["error"]) && $_GET["error"] == 1 ) : ?>
+                <?php if (isset($_GET["error"]) && $_GET["error"] == 1) { ?>
                   <div class="alert alert-danger" role="alert">
                     Sorry, your email or password was wrong. Please check again.
                   </div>
-                <?php endif; ?>
-
+                <?php } elseif (isset($_GET["noUser"]) && $_GET["noUser"] == 1) {
+                  echo "<span id='noUserText' style='color:red;'>";
+                  echo "Sorry, we couldn't find your account. Try another or sign in";
+                  echo "<span>";
+                }
+                ?>
 
                 <span class="form-content-footer">Don't have an account? <a href="#">Create account</a> or
                   <a href="#">Forgot password</a></span>

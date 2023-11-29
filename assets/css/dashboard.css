@@ -46,6 +46,10 @@
   border: none;
 }
 
+.card-body .number, .card-body .card-subtitle{
+  border-bottom: none;
+}
+
 .card-text {
   letter-spacing: 0.5px;
   margin-top: 1.4rem;
