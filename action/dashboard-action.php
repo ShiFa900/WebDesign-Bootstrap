@@ -9,3 +9,5 @@ function hasLogin(){
     echo $user["email"];
     echo $user["password"];
 }
+
+hasLogin();

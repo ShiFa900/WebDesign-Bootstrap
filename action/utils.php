@@ -1,4 +1,7 @@
 <?php
+
+require_once __DIR__ . "/../assets/json/json-load-data.php";
+
 function userExist(): array
 {
     $data = getAll();
@@ -6,7 +9,7 @@ function userExist(): array
     $result = [];
     for ($i = 0; $i < count($data); $i++) {
         if ($_POST["email"] == $data[$i]["email"] && $_POST["password"] == $data[$i]["password"]) {
-            return $result[] =  $data[$i];
+            return $data[$i];
         }
     }
     return $result;
@@ -17,7 +20,7 @@ function getAll(): array
     // we need to convert it into array of Person
     $persons = loadDataFromJson("persons.json");
     $result = [];
-    for ($i = 0; $i <= count($persons); $i++) {
+    for ($i = 0; $i < count($persons); $i++) {
         $person = [
             "id" => $persons[$i]["id"],
             "firstName" => $persons[$i]["firstName"],

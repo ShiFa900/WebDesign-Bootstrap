@@ -1,5 +1,6 @@
 <?php
-include ("./action/dashboard-action.php");
+// include ("./action/dashboard-action.php");
+include("/home/shifa/Programming/WebPage/02-Practice/WebDesign-Bootstrap/action/dashboard-action.php");
 ?>
 
 <!DOCTYPE html>
@@ -70,12 +71,10 @@ include ("./action/dashboard-action.php");
             <div class="avatar">
               <img src="assets/properties/image.png" class="avatar-md avatar-img" alt="User profile" />
 
-<!--              --><?php
-//              $user = hasLogin();
-////              echo "<span class='profile-text d-none d-xl-block'>";
-//              echo $user[0]["email"];
-////              echo "</span>";
-//              ?>
+              <?php
+
+
+              ?>
 
             </div>
           </a>
@@ -158,15 +157,15 @@ include ("./action/dashboard-action.php");
                 //   echo $_GET["nama"];
                 // }
 
-//                $user = hasLogin();
-//                echo $user["firstName"];
+                //                $user = hasLogin();
+                //                echo $user["firstName"];
                 ?>
               </h1>
               <p class="header-sm-title">
                 You were logged in previously in
                 <strong>Sunday, 19 November 2023 10:43 PM</strong>
               </p>
-            </div>  
+            </div>
           </div>
 
           <div class="row dashboard">
