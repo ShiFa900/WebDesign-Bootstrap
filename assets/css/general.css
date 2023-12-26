@@ -287,11 +287,6 @@ body {
   color: #015d98;
 }
 
-.active:hover,
-.active:active {
-  background-color: #e6f1f9;
-}
-
 .offcanvas.offcanvas-start {
   width: 300px;
 }

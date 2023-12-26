@@ -1,18 +1,17 @@
 <?php
 
-require_once __DIR__ . "/../assets/json/json-load-data.php";
+require_once __DIR__ . "/../assets/json/jsonLoadData.php";
 
 function userExist(): array
 {
     $data = getAll();
 
-    $result = [];
     for ($i = 0; $i < count($data); $i++) {
         if ($_POST["email"] == $data[$i]["email"] && $_POST["password"] == $data[$i]["password"]) {
             return $data[$i];
         }
     }
-    return $result;
+    return [];
 }
 
 function getAll(): array
@@ -31,7 +30,8 @@ function getAll(): array
             "sex" => $persons[$i]["sex"],
             "internalNote" => $persons[$i]["internalNote"],
             "role" => $persons[$i]["role"],
-            "password" => $persons[$i]["password"]
+            "password" => $persons[$i]["password"],
+            "lastLoggedIn" => $persons[$i]["logout"]
         ];
 
         $result[] = $person;

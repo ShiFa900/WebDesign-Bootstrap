@@ -9,7 +9,8 @@
         "sex": "Male",
         "internalNote": "akdhsahdak adhkha akolalka ksdfbus",
         "role": 0,
-        "password": "ayam"
+        "password": "ayam",
+        "lastLoggedIn": "1701392943"
     },
     {
         "id": 2,
@@ -21,7 +22,9 @@
         "sex": "Male",
         "internalNote": "akdhsahdak adhkha akolalka ksdfbus",
         "role": 0,
-        "password": "shiku"
+        "password": "shiku",
+        "lastLoggedIn": "1698628143"
+
     },
     {
         "id": 3,
@@ -33,6 +36,7 @@
         "sex": "Female",
         "internalNote": "sakdjksa ladjio aslhdiop lahdioo",
         "role": 1,
-        "password": "sarah"
+        "password": "sarah",
+        "lastLoggedIn": "1700183343"
     }
 ]

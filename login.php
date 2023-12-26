@@ -67,7 +67,7 @@
                 </h2>
               </div>
 
-              <form class="login-form" action="action/login-action.php" method="post">
+              <form class="login-form" action="action/loginAction.php" method="post">
                 <div class="mb-3 row">
                   <label for="staticEmail" class="form-label">Email</label>
                   <div class="col-sm-12">
@@ -86,10 +86,10 @@
                   <div class="alert alert-danger" role="alert">
                     Sorry, your email or password was wrong. Please check again.
                   </div>
-                <?php } elseif (isset($_GET["noUser"]) && $_GET["noUser"] == 1) {
-                  echo "<span id='noUserText' style='color:red;'>";
-                  echo "Sorry, we couldn't find your account. Try another or sign in";
-                  echo "<span>";
+<!--                --><?php //} elseif (isset($_GET["noUser"]) && $_GET["noUser"] == 1) {
+//                  echo "<span id='noUserText' style='color:red;'>";
+//                  echo "Sorry, we couldn't find your account. Try another or sign in";
+//                  echo "<span>";
                 }
                 ?>
 
