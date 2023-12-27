@@ -236,7 +236,8 @@ body {
 
 .form-select {
   cursor: pointer;
-  width: 100%;
+  width: fit-content;
+  /*width: 100%;*/
 }
 
 .form-select-sm {

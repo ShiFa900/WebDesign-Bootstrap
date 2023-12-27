@@ -1,6 +1,7 @@
 <?php
-// include ("./action/dashboardaAction.php");
-include("/home/shifa/Programming/WebPage/02-Practice/WebDesign-Bootstrap/action/dashboardaAction.php");
+// include ("./action/dashboardAction.php");
+include("/home/shifa/Programming/WebPage/02-Practice/WebDesign-Bootstrap/action/dashboardAction.php");
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -72,12 +73,14 @@ include("/home/shifa/Programming/WebPage/02-Practice/WebDesign-Bootstrap/action/
                 <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                    aria-expanded="false">
                     <div class="avatar">
-                        <img src="assets/properties/image.png" class="avatar-md avatar-img" alt="User profile"/>
-
                         <?php
-
-
+                        echo "<span class='profile-text d-none d-xl-block'>";
+                        echo $_SESSION['userEmail'];
+                        echo "</span>";
                         ?>
+
+
+                        <img src="assets/properties/image.png" class="avatar-md avatar-img" alt="User profile"/>
 
                     </div>
                 </a>
@@ -114,14 +117,14 @@ include("/home/shifa/Programming/WebPage/02-Practice/WebDesign-Bootstrap/action/
             <nav class="header-nav d-flex flex-column justify-content-between">
                 <ul>
                     <li class="nav-item" id="dashboard-active">
-                        <a href="dashboard.html" class="nav-link active">
+                        <a href="dashboard.php" class="nav-link active">
                             <ion-icon name="speedometer-outline" class="icon sidebar-icon"></ion-icon>
                             Dashboard
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="persons.html" class="nav-link active">
+                        <a href="persons.php" class="nav-link active">
                             <ion-icon name="person-outline" class="icon sidebar-icon"></ion-icon>
                             Persons
                         </a>
@@ -136,7 +139,7 @@ include("/home/shifa/Programming/WebPage/02-Practice/WebDesign-Bootstrap/action/
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <div class="wrappe">
+                                <div class="wrapper">
                                     <a href="#" class="nav-link active">
                                         <ion-icon name="log-out-outline" class="icon sidebar-icon"></ion-icon>
                                         Log out
@@ -166,12 +169,16 @@ include("/home/shifa/Programming/WebPage/02-Practice/WebDesign-Bootstrap/action/
                     <div class="col-xxl-8">
                         <h1 class="first-heading">Hi,
                             <?php
-
+                            echo $_SESSION['userName'];
                             ?>
                         </h1>
                         <p class="header-sm-title">
                             You were logged in previously in
-                            <strong>Sunday, 19 November 2023 10:43 PM</strong>
+                            <?php
+                            echo "<strong>";
+                            echo date('l, F d Y H:i', $_SESSION['logout']);
+                            echo "</strong>";
+                            ?>
                         </p>
                     </div>
                 </div>
@@ -295,14 +302,14 @@ include("/home/shifa/Programming/WebPage/02-Practice/WebDesign-Bootstrap/action/
             <div class="offcanvas-body">
                 <ul>
                     <li class="nav-item" id="dashboard-active">
-                        <a href="dashboard.html" class="nav-link active">
+                        <a href="dashboard.php" class="nav-link active">
                             <ion-icon name="speedometer-outline" class="icon sidebar-icon"></ion-icon>
                             Dashboard
                         </a>
                     </li>
 
                     <li class="nav-item nav-item-highlight">
-                        <a href="persons.html" class="nav-link">
+                        <a href="persons.php" class="nav-link">
                             <ion-icon name="person-outline" class="icon sidebar-icon"></ion-icon>
                             Persons
                         </a>

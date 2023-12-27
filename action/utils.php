@@ -31,10 +31,14 @@ function getAll(): array
             "internalNote" => $persons[$i]["internalNote"],
             "role" => $persons[$i]["role"],
             "password" => $persons[$i]["password"],
-            "lastLoggedIn" => $persons[$i]["logout"]
+            "lastLoggedIn" => $persons[$i]["lastLoggedIn"]
         ];
 
         $result[] = $person;
     }
     return $result;
+}
+
+function translateIntToString(int $number){
+
 }

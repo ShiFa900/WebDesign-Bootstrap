@@ -67,7 +67,7 @@
                 </h2>
               </div>
 
-              <form class="login-form" action="action/loginAction.php" method="post">
+              <form class="login-form" action="action/loginAction.php" method="post" name="login-form">
                 <div class="mb-3 row">
                   <label for="staticEmail" class="form-label">Email</label>
                   <div class="col-sm-12">
@@ -97,9 +97,11 @@
                   <a href="#">Forgot password</a></span>
 
                 <div class="btn-container">
-                  <input class="btn btn-primary btn--form" type="submit" value="login" />
+<!--                  <input class="btn btn-primary btn--form" type="submit" value="login" name="login"/>-->
+                    <button class="btn--form btn btn-primary" name="login">
+                        login
+                    </button>
                 </div>
-
 
               </form>
             </div>

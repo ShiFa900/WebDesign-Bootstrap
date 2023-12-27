@@ -1,29 +1,27 @@
 <?php
 
+session_start();
+
 require_once __DIR__ . "/../assets/json/jsonLoadData.php";
 require_once __DIR__ . "/utils.php";
 
-
-
-// mencari logic untuk membedakan error ketika salah menginput pass atau email, 
-// dan error ketika akun user tidak ditemukan (belum sign in)
-
-session_start();
-
-$jsonData = loadDataFromJson("persons.json");
+//$jsonData = loadDataFromJson("persons.json");
 // var_dump($jsonData);
+$userExist = userExist();
+
 
 // ini apa?
 if (isset($_POST['login'])) {
     $email = $_POST['email'];
 
+
 // conditionals untuk meng-redirect page contoh dari login menuju dashboard
-    if (userExist()) {
+    if ($userExist) {
 //  header('Location: ../dashboard.php');
 //  die();
         $_SESSION['userEmail'] = $_POST['email'];
-        $_SESSION['userName'] = userExist()['firstName'];
-        $_SESSION['logout'] = userExist()['lastLoggedIn'];
+        $_SESSION['userName'] = $userExist['firstName'];
+        $_SESSION['logout'] = $userExist['lastLoggedIn'];
         header("Location: ../dashboard.php");
         exit();
 
