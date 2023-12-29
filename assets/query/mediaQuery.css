@@ -39,9 +39,6 @@
     right: 0;
   }
 
-  .form-select-sm {
-    width: 20%;
-  }
 }
 
 @media (min-width: 992px) {
@@ -53,9 +50,6 @@
     left: 250px;
   }
 
-  .form-select-sm {
-    width: 20%;
-  }
 }
 
 @media (max-width: 768px) {

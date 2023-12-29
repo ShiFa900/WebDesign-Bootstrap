@@ -5,17 +5,16 @@ session_start();
 require_once __DIR__ . "/../assets/json/jsonLoadData.php";
 require_once __DIR__ . "/utils.php";
 
-//$jsonData = loadDataFromJson("persons.json");
-// var_dump($jsonData);
+
 $userExist = userExist();
 
 
 // ini apa?
 if (isset($_POST['login'])) {
-    $email = $_POST['email'];
+//    $email = $_POST['email'];
 
 
-// conditionals untuk meng-redirect page contoh dari login menuju dashboard
+// conditionals untuk meng-redirect page login ke dashboard jika berhasil login
     if ($userExist) {
 //  header('Location: ../dashboard.php');
 //  die();
@@ -36,15 +35,8 @@ if (isset($_POST['login'])) {
 //  redirect("../login.php", "error=1");
 //}
 
-/**
- * @param url go to login page if it unsucces
- * @param string error message on the header
- */
-function redirect($url, $getParams)
-{
-  header('Location: ' . $url . '?' . $getParams);
-  die();
-}
+
+
 
 
 

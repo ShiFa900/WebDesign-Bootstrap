@@ -1,7 +1,9 @@
 <?php
-require_once __DIR__ . "/action/personAction.php";
-
+require_once __DIR__ . "/action/person.php";
+require_once __DIR__ . "/index.php";
 session_start();
+
+redirectIfNotAuthenticated();
 ?>
 
 <!DOCTYPE html>
@@ -353,7 +355,7 @@ session_start();
                                 />
                             </div>
                             <?php
-                            search();
+//                            search();
                             ?>
                             <button class="btn btn-outline-success" type="submit" name="search">
                                 <ion-icon name="search-outline" class="icon"></ion-icon>
@@ -374,30 +376,30 @@ session_start();
                         </tr>
                         </thead>
                         <tbody>
+<!--                        <tr>-->
+<!--                            <td>1</td>-->
+<!--                            <td>komi.san@gmail.com</td>-->
+<!--                            <td>Shouko Komi</td>-->
+<!--                            <td>ADMIN</td>-->
+<!--                            <td>-->
+<!--                                <button class="btn">-->
+<!--                                    <a href="#" class="nav-link table-nav view-btn">View</a>-->
+<!--                                </button>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td>2</td>-->
+<!--                            <td>OjimaSama@gmail.com</td>-->
+<!--                            <td>Najima Osana</td>-->
+<!--                            <td>MEMBER</td>-->
+<!--                            <td>-->
+<!--                                <button class="btn">-->
+<!--                                    <a href="#" class="nav-link table-nav view-btn">View</a>-->
+<!--                                </button>-->
+<!--                            </td>-->
+<!--                        </tr>-->
                         <tr>
                             <td>1</td>
-                            <td>komi.san@gmail.com</td>
-                            <td>Shouko Komi</td>
-                            <td>ADMIN</td>
-                            <td>
-                                <button class="btn">
-                                    <a href="#" class="nav-link table-nav view-btn">View</a>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>OjimaSama@gmail.com</td>
-                            <td>Najima Osana</td>
-                            <td>MEMBER</td>
-                            <td>
-                                <button class="btn">
-                                    <a href="#" class="nav-link table-nav view-btn">View</a>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
                             <td>Ayayaki@gmail.com</td>
                             <td>Rui Ayaki</td>
                             <td>MEMBER</td>
@@ -412,20 +414,20 @@ session_start();
                                 </button>
                             </td>
                         </tr>
+<!--                        <tr>-->
+<!--                            <td>4</td>-->
+<!--                            <td>rubi@gmail.com</td>-->
+<!--                            <td>Rubi</td>-->
+<!--                            <td>MEMBER</td>-->
+<!---->
+<!--                            <td>-->
+<!--                                <button class="btn">-->
+<!--                                    <a href="#" class="nav-link table-nav view-btn">View</a>-->
+<!--                                </button>-->
+<!--                            </td>-->
+<!--                        </tr>-->
                         <tr>
-                            <td>4</td>
-                            <td>rubi@gmail.com</td>
-                            <td>Rubi</td>
-                            <td>MEMBER</td>
-
-                            <td>
-                                <button class="btn">
-                                    <a href="#" class="nav-link table-nav view-btn">View</a>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
+                            <td>2</td>
                             <td>miyako@gmail.com</td>
                             <td>Shiku Miya</td>
                             <td>MEMBER</td>
@@ -436,45 +438,45 @@ session_start();
                                 </button>
                             </td>
                         </tr>
-                        <tr>
-                            <td>6</td>
-                            <td>ferolo@gmail.com</td>
-                            <td>Ai Shoto</td>
-                            <td>MEMBER</td>
+<!--                        <tr>-->
+<!--                            <td>6</td>-->
+<!--                            <td>ferolo@gmail.com</td>-->
+<!--                            <td>Ai Shoto</td>-->
+<!--                            <td>MEMBER</td>-->
+<!---->
+<!--                            <td>-->
+<!--                                <button class="btn">-->
+<!--                                    <a href="#" class="nav-link table-nav view-btn">View</a>-->
+<!--                                </button>-->
+<!--                            </td>-->
+<!--                        </tr>-->
 
-                            <td>
-                                <button class="btn">
-                                    <a href="#" class="nav-link table-nav view-btn">View</a>
-                                </button>
-                            </td>
-                        </tr>
-
+<!--                        <tr>-->
+<!--                            <td>7</td>-->
+<!--                            <td>KochengOyen@gmail.com</td>-->
+<!--                            <td>Aji Santoso</td>-->
+<!--                            <td>MEMBER</td>-->
+<!---->
+<!--                            <td>-->
+<!--                                <button class="btn">-->
+<!--                                    <a href="#" class="nav-link table-nav view-btn">View</a>-->
+<!--                                </button>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td>8</td>-->
+<!--                            <td>jim23@gmail.com</td>-->
+<!--                            <td>Ojim</td>-->
+<!--                            <td>MEMBER</td>-->
+<!---->
+<!--                            <td>-->
+<!--                                <button class="btn">-->
+<!--                                    <a href="#" class="nav-link table-nav view-btn">View</a>-->
+<!--                                </button>-->
+<!--                            </td>-->
+<!--                        </tr>-->
                         <tr>
-                            <td>7</td>
-                            <td>KochengOyen@gmail.com</td>
-                            <td>Aji Santoso</td>
-                            <td>MEMBER</td>
-
-                            <td>
-                                <button class="btn">
-                                    <a href="#" class="nav-link table-nav view-btn">View</a>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>8</td>
-                            <td>jim23@gmail.com</td>
-                            <td>Ojim</td>
-                            <td>MEMBER</td>
-
-                            <td>
-                                <button class="btn">
-                                    <a href="#" class="nav-link table-nav view-btn">View</a>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>9</td>
+                            <td>3</td>
                             <td>kumalKelapa@gmail.com</td>
                             <td>Sarah Eti</td>
                             <td>ADMIN</td>
@@ -486,18 +488,18 @@ session_start();
                             </td>
                         </tr>
 
-                        <tr>
-                            <td>10</td>
-                            <td>JajanSquad@gmail.com</td>
-                            <td>Jeno</td>
-                            <td>MEMBER</td>
-
-                            <td>
-                                <button class="btn">
-                                    <a href="#" class="nav-link table-nav view-btn">View</a>
-                                </button>
-                            </td>
-                        </tr>
+<!--                        <tr>-->
+<!--                            <td>10</td>-->
+<!--                            <td>JajanSquad@gmail.com</td>-->
+<!--                            <td>Jeno</td>-->
+<!--                            <td>MEMBER</td>-->
+<!---->
+<!--                            <td>-->
+<!--                                <button class="btn">-->
+<!--                                    <a href="#" class="nav-link table-nav view-btn">View</a>-->
+<!--                                </button>-->
+<!--                            </td>-->
+<!--                        </tr>-->
                         </tbody>
                     </table>
                 </div>

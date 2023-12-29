@@ -10,6 +10,7 @@
         "internalNote": "I believe i can fly",
         "role": 0,
         "password": "ayam",
+        "alive": true,
         "lastLoggedIn": "1701392943"
     },
     {
@@ -23,6 +24,7 @@
         "internalNote": "Holanimbus",
         "role": 0,
         "password": "shiku",
+        "alive": true,
         "lastLoggedIn": "1698628143"
 
     },
@@ -37,6 +39,7 @@
         "internalNote": "no word",
         "role": 1,
         "password": "sarah",
+        "alive": true,
         "lastLoggedIn": "1700183343"
     }
 ]

@@ -2,6 +2,16 @@
 
 require_once __DIR__ . "/../assets/json/jsonLoadData.php";
 
+/**
+ * @param url go to login page if it unsucces
+ * @param string error message on the header
+ */
+function redirect($url, $getParams):void
+{
+    header('Location: ' . $url . '?' . $getParams);
+    die();
+}
+
 function userExist(): array
 {
     $data = getAll();
@@ -31,6 +41,7 @@ function getAll(): array
             "internalNote" => $persons[$i]["internalNote"],
             "role" => $persons[$i]["role"],
             "password" => $persons[$i]["password"],
+            "alive" => $persons[$i]["alive"],
             "lastLoggedIn" => $persons[$i]["lastLoggedIn"]
         ];
 
@@ -39,6 +50,42 @@ function getAll(): array
     return $result;
 }
 
-function translateIntToString(int $number){
+function savePerson(array $person, string $location): void
+{
+//menyimpan data person saat melakukan penambahan atau pengeditan
+    $persons = getAll();
+//    CREATE MODE
+    if ($person["id"] == 0) {
+        $id = generateId($persons);
+        $person["id"] = $id;
+        $persons[] = $person;
+        saveDataIntoJson($persons, "persons.json");
+//        redirect("../".$location, "error=0");
 
+    } else {
+//        EDIT MODE
+        for ($i = 0; $i < count($persons); $i++) {
+            if ($person["id"] == $persons[$i]["id"]) {
+                $persons[$i] = [
+                    "firstName" => ucwords($person["firstName"]),
+                    "lastName" => ucwords($person["lastName"]),
+                    "nik" => $person["nik"],
+                    "email" => $person["email"],
+                    "birthDate" => $person["birthDate"],
+                    "sex" => $person["sex"],
+                    "internalNote" => $person["internalNote"],
+                    "role" => $person["role"],
+                    "password" => $person["password"],
+                ];
+                saveDataIntoJson($persons, "persons.json");
+                redirect("../".$location, "error=0");
+
+            }
+        }
+    }
+}
+
+function generateId(array|null $persons = null): int
+{
+    return $persons == null ? 1 : (end($persons['id'])) + 1;
 }

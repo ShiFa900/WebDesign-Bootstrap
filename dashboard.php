@@ -1,7 +1,10 @@
 <?php
-// include ("./action/dashboardAction.php");
-include("/home/shifa/Programming/WebPage/02-Practice/WebDesign-Bootstrap/action/dashboardAction.php");
+// include ("./action/dashboard.php");
 session_start();
+require_once __DIR__ . "/action/dashboard.php";
+require_once __DIR__ . "/index.php";
+
+redirectIfNotAuthenticated();
 ?>
 
 <!DOCTYPE html>
