@@ -90,7 +90,7 @@ redirectIfNotAuthenticated();
 
                 <ul class="dropdown-menu">
                     <li>
-                        <a class="dropdown-item" href="myProfile.html">
+                        <a class="dropdown-item" href="myProfile.php">
                             <ion-icon name="person-circle-outline" class="icon"></ion-icon>
                             Profile</a>
                     </li>

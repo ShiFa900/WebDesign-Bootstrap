@@ -38,3 +38,20 @@
 .btn-block {
   background-color: #ffc436;
 }
+
+
+/*DATA*/
+.title{
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  margin-bottom: 2rem;
+}
+
+.form-input p{
+  margin-top: 0.5rem;
+  /*font-size: 1.2rem;*/
+  background-color: #fafafa;
+  padding: 0.95rem 0.75rem;
+  color: #333;
+  border-radius: 1px;
+}

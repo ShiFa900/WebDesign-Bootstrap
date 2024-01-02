@@ -21,6 +21,7 @@ if (isset($_POST['login'])) {
         $_SESSION['userEmail'] = $_POST['email'];
         $_SESSION['userName'] = $userExist['firstName'];
         $_SESSION['logout'] = $userExist['lastLoggedIn'];
+        $_SESSION['userId'] = $userExist['id'];
         header("Location: ../dashboard.php");
         exit();
 
@@ -28,17 +29,6 @@ if (isset($_POST['login'])) {
         redirect("../login.php", "error=1");
     }
 }
-
-//if (userExist()) {
-//  redirect("../dashboard.php", true);
-//} else {
-//  redirect("../login.php", "error=1");
-//}
-
-
-
-
-
 
 // NOTE
 // 1. User berhasil login dan masuk ke halaman dashboard (tidak bisa kembali ke halaman login lagi harusnya)

@@ -1,5 +1,8 @@
 <?php
 require_once __DIR__ . "/index.php";
+session_start();
+
+redirectIfNotAuthenticated();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -203,7 +206,7 @@ require_once __DIR__ . "/index.php";
           <nav class="header-nav d-flex flex-column justify-content-between">
             <ul>
               <li class="nav-item">
-                <a href="dashboard.html" class="nav-link active">
+                <a href="dashboard.php" class="nav-link active">
                   <ion-icon
                     name="speedometer-outline"
                     class="icon sidebar-icon"
@@ -213,7 +216,7 @@ require_once __DIR__ . "/index.php";
               </li>
 
               <li class="nav-item" id="person-active">
-                <a href="persons.html" class="nav-link active">
+                <a href="persons.php" class="nav-link active">
                   <ion-icon
                     name="person-outline"
                     class="icon sidebar-icon"
@@ -276,74 +279,98 @@ require_once __DIR__ . "/index.php";
                   <div class="row">
                     <div class="col-xxl-8 col-xl-8 col-lg-10 col-12">
                       <div class="mb-3 form-input">
-                        <label for="first-name" class="form-label required"
-                          >First name</label
-                        >
+                          <span class="required title">First Name</span>
+                          <p>Sarah</p>
+<!--                        <label for="first-name" class="form-label required"-->
+<!--                          >First name</label-->
+<!--                        >-->
+<!---->
+<!--                        <input-->
+<!--                          id="first-name"-->
+<!--                          type="text"-->
+<!--                          class="form-control"-->
+<!--                          name="first-name"-->
+<!--                        />-->
+<!--                          <table>-->
+<!--                              <thead>-->
+<!--                              <tr>-->
+<!--                                  <td class="required">First Name</td>-->
+<!--                              </tr>-->
+<!--                              </thead>-->
+<!--                              <tbody>-->
+<!--                              <tr>-->
+<!--                                  <td>Sarah</td>-->
+<!--                              </tr>-->
+<!--                              </tbody>-->
+<!--                          </table>-->
+                      </div>
+                      <div class="mb-3 form-input">
+                          <span class="required title">Last Name</span>
+                          <p>Eti</p>
+<!--                        <label for="last-name" class="form-label">Last name</label>-->
+<!--                        <input-->
+<!--                          id="last-name"-->
+<!--                          type="text"-->
+<!--                          class="form-control"-->
+<!--                          name="last-name"-->
+<!--                        />-->
+                      </div>
+                      <div class="mb-3 form-input">
+                          <span class="required title">NIK</span>
+                          <p>0012991234784624</p>
+<!--                        <label for="nik" class="form-label required">NIK</label>-->
+<!--                        <input-->
+<!--                          id="nik"-->
+<!--                          type="text"-->
+<!--                          class="form-control"-->
+<!--                          name="nik"-->
+<!--                        />-->
+                      </div>
+                      <div class="mb-3 form-input">
+                          <span class="required title">Email</span>
+                          <p>kumalKelapa@gmail.com</p>
+<!--                        <label for="static-email" class="form-label required"-->
+<!--                          >Email</label-->
+<!--                        >-->
+<!--                        <input-->
+<!--                          id="static-email"-->
+<!--                          type="email"-->
+<!--                          class="form-control"-->
+<!--                          name="static-email"-->
+<!--                        />-->
+                      </div>
 
-                        <input
-                          id="first-name"
-                          type="text"
-                          class="form-control"
-                          name="first-name"
-                        />
-                      </div>
                       <div class="mb-3 form-input">
-                        <label for="last-name" class="form-label">Last name</label>
-                        <input
-                          id="last-name"
-                          type="text"
-                          class="form-control"
-                          name="last-name"
-                        />
-                      </div>
-                      <div class="mb-3 form-input">
-                        <label for="nik" class="form-label required">NIK</label>
-                        <input
-                          id="nik"
-                          type="text"
-                          class="form-control"
-                          name="nik"
-                        />
-                      </div>
-                      <div class="mb-3 form-input">
-                        <label for="static-email" class="form-label required"
-                          >Email</label
-                        >
-                        <input
-                          id="static-email"
-                          type="email"
-                          class="form-control"
-                          name="static-email"
-                        />
+                          <span class="required title">Birth Of Date</span>
+                          <p>tanggal lahir</p>
+<!--                        <label for="date-picker" class="form-label required"-->
+<!--                          >Date of birth</label-->
+<!--                        >-->
+<!--                        <input-->
+<!--                          id="date-picker"-->
+<!--                          type="date"-->
+<!--                          class="form-control"-->
+<!--                          name="date-picker"-->
+<!--                        />-->
                       </div>
 
                       <div class="mb-3 form-input">
-                        <label for="date-picker" class="form-label required"
-                          >Date of birth</label
-                        >
-                        <input
-                          id="date-picker"
-                          type="date"
-                          class="form-control"
-                          name="date-picker"
-                        />
-                      </div>
-
-                      <div class="mb-3 form-input">
-                        <label for="sex-dropdown" class="form-label required"
-                          >Sex</label
-                        >
-                        <select
-                          id="sex-dropdown"
-                          class="form-select form-control"
-                          name="sex-dropdown"
-                          required
-                          aria-label="Small select example"
-                        >
-                          <option selected>Male</option>
-                          <option value="1">Female</option>
-                          <option value="2">Better not say</option>
-                        </select>
+                          <span class="required title">Sex</span>
+                          <p>Female</p>
+<!--                        <label for="sex-dropdown" class="form-label required"-->
+<!--                          >Sex</label-->
+<!--                        >-->
+<!--                        <select-->
+<!--                          id="sex-dropdown"-->
+<!--                          class="form-select form-control"-->
+<!--                          name="sex-dropdown"-->
+<!--                          required-->
+<!--                          aria-label="Small select example"-->
+<!--                        >-->
+<!--                          <option selected>Male</option>-->
+<!--                          <option value="1">Female</option>-->
+<!--                          <option value="2">Better not say</option>-->
+<!--                        </select>-->
                       </div>
 
                       <!-- SWITCH BUTTON -->
@@ -367,25 +394,28 @@ require_once __DIR__ . "/index.php";
                       </div> -->
 
                       <div class="mb-3 form-input">
-                        <label for="note" class="form-label"
-                          >Internal notes</label
-                        >
-                        <div class="form-floating">
-                          <textarea class="form-control" id="note"></textarea>
-                        </div>
+                          <span class="required title">Internal Note</span>
+                          <p>I wish I was special</p>
+<!--                        <label for="note" class="form-label"-->
+<!--                          >Internal notes</label-->
+<!--                        >-->
+<!--                        <div class="form-floating">-->
+<!--                          <textarea class="form-control" id="note"></textarea>-->
+<!--                        </div>-->
                       </div>
 
                       <!-- ROLE -->
-                      <!-- <div class="mb-3 form-input">
-                      <label for="role-dropdown" class="form-label required">Role</label>
-                      <select
-                        class="form-select form-select-sm form-control"
-                        aria-label="Small select example"
-                      >
-                        <option selected>Admin</option>
-                        <option value="1">Member</option>
-                      </select>
-                     -->
+                      <div class="mb-3 form-input">
+                          <span class="required title">Role</span>
+                          <p>role</p>
+<!--                      <label for="role-dropdown" class="form-label required">Role</label>-->
+<!--                      <select-->
+<!--                        class="form-select form-select-sm form-control"-->
+<!--                        aria-label="Small select example"-->
+<!--                      >-->
+<!--                        <option selected>Admin</option>-->
+<!--                        <option value="1">Member</option>-->
+<!--                      </select>-->
                     </div>
                   </div>
 
@@ -500,7 +530,7 @@ require_once __DIR__ . "/index.php";
           <div class="offcanvas-body">
             <ul>
               <li class="nav-item">
-                <a href="dashboard.html" class="nav-link active">
+                <a href="dashboard.php" class="nav-link active">
                   <ion-icon
                     name="speedometer-outline"
                     class="icon sidebar-icon"
@@ -510,7 +540,7 @@ require_once __DIR__ . "/index.php";
               </li>
 
               <li class="nav-item nav-item-highlight" id="person-active">
-                <a href="persons.html" class="nav-link">
+                <a href="persons.php" class="nav-link">
                   <ion-icon
                     name="person-outline"
                     class="icon sidebar-icon"

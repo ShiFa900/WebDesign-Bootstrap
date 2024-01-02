@@ -1,7 +1,6 @@
 <?php
-require_once __DIR__ . "/action/addPerson.php";
 require_once __DIR__ . "/index.php";
-session_start();
+require_once __DIR__ . "/action/myProfile.php";
 
 redirectIfNotAuthenticated();
 ?>
@@ -120,11 +119,11 @@ redirectIfNotAuthenticated();
     <!-- link styling -->
     <link rel="stylesheet" href="assets/css/general.css"/>
     <link rel="stylesheet" href="assets/css/persons.css"/>
-    <link rel="stylesheet" href="assets/css/add-person.css"/>
+    <link rel="stylesheet" href="assets/css/my-profile.css"/>
 
     <link rel="stylesheet" href="assets/query/mediaQuery.css"/>
 
-    <title>PerMap &mdash; Add new person</title>
+    <title>PerMap &mdash; My profile</title>
 </head>
 <body>
 <header
@@ -135,6 +134,7 @@ redirectIfNotAuthenticated();
     </a>
 
     <div class="head-wrapper d-flex align-items-center gap-3">
+        <!-- menu sidebar belum tersedia -->
         <button
                 class="btn btn-primary d-xxl-none d-xl-none d-lg-none"
                 type="button"
@@ -159,7 +159,6 @@ redirectIfNotAuthenticated();
                         echo $_SESSION['userEmail'];
                         echo "</span>";
                         ?>
-
                         <img
                                 src="assets/properties/image.png"
                                 class="avatar-md avatar-img"
@@ -170,7 +169,7 @@ redirectIfNotAuthenticated();
 
                 <ul class="dropdown-menu">
                     <li>
-                        <a class="dropdown-item" href="myProfile.html"
+                        <a class="dropdown-item" href="#"
                         >
                             <ion-icon
                                     name="person-circle-outline"
@@ -209,7 +208,7 @@ redirectIfNotAuthenticated();
 </header>
 
 <main>
-    <section class="add-person-section d-flex position-relative">
+    <section class="profile-section d-flex position-relative">
         <div class="sidebar d-none d-lg-block">
             <nav class="header-nav d-flex flex-column justify-content-between">
                 <ul>
@@ -224,7 +223,7 @@ redirectIfNotAuthenticated();
                         </a>
                     </li>
 
-                    <li class="nav-item" id="person-active">
+                    <li class="nav-item">
                         <a href="persons.php" class="nav-link active">
                             <ion-icon
                                     name="person-outline"
@@ -237,8 +236,8 @@ redirectIfNotAuthenticated();
                     <li class="nav-title fourth-heading">My account</li>
                     <li>
                         <ul>
-                            <li class="nav-item">
-                                <a href="myProfile.html" class="nav-link active">
+                            <li class="nav-item" id="profile-active">
+                                <a href="myProfile.php" class="nav-link active">
                                     <ion-icon
                                             name="create-outline"
                                             class="icon sidebar-icon"
@@ -280,61 +279,57 @@ redirectIfNotAuthenticated();
         </div>
 
         <div class="w-100">
-            <div class="add-person-content position-absolute px-5">
+            <div class="my-profile-content position-absolute px-5">
                 <div class="page-header">
-                    <h1 class="first-heading">Add Person</h1>
+                    <h1 class="first-heading">My profile</h1>
                 </div>
+
                 <div class="row">
                     <div class="col-xxl-12">
-                        <form class="new-person-form" action="action/addPerson.php" method="post"
-                              name="add-person-form">
+                        <form class="new-person-form" action="action/myProfile.php" method="post">
+
+                            <?php
+                            $person = getPerson(null, $_SESSION["userEmail"]);
+                            ?>
                             <div class="row">
-                                <div class="col-xxl-6 col-xl-6 col-lg-6 new-person-form">
+                                <div class="col-xxl-8 col-xl-8 col-lg-10 col-12">
                                     <div class="mb-3 form-input">
                                         <label for="f-name" class="form-label required"
-                                        >First Name</label
+                                        >First name</label
                                         >
+
                                         <input
                                                 id="f-name"
                                                 type="text"
-                                                placeholder="First name"
-                                                required
+                                                value="<?= $_SESSION['userName'] ?>"
                                                 class="form-control"
-                                                name="add-first-name"
                                         />
                                     </div>
-                                    <div class="mb-3 form-input">
-                                        <label for="l-name" class="form-label required">Last Name</label>
+                                    <?php
+                                    if (isset($person["lastName"])) {
+                                        ?>
 
-                                        <input
-                                                id="l-name"
-                                                type="text"
-                                                placeholder="Last name"
-                                                class="form-control"
-                                                name="add-last-name"
-                                        />
-                                    </div>
+                                        <div class="mb-3 form-input">
+
+                                            <label for="l-name" class="form-label">Last name</label>
+                                            <input
+                                                    id="l-name"
+                                                    type="text"
+                                                    value="<?= $person["lastName"] ?>"
+                                                    class="form-control"
+                                            />
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
                                     <div class="mb-3 form-input">
                                         <label for="nik" class="form-label required">NIK</label>
                                         <input
                                                 id="nik"
                                                 type="text"
-                                                placeholder="NIK"
-                                                required
+                                                value="<?=$person["nik"]?>"
                                                 class="form-control"
-                                                name="add-nik"
                                         />
-                                        <span><em>NIK must be at least 16 characters</em></span>
-                                        <?php
-                                        if (isset($_GET["error"]) && $_GET["error"] == 1) {
-                                            ?>
-                                            <div class="alert alert-danger" role="alert">
-                                                Sorry, your NIK is less than 16 characters OR already exist. Please
-                                                check your NIK again.
-                                            </div>
-                                            <?php
-                                        }
-                                        ?>
                                     </div>
                                     <div class="mb-3 form-input">
                                         <label for="staticEmail" class="form-label required"
@@ -343,140 +338,105 @@ redirectIfNotAuthenticated();
                                         <input
                                                 id="staticEmail"
                                                 type="email"
-                                                placeholder="Email"
-                                                required
+                                                value="<?= $_SESSION['userEmail'] ?>"
                                                 class="form-control"
-                                                name="add-email"
                                         />
                                     </div>
 
                                     <div class="mb-3 form-input">
                                         <label for="datePicker" class="form-label required"
-                                        >Date of Birth</label
+                                        >Date of birth</label
                                         >
                                         <input
                                                 id="datePicker"
                                                 type="date"
-                                                placeholder="Date of birth"
-                                                required
                                                 class="form-control"
-                                                name="add-date"
+                                                value="<?=date("d/m/Y", $person["birthDate"]);
+                                                ?>"
                                         />
                                     </div>
-                                    <!--password-->
-                                    <div class="mb-3 form-input">
-                                        <label for="pass" class="form-label required">Password</label>
-                                        <input
-                                                id="pass"
-                                                type="password"
-                                                required
-                                                class="form-control"
-                                                name="add-password"/>
-                                    </div>
-
-                                    <!--konfirmasi password-->
-                                    <div class="mb-3 form-input">
-                                        <label for="confirm-pass" class="form-label required">Confirm Your
-                                            Password</label>
-                                        <input
-                                                id="confirm-pass"
-                                                type="password"
-                                                required
-                                                class="form-control"
-                                                name="confirm-pass"
-                                        />
-
-                                        <?php
-                                        if(isset($_GET["error"]) && $_GET["error"] == 1){ ?>
-                                        <div class="alert alert-danger" role="alert">
-                                            Sorry, your password was wrong. Please check again.
-                                        </div>
-                                        <?php
-                                        }
-                                        ?>
-                                    </div>
 
                                     <div class="mb-3 form-input">
-                                        <label class="form-label required" for="sex-dropdown"
+                                        <label for="sex-dropdown" class="form-label required"
                                         >Sex</label
                                         >
+
                                         <select
-                                                class="form-select form-control"
                                                 id="sex-dropdown"
+                                                class="form-select form-control"
                                                 required
                                                 aria-label="Small select example"
-                                                name="add-sex"
+
                                         >
-                                            <option selected>Male</option>
-                                            <option value="1">Female</option>
+                                            <option selected>Female</option>
+                                            <option value="1">Male</option>
                                             <option value="2">Better not say</option>
                                         </select>
                                     </div>
 
-                                    <div class="form-input mt-0">
-                                        <div
-                                                class="form-check form-switch d-flex align-items-center column-gap-3"
+                                    <!-- SWITCH BUTTON -->
+                                    <!-- <div class="mb-3 form-input">
+                                      <div
+                                        class="form-check form-switch d-flex align-items-center column-gap-3"
+                                      >
+                                        <input
+                                          class="form-check-input"
+                                          type="checkbox"
+                                          role="switch"
+                                          id="flexSwitchCheckDefault"
+                                          style="width: 4rem; height: 2.4rem"
+                                        />
+                                        <label
+                                          class="form-check-label"
+                                          for="flexSwitchCheckDefault"
+                                          >This person is alive</label
                                         >
-                                            <input
-                                                    class="form-check-input"
-                                                    type="checkbox"
-                                                    role="switch"
-                                                    id="flexSwitchCheckDefault"
-                                                    name="add-switch"
-                                            />
-                                            <label
-                                                    class="form-check-label"
-                                                    for="flexSwitchCheckDefault"
-                                            >This person is alive</label
-                                            >
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-xxl-5 col-xl-6 col-lg-6 new-person-form">
+                                      </div>
+                                    </div> -->
 
                                     <div class="mb-3 form-input">
                                         <label for="note" class="form-label"
                                         >Internal notes</label
                                         >
                                         <div class="form-floating">
-                                            <textarea class="form-control" id="note" name="add-note"></textarea>
+                          <textarea
+                                  class="form-control"
+                                  placeholder="Leave a comment here"
+                                  id="note"
+                          >
+                              <?php
+                              echo $person["internalNote"];
+                              ?>
+                          </textarea>
                                         </div>
                                     </div>
 
-                                    <div class="mb-3 form-input">
-                                        <label class="form-label" for="role-dropdown"
-                                        >Role</label
-                                        >
-                                        <select
-                                                id="role-dropdown"
-                                                class="form-select form-control"
-                                                aria-label="Small select example"
-                                                name="add-role"
-                                        >
-                                            <option selected>Admin</option>
-                                            <option value="1">Member</option>
-                                        </select>
-                                    </div>
+                                    <!-- ROLE -->
+                                    <!-- <div class="mb-3 form-input">
+                                    <label for="role-dropdown" class="form-label required">Role</label>
+                                    <select
+                                      class="form-select form-select-sm form-control"
+                                      aria-label="Small select example"
+                                    >
+                                      <option selected>Admin</option>
+                                      <option value="1">Member</option>
+                                    </select>
+                                   -->
                                 </div>
                             </div>
 
                             <div class="btn-container d-flex column-gap-5">
-                                <button
+                                <input
                                         class="btn btn-primary btn--form"
                                         type="submit"
-                                        name="btn"
-                                >
-                                    Save
-                                </button>
+                                        value="Save"
+                                />
 
-                                <button
+                                <input
                                         class="btn btn-primary btn--form has-border"
                                         type="submit"
-                                        name="btn"
-                                >
-                                    Cancel
-                                </button>
+                                        value="Cancel"
+                                />
                             </div>
                         </form>
                     </div>
@@ -533,7 +493,7 @@ redirectIfNotAuthenticated();
                         </a>
                     </li>
 
-                    <li class="nav-item nav-item-highlight" id="person-active">
+                    <li class="nav-item nav-item-highlight">
                         <a href="persons.php" class="nav-link">
                             <ion-icon
                                     name="person-outline"
@@ -546,8 +506,8 @@ redirectIfNotAuthenticated();
                     <li class="nav-title fourth-heading">My account</li>
                     <li>
                         <ul>
-                            <li class="nav-item">
-                                <a href="myProfile.html" class="nav-link active">
+                            <li class="nav-item" id="profile-active">
+                                <a href="myProfile.php" class="nav-link active">
                                     <ion-icon
                                             name="create-outline"
                                             class="icon sidebar-icon"
@@ -587,5 +547,12 @@ redirectIfNotAuthenticated();
         </div>
     </div>
 </nav>
+
+<?php
+// unset $_SESSION
+unset($_SESSION["firstName"]);
+unset($_SESSION["lastName"]);
+unset($_SESSION["internalNote"]);
+?>
 </body>
 </html>

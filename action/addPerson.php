@@ -1,40 +1,50 @@
 <?php
 require_once __DIR__ . "/utils.php";
-require_once __DIR__ . "/../addPerson.php";
 
 //session_start();
 
-//if(isset($_POST["add-person-form"])){
-//    $nik = isNikExistWithRightLength($_POST["add-nik"]);
+if(isset($_POST["add-person-form"])){
 //    TEST
-//Saat menambahkan person/create, password tidak di include
-//password akan di include ketika user create akun, dengan syarat user telah ada di database (create by admin)
+
 $person = [
-    "firstName" => $_POST["addFirstName"],
-    "lastName" => $_POST["addLastName"],
-    "nik" => $_POST["addNik"],
-    "email" => $_POST["addEmail"],
-    "birthDate" => $_POST["addDate"],
-    "sex" => $_POST["addSex"],
-    "alive" => $_POST["addSwitch"],
-    "internalNote" => $_POST["addNote"],
-    "role" => $_POST["addRole"],
+    "firstName" => $_POST['add-first-name'],
+    "lastName" => $_POST["add-last-name"],
+    "nik" => hasNikCheck($_POST["add-nik"]),
+    "email" => $_POST["add-email"],
+    "birthDate" => convertDate($_POST["add-date"]),
+    "sex" => $_POST["add-sex"],
+    "internalNote" => $_POST["add-note"],
+    "role" => $_POST["add-role"],
+    "password" => $_POST["add-password"],
+    "alive" => $_POST["add-switch"],
     "lastLoggedIn" => null
     ];
-var_dump($person);
-//savePerson($person, "viewPerson.php");
-//redirect("../viewPerson.php", "error=0");
 
+savePerson($person, "viewPerson.php");
+}
 
-//}
+function hasNikCheck(int $nik):bool
+{
+    $persons = getAll();
+    for($i = 0; $i < count($persons); $i++) {
+        if (strlen($nik) != 16 || $persons[$i]["nik"] == $nik) return false;
+    }
+    return true;
+}
 
-//function isNikExistWithRightLength(int $nik):int
-//{
-//    $persons = getAll();
-//    for($i = 0; $i < count($persons); $i++) {
-//        if (strlen($nik) != 16 || $persons[$i]["nik"] == $nik) {
-//            redirect("../addPerson.php", "error=1");
-//        }
-//    }
-//    return $nik;
-//}
+function hasEmailCheck(string $email): bool{
+//    mengecek agar tidak ada email yang duplicate
+    $persons = getAll();
+    foreach ($persons as $person){
+        if($email == $person["email"] && !filter_var($email, FILTER_VALIDATE_EMAIL)) return false;
+    }
+    return true;
+}
+
+function confirmPassword(string $password, string $confirmPassword){
+    if($confirmPassword != $password )
+        return "error=1";
+}
+
+//buat sebuah variable array yang akan menyimpan semua data-data yang error ketika mengambil input
+//kemudian, cek variable tersebut di fila addPerson.php untuk menampilkan pesan error (jika terdapat)

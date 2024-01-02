@@ -6,7 +6,7 @@ require_once __DIR__ . "/../assets/json/jsonLoadData.php";
  * @param url go to login page if it unsucces
  * @param string error message on the header
  */
-function redirect($url, $getParams):void
+function redirect($url, $getParams): void
 {
     header('Location: ' . $url . '?' . $getParams);
     die();
@@ -60,25 +60,30 @@ function savePerson(array $person, string $location): void
         $person["id"] = $id;
         $persons[] = $person;
         saveDataIntoJson($persons, "persons.json");
-//        redirect("../".$location, "error=0");
+        redirect("../" . $location, "error=0");
 
     } else {
 //        EDIT MODE
         for ($i = 0; $i < count($persons); $i++) {
             if ($person["id"] == $persons[$i]["id"]) {
+
+//                convert date of birth to int timestamp
+
                 $persons[$i] = [
                     "firstName" => ucwords($person["firstName"]),
                     "lastName" => ucwords($person["lastName"]),
                     "nik" => $person["nik"],
                     "email" => $person["email"],
-                    "birthDate" => $person["birthDate"],
+                    "birthDate" => convertDate($person["birthDate"]),
                     "sex" => $person["sex"],
                     "internalNote" => $person["internalNote"],
                     "role" => $person["role"],
                     "password" => $person["password"],
+                    "alive" => $person["alive"],
+                    "lastLoggedIn" => $person["lastLoggedIn"]
                 ];
                 saveDataIntoJson($persons, "persons.json");
-                redirect("../".$location, "error=0");
+                redirect("../" . $location, "error=0");
 
             }
         }
@@ -87,5 +92,46 @@ function savePerson(array $person, string $location): void
 
 function generateId(array|null $persons = null): int
 {
-    return $persons == null ? 1 : (end($persons['id'])) + 1;
+//    return $persons == null ? 1 : (end($persons['id'])) + 1;
+    return is_array($persons) == null ? (end($persons)['id']) + 1 : 1;
+}
+
+function convertDate(int|string $date, string|null $format = 'm/d/Y'): int|null
+{
+    if (is_string($date)) {
+        $birthDate = date_create_from_format($format, $date);
+        if ($birthDate) return date_format($birthDate, 'U');
+    }
+    return null;
+}
+
+function getPerson(int $id = null, string $email = null): array
+{
+    $persons = getAll();
+    if ($id != null) {
+        foreach ($persons as $person) {
+            if ($person["id"] == $id) {
+                return $person;
+            }
+        }
+    } else {
+        foreach ($persons as $person) {
+            if ($person["email"] == $email) {
+                return $person;
+            }
+        }
+    }
+    return [];
+}
+
+function translateIntToString(int $int):string
+{
+    switch ($int) {
+        case 0:
+            return "ADMIN";
+        case 1:
+            return "MEMBER";
+        default:
+            return "";
+    }
 }
