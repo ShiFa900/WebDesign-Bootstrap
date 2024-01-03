@@ -1,131 +1,15 @@
 <?php
 require_once __DIR__ . "/action/addPerson.php";
 require_once __DIR__ . "/index.php";
+require_once __DIR__ . "/include/header.php";
 session_start();
 
 redirectIfNotAuthenticated();
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <!-- Favicon -->
-    <link
-            rel="apple-touch-icon"
-            sizes="57x57"
-            href="assets/properties/favicon/apple-icon-57x57.png"
-    />
-    <link
-            rel="apple-touch-icon"
-            sizes="60x60"
-            href="assets/properties/favicon/apple-icon-60x60.png"
-    />
-    <link
-            rel="apple-touch-icon"
-            sizes="72x72"
-            href="assets/properties/favicon/apple-icon-72x72.png"
-    />
-    <link
-            rel="apple-touch-icon"
-            sizes="76x76"
-            href="assets/properties/favicon/apple-icon-76x76.png"
-    />
-    <link
-            rel="apple-touch-icon"
-            sizes="114x114"
-            href="assets/properties/favicon/apple-icon-114x114.png"
-    />
-    <link
-            rel="apple-touch-icon"
-            sizes="120x120"
-            href="assets/properties/favicon/apple-icon-120x120.png"
-    />
-    <link
-            rel="apple-touch-icon"
-            sizes="144x144"
-            href="assets/properties/favicon/apple-icon-144x144.png"
-    />
-    <link
-            rel="apple-touch-icon"
-            sizes="152x152"
-            href="assets/properties/favicon/apple-icon-152x152.png"
-    />
-    <link
-            rel="apple-touch-icon"
-            sizes="180x180"
-            href="assets/properties/favicon/apple-icon-180x180.png"
-    />
-    <link
-            rel="icon"
-            type="image/png"
-            sizes="192x192"
-            href="assets/properties/favicon/android-icon-192x192.png"
-    />
-    <link
-            rel="icon"
-            type="image/png"
-            sizes="32x32"
-            href="assets/properties/favicon/favicon-32x32.png"
-    />
-    <link
-            rel="icon"
-            type="image/png"
-            sizes="96x96"
-            href="assets/properties/favicon/favicon-96x96.png"
-    />
-    <link
-            rel="icon"
-            type="image/png"
-            sizes="16x16"
-            href="assets/properties/favicon/favicon-16x16.png"
-    />
-    <link rel="manifest" href="assets/properties/favicon/manifest.json"/>
-    <meta name="msapplication-TileColor" content="#ffffff"/>
-    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png"/>
-    <meta name="theme-color" content="#ffffff"/>
-
-    <!-- Link Bootstrap -->
-    <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-    />
-    <link
-            href="https://getbootstrap.com/docs/5.3/assets/css/docs.css"
-            rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
-
-    <!-- link icon -->
-    <script
-            type="module"
-            src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
-    ></script>
-    <script
-            nomodule
-            src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
-    ></script>
-
-    <!-- link font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link
-            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Open+Sans:wght@400;500;600;700&family=Rubik:wght@400;500;600;700&display=swap"
-            rel="stylesheet"
-    />
-
-    <!-- link styling -->
-    <link rel="stylesheet" href="assets/css/general.css"/>
-    <link rel="stylesheet" href="assets/css/persons.css"/>
-    <link rel="stylesheet" href="assets/css/add-person.css"/>
-
-    <link rel="stylesheet" href="assets/query/mediaQuery.css"/>
-
-    <title>PerMap &mdash; Add new person</title>
-</head>
+<?php
+mainHeader("Dashboard");
+?>
 <body>
 <header
         class="header sticky-top d-flex align-items-center justify-content-between"
@@ -286,10 +170,10 @@ redirectIfNotAuthenticated();
                 </div>
                 <div class="row">
                     <div class="col-xxl-12">
-                        <form class="new-person-form" action="action/addPerson.php" method="post"
-                              name="add-person-form">
+                        <form class="new-person-form" action="action/addPerson.php" method="post" name="addPerson">
                             <div class="row">
                                 <div class="col-xxl-6 col-xl-6 col-lg-6 new-person-form">
+
                                     <div class="mb-3 form-input">
                                         <label for="f-name" class="form-label required"
                                         >First Name</label
@@ -326,8 +210,9 @@ redirectIfNotAuthenticated();
                                         />
                                         <span><em>NIK must be at least 16 characters</em></span>
                                         <?php
-                                        if (isset($_GET["error"]) && $_GET["error"] == 1) {
+                                        if (isset($_SESSION["addNik"]) && $_SESSION["addNik"] == 1) {
                                             ?>
+
                                             <div class="alert alert-danger" role="alert">
                                                 Sorry, your NIK is less than 16 characters OR already exist. Please
                                                 check your NIK again.
@@ -372,6 +257,17 @@ redirectIfNotAuthenticated();
                                                 required
                                                 class="form-control"
                                                 name="add-password"/>
+
+                                        <!--                                        --><?php
+                                        //                                        if (confirmPassword($_POST["add-password"], $_POST["confirm-pass"]) == 1) {
+                                        //                                            ?>
+                                        <!--                                            <div class="alert alert-danger" role="alert">-->
+                                        <!--                                                Sorry, password should be at least 8 characters and should include at-->
+                                        <!--                                                least one uppercase, one lowercase one number dan one special character.-->
+                                        <!--                                            </div>-->
+                                        <!--                                            --><?php
+                                        //                                        }
+                                        //                                        ?>
                                     </div>
 
                                     <!--konfirmasi password-->
@@ -386,14 +282,14 @@ redirectIfNotAuthenticated();
                                                 name="confirm-pass"
                                         />
 
-                                        <?php
-                                        if(isset($_GET["error"]) && $_GET["error"] == 1){ ?>
-                                        <div class="alert alert-danger" role="alert">
-                                            Sorry, your password was wrong. Please check again.
-                                        </div>
-                                        <?php
-                                        }
-                                        ?>
+                                        <!--                                        --><?php
+                                        //                                        if (confirmPassword($_POST["add-password"], $_POST["confirm-pass"]) == 2) { ?>
+                                        <!--                                            <div class="alert alert-danger" role="alert">-->
+                                        <!--                                                Sorry, your password was wrong. Please check again.-->
+                                        <!--                                            </div>-->
+                                        <!--                                            --><?php
+                                        //                                        }
+                                        //                                        ?>
                                     </div>
 
                                     <div class="mb-3 form-input">
@@ -485,61 +381,31 @@ redirectIfNotAuthenticated();
         </div>
     </section>
 </main>
-
-<!-- sidebar -->
 <nav class="header-nav d-flex align-items-center">
-    <div
-            class="offcanvas offcanvas-start"
-            data-bs-scroll="true"
-            data-bs-backdrop="false"
-            tabindex="-1"
-            id="offcanvasScrolling"
-            aria-labelledby="offcanvasScrollingLabel"
-    >
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+         id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
         <div class="offcanvas-header">
-            <h3
-                    class="offcanvas-title third-heading sidebar-heading"
-                    id="offcanvasScrollingLabel"
-            >
+            <h3 class="offcanvas-title third-heading sidebar-heading" id="offcanvasScrollingLabel">
                 <a href="#" id="logo">
-                    <img
-                            src="assets/properties/pma-color.png"
-                            alt="PerMap logo"
-                            class="logo"
-                    />
+                    <img src="assets/properties/pma-color.png" alt="PerMap logo" class="logo"/>
                 </a>
             </h3>
 
-            <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="offcanvas"
-                    aria-label="Close"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-        <div
-                class="offcanvas-body d-flex flex-column justify-content-between py-0 px-0"
-        >
+        <div class="offcanvas-body d-flex flex-column justify-content-between py-0 px-0">
             <div class="offcanvas-body">
                 <ul>
-                    <li class="nav-item">
+                    <li class="nav-item" id="dashboard-active">
                         <a href="dashboard.php" class="nav-link active">
-                            <ion-icon
-                                    name="speedometer-outline"
-                                    class="icon sidebar-icon"
-                            ></ion-icon
-                            >
+                            <ion-icon name="speedometer-outline" class="icon sidebar-icon"></ion-icon>
                             Dashboard
                         </a>
                     </li>
 
-                    <li class="nav-item nav-item-highlight" id="person-active">
+                    <li class="nav-item nav-item-highlight">
                         <a href="persons.php" class="nav-link">
-                            <ion-icon
-                                    name="person-outline"
-                                    class="icon sidebar-icon"
-                            ></ion-icon
-                            >
+                            <ion-icon name="person-outline" class="icon sidebar-icon"></ion-icon>
                             Persons
                         </a>
                     </li>
@@ -548,19 +414,13 @@ redirectIfNotAuthenticated();
                         <ul>
                             <li class="nav-item">
                                 <a href="myProfile.html" class="nav-link active">
-                                    <ion-icon
-                                            name="create-outline"
-                                            class="icon sidebar-icon"
-                                    ></ion-icon>
+                                    <ion-icon name="create-outline" class="icon sidebar-icon"></ion-icon>
                                     Edit profile
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link active">
-                                    <ion-icon
-                                            name="log-out-outline"
-                                            class="icon sidebar-icon"
-                                    ></ion-icon>
+                                    <ion-icon name="log-out-outline" class="icon sidebar-icon"></ion-icon>
                                     Log out
                                 </a>
                             </li>
@@ -572,13 +432,8 @@ redirectIfNotAuthenticated();
                 <hr/>
                 <ul>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"
-                        >
-                            <ion-icon
-                                    name="settings-outline"
-                                    class="icon sidebar-icon"
-                            ></ion-icon
-                            >
+                        <a class="nav-link" href="#">
+                            <ion-icon name="settings-outline" class="icon sidebar-icon"></ion-icon>
                             Settings
                         </a>
                     </li>
@@ -587,5 +442,20 @@ redirectIfNotAuthenticated();
         </div>
     </div>
 </nav>
+<?php
+// unset $_SESSION
+unset($_SESSION["firstName"]);
+unset($_SESSION["lastName"]);
+unset($_SESSION["internalNote"]);
+unset($_SESSION["nik"]);
+unset($_SESSION["email"]);
+unset($_SESSION["sex"]);
+unset($_SESSION["birthDate"]);
+unset($_SESSION["id"]);
+unset($_SESSION["lastLoggedIn"]);
+unset($_SESSION["alive"]);
+unset($_SESSION["password"]);
+unset($_SESSION["role"]);
+?>
 </body>
 </html>

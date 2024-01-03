@@ -55,7 +55,7 @@ function savePerson(array $person, string $location): void
 //menyimpan data person saat melakukan penambahan atau pengeditan
     $persons = getAll();
 //    CREATE MODE
-    if ($person["id"] == 0) {
+    if ($person["id"] == null) {
         $id = generateId($persons);
         $person["id"] = $id;
         $persons[] = $person;
@@ -74,7 +74,7 @@ function savePerson(array $person, string $location): void
                     "lastName" => ucwords($person["lastName"]),
                     "nik" => $person["nik"],
                     "email" => $person["email"],
-                    "birthDate" => convertDate($person["birthDate"]),
+                    "birthDate" => convertDateToTimestamp($person["birthDate"]),
                     "sex" => $person["sex"],
                     "internalNote" => $person["internalNote"],
                     "role" => $person["role"],
@@ -96,7 +96,7 @@ function generateId(array|null $persons = null): int
     return is_array($persons) == null ? (end($persons)['id']) + 1 : 1;
 }
 
-function convertDate(int|string $date, string|null $format = 'm/d/Y'): int|null
+function convertDateToTimestamp(int|string $date, string|null $format = 'm/d/Y'): int|null
 {
     if (is_string($date)) {
         $birthDate = date_create_from_format($format, $date);
@@ -124,7 +124,7 @@ function getPerson(int $id = null, string $email = null): array
     return [];
 }
 
-function translateIntToString(int $int):string
+function translateIntToString(int $int): string
 {
     switch ($int) {
         case 0:
@@ -134,4 +134,33 @@ function translateIntToString(int $int):string
         default:
             return "";
     }
+}
+
+function translateBooleanToString(string $status): string
+{
+    return $status ? "Alive" : "Passed Away";
+}
+
+//function calculateAge(string $birthOfDate): int
+//{
+//    $currentDate = time();
+//    if ($birthOfDate > $currentDate) {
+//        return 0;
+//    }
+//    list($date, $month, $year) = explode('-', $birthOfDate);
+//    $wasBorn = mktime(0, 0, 0, (int)$month, (int)$date, $year); //jam,menit,detik,bulan,tanggal,tahun
+//    $age = ($wasBorn < 0) ? ($currentDate + ($wasBorn * -1)) : $currentDate - $wasBorn;
+//    $yearCalculate = 60 * 60 * 24 * 365;
+//    $wasBornOnYear = $age / $yearCalculate;
+//    return floor($wasBornOnYear);
+//
+//
+//}
+
+function calculateAge($birth_date_ts): int
+{
+    $date = new DateTime('@' . $birth_date_ts);
+    $now = new DateTime('now');
+    $interval = $date->diff($now);
+    return floor($interval->y);
 }

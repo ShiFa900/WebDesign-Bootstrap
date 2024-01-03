@@ -194,11 +194,10 @@ redirectIfNotAuthenticated();
                         <hr class="dropdown-divider"/>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#"
+                        <a class="dropdown-item" href="logout.php"
                         >
                             <ion-icon name="log-out-outline" class="icon"></ion-icon>
-                            Log
-                            out</a
+                            Logout</a
                         >
                     </li>
                 </ul>
@@ -247,12 +246,12 @@ redirectIfNotAuthenticated();
                             </li>
                             <li class="nav-item">
                                 <div class="wrapper">
-                                    <a href="#" class="nav-link active">
+                                    <a href="logout.php" class="nav-link active">
                                         <ion-icon
                                                 name="log-out-outline"
                                                 class="icon sidebar-icon"
                                         ></ion-icon>
-                                        Log out
+                                        Logout
                                     </a>
                                 </div>
                             </li>
@@ -327,7 +326,7 @@ redirectIfNotAuthenticated();
                                         <input
                                                 id="nik"
                                                 type="text"
-                                                value="<?=$person["nik"]?>"
+                                                value="<?= $person["nik"] ?>"
                                                 class="form-control"
                                         />
                                     </div>
@@ -351,8 +350,7 @@ redirectIfNotAuthenticated();
                                                 id="datePicker"
                                                 type="date"
                                                 class="form-control"
-                                                value="<?=date("d/m/Y", $person["birthDate"]);
-                                                ?>"
+                                                value="<?= date("Y-m-d", $person["birthDate"])?>"
                                         />
                                     </div>
 
@@ -368,9 +366,23 @@ redirectIfNotAuthenticated();
                                                 aria-label="Small select example"
 
                                         >
-                                            <option selected>Female</option>
-                                            <option value="1">Male</option>
-                                            <option value="2">Better not say</option>
+                                            <option selected><?= $person["sex"] ?></option>
+                                            <!--opsi lainnya blum muncul-->
+                                            <?php
+                                            if (ctype_upper($person["sex"]) == "FEMALE") {
+                                                ?>
+                                                <option value="1">Male</option>
+                                                <option value="2">Better not say</option>
+                                                <?php
+                                            } elseif (ctype_upper($person["sex"]) == "MALE") {
+                                                ?>
+                                                <option value="1">Female</option>
+                                                <option value="2">Better not say</option>
+                                                <?php
+                                            }
+                                            ?>
+
+
                                         </select>
                                     </div>
 
@@ -403,10 +415,7 @@ redirectIfNotAuthenticated();
                                   class="form-control"
                                   placeholder="Leave a comment here"
                                   id="note"
-                          >
-                              <?php
-                              echo $person["internalNote"];
-                              ?>
+                          ><?= $person["internalNote"]; ?>
                           </textarea>
                                         </div>
                                     </div>
@@ -516,12 +525,12 @@ redirectIfNotAuthenticated();
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link active">
+                                <a href="logout.php" class="nav-link active">
                                     <ion-icon
                                             name="log-out-outline"
                                             class="icon sidebar-icon"
                                     ></ion-icon>
-                                    Log out
+                                    Logout
                                 </a>
                             </li>
                         </ul>
@@ -553,6 +562,15 @@ redirectIfNotAuthenticated();
 unset($_SESSION["firstName"]);
 unset($_SESSION["lastName"]);
 unset($_SESSION["internalNote"]);
+unset($_SESSION["nik"]);
+unset($_SESSION["email"]);
+unset($_SESSION["sex"]);
+unset($_SESSION["birthDate"]);
+unset($_SESSION["id"]);
+unset($_SESSION["lastLoggedIn"]);
+unset($_SESSION["alive"]);
+unset($_SESSION["password"]);
+unset($_SESSION["role"]);
 ?>
 </body>
 </html>

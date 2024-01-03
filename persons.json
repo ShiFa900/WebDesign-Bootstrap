@@ -11,7 +11,7 @@
         "role": 0,
         "password": "ayam",
         "alive": true,
-        "lastLoggedIn": 1701392943
+        "lastLoggedIn": "1701392943"
     },
     {
         "id": 2,
@@ -25,20 +25,20 @@
         "role": 0,
         "password": "shiku",
         "alive": true,
-        "lastLoggedIn": 1698628143
+        "lastLoggedIn": "1698628143"
     },
     {
         "id": 3,
         "firstName": "Sarah",
-        "lastName": "",
+        "lastName": "Eti",
         "nik": "0012991234784624",
         "email": "kumalKelapa@gmail.com",
-        "birthDate": 1497925611,
+        "birthDate": 1523586241,
         "sex": "Female",
-        "internalNote": "i wish i was special",
+        "internalNote": "no word",
         "role": 1,
         "password": "sarah",
-        "alive": true,
-        "lastLoggedIn": 1700183343
+        "alive": false,
+        "lastLoggedIn": "1700183343"
     }
 ]

@@ -21,7 +21,6 @@ if (isset($_POST['login'])) {
         $_SESSION['userEmail'] = $_POST['email'];
         $_SESSION['userName'] = $userExist['firstName'];
         $_SESSION['logout'] = $userExist['lastLoggedIn'];
-        $_SESSION['userId'] = $userExist['id'];
         header("Location: ../dashboard.php");
         exit();
 

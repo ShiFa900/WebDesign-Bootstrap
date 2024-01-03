@@ -355,7 +355,7 @@ redirectIfNotAuthenticated();
                                 />
                             </div>
                             <?php
-//                            search();
+                            //                            search();
                             ?>
                             <button class="btn btn-outline-success" type="submit" name="search">
                                 <ion-icon name="search-outline" class="icon"></ion-icon>
@@ -364,6 +364,10 @@ redirectIfNotAuthenticated();
                     </div>
                 </div>
 
+                <!-- EXPAND -->
+                <a class="nav-link d-flex justify-content-end" href="#table">
+                    <span class="material-symbols-outlined"> expand_more </span>
+                </a>
                 <div class="table-section table-responsive" id="table">
                     <table class="table">
                         <thead>
@@ -371,143 +375,68 @@ redirectIfNotAuthenticated();
                             <th scope="col">No</th>
                             <th scope="col">Email</th>
                             <th scope="col">Full Name</th>
+                            <th scope="col">Age</th>
+                            <th scope="col">sex</th>
                             <th scope="col">Role</th>
+                            <th scope="col">Status</th>
                             <th scope="col"></th>
                         </tr>
                         </thead>
                         <tbody>
-<!--                        <tr>-->
-<!--                            <td>1</td>-->
-<!--                            <td>komi.san@gmail.com</td>-->
-<!--                            <td>Shouko Komi</td>-->
-<!--                            <td>ADMIN</td>-->
-<!--                            <td>-->
-<!--                                <button class="btn">-->
-<!--                                    <a href="#" class="nav-link table-nav view-btn">View</a>-->
-<!--                                </button>-->
-<!--                            </td>-->
-<!--                        </tr>-->
-<!--                        <tr>-->
-<!--                            <td>2</td>-->
-<!--                            <td>OjimaSama@gmail.com</td>-->
-<!--                            <td>Najima Osana</td>-->
-<!--                            <td>MEMBER</td>-->
-<!--                            <td>-->
-<!--                                <button class="btn">-->
-<!--                                    <a href="#" class="nav-link table-nav view-btn">View</a>-->
-<!--                                </button>-->
-<!--                            </td>-->
-<!--                        </tr>-->
+
                         <tr>
-                            <td>1</td>
-                            <td>Ayayaki@gmail.com</td>
-                            <td>Rui Ayaki</td>
-                            <td>MEMBER</td>
+                            <?php
+                            $persons = getAll();
+                            foreach ($persons
+
+                            as $person) {
+                            $date = date("d-m-Y", $person["birthDate"]);
+                            ?>
+                            <td><?= $person["id"] ?></td>
+                            <td><?= $person["email"] ?></td>
+                            <td><?= $person["firstName"] . " " . $person["lastName"] ?></td>
+                            <td><?= calculateAge($person["birthDate"]) . " " . $date ?></td>
+                            <td><?= $person["sex"] ?></td>
+                            <td><?= translateIntToString($person["role"]) ?></td>
+                            <?php
+                            $personStatus = translateBooleanToString($person["alive"]);
+                            ?>
+                            <td><?= $personStatus ?>
+                            </td>
+
 
                             <td>
+                                <button class="btn" name="btn-view">
+<!--                                    <a-->
+<!--                                            href="viewPerson.php?id=--><?php //echo $person["id"] ?><!--"-->
+<!--                                        --><?php
+//                                        if ($person["email"] == $_SESSION["userEmail"]){
+//                                        ?>
+<!--                                            href="myProfile.php"-->
+<!--                                        --><?php
+//
+//                                        ?>
+<!--                                            class="nav-link table-nav view-btn"-->
+<!--                                    >View</a-->
+<!--                                    >-->
+                                </button>
                                 <button class="btn">
                                     <a
-                                            href="viewPerson.html"
-                                            class="nav-link table-nav view-btn"
-                                    >View</a
+                                            href="editPerson.php"
+                                            class="nav-link table-nav edit-btn"
+                                    >Edit</a
                                     >
                                 </button>
                             </td>
+
                         </tr>
-<!--                        <tr>-->
-<!--                            <td>4</td>-->
-<!--                            <td>rubi@gmail.com</td>-->
-<!--                            <td>Rubi</td>-->
-<!--                            <td>MEMBER</td>-->
-<!---->
-<!--                            <td>-->
-<!--                                <button class="btn">-->
-<!--                                    <a href="#" class="nav-link table-nav view-btn">View</a>-->
-<!--                                </button>-->
-<!--                            </td>-->
-<!--                        </tr>-->
-                        <tr>
-                            <td>2</td>
-                            <td>miyako@gmail.com</td>
-                            <td>Shiku Miya</td>
-                            <td>MEMBER</td>
-
-                            <td>
-                                <button class="btn">
-                                    <a href="#" class="nav-link table-nav view-btn">View</a>
-                                </button>
-                            </td>
-                        </tr>
-<!--                        <tr>-->
-<!--                            <td>6</td>-->
-<!--                            <td>ferolo@gmail.com</td>-->
-<!--                            <td>Ai Shoto</td>-->
-<!--                            <td>MEMBER</td>-->
-<!---->
-<!--                            <td>-->
-<!--                                <button class="btn">-->
-<!--                                    <a href="#" class="nav-link table-nav view-btn">View</a>-->
-<!--                                </button>-->
-<!--                            </td>-->
-<!--                        </tr>-->
-
-<!--                        <tr>-->
-<!--                            <td>7</td>-->
-<!--                            <td>KochengOyen@gmail.com</td>-->
-<!--                            <td>Aji Santoso</td>-->
-<!--                            <td>MEMBER</td>-->
-<!---->
-<!--                            <td>-->
-<!--                                <button class="btn">-->
-<!--                                    <a href="#" class="nav-link table-nav view-btn">View</a>-->
-<!--                                </button>-->
-<!--                            </td>-->
-<!--                        </tr>-->
-<!--                        <tr>-->
-<!--                            <td>8</td>-->
-<!--                            <td>jim23@gmail.com</td>-->
-<!--                            <td>Ojim</td>-->
-<!--                            <td>MEMBER</td>-->
-<!---->
-<!--                            <td>-->
-<!--                                <button class="btn">-->
-<!--                                    <a href="#" class="nav-link table-nav view-btn">View</a>-->
-<!--                                </button>-->
-<!--                            </td>-->
-<!--                        </tr>-->
-                        <tr>
-                            <td>3</td>
-                            <td>kumalKelapa@gmail.com</td>
-                            <td>Sarah Eti</td>
-                            <td>ADMIN</td>
-
-                            <td>
-                                <button class="btn">
-                                    <a href="#" class="nav-link table-nav view-btn">View</a>
-                                </button>
-                            </td>
-                        </tr>
-
-<!--                        <tr>-->
-<!--                            <td>10</td>-->
-<!--                            <td>JajanSquad@gmail.com</td>-->
-<!--                            <td>Jeno</td>-->
-<!--                            <td>MEMBER</td>-->
-<!---->
-<!--                            <td>-->
-<!--                                <button class="btn">-->
-<!--                                    <a href="#" class="nav-link table-nav view-btn">View</a>-->
-<!--                                </button>-->
-<!--                            </td>-->
-<!--                        </tr>-->
+                        <?php
+                        }
+                        ?>
                         </tbody>
                     </table>
                 </div>
 
-                <!-- EXPAND -->
-                <a class="nav-link d-flex justify-content-end">
-                    <span class="material-symbols-outlined"> expand_more </span>
-                </a>
 
                 <!-- PAGINATION -->
                 <!-- <nav aria-label="Page navigation">
@@ -635,5 +564,20 @@ redirectIfNotAuthenticated();
         </div>
     </div>
 </nav>
+<?php
+//// unset $_SESSION
+//unset($_SESSION["firstName"]);
+//unset($_SESSION["lastName"]);
+//unset($_SESSION["internalNote"]);
+//unset($_SESSION["nik"]);
+//unset($_SESSION["email"]);
+//unset($_SESSION["sex"]);
+//unset($_SESSION["birthDate"]);
+//unset($_SESSION["id"]);
+//unset($_SESSION["lastLoggedIn"]);
+//unset($_SESSION["alive"]);
+//unset($_SESSION["password"]);
+//unset($_SESSION["role"]);
+//?>
 </body>
 </html>

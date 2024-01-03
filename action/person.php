@@ -3,11 +3,12 @@ require_once __DIR__ . "/utils.php";
 //membuat function untuk melakukan pencarian
 //hasil pencarian dapat semua data yang memiliki kriteria dari pencarian atau difilter lagi
 
-if (isset($_POST['search-form'])) {
-    $inputText = $_POST['search'];
+//if (isset($_POST['search-form'])) {
+//    $inputText = $_POST['search'];
+//
+//    search($inputText);
+//}
 
-    search($inputText);
-}
 
 function search()
 {
@@ -34,11 +35,5 @@ function search()
         }
         break;
     }
-
-}
-
-function getPersonAge()
-{
-// mengelompokkan setiap orang berdasarkan umurnya
 
 }
