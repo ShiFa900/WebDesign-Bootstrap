@@ -119,7 +119,7 @@ redirectIfNotAuthenticated();
     <!-- link styling -->
     <link rel="stylesheet" href="assets/css/general.css"/>
     <link rel="stylesheet" href="assets/css/persons.css"/>
-    <link rel="stylesheet" href="assets/css/my-profile.css"/>
+    <link rel="stylesheet" href="assets/css/myProfile.css"/>
 
     <link rel="stylesheet" href="assets/query/mediaQuery.css"/>
 
@@ -197,7 +197,7 @@ redirectIfNotAuthenticated();
                         <a class="dropdown-item" href="logout.php"
                         >
                             <ion-icon name="log-out-outline" class="icon"></ion-icon>
-                            Logout</a
+                            Log out</a
                         >
                     </li>
                 </ul>
@@ -251,7 +251,7 @@ redirectIfNotAuthenticated();
                                                 name="log-out-outline"
                                                 class="icon sidebar-icon"
                                         ></ion-icon>
-                                        Logout
+                                        Log out
                                     </a>
                                 </div>
                             </li>
@@ -314,7 +314,7 @@ redirectIfNotAuthenticated();
                                             <input
                                                     id="l-name"
                                                     type="text"
-                                                    value="<?= $person["lastName"] ?>"
+                                                    value="<?= $person[PERSON_LAST_NAME] ?>"
                                                     class="form-control"
                                             />
                                         </div>
@@ -326,7 +326,7 @@ redirectIfNotAuthenticated();
                                         <input
                                                 id="nik"
                                                 type="text"
-                                                value="<?= $person["nik"] ?>"
+                                                value="<?= $person[PERSON_NIK] ?>"
                                                 class="form-control"
                                         />
                                     </div>
@@ -350,7 +350,7 @@ redirectIfNotAuthenticated();
                                                 id="datePicker"
                                                 type="date"
                                                 class="form-control"
-                                                value="<?= date("Y-m-d", $person["birthDate"])?>"
+                                                value="<?= date("m-d-Y", $person[PERSON_BIRTH_DATE]) ?>"
                                         />
                                     </div>
 
@@ -366,57 +366,44 @@ redirectIfNotAuthenticated();
                                                 aria-label="Small select example"
 
                                         >
-                                            <option selected><?= $person["sex"] ?></option>
+                                            <option selected><?= $person[PERSON_SEX] ?></option>
                                             <!--opsi lainnya blum muncul-->
+
                                             <?php
-                                            if (ctype_upper($person["sex"]) == "FEMALE") {
-                                                ?>
-                                                <option value="1">Male</option>
-                                                <option value="2">Better not say</option>
-                                                <?php
-                                            } elseif (ctype_upper($person["sex"]) == "MALE") {
-                                                ?>
-                                                <option value="1">Female</option>
-                                                <option value="2">Better not say</option>
-                                                <?php
+                                            if($person[PERSON_SEX] == SEX_MALE){
+                                            ?>
+                                                <option value="1"><?= SEX_FEMALE ?></option>
+                                                <option value="2"><?= SEX_BETTER_NOT_SAY ?></option>
+
+                                            <?php
+                                            } elseif ($person[PERSON_SEX] == SEX_FEMALE){
+                                            ?>
+                                            <option value="1"><?= SEX_MALE ?></option>
+                                            <option value="2"><?= SEX_BETTER_NOT_SAY ?></option>
+                                            <?php
+                                                } else {
+                                            ?>
+                                            <option value="1"><?= SEX_MALE ?></option>
+                                            <option value="2"><?= SEX_FEMALE?></option>
+                                            <?php
                                             }
                                             ?>
-
 
                                         </select>
                                     </div>
 
-                                    <!-- SWITCH BUTTON -->
-                                    <!-- <div class="mb-3 form-input">
-                                      <div
-                                        class="form-check form-switch d-flex align-items-center column-gap-3"
-                                      >
-                                        <input
-                                          class="form-check-input"
-                                          type="checkbox"
-                                          role="switch"
-                                          id="flexSwitchCheckDefault"
-                                          style="width: 4rem; height: 2.4rem"
-                                        />
-                                        <label
-                                          class="form-check-label"
-                                          for="flexSwitchCheckDefault"
-                                          >This person is alive</label
-                                        >
-                                      </div>
-                                    </div> -->
 
                                     <div class="mb-3 form-input">
                                         <label for="note" class="form-label"
                                         >Internal notes</label
                                         >
                                         <div class="form-floating">
-                          <textarea
-                                  class="form-control"
-                                  placeholder="Leave a comment here"
-                                  id="note"
-                          ><?= $person["internalNote"]; ?>
-                          </textarea>
+                                              <textarea
+                                                      class="form-control"
+                                                      placeholder="Leave a comment here"
+                                                      id="note"
+                                              ><?= $person[PERSON_INTERNAL_NOTE]; ?>
+                                              </textarea>
                                         </div>
                                     </div>
 
@@ -436,15 +423,14 @@ redirectIfNotAuthenticated();
 
                             <div class="btn-container d-flex column-gap-5">
                                 <input
-                                        class="btn btn-primary btn--form"
-                                        type="submit"
-                                        value="Save"
-                                />
-
-                                <input
                                         class="btn btn-primary btn--form has-border"
                                         type="submit"
                                         value="Cancel"
+                                />
+                                <input
+                                        class="btn btn-primary btn--form"
+                                        type="submit"
+                                        value="Save"
                                 />
                             </div>
                         </form>
@@ -530,7 +516,7 @@ redirectIfNotAuthenticated();
                                             name="log-out-outline"
                                             class="icon sidebar-icon"
                                     ></ion-icon>
-                                    Logout
+                                    Log out
                                 </a>
                             </li>
                         </ul>
@@ -556,21 +542,5 @@ redirectIfNotAuthenticated();
         </div>
     </div>
 </nav>
-
-<?php
-// unset $_SESSION
-unset($_SESSION["firstName"]);
-unset($_SESSION["lastName"]);
-unset($_SESSION["internalNote"]);
-unset($_SESSION["nik"]);
-unset($_SESSION["email"]);
-unset($_SESSION["sex"]);
-unset($_SESSION["birthDate"]);
-unset($_SESSION["id"]);
-unset($_SESSION["lastLoggedIn"]);
-unset($_SESSION["alive"]);
-unset($_SESSION["password"]);
-unset($_SESSION["role"]);
-?>
 </body>
 </html>

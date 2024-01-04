@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . "/../assets/json/jsonLoadData.php";
+require_once __DIR__ . "/const.php";
 
 /**
  * @param url go to login page if it unsucces
@@ -17,7 +18,7 @@ function userExist(): array
     $data = getAll();
 
     for ($i = 0; $i < count($data); $i++) {
-        if ($_POST["email"] == $data[$i]["email"] && $_POST["password"] == $data[$i]["password"]) {
+        if ($_POST[PERSON_EMAIL] == $data[$i][PERSON_EMAIL] && $_POST[PASSWORD] == $data[$i][PASSWORD]) {
             return $data[$i];
         }
     }
@@ -31,18 +32,18 @@ function getAll(): array
     $result = [];
     for ($i = 0; $i < count($persons); $i++) {
         $person = [
-            "id" => $persons[$i]["id"],
-            "firstName" => $persons[$i]["firstName"],
-            "lastName" => $persons[$i]["lastName"],
-            "nik" => $persons[$i]["nik"],
-            "email" => $persons[$i]["email"],
-            "birthDate" => $persons[$i]["birthDate"],
-            "sex" => $persons[$i]["sex"],
-            "internalNote" => $persons[$i]["internalNote"],
-            "role" => $persons[$i]["role"],
-            "password" => $persons[$i]["password"],
-            "alive" => $persons[$i]["alive"],
-            "lastLoggedIn" => $persons[$i]["lastLoggedIn"]
+            ID => $persons[$i][ID],
+            PERSON_FIRST_NAME => $persons[$i][PERSON_FIRST_NAME],
+            PERSON_LAST_NAME => $persons[$i][PERSON_LAST_NAME],
+            PERSON_NIK => $persons[$i][PERSON_NIK],
+            PERSON_EMAIL => $persons[$i][PERSON_EMAIL],
+            PERSON_BIRTH_DATE => $persons[$i][PERSON_BIRTH_DATE],
+            PERSON_SEX => $persons[$i][PERSON_SEX],
+            PERSON_INTERNAL_NOTE => $persons[$i][PERSON_INTERNAL_NOTE],
+            PERSON_ROLE => $persons[$i][PERSON_ROLE],
+            PASSWORD => $persons[$i][PASSWORD],
+            PERSON_STATUS => $persons[$i][PERSON_STATUS],
+            PERSON_LAST_LOGGED_IN => $persons[$i][PERSON_LAST_LOGGED_IN]
         ];
 
         $result[] = $person;
@@ -55,9 +56,9 @@ function savePerson(array $person, string $location): void
 //menyimpan data person saat melakukan penambahan atau pengeditan
     $persons = getAll();
 //    CREATE MODE
-    if ($person["id"] == null) {
+    if ($person[ID] == null) {
         $id = generateId($persons);
-        $person["id"] = $id;
+        $person[ID] = $id;
         $persons[] = $person;
         saveDataIntoJson($persons, "persons.json");
         redirect("../" . $location, "error=0");
@@ -65,22 +66,22 @@ function savePerson(array $person, string $location): void
     } else {
 //        EDIT MODE
         for ($i = 0; $i < count($persons); $i++) {
-            if ($person["id"] == $persons[$i]["id"]) {
+            if ($person[ID] == $persons[$i][ID]) {
 
 //                convert date of birth to int timestamp
 
                 $persons[$i] = [
-                    "firstName" => ucwords($person["firstName"]),
-                    "lastName" => ucwords($person["lastName"]),
-                    "nik" => $person["nik"],
-                    "email" => $person["email"],
-                    "birthDate" => convertDateToTimestamp($person["birthDate"]),
-                    "sex" => $person["sex"],
-                    "internalNote" => $person["internalNote"],
-                    "role" => $person["role"],
-                    "password" => $person["password"],
-                    "alive" => $person["alive"],
-                    "lastLoggedIn" => $person["lastLoggedIn"]
+                    PERSON_FIRST_NAME => ucwords($person[PERSON_FIRST_NAME]),
+                    PERSON_LAST_NAME => ucwords($person[PERSON_LAST_NAME]),
+                    PERSON_NIK => $person[PERSON_NIK],
+                    PERSON_EMAIL => $person[PERSON_EMAIL],
+                    PERSON_BIRTH_DATE => convertDateToTimestamp($person[PERSON_BIRTH_DATE]),
+                    PERSON_SEX => $person[PERSON_SEX],
+                    PERSON_INTERNAL_NOTE => $person[PERSON_INTERNAL_NOTE],
+                    PERSON_ROLE => $person[PERSON_ROLE],
+                    PASSWORD => $person[PASSWORD],
+                    PERSON_STATUS => $person[PERSON_STATUS],
+                    PERSON_LAST_LOGGED_IN => $person[PERSON_LAST_LOGGED_IN]
                 ];
                 saveDataIntoJson($persons, "persons.json");
                 redirect("../" . $location, "error=0");
@@ -93,16 +94,13 @@ function savePerson(array $person, string $location): void
 function generateId(array|null $persons = null): int
 {
 //    return $persons == null ? 1 : (end($persons['id'])) + 1;
-    return is_array($persons) == null ? (end($persons)['id']) + 1 : 1;
+    return is_array($persons) == null ? (end($persons)[ID]) + 1 : 1;
 }
 
-function convertDateToTimestamp(int|string $date, string|null $format = 'm/d/Y'): int|null
+function convertDateToTimestamp(string $date, string|null $format = 'm/d/Y')
 {
-    if (is_string($date)) {
-        $birthDate = date_create_from_format($format, $date);
-        if ($birthDate) return date_format($birthDate, 'U');
-    }
-    return null;
+    $birthDate = date_create_from_format($format, $date);
+    if ($birthDate) return date_format($birthDate, 'U');
 }
 
 function getPerson(int $id = null, string $email = null): array
@@ -110,13 +108,13 @@ function getPerson(int $id = null, string $email = null): array
     $persons = getAll();
     if ($id != null) {
         foreach ($persons as $person) {
-            if ($person["id"] == $id) {
+            if ($person[ID] == $id) {
                 return $person;
             }
         }
     } else {
         foreach ($persons as $person) {
-            if ($person["email"] == $email) {
+            if ($person[PERSON_EMAIL] == $email) {
                 return $person;
             }
         }
@@ -138,7 +136,7 @@ function translateIntToString(int $int): string
 
 function translateBooleanToString(string $status): string
 {
-    return $status ? "Alive" : "Passed Away";
+    return $status ? "ALIVE" : "PASSED AWAY";
 }
 
 //function calculateAge(string $birthOfDate): int

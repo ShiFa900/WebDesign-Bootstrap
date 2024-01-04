@@ -3,24 +3,31 @@ require_once __DIR__ . "/utils.php";
 
 //session_start();
 
+if (isset($_POST["firstName"])) {
+    $persons = getAll();
+    $status = $_POST["status"];
 
-//    TEST
+    $person = [
+        ID => generateId($persons),
+        PERSON_FIRST_NAME => $_POST["firstName"],
+        PERSON_LAST_NAME => $_POST["lastName"],
+        PERSON_NIK => $_POST["nik"],
+        PERSON_EMAIL => $_POST["email"],
+        PERSON_BIRTH_DATE => convertDateToTimestamp($_POST["birthDate"]),
+        PERSON_SEX => $_POST["sex"],
+        PERSON_INTERNAL_NOTE => $_POST["note"],
+        PERSON_ROLE => $_POST["role"],
+        PASSWORD => $_POST["password"],
+        PERSON_STATUS => $status,
+        PERSON_LAST_LOGGED_IN => null,
+    ];
 
-//$person = [
-//    "firstName" => $_POST['add-first-name'],
-//    "lastName" => $_POST["add-last-name"],
-//    "nik" => hasNikCheck($_POST["add-nik"]),
-//    "email" => $_POST["add-email"],
-//    "birthDate" => convertDate($_POST["add-date"]),
-//    "sex" => $_POST["add-sex"],
-//    "internalNote" => $_POST["add-note"],
-//    "role" => $_POST["add-role"],
-//    "password" => $_POST["add-password"],
-//    "alive" => $_POST["add-switch"],
-//    "lastLoggedIn" => null
-//    ];
+    $persons[] = $person;
+    saveDataIntoJson($persons, "persons.json");
+    redirect("../" . "persons.php", "error=0");
+//    savePerson($person, "addPerson.php");
 
-//savePerson($person, "viewPerson.php");
+}
 
 function hasNikCheck(int $nik): bool
 {
@@ -104,23 +111,6 @@ function getErrorData(
 //$_SESSION["internalNote"] = $_POST["add-internal-note"];
 //$_SESSION["addRole"] = $_POST["add-role"];
 
-if(isset($_POST["addPerson"])) {
-    $person = [
-        "id" => null,
-        "firstName" => $_POST["add-first-name"],
-        "lastName" => $_POST["add-last-name"],
-        "nik" => $_POST["add-nik"],
-        "email" => $_POST["add-email"],
-        "birthDate" => $_POST["add-birth-date"],
-        "sex" => $_POST["add-sex"],
-        "internalNote" => $_POST["add-internal-note"],
-        "role" => $_POST["add-role"],
-        "password" => $_POST["add-password"],
-        "alive" => $_POST["add-alive"],
-        "lastLoggedIn" => null,
-    ];
-    savePerson($person, "../addPerson.php");
-}
 
 //buat sebuah variable array yang akan menyimpan semua data-data yang error ketika mengambil input
 //kemudian, cek variable tersebut di file addPerson.php untuk menampilkan pesan error (jika terdapat)

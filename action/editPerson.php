@@ -1,15 +1,9 @@
 <?php
 require_once __DIR__ . "/utils.php";
 require_once __DIR__ . "/const.php";
-//session_start();
-//membuat validasi untuk mengecek bila yang sedang view person orang yang sama dengan user atau bukan
 
 global $person;
 $person = getPerson($_GET[ID]);
-
-//if($person["email"] == $_SESSION["userEmail"]){
-//    redirect("../myProfile.php", "error=0");
-//}
 
 if(count($person) != 0){
     return [
@@ -24,5 +18,3 @@ if(count($person) != 0){
         PERSON_STATUS => $person[PERSON_STATUS]
     ];
 }
-
-

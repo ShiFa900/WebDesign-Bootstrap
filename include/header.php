@@ -116,7 +116,7 @@ function mainHeader(string $title){
     <!-- link styling -->
     <link rel="stylesheet" href="assets/css/general.css"/>
     <link rel="stylesheet" href="assets/css/persons.css"/>
-    <link rel="stylesheet" href="assets/css/add-person.css"/>
+    <link rel="stylesheet" href="assets/css/addPerson.css"/>
 
     <link rel="stylesheet" href="assets/query/mediaQuery.css"/>
 

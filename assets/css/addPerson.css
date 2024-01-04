@@ -4,16 +4,6 @@
   left: 255px;
 }
 
-.form-check-input:checked {
-  border: none;
-  background-color: #ffc436;
-}
-
-.form-check .form-check-input {
-  width: 3rem;
-  height: 1.6rem;
-}
-
 .form-input .form-floating textarea {
   height: 145px;
 }

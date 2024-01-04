@@ -122,7 +122,7 @@ mainHeader("Dashboard");
                     <li>
                         <ul>
                             <li class="nav-item">
-                                <a href="myProfile.html" class="nav-link active">
+                                <a href="myProfile.php" class="nav-link active">
                                     <ion-icon
                                             name="create-outline"
                                             class="icon sidebar-icon"
@@ -184,7 +184,7 @@ mainHeader("Dashboard");
                                                 placeholder="First name"
                                                 required
                                                 class="form-control"
-                                                name="add-first-name"
+                                                name="firstName"
                                         />
                                     </div>
                                     <div class="mb-3 form-input">
@@ -195,7 +195,7 @@ mainHeader("Dashboard");
                                                 type="text"
                                                 placeholder="Last name"
                                                 class="form-control"
-                                                name="add-last-name"
+                                                name="lastName"
                                         />
                                     </div>
                                     <div class="mb-3 form-input">
@@ -206,7 +206,7 @@ mainHeader("Dashboard");
                                                 placeholder="NIK"
                                                 required
                                                 class="form-control"
-                                                name="add-nik"
+                                                name="nik"
                                         />
                                         <span><em>NIK must be at least 16 characters</em></span>
                                         <?php
@@ -231,7 +231,7 @@ mainHeader("Dashboard");
                                                 placeholder="Email"
                                                 required
                                                 class="form-control"
-                                                name="add-email"
+                                                name="email"
                                         />
                                     </div>
 
@@ -245,7 +245,7 @@ mainHeader("Dashboard");
                                                 placeholder="Date of birth"
                                                 required
                                                 class="form-control"
-                                                name="add-date"
+                                                name="birthDate"
                                         />
                                     </div>
                                     <!--password-->
@@ -256,7 +256,7 @@ mainHeader("Dashboard");
                                                 type="password"
                                                 required
                                                 class="form-control"
-                                                name="add-password"/>
+                                                name="password"/>
 
                                         <!--                                        --><?php
                                         //                                        if (confirmPassword($_POST["add-password"], $_POST["confirm-pass"]) == 1) {
@@ -301,11 +301,11 @@ mainHeader("Dashboard");
                                                 id="sex-dropdown"
                                                 required
                                                 aria-label="Small select example"
-                                                name="add-sex"
+                                                name="sex"
                                         >
                                             <option selected>Male</option>
-                                            <option value="1">Female</option>
-                                            <option value="2">Better not say</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Better not say">Better not say</option>
                                         </select>
                                     </div>
 
@@ -348,10 +348,10 @@ mainHeader("Dashboard");
                                                 id="role-dropdown"
                                                 class="form-select form-control"
                                                 aria-label="Small select example"
-                                                name="add-role"
+                                                name="role"
                                         >
-                                            <option selected>Admin</option>
-                                            <option value="1">Member</option>
+                                            <option selected value="ADMIN">Admin</option>
+                                            <option value="MEMBER">Member</option>
                                         </select>
                                     </div>
                                 </div>
@@ -413,7 +413,7 @@ mainHeader("Dashboard");
                     <li>
                         <ul>
                             <li class="nav-item">
-                                <a href="myProfile.html" class="nav-link active">
+                                <a href="myProfile.php" class="nav-link active">
                                     <ion-icon name="create-outline" class="icon sidebar-icon"></ion-icon>
                                     Edit profile
                                 </a>

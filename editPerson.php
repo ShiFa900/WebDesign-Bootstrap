@@ -1,5 +1,8 @@
 <?php
+global $person;
 require_once __DIR__ . "/index.php";
+require_once __DIR__ . "/include/header.php";
+require_once __DIR__ . "/action/editPerson.php";
 session_start();
 
 redirectIfNotAuthenticated();
@@ -8,92 +11,92 @@ redirectIfNotAuthenticated();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <!-- Favicon -->
     <link
-        rel="apple-touch-icon"
-        sizes="57x57"
-        href="assets/properties/favicon/apple-icon-57x57.png"
+            rel="apple-touch-icon"
+            sizes="57x57"
+            href="assets/properties/favicon/apple-icon-57x57.png"
     />
     <link
-        rel="apple-touch-icon"
-        sizes="60x60"
-        href="assets/properties/favicon/apple-icon-60x60.png"
+            rel="apple-touch-icon"
+            sizes="60x60"
+            href="assets/properties/favicon/apple-icon-60x60.png"
     />
     <link
-        rel="apple-touch-icon"
-        sizes="72x72"
-        href="assets/properties/favicon/apple-icon-72x72.png"
+            rel="apple-touch-icon"
+            sizes="72x72"
+            href="assets/properties/favicon/apple-icon-72x72.png"
     />
     <link
-        rel="apple-touch-icon"
-        sizes="76x76"
-        href="assets/properties/favicon/apple-icon-76x76.png"
+            rel="apple-touch-icon"
+            sizes="76x76"
+            href="assets/properties/favicon/apple-icon-76x76.png"
     />
     <link
-        rel="apple-touch-icon"
-        sizes="114x114"
-        href="assets/properties/favicon/apple-icon-114x114.png"
+            rel="apple-touch-icon"
+            sizes="114x114"
+            href="assets/properties/favicon/apple-icon-114x114.png"
     />
     <link
-        rel="apple-touch-icon"
-        sizes="120x120"
-        href="assets/properties/favicon/apple-icon-120x120.png"
+            rel="apple-touch-icon"
+            sizes="120x120"
+            href="assets/properties/favicon/apple-icon-120x120.png"
     />
     <link
-        rel="apple-touch-icon"
-        sizes="144x144"
-        href="assets/properties/favicon/apple-icon-144x144.png"
+            rel="apple-touch-icon"
+            sizes="144x144"
+            href="assets/properties/favicon/apple-icon-144x144.png"
     />
     <link
-        rel="apple-touch-icon"
-        sizes="152x152"
-        href="assets/properties/favicon/apple-icon-152x152.png"
+            rel="apple-touch-icon"
+            sizes="152x152"
+            href="assets/properties/favicon/apple-icon-152x152.png"
     />
     <link
-        rel="apple-touch-icon"
-        sizes="180x180"
-        href="assets/properties/favicon/apple-icon-180x180.png"
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="assets/properties/favicon/apple-icon-180x180.png"
     />
     <link
-        rel="icon"
-        type="image/png"
-        sizes="192x192"
-        href="assets/properties/favicon/android-icon-192x192.png"
+            rel="icon"
+            type="image/png"
+            sizes="192x192"
+            href="assets/properties/favicon/android-icon-192x192.png"
     />
     <link
-        rel="icon"
-        type="image/png"
-        sizes="32x32"
-        href="assets/properties/favicon/favicon-32x32.png"
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="assets/properties/favicon/favicon-32x32.png"
     />
     <link
-        rel="icon"
-        type="image/png"
-        sizes="96x96"
-        href="assets/properties/favicon/favicon-96x96.png"
+            rel="icon"
+            type="image/png"
+            sizes="96x96"
+            href="assets/properties/favicon/favicon-96x96.png"
     />
     <link
-        rel="icon"
-        type="image/png"
-        sizes="16x16"
-        href="assets/properties/favicon/favicon-16x16.png"
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="assets/properties/favicon/favicon-16x16.png"
     />
-    <link rel="manifest" href="assets/properties/favicon/manifest.json" />
-    <meta name="msapplication-TileColor" content="#ffffff" />
-    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
-    <meta name="theme-color" content="#ffffff" />
+    <link rel="manifest" href="assets/properties/favicon/manifest.json"/>
+    <meta name="msapplication-TileColor" content="#ffffff"/>
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png"/>
+    <meta name="theme-color" content="#ffffff"/>
 
     <!-- Link Bootstrap -->
     <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-        rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
     />
     <link
-        href="https://getbootstrap.com/docs/5.3/assets/css/docs.css"
-        rel="stylesheet"
+            href="https://getbootstrap.com/docs/5.3/assets/css/docs.css"
+            rel="stylesheet"
     />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -101,58 +104,59 @@ redirectIfNotAuthenticated();
 
     <!-- link icon -->
     <script
-        type="module"
-        src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+            type="module"
+            src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
     ></script>
     <script
-        nomodule
-        src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+            nomodule
+            src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
     ></script>
 
     <!-- link font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
     <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Open+Sans:wght@400;500;600;700&family=Rubik:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Open+Sans:wght@400;500;600;700&family=Rubik:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
     />
 
     <!-- link styling -->
-    <link rel="stylesheet" href="assets/css/general.css" />
-    <link rel="stylesheet" href="assets/css/persons.css" />
-    <link rel="stylesheet" href="assets/css/view-person.css" />
+    <link rel="stylesheet" href="assets/css/general.css"/>
+    <link rel="stylesheet" href="assets/css/persons.css"/>
+    <link rel="stylesheet" href="assets/css/editPerson.css"/>
+    <link rel="stylesheet" href="assets/css/myProfile.css"/>
 
-    <link rel="stylesheet" href="assets/query/mediaQuery.css" />
+    <link rel="stylesheet" href="assets/query/mediaQuery.css"/>
 
     <title>PerMap &mdash; Edit person</title>
 </head>
 <body>
 <header
-    class="header sticky-top d-flex align-items-center justify-content-between"
+        class="header sticky-top d-flex align-items-center justify-content-between"
 >
     <a href="#">
-        <img src="assets/properties/pma-border.png" alt="PerMap logo" class="logo" />
+        <img src="assets/properties/pma-border.png" alt="PerMap logo" class="logo"/>
     </a>
 
     <div class="head-wrapper d-flex align-items-center gap-3">
         <!-- menu sidebar belum tersedia -->
         <button
-            class="btn btn-primary d-xxl-none d-xl-none d-lg-none"
-            type="button"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#offcanvasScrolling"
-            aria-controls="offcanvasScrolling"
+                class="btn btn-primary d-xxl-none d-xl-none d-lg-none"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasScrolling"
+                aria-controls="offcanvasScrolling"
         >
             <ion-icon name="menu-outline" class="icon"></ion-icon>
         </button>
         <a class="nav-link">
             <div class="dropdown">
                 <a
-                    class="btn btn-secondary dropdown-toggle"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
+                        class="btn btn-secondary dropdown-toggle"
+                        href="#"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
                 >
                     <div class="avatar">
                         <?php
@@ -162,9 +166,9 @@ redirectIfNotAuthenticated();
                         ?>
 
                         <img
-                            src="assets/properties/image.png"
-                            class="avatar-md avatar-img"
-                            alt="User profile"
+                                src="assets/properties/image.png"
+                                class="avatar-md avatar-img"
+                                alt="User profile"
                         />
                     </div>
                 </a>
@@ -172,26 +176,34 @@ redirectIfNotAuthenticated();
                 <ul class="dropdown-menu">
                     <li>
                         <a class="dropdown-item" href="myProfile.php"
-                        ><ion-icon
-                                name="person-circle-outline"
-                                class="icon"
+                        >
+                            <ion-icon
+                                    name="person-circle-outline"
+                                    class="icon"
                             ></ion-icon
-                            >Profile</a
+                            >
+                            Profile</a
                         >
                     </li>
                     <li>
                         <a class="dropdown-item" href="#"
-                        ><ion-icon
-                                name="notifications-outline"
-                                class="icon"
+                        >
+                            <ion-icon
+                                    name="notifications-outline"
+                                    class="icon"
                             ></ion-icon
-                            >Notifications</a
+                            >
+                            Notifications</a
                         >
                     </li>
-                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                        <hr class="dropdown-divider"/>
+                    </li>
                     <li>
                         <a class="dropdown-item" href="#"
-                        ><ion-icon name="log-out-outline" class="icon"></ion-icon>Log
+                        >
+                            <ion-icon name="log-out-outline" class="icon"></ion-icon>
+                            Log
                             out</a
                         >
                     </li>
@@ -209,20 +221,22 @@ redirectIfNotAuthenticated();
                     <li class="nav-item">
                         <a href="dashboard.php" class="nav-link active">
                             <ion-icon
-                                name="speedometer-outline"
-                                class="icon sidebar-icon"
+                                    name="speedometer-outline"
+                                    class="icon sidebar-icon"
                             ></ion-icon
-                            >Dashboard
+                            >
+                            Dashboard
                         </a>
                     </li>
 
                     <li class="nav-item" id="person-active">
                         <a href="persons.php" class="nav-link active">
                             <ion-icon
-                                name="person-outline"
-                                class="icon sidebar-icon"
+                                    name="person-outline"
+                                    class="icon sidebar-icon"
                             ></ion-icon
-                            >Persons
+                            >
+                            Persons
                         </a>
                     </li>
                     <li class="nav-title fourth-heading">My account</li>
@@ -231,18 +245,18 @@ redirectIfNotAuthenticated();
                             <li class="nav-item">
                                 <a href="myProfile.php" class="nav-link active">
                                     <ion-icon
-                                        name="create-outline"
-                                        class="icon sidebar-icon"
+                                            name="create-outline"
+                                            class="icon sidebar-icon"
                                     ></ion-icon>
                                     Edit profile
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <div class="wrapper">
-                                    <a href="#" class="nav-link active">
+                                    <a href="logout.php" class="nav-link active">
                                         <ion-icon
-                                            name="log-out-outline"
-                                            class="icon sidebar-icon"
+                                                name="log-out-outline"
+                                                class="icon sidebar-icon"
                                         ></ion-icon>
                                         Log out
                                     </a>
@@ -252,15 +266,17 @@ redirectIfNotAuthenticated();
                     </li>
                 </ul>
                 <div class="sidebar-footer">
-                    <hr />
+                    <hr/>
                     <ul>
                         <li class="nav-item">
                             <a class="nav-link active" href="#"
-                            ><ion-icon
-                                    name="settings-outline"
-                                    class="icon sidebar-icon"
+                            >
+                                <ion-icon
+                                        name="settings-outline"
+                                        class="icon sidebar-icon"
                                 ></ion-icon
-                                >Settings
+                                >
+                                Settings
                             </a>
                         </li>
                     </ul>
@@ -269,149 +285,242 @@ redirectIfNotAuthenticated();
         </div>
 
         <div class="w-100">
-            <div class="view-person-content position-absolute px-5">
+            <div class="edit-person-content position-absolute px-5">
                 <div class="page-header">
                     <h1 class="first-heading">Edit Person Data</h1>
                 </div>
 
                 <div class="row">
                     <div class="col-xxl-12">
-                        <form class="new-person-form" action="#">
+                        <form class="new-person-form" action="action/addPerson.php" method="post" name="addPerson">
                             <div class="row">
-                                <div class="col-xxl-8 col-xl-8 col-lg-10 col-12">
+                                <div class="col-xxl-6 col-xl-6 col-lg-6 me-4">
+
                                     <div class="mb-3 form-input">
                                         <label for="f-name" class="form-label required"
-                                        >First name</label
+                                        >First Name</label
                                         >
-
                                         <input
-                                            id="f-name"
-                                            type="text"
-                                            value="Rui"
-                                            class="form-control"
+                                                id="f-name"
+                                                type="text"
+                                                value="<?= $person[PERSON_FIRST_NAME] ?>"
+                                                required
+                                                class="form-control"
+                                                name="firstName"
                                         />
                                     </div>
                                     <div class="mb-3 form-input">
-                                        <label for="l-name" class="form-label">Last name</label>
+                                        <label for="l-name" class="form-label required">Last Name</label>
+
                                         <input
-                                            id="l-name"
-                                            type="text"
-                                            value="Ayaki"
-                                            class="form-control"
+                                                id="l-name"
+                                                type="text"
+                                                value="<?= $person[PERSON_LAST_NAME] ?>"
+                                                class="form-control"
+                                                name="lastName"
                                         />
                                     </div>
                                     <div class="mb-3 form-input">
                                         <label for="nik" class="form-label required">NIK</label>
                                         <input
-                                            id="nik"
-                                            type="text"
-                                            value="0051893241002134"
-                                            class="form-control"
+                                                id="nik"
+                                                type="text"
+                                                value="<?= $person[PERSON_NIK] ?>"
+                                                required
+                                                class="form-control"
+                                                name="nik"
                                         />
+                                        <?php
+                                        if (isset($_SESSION["addNik"]) && $_SESSION["addNik"] == 1) {
+                                            ?>
+
+                                            <div class="alert alert-danger" role="alert">
+                                                Sorry, your NIK is less than 16 characters OR already exist. Please
+                                                check your NIK again.
+                                            </div>
+                                            <?php
+                                        }
+                                        ?>
                                     </div>
                                     <div class="mb-3 form-input">
                                         <label for="staticEmail" class="form-label required"
                                         >Email</label
                                         >
                                         <input
-                                            id="staticEmail"
-                                            type="email"
-                                            value="Ayayaki@gmail.com"
-                                            class="form-control"
+                                                id="staticEmail"
+                                                type="email"
+                                                value="<?= $person[PERSON_EMAIL] ?>"
+                                                required
+                                                class="form-control"
+                                                name="email"
                                         />
                                     </div>
 
                                     <div class="mb-3 form-input">
                                         <label for="datePicker" class="form-label required"
-                                        >Date of birth</label
+                                        >Date of Birth</label
                                         >
                                         <input
-                                            id="datePicker"
-                                            type="date"
-                                            class="form-control"
-                                            value="2001-05-25"
+                                                id="datePicker"
+                                                type="date"
+                                                value="<?= date("Y-m-d", $person[PERSON_BIRTH_DATE]) ?>"
+                                                required
+                                                class="form-control"
+                                                name="birthDate"
                                         />
                                     </div>
 
                                     <div class="mb-3 form-input">
-                                        <label for="sex-dropdown" class="form-label required"
+                                        <label class="form-label required" for="sex-dropdown"
                                         >Sex</label
                                         >
                                         <select
-                                            id="sex-dropdown"
-                                            class="form-select form-control"
-                                            required
-                                            aria-label="Small select example"
+                                                class="form-select form-control"
+                                                id="sex-dropdown"
+                                                required
+                                                aria-label="Small select example"
+                                                name="sex"
                                         >
-                                            <option selected>Male</option>
-                                            <option value="1">Female</option>
-                                            <option value="2">Better not say</option>
+                                            <option selected><?= $person[PERSON_SEX] ?></option>
+                                            <!--opsi lainnya blum muncul-->
+
+                                            <?php
+                                            if ($person[PERSON_SEX] == SEX_MALE) {
+                                                ?>
+                                                <option value="1"><?= SEX_FEMALE ?></option>
+                                                <option value="2"><?= SEX_BETTER_NOT_SAY ?></option>
+
+                                                <?php
+                                            } elseif ($person[PERSON_SEX] == SEX_FEMALE) {
+                                                ?>
+                                                <option value="1"><?= SEX_MALE ?></option>
+                                                <option value="2"><?= SEX_BETTER_NOT_SAY ?></option>
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <option value="1"><?= SEX_MALE ?></option>
+                                                <option value="2"><?= SEX_FEMALE ?></option>
+                                                <?php
+                                            }
+                                            ?>
+
                                         </select>
                                     </div>
 
-                                    <!-- SWITCH BUTTON -->
-                                    <!-- <div class="mb-3 form-input">
-                                      <div
-                                        class="form-check form-switch d-flex align-items-center column-gap-3"
-                                      >
-                                        <input
-                                          class="form-check-input"
-                                          type="checkbox"
-                                          role="switch"
-                                          id="flexSwitchCheckDefault"
-                                          style="width: 4rem; height: 2.4rem"
-                                        />
-                                        <label
-                                          class="form-check-label"
-                                          for="flexSwitchCheckDefault"
-                                          >This person is alive</label
+                                    <div class="form-input mt-0">
+                                        <div
+                                                class="form-check form-switch d-flex align-items-center column-gap-3"
                                         >
-                                      </div>
-                                    </div> -->
+                                            <input
+                                                    class="form-check-input"
+                                                    type="checkbox"
+                                                    role="switch"
+                                                    id="flexSwitchCheckDefault"
+                                                    name="add-switch"
+                                            />
+                                            <label
+                                                    class="form-check-label"
+                                                    for="flexSwitchCheckDefault"
+                                            >This person is alive</label
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xxl-5 col-xl-6 col-lg-6">
 
                                     <div class="mb-3 form-input">
                                         <label for="note" class="form-label"
                                         >Internal notes</label
                                         >
                                         <div class="form-floating">
-                                            <textarea class="form-control" id="note"></textarea>
+                                          <textarea
+                                                  class="form-control"
+                                                  placeholder="Leave a comment here"
+                                                  id="note"
+                                          ><?= $person[PERSON_INTERNAL_NOTE]; ?>
+                                          </textarea>
                                         </div>
                                     </div>
 
-                                    <!-- ROLE -->
-                                    <!-- <div class="mb-3 form-input">
-                                    <label for="role-dropdown" class="form-label required">Role</label>
-                                    <select
-                                      class="form-select form-select-sm form-control"
-                                      aria-label="Small select example"
-                                    >
-                                      <option selected>Admin</option>
-                                      <option value="1">Member</option>
-                                    </select>
-                                   -->
+                                    <div class="mb-3 form-input">
+                                        <label class="form-label" for="role-dropdown"
+                                        >Role</label
+                                        >
+                                        <select
+                                                id="role-dropdown"
+                                                class="form-select form-control"
+                                                aria-label="Small select example"
+                                                name="role"
+                                        >
+                                            <option selected value="ADMIN"><?=$person[PERSON_ROLE]?></option>
+
+                                            <?php
+                                            if($person[PERSON_ROLE] == ROLE_ADMIN){
+                                            ?>
+                                                <option value="MEMBER">Member</option>
+                                            <?php
+                                            } else {
+                                            ?>
+                                                <option value="ADMIN">Admin</option>
+
+                                            <?php
+                                            }
+                                            ?>
+
+                                        </select>
+                                    </div>
+                                    <hr/>
+                                    <div class="mb-3 form-input">
+                                        <label for="currentPass" class="form-label">Current Password</label>
+                                        <input
+                                                id="currentPass"
+                                                type="password"
+                                                required
+                                                class="form-control"
+                                                name="currentPassword"/>
+
+                                    </div>
+                                    <div class="mb-3 form-input">
+                                        <label for="newPass" class="form-label ">New Password</label>
+                                        <input
+                                                id="pass"
+                                                type="password"
+                                                required
+                                                class="form-control"
+                                                name="newPassword"/>
+
+                                    </div>
+                                    <!--jika new password diinputkan, maka confirm password required -->
+                                    <div class="mb-3 form-input">
+                                        <label for="confirmPass" class="form-label">Confirm Password</label>
+                                        <input
+                                                id="confirmPass"
+                                                type="password"
+                                                required
+                                                class="form-control"
+                                                name="confirmPassword"/>
+
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-xxl-8 col-xl-8 col-lg-10 col-12">
-                                    <div
-                                        class="btn-container d-flex column-gap-5 justify-content-between"
-                                    >
-                                        <div class="btn-wrapper d-flex column-gap-3">
-                                            <input
-                                                class="btn btn-primary btn--form has-border"
-                                                type="submit"
-                                                value="Back"
-                                            />
+                            <div class="btn-container d-flex column-gap-5">
+                                <button
+                                        class="btn btn-primary btn--form"
+                                        type="submit"
+                                        name="btn"
+                                >
+                                    Save
+                                </button>
 
-                                            <input
-                                                class="btn btn-primary btn--form"
-                                                type="submit"
-                                                value="Save"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
+                                <button
+                                        class="btn btn-primary btn--form has-border"
+                                        type="submit"
+                                        name="btn"
+                                >
+                                    Cancel
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -424,75 +533,77 @@ redirectIfNotAuthenticated();
 <!-- sidebar -->
 <nav class="header-nav d-flex align-items-center">
     <div
-        class="offcanvas offcanvas-start"
-        data-bs-scroll="true"
-        data-bs-backdrop="false"
-        tabindex="-1"
-        id="offcanvasScrolling"
-        aria-labelledby="offcanvasScrollingLabel"
+            class="offcanvas offcanvas-start"
+            data-bs-scroll="true"
+            data-bs-backdrop="false"
+            tabindex="-1"
+            id="offcanvasScrolling"
+            aria-labelledby="offcanvasScrollingLabel"
     >
         <div class="offcanvas-header">
             <h3
-                class="offcanvas-title third-heading sidebar-heading"
-                id="offcanvasScrollingLabel"
+                    class="offcanvas-title third-heading sidebar-heading"
+                    id="offcanvasScrollingLabel"
             >
                 <a href="#" id="logo">
                     <img
-                        src="assets/properties/pma-color.png"
-                        alt="PerMap logo"
-                        class="logo"
+                            src="assets/properties/pma-color.png"
+                            alt="PerMap logo"
+                            class="logo"
                     />
                 </a>
             </h3>
 
             <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="offcanvas"
-                aria-label="Close"
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="offcanvas"
+                    aria-label="Close"
             ></button>
         </div>
         <div
-            class="offcanvas-body d-flex flex-column justify-content-between py-0 px-0"
+                class="offcanvas-body d-flex flex-column justify-content-between py-0 px-0"
         >
             <div class="offcanvas-body">
                 <ul>
                     <li class="nav-item">
                         <a href="dashboard.html" class="nav-link active">
                             <ion-icon
-                                name="speedometer-outline"
-                                class="icon sidebar-icon"
+                                    name="speedometer-outline"
+                                    class="icon sidebar-icon"
                             ></ion-icon
-                            >Dashboard
+                            >
+                            Dashboard
                         </a>
                     </li>
 
                     <li class="nav-item nav-item-highlight" id="person-active">
                         <a href="persons.html" class="nav-link">
                             <ion-icon
-                                name="person-outline"
-                                class="icon sidebar-icon"
+                                    name="person-outline"
+                                    class="icon sidebar-icon"
                             ></ion-icon
-                            >Persons
+                            >
+                            Persons
                         </a>
                     </li>
                     <li class="nav-title fourth-heading">My account</li>
                     <li>
                         <ul>
                             <li class="nav-item">
-                                <a href="myProfile.html" class="nav-link active">
+                                <a href="myProfile.php" class="nav-link active">
                                     <ion-icon
-                                        name="create-outline"
-                                        class="icon sidebar-icon"
+                                            name="create-outline"
+                                            class="icon sidebar-icon"
                                     ></ion-icon>
                                     Edit profile
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link active">
+                                <a href="logout.php" class="nav-link active">
                                     <ion-icon
-                                        name="log-out-outline"
-                                        class="icon sidebar-icon"
+                                            name="log-out-outline"
+                                            class="icon sidebar-icon"
                                     ></ion-icon>
                                     Log out
                                 </a>
@@ -502,15 +613,17 @@ redirectIfNotAuthenticated();
                 </ul>
             </div>
             <div class="sidebar-footer">
-                <hr />
+                <hr/>
                 <ul>
                     <li class="nav-item">
                         <a class="nav-link" href="#"
-                        ><ion-icon
-                                name="settings-outline"
-                                class="icon sidebar-icon"
+                        >
+                            <ion-icon
+                                    name="settings-outline"
+                                    class="icon sidebar-icon"
                             ></ion-icon
-                            >Settings
+                            >
+                            Settings
                         </a>
                     </li>
                 </ul>

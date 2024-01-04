@@ -8,14 +8,13 @@ require_once __DIR__ . "/utils.php";
 
 $userExist = userExist();
 
-
 // ini apa?
 if (isset($_POST['login'])) {
 //    $email = $_POST['email'];
 
 
 // conditionals untuk meng-redirect page login ke dashboard jika berhasil login
-    if ($userExist) {
+    if ($userExist != null) {
 //  header('Location: ../dashboard.php');
 //  die();
         $_SESSION['userEmail'] = $_POST['email'];

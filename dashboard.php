@@ -136,7 +136,7 @@ redirectIfNotAuthenticated();
                     <li>
                         <ul>
                             <li class="nav-item">
-                                <a href="myProfile.html" class="nav-link active">
+                                <a href="myProfile.php" class="nav-link active">
                                     <ion-icon name="create-outline" class="icon sidebar-icon"></ion-icon>
                                     Edit profile
                                 </a>
@@ -321,7 +321,7 @@ redirectIfNotAuthenticated();
                     <li>
                         <ul>
                             <li class="nav-item">
-                                <a href="myProfile.html" class="nav-link active">
+                                <a href="myProfile.php" class="nav-link active">
                                     <ion-icon name="create-outline" class="icon sidebar-icon"></ion-icon>
                                     Edit profile
                                 </a>

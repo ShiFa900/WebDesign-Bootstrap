@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/action/person.php";
+require_once __DIR__ . "/action/const.php";
 require_once __DIR__ . "/index.php";
 session_start();
 
@@ -173,7 +174,7 @@ redirectIfNotAuthenticated();
 
                 <ul class="dropdown-menu">
                     <li>
-                        <a class="dropdown-item" href="myProfile.html"
+                        <a class="dropdown-item" href="myProfile.php"
                         >
                             <ion-icon
                                     name="person-circle-outline"
@@ -241,7 +242,7 @@ redirectIfNotAuthenticated();
                     <li>
                         <ul>
                             <li class="nav-item">
-                                <a href="myProfile.html" class="nav-link active">
+                                <a href="myProfile.php" class="nav-link active">
                                     <ion-icon
                                             name="create-outline"
                                             class="icon sidebar-icon"
@@ -250,8 +251,8 @@ redirectIfNotAuthenticated();
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <div class="wrappe">
-                                    <a href="#" class="nav-link active">
+                                <div class="wrapper">
+                                    <a href="logout.php" class="nav-link active">
                                         <ion-icon
                                                 name="log-out-outline"
                                                 class="icon sidebar-icon"
@@ -390,16 +391,15 @@ redirectIfNotAuthenticated();
                             foreach ($persons
 
                             as $person) {
-                            $date = date("d-m-Y", $person["birthDate"]);
                             ?>
-                            <td><?= $person["id"] ?></td>
-                            <td><?= $person["email"] ?></td>
-                            <td><?= $person["firstName"] . " " . $person["lastName"] ?></td>
-                            <td><?= calculateAge($person["birthDate"]) . " " . $date ?></td>
-                            <td><?= $person["sex"] ?></td>
-                            <td><?= translateIntToString($person["role"]) ?></td>
+                            <td><?= $person[ID] ?></td>
+                            <td><?= $person[PERSON_EMAIL] ?></td>
+                            <td><?= $person[PERSON_FIRST_NAME] . " " . $person[PERSON_LAST_NAME] ?></td>
+                            <td><?= calculateAge($person[PERSON_BIRTH_DATE])?></td>
+                            <td><?= $person[PERSON_SEX] ?></td>
+                            <td><?= $person[PERSON_ROLE] ?></td>
                             <?php
-                            $personStatus = translateBooleanToString($person["alive"]);
+                            $personStatus = translateBooleanToString($person[PERSON_STATUS]);
                             ?>
                             <td><?= $personStatus ?>
                             </td>
@@ -407,22 +407,30 @@ redirectIfNotAuthenticated();
 
                             <td>
                                 <button class="btn" name="btn-view">
-<!--                                    <a-->
-<!--                                            href="viewPerson.php?id=--><?php //echo $person["id"] ?><!--"-->
-<!--                                        --><?php
-//                                        if ($person["email"] == $_SESSION["userEmail"]){
-//                                        ?>
-<!--                                            href="myProfile.php"-->
-<!--                                        --><?php
-//
-//                                        ?>
-<!--                                            class="nav-link table-nav view-btn"-->
-<!--                                    >View</a-->
-<!--                                    >-->
+                                    <a
+
+                                        <?php
+                                        if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]){
+                                        ?>
+                                            href="viewPerson.php?id=<?php echo $person[ID] ?>"
+                                        <?php
+                                        }
+                                        ?>
+                                            href="myProfile.php"
+                                            class="nav-link table-nav view-btn"
+                                    >View</a
+                                    >
                                 </button>
                                 <button class="btn">
                                     <a
-                                            href="editPerson.php"
+                                            <?php
+                                            if($person[PERSON_EMAIL] != $_SESSION["userEmail"]){?>
+
+                                            href="editPerson.php?id=<?php echo $person[ID]?>"
+                                            <?php
+                                            }
+                                            ?>
+                                            href="myProfile.php"
                                             class="nav-link table-nav edit-btn"
                                     >Edit</a
                                     >
@@ -524,7 +532,7 @@ redirectIfNotAuthenticated();
                     <li>
                         <ul>
                             <li class="nav-item">
-                                <a href="myProfile.html" class="nav-link active">
+                                <a href="myProfile.php" class="nav-link active">
                                     <ion-icon
                                             name="create-outline"
                                             class="icon sidebar-icon"
@@ -533,7 +541,7 @@ redirectIfNotAuthenticated();
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link active">
+                                <a href="logout.php" class="nav-link active">
                                     <ion-icon
                                             name="log-out-outline"
                                             class="icon sidebar-icon"

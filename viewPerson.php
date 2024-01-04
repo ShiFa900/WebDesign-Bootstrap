@@ -121,7 +121,7 @@ redirectIfNotAuthenticated();
     <!-- link styling -->
     <link rel="stylesheet" href="assets/css/general.css"/>
     <link rel="stylesheet" href="assets/css/persons.css"/>
-    <link rel="stylesheet" href="assets/css/view-person.css"/>
+    <link rel="stylesheet" href="assets/css/viewPerson.css"/>
 
     <link rel="stylesheet" href="assets/query/mediaQuery.css"/>
 
@@ -240,7 +240,7 @@ redirectIfNotAuthenticated();
                     <li>
                         <ul>
                             <li class="nav-item">
-                                <a href="myProfile.html" class="nav-link active">
+                                <a href="myProfile.php" class="nav-link active">
                                     <ion-icon
                                             name="create-outline"
                                             class="icon sidebar-icon"
@@ -250,7 +250,7 @@ redirectIfNotAuthenticated();
                             </li>
                             <li class="nav-item">
                                 <div class="wrappe">
-                                    <a href="#" class="nav-link active">
+                                    <a href="logout.php" class="nav-link active">
                                         <ion-icon
                                                 name="log-out-outline"
                                                 class="icon sidebar-icon"
@@ -295,181 +295,80 @@ redirectIfNotAuthenticated();
                                     <div class="mb-3 form-input">
                                         <span class="required title">First Name</span>
                                         <p>
-                                        <?=$person["firstName"];
-                                        ?>
-                                        </p>
-<!--                                        <p>Sarah</p>-->
-                                        <!--                        <label for="first-name" class="form-label required"-->
-                                        <!--                          >First name</label-->
-                                        <!--                        >-->
-                                        <!---->
-                                        <!--                        <input-->
-                                        <!--                          id="first-name"-->
-                                        <!--                          type="text"-->
-                                        <!--                          class="form-control"-->
-                                        <!--                          name="first-name"-->
-                                        <!--                        />-->
-                                        <!--                          <table>-->
-                                        <!--                              <thead>-->
-                                        <!--                              <tr>-->
-                                        <!--                                  <td class="required">First Name</td>-->
-                                        <!--                              </tr>-->
-                                        <!--                              </thead>-->
-                                        <!--                              <tbody>-->
-                                        <!--                              <tr>-->
-                                        <!--                                  <td>Sarah</td>-->
-                                        <!--                              </tr>-->
-                                        <!--                              </tbody>-->
-                                        <!--                          </table>-->
-                                    </div>
-                                    <div class="mb-3 form-input">
-                                        <span class="title">Last Name</span>
-                                        <p>
-                                            <?=$person["lastName"];
+                                            <?= $person[PERSON_FIRST_NAME];
                                             ?>
                                         </p>
-                                        <!--                        <label for="last-name" class="form-label">Last name</label>-->
-                                        <!--                        <input-->
-                                        <!--                          id="last-name"-->
-                                        <!--                          type="text"-->
-                                        <!--                          class="form-control"-->
-                                        <!--                          name="last-name"-->
-                                        <!--                        />-->
                                     </div>
+
+                                    <div class="mb-3 form-input">
+                                        <span class="required title">Last Name</span>
+                                        <p>
+                                            <?= $person[PERSON_LAST_NAME];
+                                            ?>
+                                        </p>
+                                    </div>
+
                                     <div class="mb-3 form-input">
                                         <span class="required title">NIK</span>
                                         <p>
-                                            <?=$person["nik"];
+                                            <?= $person[PERSON_NIK];
                                             ?>
                                         </p>
-                                        <!--                        <label for="nik" class="form-label required">NIK</label>-->
-                                        <!--                        <input-->
-                                        <!--                          id="nik"-->
-                                        <!--                          type="text"-->
-                                        <!--                          class="form-control"-->
-                                        <!--                          name="nik"-->
-                                        <!--                        />-->
+
                                     </div>
                                     <div class="mb-3 form-input">
                                         <span class="required title">Email</span>
                                         <p>
-                                            <?=$person["email"];
+                                            <?= $person[PERSON_EMAIL];
                                             ?>
                                         </p>
-                                        <!--                        <label for="static-email" class="form-label required"-->
-                                        <!--                          >Email</label-->
-                                        <!--                        >-->
-                                        <!--                        <input-->
-                                        <!--                          id="static-email"-->
-                                        <!--                          type="email"-->
-                                        <!--                          class="form-control"-->
-                                        <!--                          name="static-email"-->
-                                        <!--                        />-->
+
                                     </div>
 
                                     <div class="mb-3 form-input">
                                         <span class="required title">Birth Of Date</span>
                                         <p>
-                                            <?=date("d/m/Y", $person["birthDate"]);
+                                            <?= date("m-d-Y", $person[PERSON_BIRTH_DATE]);
                                             ?>
                                         </p>
-                                        <!--                        <label for="date-picker" class="form-label required"-->
-                                        <!--                          >Date of birth</label-->
-                                        <!--                        >-->
-                                        <!--                        <input-->
-                                        <!--                          id="date-picker"-->
-                                        <!--                          type="date"-->
-                                        <!--                          class="form-control"-->
-                                        <!--                          name="date-picker"-->
-                                        <!--                        />-->
+
                                     </div>
 
                                     <div class="mb-3 form-input">
                                         <span class="required title">Sex</span>
                                         <p>
-                                            <?=$person["sex"];
+                                            <?= $person[PERSON_SEX];
                                             ?>
                                         </p>
-                                        <!--                        <label for="sex-dropdown" class="form-label required"-->
-                                        <!--                          >Sex</label-->
-                                        <!--                        >-->
-                                        <!--                        <select-->
-                                        <!--                          id="sex-dropdown"-->
-                                        <!--                          class="form-select form-control"-->
-                                        <!--                          name="sex-dropdown"-->
-                                        <!--                          required-->
-                                        <!--                          aria-label="Small select example"-->
-                                        <!--                        >-->
-                                        <!--                          <option selected>Male</option>-->
-                                        <!--                          <option value="1">Female</option>-->
-                                        <!--                          <option value="2">Better not say</option>-->
-                                        <!--                        </select>-->
+
                                     </div>
 
-                                    <!-- SWITCH BUTTON -->
-                                    <!-- <div class="mb-3 form-input">
-                                      <div
-                                        class="form-check form-switch d-flex align-items-center column-gap-3"
-                                      >
-                                        <input
-                                          class="form-check-input"
-                                          type="checkbox"
-                                          role="switch"
-                                          id="flexSwitchCheckDefault"
-                                          style="width: 4rem; height: 2.4rem"
-                                        />
-                                        <label
-                                          class="form-check-label"
-                                          for="flexSwitchCheckDefault"
-                                          >This person is alive</label
-                                        >
-                                      </div>
-                                    </div> -->
 
                                     <div class="mb-3 form-input">
                                         <span class="title">Internal Note</span>
                                         <p>
-                                            <?=$person["internalNote"];
+                                            <?= $person[PERSON_INTERNAL_NOTE];
                                             ?>
                                         </p>
-                                        <!--                        <label for="note" class="form-label"-->
-                                        <!--                          >Internal notes</label-->
-                                        <!--                        >-->
-                                        <!--                        <div class="form-floating">-->
-                                        <!--                          <textarea class="form-control" id="note"></textarea>-->
-                                        <!--                        </div>-->
+
                                     </div>
 
                                     <!-- ROLE -->
                                     <div class="mb-3 form-input">
                                         <span class="title">Role</span>
                                         <p>
-                                            <?=translateIntToString($person["role"]);
+                                            <?= $person[PERSON_ROLE];
                                             ?>
                                         </p>
-                                        <!--                      <label for="role-dropdown" class="form-label required">Role</label>-->
-                                        <!--                      <select-->
-                                        <!--                        class="form-select form-select-sm form-control"-->
-                                        <!--                        aria-label="Small select example"-->
-                                        <!--                      >-->
-                                        <!--                        <option selected>Admin</option>-->
-                                        <!--                        <option value="1">Member</option>-->
-                                        <!--                      </select>-->
+
                                     </div>
 
                                     <div class="mb-3 form-input">
                                         <span class="required title">Status</span>
                                         <p>
-                                            <?=translateBooleanToString($person["alive"]);?>
+                                            <?= translateBooleanToString($person[PERSON_STATUS]); ?>
                                         </p>
-                                        <!--                      <label for="role-dropdown" class="form-label required">Role</label>-->
-                                        <!--                      <select-->
-                                        <!--                        class="form-select form-select-sm form-control"-->
-                                        <!--                        aria-label="Small select example"-->
-                                        <!--                      >-->
-                                        <!--                        <option selected>Admin</option>-->
-                                        <!--                        <option value="1">Member</option>-->
-                                        <!--                      </select>-->
+
                                     </div>
                                 </div>
 
@@ -603,7 +502,7 @@ redirectIfNotAuthenticated();
                     <li>
                         <ul>
                             <li class="nav-item">
-                                <a href="myProfile.html" class="nav-link active">
+                                <a href="myProfile.php" class="nav-link active">
                                     <ion-icon
                                             name="create-outline"
                                             class="icon sidebar-icon"
@@ -612,7 +511,7 @@ redirectIfNotAuthenticated();
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link active">
+                                <a href="logout.php" class="nav-link active">
                                     <ion-icon
                                             name="log-out-outline"
                                             class="icon sidebar-icon"

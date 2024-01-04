@@ -5,13 +5,13 @@
         "lastName": "Ayaki",
         "nik": "1092836172830027",
         "email": "Ayayaki@gmail.com",
-        "birthDate": "1523586241",
+        "birthDate": 983476182,
         "sex": "Male",
         "internalNote": "I believe i can fly",
-        "role": 0,
+        "role": "MEMBER",
         "password": "ayam",
-        "alive": true,
-        "lastLoggedIn": "1701392943"
+        "status": true,
+        "lastLoggedIn": 1701392943
     },
     {
         "id": 2,
@@ -19,13 +19,13 @@
         "lastName": "Miya",
         "nik": "0978231653427288",
         "email": "miyako@gmail.com",
-        "birthDate": "1523586241",
+        "birthDate": 1232012982,
         "sex": "Male",
         "internalNote": "Holanimbus",
-        "role": 0,
+        "role": "MEMBER",
         "password": "shiku",
-        "alive": true,
-        "lastLoggedIn": "1698628143"
+        "status": true,
+        "lastLoggedIn": 1698628143
     },
     {
         "id": 3,
@@ -33,25 +33,13 @@
         "lastName": "Eti",
         "nik": "0012991234784624",
         "email": "kumalKelapa@gmail.com",
-        "birthDate": "1497925611",
+        "birthDate": 888781782,
         "sex": "Female",
-        "internalNote": "no word",
-        "role": 1,
+        "internalNote": "I wish I was special -radioHead-",
+        "role": "ADMIN",
         "password": "sarah",
-        "alive": true,
-        "lastLoggedIn": "1700183343"
-    },
-    {
-        "firstName": "lala",
-        "lastName": "kong",
-        "nik": "1234516",
-        "email": "lala@gmail.com",
-        "birthDate": "2011-10-09",
-        "sex": "1",
-        "alive": "on",
-        "internalNote": "er",
-        "role": "1",
-        "lastLoggedIn": null,
-        "id": 4
+        "status": true,
+        "lastLoggedIn": 1700183343
     }
+
 ]
