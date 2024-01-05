@@ -14,7 +14,7 @@
   border: 1px solid #ddd;
 }
 
-.form-input span {
+.form-input .smallText {
   font-size: 0.85rem;
   color: #015d98;
 }

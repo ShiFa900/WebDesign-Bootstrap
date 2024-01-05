@@ -11,7 +11,7 @@
         "role": "MEMBER",
         "password": "ayam",
         "status": true,
-        "lastLoggedIn": 1701392943
+        "lastLoggedIn": 1704446994
     },
     {
         "id": 2,
@@ -40,6 +40,117 @@
         "password": "sarah",
         "status": true,
         "lastLoggedIn": 1700183343
+    },
+    {
+        "id": 4,
+        "firstName": "Shouko",
+        "lastName": "Komi",
+        "nik": "1290008763517823",
+        "email": "komi.san@gmail.com",
+        "birthDate": 919911460,
+        "sex": "Female",
+        "internalNote": "ok",
+        "role": "MEMBER",
+        "password": "pol",
+        "status": true,
+        "lastLoggedIn": 1704439512
+    },
+    {
+        "id": 5,
+        "firstName": "Ocan",
+        "lastName": "Kamil",
+        "nik": "1290008763517823",
+        "email": "ocaa123@gmail.com",
+        "birthDate": 1229138324,
+        "sex": "Male",
+        "internalNote": "",
+        "role": "MEMBER",
+        "password": "ocani",
+        "status": false,
+        "lastLoggedIn": null
+    },
+    {
+        "id": 6,
+        "firstName": "Mila",
+        "lastName": "",
+        "nik": "1234981723615234",
+        "email": "milmil@gmail.com",
+        "birthDate": 898575286,
+        "sex": "Better not say",
+        "internalNote": "",
+        "role": "MEMBER",
+        "password": "milocoklat",
+        "status": true,
+        "lastLoggedIn": 1704439823
+    },
+    {
+        "id": 7,
+        "firstName": "Gabriela",
+        "lastName": "Wongso",
+        "nik": "0097896352341129",
+        "email": "wongso123@gmail.com",
+        "birthDate": 1074843619,
+        "sex": "Female",
+        "internalNote": "",
+        "role": "MEMBER",
+        "password": "inigaby",
+        "status": true,
+        "lastLoggedIn": null
+    },
+    {
+        "id": 8,
+        "firstName": "Santa",
+        "lastName": "",
+        "nik": "0089872346781230",
+        "email": "kuchengOyen@gmail.com",
+        "birthDate": 1000798913,
+        "sex": "Female",
+        "internalNote": "",
+        "role": "MEMBER",
+        "password": "meong",
+        "status": true,
+        "lastLoggedIn": null
+    },
+    {
+        "id": 9,
+        "firstName": "Jean",
+        "lastName": "Baptiste",
+        "nik": "12009817230900",
+        "email": "perfume@gmail.com",
+        "birthDate": -2314196167,
+        "sex": "Male",
+        "internalNote": "",
+        "role": "ADMIN",
+        "password": "virginParfume",
+        "status": true,
+        "lastLoggedIn": null
+    },
+    {
+        "id": 10,
+        "firstName": "Jean",
+        "lastName": "Galelou",
+        "nik": "1389072567349000",
+        "email": "galeo@gmail.com",
+        "birthDate": -1943971979,
+        "sex": "Male",
+        "internalNote": "",
+        "role": "ADMIN",
+        "password": "gap",
+        "status": false,
+        "lastLoggedIn": null
+    },
+    {
+        "id": 11,
+        "firstName": "Loh",
+        "lastName": "",
+        "nik": "12",
+        "email": "rubi@gmail.com",
+        "birthDate": 1688544649,
+        "sex": "Male",
+        "internalNote": "",
+        "role": "ADMIN",
+        "password": "lo",
+        "status": false,
+        "lastLoggedIn": null
     }
-
 ]

@@ -69,8 +69,8 @@ function savePerson(array $person, string $location): void
             if ($person[ID] == $persons[$i][ID]) {
 
 //                convert date of birth to int timestamp
-
                 $persons[$i] = [
+                    ID => $person[ID],
                     PERSON_FIRST_NAME => ucwords($person[PERSON_FIRST_NAME]),
                     PERSON_LAST_NAME => ucwords($person[PERSON_LAST_NAME]),
                     PERSON_NIK => $person[PERSON_NIK],
@@ -94,13 +94,18 @@ function savePerson(array $person, string $location): void
 function generateId(array|null $persons = null): int
 {
 //    return $persons == null ? 1 : (end($persons['id'])) + 1;
-    return is_array($persons) == null ? (end($persons)[ID]) + 1 : 1;
+    return is_array($persons) == null ? 1 : (end($persons)[ID]) + 1 ;
 }
 
-function convertDateToTimestamp(string $date, string|null $format = 'm/d/Y')
+function convertDateToTimestamp(string $date, string|null $format = 'd/m/Y'): int
 {
-    $birthDate = date_create_from_format($format, $date);
-    if ($birthDate) return date_format($birthDate, 'U');
+    $date = str_replace('-','/', $date);
+    $newDate = date($format, strtotime($date));
+    $birthDate = date_create_from_format($format, $newDate);
+    if ($birthDate) {
+        return date_format($birthDate, 'U');
+    }
+    return -1;
 }
 
 function getPerson(int $id = null, string $email = null): array
@@ -122,17 +127,6 @@ function getPerson(int $id = null, string $email = null): array
     return [];
 }
 
-function translateIntToString(int $int): string
-{
-    switch ($int) {
-        case 0:
-            return "ADMIN";
-        case 1:
-            return "MEMBER";
-        default:
-            return "";
-    }
-}
 
 function translateBooleanToString(string $status): string
 {

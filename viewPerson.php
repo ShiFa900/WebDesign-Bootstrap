@@ -2,136 +2,19 @@
 global $person;
 require_once __DIR__ . "/index.php";
 require_once __DIR__ . "/action/viewPerson.php";
+require_once __DIR__ . "/include/header.php";
 session_start();
 
 redirectIfNotAuthenticated();
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-    <!-- Favicon -->
-    <link
-            rel="apple-touch-icon"
-            sizes="57x57"
-            href="assets/properties/favicon/apple-icon-57x57.png"
-    />
-    <link
-            rel="apple-touch-icon"
-            sizes="60x60"
-            href="assets/properties/favicon/apple-icon-60x60.png"
-    />
-    <link
-            rel="apple-touch-icon"
-            sizes="72x72"
-            href="assets/properties/favicon/apple-icon-72x72.png"
-    />
-    <link
-            rel="apple-touch-icon"
-            sizes="76x76"
-            href="assets/properties/favicon/apple-icon-76x76.png"
-    />
-    <link
-            rel="apple-touch-icon"
-            sizes="114x114"
-            href="assets/properties/favicon/apple-icon-114x114.png"
-    />
-    <link
-            rel="apple-touch-icon"
-            sizes="120x120"
-            href="assets/properties/favicon/apple-icon-120x120.png"
-    />
-    <link
-            rel="apple-touch-icon"
-            sizes="144x144"
-            href="assets/properties/favicon/apple-icon-144x144.png"
-    />
-    <link
-            rel="apple-touch-icon"
-            sizes="152x152"
-            href="assets/properties/favicon/apple-icon-152x152.png"
-    />
-    <link
-            rel="apple-touch-icon"
-            sizes="180x180"
-            href="assets/properties/favicon/apple-icon-180x180.png"
-    />
-    <link
-            rel="icon"
-            type="image/png"
-            sizes="192x192"
-            href="assets/properties/favicon/android-icon-192x192.png"
-    />
-    <link
-            rel="icon"
-            type="image/png"
-            sizes="32x32"
-            href="assets/properties/favicon/favicon-32x32.png"
-    />
-    <link
-            rel="icon"
-            type="image/png"
-            sizes="96x96"
-            href="assets/properties/favicon/favicon-96x96.png"
-    />
-    <link
-            rel="icon"
-            type="image/png"
-            sizes="16x16"
-            href="assets/properties/favicon/favicon-16x16.png"
-    />
-    <link rel="manifest" href="assets/properties/favicon/manifest.json"/>
-    <meta name="msapplication-TileColor" content="#ffffff"/>
-    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png"/>
-    <meta name="theme-color" content="#ffffff"/>
-
-    <!-- Link Bootstrap -->
-    <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-    />
-    <link
-            href="https://getbootstrap.com/docs/5.3/assets/css/docs.css"
-            rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
-
-    <!-- link icon -->
-    <script
-            type="module"
-            src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
-    ></script>
-    <script
-            nomodule
-            src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
-    ></script>
-
-    <!-- link font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link
-            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Open+Sans:wght@400;500;600;700&family=Rubik:wght@400;500;600;700&display=swap"
-            rel="stylesheet"
-    />
-
-    <!-- link styling -->
-    <link rel="stylesheet" href="assets/css/general.css"/>
-    <link rel="stylesheet" href="assets/css/persons.css"/>
-    <link rel="stylesheet" href="assets/css/viewPerson.css"/>
-
-    <link rel="stylesheet" href="assets/query/mediaQuery.css"/>
-
-    <title>PerMap &mdash; View person</title>
-</head>
+<?php
+mainHeader("View Person");
+?>
 <body>
 <header
         class="header sticky-top d-flex align-items-center justify-content-between"
 >
-    <a href="#">
+    <a href="dashboard.php">
         <img src="assets/properties/pma-border.png" alt="PerMap logo" class="logo"/>
     </a>
 
@@ -250,7 +133,7 @@ redirectIfNotAuthenticated();
                             </li>
                             <li class="nav-item">
                                 <div class="wrappe">
-                                    <a href="logout.php" class="nav-link active">
+                                    <a href="action/logout.php" class="nav-link active">
                                         <ion-icon
                                                 name="log-out-outline"
                                                 class="icon sidebar-icon"
@@ -289,7 +172,7 @@ redirectIfNotAuthenticated();
 
                 <div class="row">
                     <div class="col-xxl-12">
-                        <form class="new-person-form" action="action/viewPerson.php">
+                        <form class="new-person-form" action="action/viewPerson.php" method="post">
                             <div class="row">
                                 <div class="col-xxl-8 col-xl-8 col-lg-10 col-12">
                                     <div class="mb-3 form-input">
@@ -301,11 +184,17 @@ redirectIfNotAuthenticated();
                                     </div>
 
                                     <div class="mb-3 form-input">
-                                        <span class="required title">Last Name</span>
+                                        <?php
+                                        if($person[PERSON_LAST_NAME] != ""){
+                                        ?>
+                                        <span class="title">Last Name</span>
                                         <p>
                                             <?= $person[PERSON_LAST_NAME];
                                             ?>
                                         </p>
+                                        <?php
+                                        }
+                                        ?>
                                     </div>
 
                                     <div class="mb-3 form-input">
@@ -328,7 +217,7 @@ redirectIfNotAuthenticated();
                                     <div class="mb-3 form-input">
                                         <span class="required title">Birth Of Date</span>
                                         <p>
-                                            <?= date("m-d-Y", $person[PERSON_BIRTH_DATE]);
+                                            <?= date("d F Y", $person[PERSON_BIRTH_DATE]);
                                             ?>
                                         </p>
 
@@ -345,17 +234,23 @@ redirectIfNotAuthenticated();
 
 
                                     <div class="mb-3 form-input">
+                                        <?php
+                                        if($person[PERSON_INTERNAL_NOTE] != null){
+                                        ?>
                                         <span class="title">Internal Note</span>
                                         <p>
                                             <?= $person[PERSON_INTERNAL_NOTE];
                                             ?>
                                         </p>
+                                        <?php
+                                        }
+                                        ?>
 
                                     </div>
 
                                     <!-- ROLE -->
                                     <div class="mb-3 form-input">
-                                        <span class="title">Role</span>
+                                        <span class="required title">Role</span>
                                         <p>
                                             <?= $person[PERSON_ROLE];
                                             ?>
@@ -378,58 +273,60 @@ redirectIfNotAuthenticated();
                                                 class="btn-container d-flex column-gap-5 justify-content-between"
                                         >
                                             <div class="btn-wrapper d-flex column-gap-3">
-                                                <input
-                                                        class="btn btn-primary btn--form has-border"
+                                                <a href="persons.php" class="btn btn-primary btn--form has-border"
                                                         type="submit"
-                                                        value="Back"
-                                                />
+                                                >Back
+                                                </a>
                                             </div>
+                                            <?php
+                                            if($person[PERSON_ROLE] == ROLE_ADMIN){
+                                            ?>
                                             <!-- Button trigger modal -->
-                                            <input
-                                                    type="button"
-                                                    class="btn btn-primary btn--form delete-btn"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModal"
-                                                    value="Delete"
-                                            />
+                                                <button type="button"
+                                                        class="btn btn-primary btn--form delete-btn"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#exampleModal"
+                                                >Delete</button>
+                                            <?php
+                                            }
+                                            ?>
 
-                                            <!-- Modal -->
-                                            <div
-                                                    class="modal fade"
-                                                    id="exampleModal"
-                                                    tabindex="-1"
-                                                    aria-labelledby="exampleModalLabel"
-                                                    aria-hidden="true"
-                                            >
-                                                <div class="modal-dialog modal-dialog-centered">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h1 class="modal-title" id="exampleModalLabel">
-                                                                Are you sure want to delete this person?
-                                                            </h1>
-                                                            <button
-                                                                    type="button"
-                                                                    class="btn-close"
-                                                                    data-bs-dismiss="modal"
-                                                                    aria-label="Close"
-                                                            ></button>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button
-                                                                    type="button"
-                                                                    class="btn btn-secondary btn-block"
-                                                                    data-bs-dismiss="modal"
-                                                            >
-                                                                No
-                                                            </button>
-                                                            <button type="button" class="btn btn-primary">
-                                                                Yes
-                                                            </button>
+                                                <!-- Modal -->
+                                                <div
+                                                        class="modal fade"
+                                                        id="exampleModal"
+                                                        tabindex="-1"
+                                                        aria-labelledby="exampleModalLabel"
+                                                        aria-hidden="true"
+                                                >
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title" id="exampleModalLabel">
+                                                                    Are you sure want to delete this person?
+                                                                </h1>
+                                                                <button
+                                                                        type="button"
+                                                                        class="btn-close"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Close"
+                                                                ></button>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button
+                                                                        type="button"
+                                                                        class="btn btn-secondary btn-block"
+                                                                        data-bs-dismiss="modal"
+                                                                >
+                                                                    No
+                                                                </button>
+                                                                <button type="button" class="btn btn-primary" name="btnDelete">
+                                                                    <a href="action/deletePerson.php">Yes</a>
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -456,7 +353,7 @@ redirectIfNotAuthenticated();
                     class="offcanvas-title third-heading sidebar-heading"
                     id="offcanvasScrollingLabel"
             >
-                <a href="#" id="logo">
+                <a href="dashboard.php" id="logo">
                     <img
                             src="assets/properties/pma-color.png"
                             alt="PerMap logo"
@@ -511,7 +408,7 @@ redirectIfNotAuthenticated();
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="logout.php" class="nav-link active">
+                                <a href="action/logout.php" class="nav-link active">
                                     <ion-icon
                                             name="log-out-outline"
                                             class="icon sidebar-icon"

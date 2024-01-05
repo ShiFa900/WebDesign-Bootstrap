@@ -114,11 +114,15 @@ function mainHeader(string $title){
                 />
 
     <!-- link styling -->
-    <link rel="stylesheet" href="assets/css/general.css"/>
-    <link rel="stylesheet" href="assets/css/persons.css"/>
-    <link rel="stylesheet" href="assets/css/addPerson.css"/>
+    <link rel="stylesheet" href="/assets/css/general.css"/>
+    <link rel="stylesheet" href="/assets/css/persons.css"/>
+    <link rel="stylesheet" href="/assets/css/addPerson.css"/>
+    <link rel="stylesheet" href="/assets/css/myProfile.css"/>
+    <link rel="stylesheet" href="/assets/css/editPerson.css"/>
+    <link rel="stylesheet" href="/assets/css/viewPerson.css"/>
+    <link rel="stylesheet" href="/assets/css/dashboard.css"/>
 
-    <link rel="stylesheet" href="assets/query/mediaQuery.css"/>
+    <link rel="stylesheet" href="/assets/query/mediaQuery.css"/>
 
     <title>PerMap &mdash; <?=$title?></title>
 </head>

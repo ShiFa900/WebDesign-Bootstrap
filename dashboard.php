@@ -103,10 +103,9 @@ redirectIfNotAuthenticated();
                         <hr class="dropdown-divider"/>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="action/logout.php">
                             <ion-icon name="log-out-outline" class="icon"></ion-icon>
-                            Log
-                            out</a>
+                            Logout</a>
                     </li>
                 </ul>
             </div>
@@ -143,9 +142,9 @@ redirectIfNotAuthenticated();
                             </li>
                             <li class="nav-item">
                                 <div class="wrapper">
-                                    <a href="#" class="nav-link active">
+                                    <a href="action/logout.php" class="nav-link active">
                                         <ion-icon name="log-out-outline" class="icon sidebar-icon"></ion-icon>
-                                        Log out
+                                        Logout
                                     </a>
                                 </div>
                             </li>
@@ -172,17 +171,30 @@ redirectIfNotAuthenticated();
                     <div class="col-xxl-8">
                         <h1 class="first-heading">Hi,
                             <?php
-                            echo $_SESSION['userName'];
+                            echo $_SESSION['userName'] . "!";
                             ?>
                         </h1>
+                        <?php
+                        if($_SESSION["logout"] != null){
+                        ?>
                         <p class="header-sm-title">
                             You were logged in previously in
                             <?php
+                            date_default_timezone_set('Asia/Singapore');
                             echo "<strong>";
                             echo date('l, F d Y H:i', $_SESSION['logout']);
                             echo "</strong>";
                             ?>
                         </p>
+                        <?php
+                        } else {
+                        ?>
+                        <p class="header-sm-title">
+                            Welcome to Dashboard of <strong>Person Management App</strong>
+                        </p>
+                        <?php
+                        }
+                        ?>
                     </div>
                 </div>
 
@@ -327,9 +339,9 @@ redirectIfNotAuthenticated();
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link active">
+                                <a href="action/logout.php" class="nav-link active">
                                     <ion-icon name="log-out-outline" class="icon sidebar-icon"></ion-icon>
-                                    Log out
+                                    Logout
                                 </a>
                             </li>
                         </ul>

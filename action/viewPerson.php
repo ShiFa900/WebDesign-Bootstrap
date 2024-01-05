@@ -7,10 +7,6 @@ require_once __DIR__ . "/const.php";
 global $person;
 $person = getPerson($_GET[ID]);
 
-//if($person["email"] == $_SESSION["userEmail"]){
-//    redirect("../myProfile.php", "error=0");
-//}
-
 if(count($person) != 0){
     return [
         PERSON_FIRST_NAME => $person[PERSON_FIRST_NAME],

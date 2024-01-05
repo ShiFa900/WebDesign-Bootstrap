@@ -4,13 +4,24 @@ require_once __DIR__ . "/utils.php";
 //session_start();
 
 if (isset($_POST["firstName"])) {
+    $errorData = getErrorData(
+        email: $_POST["email"],
+        password: $_POST["password"],
+        confirm: $_POST["confirmPass"],
+        nik: $_POST["nik"]);
+
+
+    $_SESSION["errorNik"] = $errorData["nik"];
+    $_SESSION["errorEmail"] = $errorData["email"];
+    $_SESSION["errorConfirmPass"] = $errorData["confirmPass"];
+    $_SESSION["errorPass"] = $errorData["password"];
+
     $persons = getAll();
-    $status = $_POST["status"];
 
     $person = [
-        ID => generateId($persons),
-        PERSON_FIRST_NAME => $_POST["firstName"],
-        PERSON_LAST_NAME => $_POST["lastName"],
+        ID => null,
+        PERSON_FIRST_NAME => ucwords($_POST["firstName"]),
+        PERSON_LAST_NAME => ucwords($_POST["lastName"]),
         PERSON_NIK => $_POST["nik"],
         PERSON_EMAIL => $_POST["email"],
         PERSON_BIRTH_DATE => convertDateToTimestamp($_POST["birthDate"]),
@@ -18,15 +29,44 @@ if (isset($_POST["firstName"])) {
         PERSON_INTERNAL_NOTE => $_POST["note"],
         PERSON_ROLE => $_POST["role"],
         PASSWORD => $_POST["password"],
-        PERSON_STATUS => $status,
+        PERSON_STATUS => $_POST["status"] == "on" ? true : false,
         PERSON_LAST_LOGGED_IN => null,
     ];
 
-    $persons[] = $person;
-    saveDataIntoJson($persons, "persons.json");
-    redirect("../" . "persons.php", "error=0");
-//    savePerson($person, "addPerson.php");
+    savePerson($person, "persons.php");
+}
 
+/**
+ * @return array
+ * function untuk mengecek semua inputan untuk mencari error
+ */
+function getErrorData(
+    string $email,
+    string $password,
+    string $confirm,
+    string $nik,
+): array
+{
+//    mendapatkan data yang mengandung error
+    $validated = [];
+
+    if (!hasNikCheck($nik)) {
+        $validated["nik"] = 1;
+    }
+
+    if (!hasEmailCheck($email)) {
+        $validated["email"] = 1;
+    }
+
+    if ($confirm === $password) {
+        $validated["confirmPass"] = 0;
+    }
+
+    if (validatePassword($password) == "") {
+        $validated["password"] = 1;
+    }
+
+    return $validated;
 }
 
 function hasNikCheck(int $nik): bool
@@ -49,67 +89,18 @@ function hasEmailCheck(string $email): bool
     return true;
 }
 
-function confirmPassword(string $password, string $confirmPassword): bool
+function validatePassword(string $password): string
 {
     $uppercase = preg_match('@[A-Z]@', $password);
     $lowercase = preg_match('@[a-z]@', $password);
     $number = preg_match('@[0-9]@', $password);
     $specialChars = preg_match('@[^\w]@', $password);
 
-    if (!$uppercase || !$lowercase || !$number || !$specialChars || strlen($password) < 8 && $confirmPassword != $password) {
-        return false;
+    if (!$uppercase || !$lowercase || !$number || !$specialChars || strlen($password) < 8) {
+        return "";
     }
-    return true;
+    return $password;
 }
-
-
-/**
- * @return array
- * function untuk mengecek semua inputan untuk mencari error
- */
-function getErrorData(
-    string $email,
-    string $password,
-    string $confirm,
-    string $nik,
-): array
-{
-//    mendapatkan data yang mengandung error
-    $validated = [];
-
-    if (!hasNikCheck($nik)) {
-        $validated["nik"] = 1;
-    }
-
-    if (hasEmailCheck($email)) {
-        $validated["email"] = 1;
-    }
-
-    if (confirmPassword($password, $confirm)) {
-        $validated["confirm-pass"] = 1;
-    }
-
-    return $validated;
-}
-
-//$errorData = getErrorData(
-//    email: $_POST["add-email"],
-//    password: $_POST["add-password"],
-//    confirm: $_POST["confirm-password"],
-//    nik: $_POST["add-nik"]);
-//
-//$_SESSION['addNik'] = $errorData["nik"];
-//$_SESSION["addEmail"] = $errorData["email"];
-//$_SESSION["addPassword"] = $errorData["add-password"];
-//$_SESSION["confirmPassword"] = $errorData["confirm-pass"];
-//
-//$_SESSION["addId"] = null;
-//$_SESSION["addFirstName"] = $_POST["add-first-name"];
-//$_SESSION["addLastName"] = $_POST["add-last-name"];
-//$_SESSION["addSex"] = $_POST["add-sex"];
-//$_SESSION["addBirthDate"] = $_POST["add-birth-date"];
-//$_SESSION["internalNote"] = $_POST["add-internal-note"];
-//$_SESSION["addRole"] = $_POST["add-role"];
 
 
 //buat sebuah variable array yang akan menyimpan semua data-data yang error ketika mengambil input

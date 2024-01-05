@@ -5,7 +5,6 @@ session_start();
 require_once __DIR__ . "/../assets/json/jsonLoadData.php";
 require_once __DIR__ . "/utils.php";
 
-
 $userExist = userExist();
 
 // ini apa?

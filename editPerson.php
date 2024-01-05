@@ -8,133 +8,15 @@ session_start();
 redirectIfNotAuthenticated();
 
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<?php
+mainHeader("Edit Person");
+?>
 
-    <!-- Favicon -->
-    <link
-            rel="apple-touch-icon"
-            sizes="57x57"
-            href="assets/properties/favicon/apple-icon-57x57.png"
-    />
-    <link
-            rel="apple-touch-icon"
-            sizes="60x60"
-            href="assets/properties/favicon/apple-icon-60x60.png"
-    />
-    <link
-            rel="apple-touch-icon"
-            sizes="72x72"
-            href="assets/properties/favicon/apple-icon-72x72.png"
-    />
-    <link
-            rel="apple-touch-icon"
-            sizes="76x76"
-            href="assets/properties/favicon/apple-icon-76x76.png"
-    />
-    <link
-            rel="apple-touch-icon"
-            sizes="114x114"
-            href="assets/properties/favicon/apple-icon-114x114.png"
-    />
-    <link
-            rel="apple-touch-icon"
-            sizes="120x120"
-            href="assets/properties/favicon/apple-icon-120x120.png"
-    />
-    <link
-            rel="apple-touch-icon"
-            sizes="144x144"
-            href="assets/properties/favicon/apple-icon-144x144.png"
-    />
-    <link
-            rel="apple-touch-icon"
-            sizes="152x152"
-            href="assets/properties/favicon/apple-icon-152x152.png"
-    />
-    <link
-            rel="apple-touch-icon"
-            sizes="180x180"
-            href="assets/properties/favicon/apple-icon-180x180.png"
-    />
-    <link
-            rel="icon"
-            type="image/png"
-            sizes="192x192"
-            href="assets/properties/favicon/android-icon-192x192.png"
-    />
-    <link
-            rel="icon"
-            type="image/png"
-            sizes="32x32"
-            href="assets/properties/favicon/favicon-32x32.png"
-    />
-    <link
-            rel="icon"
-            type="image/png"
-            sizes="96x96"
-            href="assets/properties/favicon/favicon-96x96.png"
-    />
-    <link
-            rel="icon"
-            type="image/png"
-            sizes="16x16"
-            href="assets/properties/favicon/favicon-16x16.png"
-    />
-    <link rel="manifest" href="assets/properties/favicon/manifest.json"/>
-    <meta name="msapplication-TileColor" content="#ffffff"/>
-    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png"/>
-    <meta name="theme-color" content="#ffffff"/>
-
-    <!-- Link Bootstrap -->
-    <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-    />
-    <link
-            href="https://getbootstrap.com/docs/5.3/assets/css/docs.css"
-            rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
-
-    <!-- link icon -->
-    <script
-            type="module"
-            src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
-    ></script>
-    <script
-            nomodule
-            src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
-    ></script>
-
-    <!-- link font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link
-            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Open+Sans:wght@400;500;600;700&family=Rubik:wght@400;500;600;700&display=swap"
-            rel="stylesheet"
-    />
-
-    <!-- link styling -->
-    <link rel="stylesheet" href="assets/css/general.css"/>
-    <link rel="stylesheet" href="assets/css/persons.css"/>
-    <link rel="stylesheet" href="assets/css/editPerson.css"/>
-    <link rel="stylesheet" href="assets/css/myProfile.css"/>
-
-    <link rel="stylesheet" href="assets/query/mediaQuery.css"/>
-
-    <title>PerMap &mdash; Edit person</title>
-</head>
 <body>
 <header
         class="header sticky-top d-flex align-items-center justify-content-between"
 >
-    <a href="#">
+    <a href="dashboard.php">
         <img src="assets/properties/pma-border.png" alt="PerMap logo" class="logo"/>
     </a>
 
@@ -203,8 +85,7 @@ redirectIfNotAuthenticated();
                         <a class="dropdown-item" href="#"
                         >
                             <ion-icon name="log-out-outline" class="icon"></ion-icon>
-                            Log
-                            out</a
+                            Logout</a
                         >
                     </li>
                 </ul>
@@ -253,12 +134,12 @@ redirectIfNotAuthenticated();
                             </li>
                             <li class="nav-item">
                                 <div class="wrapper">
-                                    <a href="logout.php" class="nav-link active">
+                                    <a href="action/logout.php" class="nav-link active">
                                         <ion-icon
                                                 name="log-out-outline"
                                                 class="icon sidebar-icon"
                                         ></ion-icon>
-                                        Log out
+                                        Logout
                                     </a>
                                 </div>
                             </li>
@@ -292,10 +173,12 @@ redirectIfNotAuthenticated();
 
                 <div class="row">
                     <div class="col-xxl-12">
-                        <form class="new-person-form" action="action/addPerson.php" method="post" name="addPerson">
+                        <form class="new-person-form" action="action/editPerson.php" method="post" name="editPerson">
                             <div class="row">
                                 <div class="col-xxl-6 col-xl-6 col-lg-6 me-4">
-
+                                    <?php
+                                    $_SESSION["personId"] = $_GET[ID];
+                                    ?>
                                     <div class="mb-3 form-input">
                                         <label for="f-name" class="form-label required"
                                         >First Name</label
@@ -310,7 +193,7 @@ redirectIfNotAuthenticated();
                                         />
                                     </div>
                                     <div class="mb-3 form-input">
-                                        <label for="l-name" class="form-label required">Last Name</label>
+                                        <label for="l-name" class="form-label">Last Name</label>
 
                                         <input
                                                 id="l-name"
@@ -417,6 +300,13 @@ redirectIfNotAuthenticated();
                                                     role="switch"
                                                     id="flexSwitchCheckDefault"
                                                     name="add-switch"
+                                                <?php
+                                                if($person[PERSON_STATUS]){
+                                                ?>
+                                                    checked
+                                                <?php
+                                                }
+                                                ?>
                                             />
                                             <label
                                                     class="form-check-label"
@@ -438,12 +328,14 @@ redirectIfNotAuthenticated();
                                                   class="form-control"
                                                   placeholder="Leave a comment here"
                                                   id="note"
-                                          ><?= $person[PERSON_INTERNAL_NOTE]; ?>
+                                          ><?php
+                                              echo filter_input(INPUT_GET, $person[PERSON_INTERNAL_NOTE], FILTER_SANITIZE_URL);
+                                              ?>
                                           </textarea>
                                         </div>
                                     </div>
 
-                                    <div class="mb-3 form-input">
+                                    <div class="mb-4 form-input">
                                         <label class="form-label" for="role-dropdown"
                                         >Role</label
                                         >
@@ -476,7 +368,6 @@ redirectIfNotAuthenticated();
                                         <input
                                                 id="currentPass"
                                                 type="password"
-                                                required
                                                 class="form-control"
                                                 name="currentPassword"/>
 
@@ -486,7 +377,6 @@ redirectIfNotAuthenticated();
                                         <input
                                                 id="pass"
                                                 type="password"
-                                                required
                                                 class="form-control"
                                                 name="newPassword"/>
 
@@ -497,7 +387,6 @@ redirectIfNotAuthenticated();
                                         <input
                                                 id="confirmPass"
                                                 type="password"
-                                                required
                                                 class="form-control"
                                                 name="confirmPassword"/>
 
@@ -514,13 +403,13 @@ redirectIfNotAuthenticated();
                                     Save
                                 </button>
 
-                                <button
+                                <a
                                         class="btn btn-primary btn--form has-border"
                                         type="submit"
-                                        name="btn"
+                                        href="persons.php"
                                 >
                                     Cancel
-                                </button>
+                                </a>
                             </div>
                         </form>
                     </div>
@@ -545,7 +434,7 @@ redirectIfNotAuthenticated();
                     class="offcanvas-title third-heading sidebar-heading"
                     id="offcanvasScrollingLabel"
             >
-                <a href="#" id="logo">
+                <a href="dashboard.php" id="logo">
                     <img
                             src="assets/properties/pma-color.png"
                             alt="PerMap logo"
@@ -600,12 +489,12 @@ redirectIfNotAuthenticated();
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="logout.php" class="nav-link active">
+                                <a href="action/logout.php" class="nav-link active">
                                     <ion-icon
                                             name="log-out-outline"
                                             class="icon sidebar-icon"
                                     ></ion-icon>
-                                    Log out
+                                    Logout
                                 </a>
                             </li>
                         </ul>

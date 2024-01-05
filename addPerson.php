@@ -14,7 +14,7 @@ mainHeader("Dashboard");
 <header
         class="header sticky-top d-flex align-items-center justify-content-between"
 >
-    <a href="#" id="logo">
+    <a href="dashboard.php" id="logo">
         <img src="assets/properties/pma-border.png" alt="PerMap logo" class="logo"/>
     </a>
 
@@ -54,7 +54,7 @@ mainHeader("Dashboard");
 
                 <ul class="dropdown-menu">
                     <li>
-                        <a class="dropdown-item" href="myProfile.html"
+                        <a class="dropdown-item" href="myProfile.php"
                         >
                             <ion-icon
                                     name="person-circle-outline"
@@ -188,7 +188,7 @@ mainHeader("Dashboard");
                                         />
                                     </div>
                                     <div class="mb-3 form-input">
-                                        <label for="l-name" class="form-label required">Last Name</label>
+                                        <label for="l-name" class="form-label">Last Name</label>
 
                                         <input
                                                 id="l-name"
@@ -208,13 +208,13 @@ mainHeader("Dashboard");
                                                 class="form-control"
                                                 name="nik"
                                         />
-                                        <span><em>NIK must be at least 16 characters</em></span>
+                                        <span class="smallText"><em>NIK must be at least 16 characters</em></span>
                                         <?php
-                                        if (isset($_SESSION["addNik"]) && $_SESSION["addNik"] == 1) {
+                                        if (isset($_SESSION["errorNik"]) && $_SESSION["errorNik"] == 1) {
                                             ?>
 
                                             <div class="alert alert-danger" role="alert">
-                                                Sorry, your NIK is less than 16 characters OR already exist. Please
+                                                Sorry, your NIK is less than 16 character OR already exist. Please
                                                 check your NIK again.
                                             </div>
                                             <?php
@@ -233,6 +233,16 @@ mainHeader("Dashboard");
                                                 class="form-control"
                                                 name="email"
                                         />
+
+                                        <?php
+                                        if (isset($_SESSION["errorEmail"]) && $_SESSION["errorEmail"] == 1) {
+                                            ?>
+                                            <div class="alert alert-danger" role="alert">
+                                                Sorry, your EMAIL is already exist. Please check your EMAIL again.
+                                            </div>
+                                            <?php
+                                        }
+                                        ?>
                                     </div>
 
                                     <div class="mb-3 form-input">
@@ -257,17 +267,16 @@ mainHeader("Dashboard");
                                                 required
                                                 class="form-control"
                                                 name="password"/>
-
-                                        <!--                                        --><?php
-                                        //                                        if (confirmPassword($_POST["add-password"], $_POST["confirm-pass"]) == 1) {
-                                        //                                            ?>
-                                        <!--                                            <div class="alert alert-danger" role="alert">-->
-                                        <!--                                                Sorry, password should be at least 8 characters and should include at-->
-                                        <!--                                                least one uppercase, one lowercase one number dan one special character.-->
-                                        <!--                                            </div>-->
-                                        <!--                                            --><?php
-                                        //                                        }
-                                        //                                        ?>
+                                        <?php
+                                        if (isset($_SESSION["errorPass"]) && $_SESSION["errorPass"] == 1) {
+                                            ?>
+                                            <div class="alert alert-danger" role="alert">
+                                                Sorry, your PASSWORD is weak. Password should include at least one
+                                                UPPERCASE, one LOWERCASE, one NUMBER and one SPECIAL CHARACTER.
+                                            </div>
+                                            <?php
+                                        }
+                                        ?>
                                     </div>
 
                                     <!--konfirmasi password-->
@@ -279,19 +288,18 @@ mainHeader("Dashboard");
                                                 type="password"
                                                 required
                                                 class="form-control"
-                                                name="confirm-pass"
+                                                name="confirmPass"
                                         />
-
-                                        <!--                                        --><?php
-                                        //                                        if (confirmPassword($_POST["add-password"], $_POST["confirm-pass"]) == 2) { ?>
-                                        <!--                                            <div class="alert alert-danger" role="alert">-->
-                                        <!--                                                Sorry, your password was wrong. Please check again.-->
-                                        <!--                                            </div>-->
-                                        <!--                                            --><?php
-                                        //                                        }
-                                        //                                        ?>
+                                        <?php
+                                        if (isset($_SESSION["confirmPass"]) && $_SESSION["confirmPass"] != 0) {
+                                            ?>
+                                            <div class="alert alert-danger" role="alert">
+                                                Sorry, your CONFIRMATION was wrong. Please check your PASSWORD again.
+                                            </div>
+                                            <?php
+                                        }
+                                        ?>
                                     </div>
-
                                     <div class="mb-3 form-input">
                                         <label class="form-label required" for="sex-dropdown"
                                         >Sex</label
@@ -303,7 +311,7 @@ mainHeader("Dashboard");
                                                 aria-label="Small select example"
                                                 name="sex"
                                         >
-                                            <option selected>Male</option>
+                                            <option selected value="Male">Male</option>
                                             <option value="Female">Female</option>
                                             <option value="Better not say">Better not say</option>
                                         </select>
@@ -318,7 +326,7 @@ mainHeader("Dashboard");
                                                     type="checkbox"
                                                     role="switch"
                                                     id="flexSwitchCheckDefault"
-                                                    name="add-switch"
+                                                    name="status"
                                             />
                                             <label
                                                     class="form-check-label"
@@ -336,17 +344,18 @@ mainHeader("Dashboard");
                                         >Internal notes</label
                                         >
                                         <div class="form-floating">
-                                            <textarea class="form-control" id="note" name="add-note"></textarea>
+                                            <textarea class="form-control" id="note" name="note"></textarea>
                                         </div>
                                     </div>
 
                                     <div class="mb-3 form-input">
-                                        <label class="form-label" for="role-dropdown"
+                                        <label class="form-label required" for="role-dropdown"
                                         >Role</label
                                         >
                                         <select
                                                 id="role-dropdown"
                                                 class="form-select form-control"
+                                                required
                                                 aria-label="Small select example"
                                                 name="role"
                                         >
@@ -386,7 +395,7 @@ mainHeader("Dashboard");
          id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
         <div class="offcanvas-header">
             <h3 class="offcanvas-title third-heading sidebar-heading" id="offcanvasScrollingLabel">
-                <a href="#" id="logo">
+                <a href="dashboard.php" id="logo">
                     <img src="assets/properties/pma-color.png" alt="PerMap logo" class="logo"/>
                 </a>
             </h3>

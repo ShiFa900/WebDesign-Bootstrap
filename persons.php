@@ -133,7 +133,7 @@ redirectIfNotAuthenticated();
 </head>
 <body>
 <header class="header d-flex align-items-center justify-content-between">
-    <a href="#" id="logo">
+    <a href="dashboard.php" id="logo">
         <img src="assets/properties/pma-border.png" alt="PerMap logo" class="logo"/>
     </a>
 
@@ -199,11 +199,10 @@ redirectIfNotAuthenticated();
                         <hr class="dropdown-divider"/>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#"
+                        <a class="dropdown-item" href="action/logout.php"
                         >
                             <ion-icon name="log-out-outline" class="icon"></ion-icon>
-                            Log
-                            out</a
+                            Logout</a
                         >
                     </li>
                 </ul>
@@ -252,12 +251,12 @@ redirectIfNotAuthenticated();
                             </li>
                             <li class="nav-item">
                                 <div class="wrapper">
-                                    <a href="logout.php" class="nav-link active">
+                                    <a href="action/logout.php" class="nav-link active">
                                         <ion-icon
                                                 name="log-out-outline"
                                                 class="icon sidebar-icon"
                                         ></ion-icon>
-                                        Log out
+                                        Logout
                                     </a>
                                 </div>
                             </li>
@@ -486,7 +485,7 @@ redirectIfNotAuthenticated();
                     class="offcanvas-title third-heading sidebar-heading"
                     id="offcanvasScrollingLabel"
             >
-                <a href="#" id="logo">
+                <a href="dashboard.php" id="logo">
                     <img
                             src="assets/properties/pma-color.png"
                             alt="PerMap logo"
@@ -541,12 +540,12 @@ redirectIfNotAuthenticated();
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="logout.php" class="nav-link active">
+                                <a href="action/logout.php" class="nav-link active">
                                     <ion-icon
                                             name="log-out-outline"
                                             class="icon sidebar-icon"
                                     ></ion-icon>
-                                    Log out
+                                    Logout
                                 </a>
                             </li>
                         </ul>
