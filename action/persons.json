@@ -152,5 +152,18 @@
         "password": "lo",
         "status": false,
         "lastLoggedIn": null
+    },
+    {
+        "id": 12,
+        "firstName": "Santa",
+        "lastName": "",
+        "nik": "0089872346781230",
+        "email": "kuchengOyen@gmail.com",
+        "birthDate": 1000821397,
+        "sex": "1",
+        "internalNote": null,
+        "role": "ADMIN",
+        "password": "",
+        "status": false
     }
 ]

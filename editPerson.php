@@ -4,6 +4,7 @@ require_once __DIR__ . "/index.php";
 require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/action/editPerson.php";
 session_start();
+$_SESSION["personId"] = $_GET["id"];
 
 redirectIfNotAuthenticated();
 
@@ -176,9 +177,6 @@ mainHeader("Edit Person");
                         <form class="new-person-form" action="action/editPerson.php" method="post" name="editPerson">
                             <div class="row">
                                 <div class="col-xxl-6 col-xl-6 col-lg-6 me-4">
-                                    <?php
-                                    $_SESSION["personId"] = $_GET[ID];
-                                    ?>
                                     <div class="mb-3 form-input">
                                         <label for="f-name" class="form-label required"
                                         >First Name</label
