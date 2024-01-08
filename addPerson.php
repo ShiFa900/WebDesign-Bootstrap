@@ -174,7 +174,7 @@ mainHeader("Dashboard");
                             <div class="row">
                                 <div class="col-xxl-6 col-xl-6 col-lg-6 new-person-form">
 
-                                    <div class="mb-3 form-input">
+                                    <div class="mb-3 form-input-add-person">
                                         <label for="f-name" class="form-label required"
                                         >First Name</label
                                         >
@@ -187,7 +187,7 @@ mainHeader("Dashboard");
                                                 name="firstName"
                                         />
                                     </div>
-                                    <div class="mb-3 form-input">
+                                    <div class="mb-3 form-input-add-person">
                                         <label for="l-name" class="form-label">Last Name</label>
 
                                         <input
@@ -198,7 +198,7 @@ mainHeader("Dashboard");
                                                 name="lastName"
                                         />
                                     </div>
-                                    <div class="mb-3 form-input">
+                                    <div class="mb-3 form-input-add-person">
                                         <label for="nik" class="form-label required">NIK</label>
                                         <input
                                                 id="nik"
@@ -221,7 +221,7 @@ mainHeader("Dashboard");
                                         }
                                         ?>
                                     </div>
-                                    <div class="mb-3 form-input">
+                                    <div class="mb-3 form-input-add-person">
                                         <label for="staticEmail" class="form-label required"
                                         >Email</label
                                         >
@@ -245,7 +245,7 @@ mainHeader("Dashboard");
                                         ?>
                                     </div>
 
-                                    <div class="mb-3 form-input">
+                                    <div class="mb-3 form-input-add-person">
                                         <label for="datePicker" class="form-label required"
                                         >Date of Birth</label
                                         >
@@ -259,7 +259,7 @@ mainHeader("Dashboard");
                                         />
                                     </div>
                                     <!--password-->
-                                    <div class="mb-3 form-input">
+                                    <div class="mb-3 form-input-add-person">
                                         <label for="pass" class="form-label required">Password</label>
                                         <input
                                                 id="pass"
@@ -280,7 +280,7 @@ mainHeader("Dashboard");
                                     </div>
 
                                     <!--konfirmasi password-->
-                                    <div class="mb-3 form-input">
+                                    <div class="mb-3 form-input-add-person">
                                         <label for="confirm-pass" class="form-label required">Confirm Your
                                             Password</label>
                                         <input
@@ -300,24 +300,24 @@ mainHeader("Dashboard");
                                         }
                                         ?>
                                     </div>
-                                    <div class="mb-3 form-input">
+                                    <div class="mb-3 form-input-add-person">
                                         <label class="form-label required" for="sex-dropdown"
                                         >Sex</label
                                         >
                                         <select
-                                                class="form-select form-control"
+                                                class="form-select form-control "
                                                 id="sex-dropdown"
                                                 required
                                                 aria-label="Small select example"
                                                 name="sex"
                                         >
-                                            <option selected value="Male">Male</option>
-                                            <option value="Female">Female</option>
-                                            <option value="Better not say">Better not say</option>
+                                            <option selected value="<?=SEX_MALE?>">Male</option>
+                                            <option value="<?=SEX_FEMALE?>">Female</option>
+                                            <option value="<?=SEX_BETTER_NOT_SAY?>">Better not say</option>
                                         </select>
                                     </div>
 
-                                    <div class="form-input mt-0">
+                                    <div class="form-input-add-person mt-0">
                                         <div
                                                 class="form-check form-switch d-flex align-items-center column-gap-3"
                                         >
@@ -339,7 +339,7 @@ mainHeader("Dashboard");
 
                                 <div class="col-xxl-5 col-xl-6 col-lg-6 new-person-form">
 
-                                    <div class="mb-3 form-input">
+                                    <div class="mb-3 form-input-add-person">
                                         <label for="note" class="form-label"
                                         >Internal notes</label
                                         >
@@ -348,7 +348,7 @@ mainHeader("Dashboard");
                                         </div>
                                     </div>
 
-                                    <div class="mb-3 form-input">
+                                    <div class="mb-3 form-input-add-person">
                                         <label class="form-label required" for="role-dropdown"
                                         >Role</label
                                         >
@@ -359,8 +359,8 @@ mainHeader("Dashboard");
                                                 aria-label="Small select example"
                                                 name="role"
                                         >
-                                            <option selected value="ADMIN">Admin</option>
-                                            <option value="MEMBER">Member</option>
+                                            <option selected value="<?=ROLE_ADMIN?>">Admin</option>
+                                            <option value="<?=ROLE_MEMBER?>">Member</option>
                                         </select>
                                     </div>
                                 </div>

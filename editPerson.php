@@ -3,10 +3,10 @@ global $person;
 require_once __DIR__ . "/index.php";
 require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/action/editPerson.php";
-session_start();
 $_SESSION["personId"] = $_GET["id"];
 
 redirectIfNotAuthenticated();
+//checkRoleAdmin("dashboard.php");
 
 ?>
 <?php
@@ -181,6 +181,10 @@ mainHeader("Edit Person");
                                         <label for="f-name" class="form-label required"
                                         >First Name</label
                                         >
+                                        <?=$_SESSION["personId"]?>
+                                        <?php
+                                        var_dump($person);
+                                        ?>
                                         <input
                                                 id="f-name"
                                                 type="text"
@@ -268,19 +272,19 @@ mainHeader("Edit Person");
                                             <?php
                                             if ($person[PERSON_SEX] == SEX_MALE) {
                                                 ?>
-                                                <option value="1"><?= SEX_FEMALE ?></option>
-                                                <option value="2"><?= SEX_BETTER_NOT_SAY ?></option>
+                                                <option value="<?=SEX_FEMALE?>"><?= SEX_FEMALE ?></option>
+                                                <option value="<?=SEX_BETTER_NOT_SAY?>"><?= SEX_BETTER_NOT_SAY ?></option>
 
                                                 <?php
                                             } elseif ($person[PERSON_SEX] == SEX_FEMALE) {
                                                 ?>
-                                                <option value="1"><?= SEX_MALE ?></option>
-                                                <option value="2"><?= SEX_BETTER_NOT_SAY ?></option>
+                                                <option value="<?=SEX_MALE?>"><?= SEX_MALE ?></option>
+                                                <option value="<?=SEX_BETTER_NOT_SAY?>"><?= SEX_BETTER_NOT_SAY ?></option>
                                                 <?php
                                             } else {
                                                 ?>
-                                                <option value="1"><?= SEX_MALE ?></option>
-                                                <option value="2"><?= SEX_FEMALE ?></option>
+                                                <option value="<?=SEX_MALE?>"><?= SEX_MALE ?></option>
+                                                <option value="<?=SEX_FEMALE?>"><?= SEX_FEMALE ?></option>
                                                 <?php
                                             }
                                             ?>
@@ -297,7 +301,7 @@ mainHeader("Edit Person");
                                                     type="checkbox"
                                                     role="switch"
                                                     id="flexSwitchCheckDefault"
-                                                    name="add-switch"
+                                                    name="status"
                                                 <?php
                                                 if($person[PERSON_STATUS]){
                                                 ?>
@@ -326,6 +330,7 @@ mainHeader("Edit Person");
                                                   class="form-control"
                                                   placeholder="Leave a comment here"
                                                   id="note"
+                                                  name="note"
                                           ><?php
                                               echo filter_input(INPUT_GET, $person[PERSON_INTERNAL_NOTE], FILTER_SANITIZE_URL);
                                               ?>
@@ -343,16 +348,16 @@ mainHeader("Edit Person");
                                                 aria-label="Small select example"
                                                 name="role"
                                         >
-                                            <option selected value="ADMIN"><?=$person[PERSON_ROLE]?></option>
+                                            <option selected value="<?=$person[PERSON_ROLE]?>"><?=$person[PERSON_ROLE]?></option>
 
                                             <?php
                                             if($person[PERSON_ROLE] == ROLE_ADMIN){
                                             ?>
-                                                <option value="MEMBER">Member</option>
+                                                <option value="<?=ROLE_MEMBER?>">Member</option>
                                             <?php
                                             } else {
                                             ?>
-                                                <option value="ADMIN">Admin</option>
+                                                <option value="<?=ROLE_ADMIN?>">Admin</option>
 
                                             <?php
                                             }
@@ -360,35 +365,33 @@ mainHeader("Edit Person");
 
                                         </select>
                                     </div>
-                                    <hr/>
-                                    <div class="mb-3 form-input">
-                                        <label for="currentPass" class="form-label">Current Password</label>
-                                        <input
-                                                id="currentPass"
-                                                type="password"
-                                                class="form-control"
-                                                name="currentPassword"/>
-
-                                    </div>
-                                    <div class="mb-3 form-input">
-                                        <label for="newPass" class="form-label ">New Password</label>
-                                        <input
-                                                id="pass"
-                                                type="password"
-                                                class="form-control"
-                                                name="newPassword"/>
-
-                                    </div>
-                                    <!--jika new password diinputkan, maka confirm password required -->
-                                    <div class="mb-3 form-input">
-                                        <label for="confirmPass" class="form-label">Confirm Password</label>
-                                        <input
-                                                id="confirmPass"
-                                                type="password"
-                                                class="form-control"
-                                                name="confirmPassword"/>
-
-                                    </div>
+<!--                                    <div class="mb-3 form-input">-->
+<!--                                        <label for="currentPass" class="form-label">Current Password</label>-->
+<!--                                        <input-->
+<!--                                                id="currentPass"-->
+<!--                                                type="password"-->
+<!--                                                class="form-control"-->
+<!--                                                name="currentPassword"/>-->
+<!---->
+<!--                                    </div>-->
+<!--                                    <div class="mb-3 form-input">-->
+<!--                                        <label for="newPass" class="form-label ">New Password</label>-->
+<!--                                        <input-->
+<!--                                                id="newPass"-->
+<!--                                                type="password"-->
+<!--                                                class="form-control"-->
+<!--                                                name="newPassword"/>-->
+<!---->
+<!--                                    </div>-->
+<!--                                    <div class="mb-3 form-input">-->
+<!--                                        <label for="confirmPass" class="form-label">Confirm Password</label>-->
+<!--                                        <input-->
+<!--                                                id="confirmPass"-->
+<!--                                                type="password"-->
+<!--                                                class="form-control"-->
+<!--                                                name="confirmPassword"/>-->
+<!---->
+<!--                                    </div>-->
                                 </div>
                             </div>
 
@@ -518,5 +521,20 @@ mainHeader("Edit Person");
         </div>
     </div>
 </nav>
+<?php
+// unset $_SESSION
+unset($_SESSION["firstName"]);
+unset($_SESSION["lastName"]);
+unset($_SESSION["internalNote"]);
+unset($_SESSION["nik"]);
+unset($_SESSION["email"]);
+unset($_SESSION["sex"]);
+unset($_SESSION["birthDate"]);
+unset($_SESSION["personId"]);
+unset($_SESSION["lastLoggedIn"]);
+unset($_SESSION["status"]);
+unset($_SESSION["password"]);
+unset($_SESSION["role"]);
+?>
 </body>
 </html>

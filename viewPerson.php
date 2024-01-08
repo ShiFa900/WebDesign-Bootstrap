@@ -131,17 +131,60 @@ mainHeader("View Person");
                                     Edit profile
                                 </a>
                             </li>
+
+                            <!--beri popup sebelum logout-->
                             <li class="nav-item">
-                                <div class="wrappe">
-                                    <a href="action/logout.php" class="nav-link active">
-                                        <ion-icon
-                                                name="log-out-outline"
-                                                class="icon sidebar-icon"
-                                        ></ion-icon>
-                                        Log out
-                                    </a>
-                                </div>
+                                <!--                                <button type="button"-->
+                                <!--                                        class="btn"-->
+                                <!--                                        data-bs-toggle="modal"-->
+                                <!--                                        data-bs-target="#exampleModal"-->
+                                <!--                                > -->
+                                <a href="action/logout.php" class="nav-link logout-btn">
+                                    <ion-icon
+                                            name="log-out-outline"
+                                            class="icon sidebar-icon"
+                                    ></ion-icon>
+                                    Log out
+                                </a>
+                                <!--
+                                </button>-->
+<!--                                <div-->
+<!--                                        class="modal fade"-->
+<!--                                        id="exampleModal"-->
+<!--                                        tabindex="-1"-->
+<!--                                        aria-labelledby="exampleModalLabel"-->
+<!--                                        aria-hidden="true"-->
+<!--                                >-->
+<!--                                    <div class="modal-dialog modal-dialog-centered">-->
+<!--                                        <div class="modal-content">-->
+<!--                                            <div class="modal-header">-->
+<!--                                                <h1 class="modal-title" id="exampleModalLabel">-->
+<!--                                                    Are you sure want to logout?-->
+<!--                                                </h1>-->
+<!--                                                <button-->
+<!--                                                        type="button"-->
+<!--                                                        class="btn-close"-->
+<!--                                                        data-bs-dismiss="modal"-->
+<!--                                                        aria-label="Close"-->
+<!--                                                ></button>-->
+<!--                                            </div>-->
+<!--                                            <div class="modal-footer">-->
+<!--                                                <button-->
+<!--                                                        type="button"-->
+<!--                                                        class="btn btn-secondary btn-block"-->
+<!--                                                        data-bs-dismiss="modal"-->
+<!--                                                >-->
+<!--                                                    No-->
+<!--                                                </button>-->
+<!--                                                <button type="button" class="btn btn-primary" name="btnDelete">-->
+<!--                                                    <a href="action/logout.php">Yes</a>-->
+<!--                                                </button>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
                             </li>
+
                         </ul>
                     </li>
                 </ul>
@@ -185,14 +228,14 @@ mainHeader("View Person");
 
                                     <div class="mb-3 form-input">
                                         <?php
-                                        if($person[PERSON_LAST_NAME] != ""){
-                                        ?>
-                                        <span class="title">Last Name</span>
-                                        <p>
-                                            <?= $person[PERSON_LAST_NAME];
+                                        if ($person[PERSON_LAST_NAME] != "") {
                                             ?>
-                                        </p>
-                                        <?php
+                                            <span class="title">Last Name</span>
+                                            <p>
+                                                <?= $person[PERSON_LAST_NAME];
+                                                ?>
+                                            </p>
+                                            <?php
                                         }
                                         ?>
                                     </div>
@@ -235,14 +278,14 @@ mainHeader("View Person");
 
                                     <div class="mb-3 form-input">
                                         <?php
-                                        if($person[PERSON_INTERNAL_NOTE] != null){
-                                        ?>
-                                        <span class="title">Internal Note</span>
-                                        <p>
-                                            <?= $person[PERSON_INTERNAL_NOTE];
+                                        if ($person[PERSON_INTERNAL_NOTE] != null) {
                                             ?>
-                                        </p>
-                                        <?php
+                                            <span class="title">Internal Note</span>
+                                            <p>
+                                                <?= $person[PERSON_INTERNAL_NOTE];
+                                                ?>
+                                            </p>
+                                            <?php
                                         }
                                         ?>
 
@@ -274,59 +317,62 @@ mainHeader("View Person");
                                         >
                                             <div class="btn-wrapper d-flex column-gap-3">
                                                 <a href="persons.php" class="btn btn-primary btn--form has-border"
-                                                        type="submit"
+                                                   type="submit"
                                                 >Back
                                                 </a>
                                             </div>
                                             <?php
-                                            if($person[PERSON_ROLE] == ROLE_ADMIN){
-                                            ?>
-                                            <!-- Button trigger modal -->
+                                            $user = getPerson(email: $_SESSION["userEmail"]);
+                                            if ($user[PERSON_ROLE] == ROLE_ADMIN) {
+                                                ?>
+                                                <!-- Button trigger modal -->
                                                 <button type="button"
                                                         class="btn btn-primary btn--form delete-btn"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#exampleModal"
-                                                >Delete</button>
-                                            <?php
+                                                >Delete
+                                                </button>
+                                                <?php
                                             }
                                             ?>
 
-                                                <!-- Modal -->
-                                                <div
-                                                        class="modal fade"
-                                                        id="exampleModal"
-                                                        tabindex="-1"
-                                                        aria-labelledby="exampleModalLabel"
-                                                        aria-hidden="true"
-                                                >
-                                                    <div class="modal-dialog modal-dialog-centered">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h1 class="modal-title" id="exampleModalLabel">
-                                                                    Are you sure want to delete this person?
-                                                                </h1>
-                                                                <button
-                                                                        type="button"
-                                                                        class="btn-close"
-                                                                        data-bs-dismiss="modal"
-                                                                        aria-label="Close"
-                                                                ></button>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button
-                                                                        type="button"
-                                                                        class="btn btn-secondary btn-block"
-                                                                        data-bs-dismiss="modal"
-                                                                >
-                                                                    No
-                                                                </button>
-                                                                <button type="button" class="btn btn-primary" name="btnDelete">
-                                                                    <a href="action/deletePerson.php">Yes</a>
-                                                                </button>
-                                                            </div>
+                                            <!-- Modal -->
+                                            <div
+                                                    class="modal fade"
+                                                    id="exampleModal"
+                                                    tabindex="-1"
+                                                    aria-labelledby="exampleModalLabel"
+                                                    aria-hidden="true"
+                                            >
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title" id="exampleModalLabel">
+                                                                Are you sure want to delete this person?
+                                                            </h1>
+                                                            <button
+                                                                    type="button"
+                                                                    class="btn-close"
+                                                                    data-bs-dismiss="modal"
+                                                                    aria-label="Close"
+                                                            ></button>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button
+                                                                    type="button"
+                                                                    class="btn btn-secondary btn-block"
+                                                                    data-bs-dismiss="modal"
+                                                            >
+                                                                No
+                                                            </button>
+                                                            <button type="button" class="btn btn-primary"
+                                                                    name="btnDelete">
+                                                                <a href="action/deletePerson.php?id=<?=$person[ID]?>" class="btn">Yes</a>
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

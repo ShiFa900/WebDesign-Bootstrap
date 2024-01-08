@@ -68,9 +68,8 @@ function savePerson(array $person, string $location): void
         for ($i = 0; $i < count($persons); $i++) {
             if ($person[ID] == $persons[$i][ID]) {
 
-//                convert date of birth to int timestamp
                 $persons[$i] = [
-                    ID => $person[ID],
+                    ID => $persons[$i][ID],
                     PERSON_FIRST_NAME => ucwords($person[PERSON_FIRST_NAME]),
                     PERSON_LAST_NAME => ucwords($person[PERSON_LAST_NAME]),
                     PERSON_NIK => $person[PERSON_NIK],
@@ -80,8 +79,8 @@ function savePerson(array $person, string $location): void
                     PERSON_INTERNAL_NOTE => $person[PERSON_INTERNAL_NOTE],
                     PERSON_ROLE => $person[PERSON_ROLE],
                     PASSWORD => $person[PASSWORD],
-                    PERSON_STATUS => $person[PERSON_STATUS],
-                    PERSON_LAST_LOGGED_IN => $person[PERSON_LAST_LOGGED_IN]
+                    PERSON_STATUS => translateSwitch($person[PERSON_STATUS]),
+                    PERSON_LAST_LOGGED_IN => $persons[$i][PERSON_LAST_LOGGED_IN]
                 ];
                 saveDataIntoJson($persons, "persons.json");
                 redirect("../" . $location, "error=0");
@@ -108,7 +107,7 @@ function convertDateToTimestamp(string $date, string|null $format = 'd/m/Y'): in
     return -1;
 }
 
-function getPerson(int $id = null, string $email = null): array
+function getPerson(int|string $id = null, string|null $email = null): array
 {
     $persons = getAll();
     if ($id != null) {
@@ -130,9 +129,23 @@ function getPerson(int $id = null, string $email = null): array
 
 function translateBooleanToString(string $status): string
 {
-    return $status ? "ALIVE" : "PASSED AWAY";
+    return $status ? "Alive" : "Passed Away";
 }
 
+function translateSwitch(string $on): bool
+{
+    return $on == "on";
+}
+
+function getAgeCategory(int $age){
+    if($age <= 13){
+       return CATEGORIES_CHILD;
+    } elseif ($age >= 14){
+        return CATEGORIES_PRODUCTIVE_AGE;
+    } elseif ($age >= 46){
+        return CATEGORIES_ELDERLY;
+    }
+}
 //function calculateAge(string $birthOfDate): int
 //{
 //    $currentDate = time();

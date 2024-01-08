@@ -87,6 +87,12 @@ tbody tr:nth-child(even) {
   background-color: #fafafa;
 }
 
+.table tbody{
+  height: 50px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
 .table-nav {
   padding: 0.2rem 0.75rem;
   border: 1px solid #015d98;

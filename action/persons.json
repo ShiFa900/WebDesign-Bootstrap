@@ -8,10 +8,10 @@
         "birthDate": 983476182,
         "sex": "Male",
         "internalNote": "I believe i can fly",
-        "role": "MEMBER",
+        "role": "Member",
         "password": "ayam",
         "status": true,
-        "lastLoggedIn": 1704446994
+        "lastLoggedIn": 1704700934
     },
     {
         "id": 2,
@@ -22,7 +22,7 @@
         "birthDate": 1232012982,
         "sex": "Male",
         "internalNote": "Holanimbus",
-        "role": "MEMBER",
+        "role": "Member",
         "password": "shiku",
         "status": true,
         "lastLoggedIn": 1698628143
@@ -36,10 +36,10 @@
         "birthDate": 888781782,
         "sex": "Female",
         "internalNote": "I wish I was special -radioHead-",
-        "role": "ADMIN",
+        "role": "Admin",
         "password": "sarah",
         "status": true,
-        "lastLoggedIn": 1700183343
+        "lastLoggedIn": 1704705648
     },
     {
         "id": 4,
@@ -50,10 +50,10 @@
         "birthDate": 919911460,
         "sex": "Female",
         "internalNote": "ok",
-        "role": "MEMBER",
+        "role": "Member",
         "password": "pol",
         "status": true,
-        "lastLoggedIn": 1704439512
+        "lastLoggedIn": 1704694209
     },
     {
         "id": 5,
@@ -64,7 +64,7 @@
         "birthDate": 1229138324,
         "sex": "Male",
         "internalNote": "",
-        "role": "MEMBER",
+        "role": "Member",
         "password": "ocani",
         "status": false,
         "lastLoggedIn": null
@@ -78,7 +78,7 @@
         "birthDate": 898575286,
         "sex": "Better not say",
         "internalNote": "",
-        "role": "MEMBER",
+        "role": "Member",
         "password": "milocoklat",
         "status": true,
         "lastLoggedIn": 1704439823
@@ -92,22 +92,8 @@
         "birthDate": 1074843619,
         "sex": "Female",
         "internalNote": "",
-        "role": "MEMBER",
+        "role": "Member",
         "password": "inigaby",
-        "status": true,
-        "lastLoggedIn": null
-    },
-    {
-        "id": 8,
-        "firstName": "Santa",
-        "lastName": "",
-        "nik": "0089872346781230",
-        "email": "kuchengOyen@gmail.com",
-        "birthDate": 1000798913,
-        "sex": "Female",
-        "internalNote": "",
-        "role": "MEMBER",
-        "password": "meong",
         "status": true,
         "lastLoggedIn": null
     },
@@ -120,21 +106,21 @@
         "birthDate": -2314196167,
         "sex": "Male",
         "internalNote": "",
-        "role": "ADMIN",
-        "password": "virginParfume",
+        "role": "Admin",
+        "password": "virginPerfume",
         "status": true,
         "lastLoggedIn": null
     },
     {
         "id": 10,
         "firstName": "Jean",
-        "lastName": "Galelou",
+        "lastName": "Galleon",
         "nik": "1389072567349000",
         "email": "galeo@gmail.com",
         "birthDate": -1943971979,
         "sex": "Male",
         "internalNote": "",
-        "role": "ADMIN",
+        "role": "Admin",
         "password": "gap",
         "status": false,
         "lastLoggedIn": null
@@ -145,25 +131,26 @@
         "lastName": "",
         "nik": "12",
         "email": "rubi@gmail.com",
-        "birthDate": 1688544649,
+        "birthDate": 1309857107,
         "sex": "Male",
-        "internalNote": "",
-        "role": "ADMIN",
-        "password": "lo",
+        "internalNote": "                                          ",
+        "role": "Member",
+        "password": null,
         "status": false,
         "lastLoggedIn": null
     },
     {
         "id": 12,
-        "firstName": "Santa",
-        "lastName": "",
-        "nik": "0089872346781230",
-        "email": "kuchengOyen@gmail.com",
-        "birthDate": 1000821397,
-        "sex": "1",
-        "internalNote": null,
-        "role": "ADMIN",
-        "password": "",
-        "status": false
+        "firstName": "Mawah",
+        "lastName": "As",
+        "nik": "00000000009128273",
+        "email": "rubi@gmail.com",
+        "birthDate": 635851507,
+        "sex": "Male",
+        "internalNote": "",
+        "role": "Member",
+        "password": "cok",
+        "status": true,
+        "lastLoggedIn": null
     }
 ]

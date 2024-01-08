@@ -25,3 +25,10 @@ const PERSON_STATUS = "status";
 const SEX_FEMALE = "Female";
 const SEX_MALE = "Male";
 const SEX_BETTER_NOT_SAY = "Better not say";
+
+//cons for identified categories
+const CATEGORIES_CHILD = "Child";
+const CATEGORIES_PRODUCTIVE_AGE = "Productive Age";
+const CATEGORIES_ALL = "All";
+const CATEGORIES_ELDERLY = "Elderly";
+const CATEGORIES_PASSED_AWAY = "Passed Away";

@@ -191,6 +191,10 @@ body {
   margin-top: 1.4rem;
 }
 
+.logout-btn{
+  padding-left: 0.60rem !important;
+}
+
 /* ICON */
 .icon {
   width: 1.6rem;
@@ -220,7 +224,7 @@ body {
   padding: 0.55rem;
 }
 
-.form-input {
+.form-input-add-person {
   margin: 1.6rem 0;
 }
 

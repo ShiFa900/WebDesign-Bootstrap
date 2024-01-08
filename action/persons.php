@@ -12,20 +12,24 @@ require_once __DIR__ . "/utils.php";
 
 function search()
 {
-    $inputText = $_POST['search-form'];
+    if (isset($_POST["search"])) {
+        $category = $_POST["category"];
+        $keyWord = $_POST["keyWord"];
+    }
+    $inputText = preg_quote($_POST['search']);
     $persons = getAll();
+    $temp = [];
+
     while (true) {
         if ($inputText == "") break;
-        $inputText = preg_quote($inputText);
-        $temp = [];
         for ($i = 0; $i < count($persons); $i++) {
-            if (preg_match("/$inputText/i", $persons[$i]["email"])) {
-                if (!in_array($persons[$i]["email"], $temp)) {
+            if (preg_match("/$inputText/i", $persons[$i][PERSON_EMAIL])) {
+                if (!in_array($persons[$i][PERSON_EMAIL], $temp)) {
                     $temp[] = $persons[$i];
                 }
             }
-            if (preg_match("/$inputText/i", $persons[$i]["firstName"] . $persons[$i]['lastName'])) {
-                if (!in_array($persons[$i]["email"], $temp)) {
+            if (preg_match("/$inputText/i", $persons[$i][PERSON_FIRST_NAME]) || preg_match("/$inputText/i", $persons[$i][PERSON_LAST_NAME])) {
+                if (!in_array($persons[$i][PERSON_FIRST_NAME], $temp) || !in_array($persons[$i][PERSON_LAST_NAME], $temp)) {
                     $temp[] = $persons[$i];
                 }
             }
@@ -33,7 +37,7 @@ function search()
         if (count($temp) != 0) {
             return $temp;
         }
-        break;
     }
+
 
 }

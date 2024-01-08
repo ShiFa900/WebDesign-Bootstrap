@@ -1,10 +1,13 @@
 <?php
-require_once __DIR__ . "/action/person.php";
+require_once __DIR__ . "/action/persons.php";
 require_once __DIR__ . "/action/const.php";
 require_once __DIR__ . "/index.php";
 session_start();
 
 redirectIfNotAuthenticated();
+//checkRoleAdmin();
+$persons = getAll();
+
 ?>
 
 <!DOCTYPE html>
@@ -283,6 +286,13 @@ redirectIfNotAuthenticated();
         </div>
 
         <div class="w-100">
+<!--            --><?php
+//            if (isset($_POST["search"])) {
+//                $category = $_POST["category"];
+//                $keyWord = $_POST["keyWord"];
+//                $persons = search();
+//            }
+//            ?>
             <div class="person-content position-absolute px-5">
                 <div
                         class="content-wrapper page-header d-flex justify-content-between"
@@ -297,66 +307,40 @@ redirectIfNotAuthenticated();
                     </div>
 
                     <div
-                            class="right d-flex gap-4 align-items-center justify-content-end"
+                            class="right d-flex"
                     >
-                        <!-- menggunakan select -->
-                        <select
-                                id="form-select-catagories"
-                                class="form-select form-select-lg form-select-sm"
-                                aria-label="Large select example"
-
-                        >
-                            <option selected>All</option>
-                            <option value="1">Productive ages</option>
-                            <option value="2">Children</option>
-                            <option value="3">Elderly</option>
-                            <option value="4">Passed away</option>
-                        </select>
-
-                        <!-- menggunakan dropdown button -->
-                        <!-- <div class="dropdown">
-                          <button
-                            class="btn btn-secondary dropdown-toggle"
-                            type="button"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                          >
-                            Dropdown button
-                          </button>
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">All</a></li>
-                            <li><hr class="dropdown-divider" /></li>
-
-                            <li>
-                              <a class="dropdown-item" href="#">Productive ages</a>
-                            </li>
-                            <li><a class="dropdown-item" href="#">Children</a></li>
-                            <li><a class="dropdown-item" href="#">Elderly</a></li>
-                            <li>
-                              <a class="dropdown-item" href="#">Passed away</a>
-                            </li>
-                          </ul>
-                        </div> -->
-
                         <!--SEARCH-->
                         <form
-                                class="search-form d-flex align-items-center"
+                                class="search-form d-flex align-items-center gap-2"
                                 name="search-form"
                                 action="#table"
-                                method="get"
+                                method="post"
                         >
-                            <div class="form-search d-none d-lg-block w-100 me-2">
+                            <!-- menggunakan select -->
+                            <select
+                                    id="form-select-catagories"
+                                    class="form-select form-select-lg form-select-sm"
+                                    aria-label="Large select example"
+                                    name="category"
+
+                            >
+                                <option selected name="category" value="<?= CATEGORIES_ALL ?>">All</option>
+                                <option value="<?= CATEGORIES_PRODUCTIVE_AGE ?>">Productive ages</option>
+                                <option value="<?= CATEGORIES_CHILD ?>">Children</option>
+                                <option value="<?= CATEGORIES_ELDERLY ?>">Elderly</option>
+                                <option value="<?= CATEGORIES_PASSED_AWAY ?>">Passed away</option>
+                            </select>
+
+                            <div class="form-search d-none d-lg-block w-100 me-1">
                                 <input
                                         id="search"
                                         class="form-control form-control-sm"
                                         type="search"
                                         placeholder="Search"
                                         aria-label="Search"
+                                        name="keyWord"
                                 />
                             </div>
-                            <?php
-                            //                            search();
-                            ?>
                             <button class="btn btn-outline-success" type="submit" name="search">
                                 <ion-icon name="search-outline" class="icon"></ion-icon>
                             </button>
@@ -368,7 +352,8 @@ redirectIfNotAuthenticated();
                 <a class="nav-link d-flex justify-content-end" href="#table">
                     <span class="material-symbols-outlined"> expand_more </span>
                 </a>
-                <div class="table-section table-responsive" id="table">
+                <div class="table-section table-responsive{-sm|-md|-lg|-xl|-xxl}" id="table">
+
                     <table class="table">
                         <thead>
                         <tr>
@@ -386,15 +371,15 @@ redirectIfNotAuthenticated();
 
                         <tr>
                             <?php
-                            $persons = getAll();
+                            $no = 1;
                             foreach ($persons
 
                             as $person) {
                             ?>
-                            <td><?= $person[ID] ?></td>
+                            <td><?= $no++ ?></td>
                             <td><?= $person[PERSON_EMAIL] ?></td>
                             <td><?= $person[PERSON_FIRST_NAME] . " " . $person[PERSON_LAST_NAME] ?></td>
-                            <td><?= calculateAge($person[PERSON_BIRTH_DATE])?></td>
+                            <td><?= calculateAge($person[PERSON_BIRTH_DATE]) ?></td>
                             <td><?= $person[PERSON_SEX] ?></td>
                             <td><?= $person[PERSON_ROLE] ?></td>
                             <?php
@@ -409,10 +394,10 @@ redirectIfNotAuthenticated();
                                     <a
 
                                         <?php
-                                        if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]){
-                                        ?>
+                                        if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
+                                            ?>
                                             href="viewPerson.php?id=<?php echo $person[ID] ?>"
-                                        <?php
+                                            <?php
                                         }
                                         ?>
                                             href="myProfile.php"
@@ -420,20 +405,30 @@ redirectIfNotAuthenticated();
                                     >View</a
                                     >
                                 </button>
-                                <button class="btn">
-                                    <a
-                                            <?php
-                                            if($person[PERSON_EMAIL] != $_SESSION["userEmail"]){?>
 
-                                            href="editPerson.php?id=<?php echo $person[ID]?>"
+                                <button class="btn">
+                                    <?php
+                                    $userRole = getPerson(email: $_SESSION["userEmail"]);
+                                    if ($userRole[PERSON_ROLE] == ROLE_ADMIN) {
+                                        ?>
+                                        <a
                                             <?php
+                                            if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
+                                                ?>
+
+                                                href="editPerson.php?id=<?php echo $person[ID] ?>"
+                                                <?php
                                             }
                                             ?>
-                                            href="myProfile.php"
-                                            class="nav-link table-nav edit-btn"
-                                    >Edit</a
-                                    >
+                                                href="myProfile.php"
+                                                class="nav-link table-nav edit-btn"
+                                        >Edit</a
+                                        >
+                                        <?php
+                                    }
+                                    ?>
                                 </button>
+
                             </td>
 
                         </tr>
