@@ -275,6 +275,9 @@ mainHeader("My Profile");
                                         </select>
                                     </div>
 
+                                    <?php
+                                    if($person[PERSON_ROLE] == ROLE_ADMIN){
+                                    ?>
 
                                     <div class="mb-3 form-input">
                                         <label for="note" class="form-label"
@@ -289,6 +292,9 @@ mainHeader("My Profile");
                                               </textarea>
                                         </div>
                                     </div>
+                                    <?php
+                                    }
+                                    ?>
 
                                     <div class="mb-3 form-input">
                                         <span class="required title">Role</span>
