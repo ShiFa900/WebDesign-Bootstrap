@@ -1,7 +1,7 @@
 <?php
 global $person;
 require_once __DIR__ . "/index.php";
-require_once __DIR__ . "/action/viewPerson.php";
+require_once __DIR__ . "/action/actionViewPerson.php";
 require_once __DIR__ . "/include/header.php";
 session_start();
 
@@ -139,7 +139,7 @@ mainHeader("View Person");
                                 <!--                                        data-bs-toggle="modal"-->
                                 <!--                                        data-bs-target="#exampleModal"-->
                                 <!--                                > -->
-                                <a href="action/logout.php" class="nav-link logout-btn">
+                                <a href="action/actionLogout.php" class="nav-link logout-btn">
                                     <ion-icon
                                             name="log-out-outline"
                                             class="icon sidebar-icon"
@@ -215,7 +215,7 @@ mainHeader("View Person");
 
                 <div class="row">
                     <div class="col-xxl-12">
-                        <form class="new-person-form" action="action/viewPerson.php" method="post">
+                        <form class="new-person-form" action="action/actionViewPerson.php" method="post">
                             <div class="row">
                                 <div class="col-xxl-8 col-xl-8 col-lg-10 col-12">
                                     <div class="mb-3 form-input">
@@ -367,7 +367,7 @@ mainHeader("View Person");
                                                             </button>
                                                             <button type="button" class="btn btn-primary"
                                                                     name="btnDelete">
-                                                                <a href="action/deletePerson.php?id=<?=$person[ID]?>" class="btn">Yes</a>
+                                                                <a href="action/actionDeletePerson.php?id=<?=$person[ID]?>" class="btn">Yes</a>
                                                             </button>
                                                         </div>
                                                     </div>
@@ -454,7 +454,7 @@ mainHeader("View Person");
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="action/logout.php" class="nav-link active">
+                                <a href="action/actionLogout.php" class="nav-link active">
                                     <ion-icon
                                             name="log-out-outline"
                                             class="icon sidebar-icon"

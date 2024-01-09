@@ -12,9 +12,12 @@ if (isset($_POST["firstName"])) {
 
 
     $_SESSION["errorNik"] = $errorData["nik"];
-    $_SESSION["errorEmail"] = $errorData["email"];
-    $_SESSION["errorConfirmPass"] = $errorData["confirmPass"];
+//    $_SESSION["errorEmail"] = $errorData["email"];
+//    $_SESSION["errorConfirmPass"] = $errorData["confirmPass"];
     $_SESSION["errorPass"] = $errorData["password"];
+//    header("addPerson.php");
+//    exit();
+
 
     $persons = getAll();
 
@@ -29,7 +32,7 @@ if (isset($_POST["firstName"])) {
         PERSON_INTERNAL_NOTE => $_POST["note"],
         PERSON_ROLE => $_POST["role"],
         PASSWORD => $_POST["password"],
-        PERSON_STATUS => $_POST["status"] == "on" ? true : false,
+        PERSON_STATUS => translateSwitch($_POST["status"]),
         PERSON_LAST_LOGGED_IN => null,
     ];
 
@@ -104,4 +107,4 @@ function validatePassword(string $password): string
 
 
 //buat sebuah variable array yang akan menyimpan semua data-data yang error ketika mengambil input
-//kemudian, cek variable tersebut di file addPerson.php untuk menampilkan pesan error (jika terdapat)
+//kemudian, cek variable tersebut di file actionAddPerson.php untuk menampilkan pesan error (jika terdapat)

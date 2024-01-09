@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/action/addPerson.php";
+require_once __DIR__ . "/action/actionAddPerson.php";
 require_once __DIR__ . "/index.php";
 require_once __DIR__ . "/include/header.php";
 session_start();
@@ -170,7 +170,7 @@ mainHeader("Dashboard");
                 </div>
                 <div class="row">
                     <div class="col-xxl-12">
-                        <form class="new-person-form" action="action/addPerson.php" method="post" name="addPerson">
+                        <form class="new-person-form" action="action/actionAddPerson.php" method="post" name="addPerson">
                             <div class="row">
                                 <div class="col-xxl-6 col-xl-6 col-lg-6 new-person-form">
 
@@ -208,9 +208,8 @@ mainHeader("Dashboard");
                                                 class="form-control"
                                                 name="nik"
                                         />
-                                        <span class="smallText"><em>NIK must be at least 16 characters</em></span>
                                         <?php
-                                        if (isset($_SESSION["errorNik"]) && $_SESSION["errorNik"] == 1) {
+                                        if (isset($_SESSION["errorNik"])) {
                                             ?>
 
                                             <div class="alert alert-danger" role="alert">
@@ -218,6 +217,10 @@ mainHeader("Dashboard");
                                                 check your NIK again.
                                             </div>
                                             <?php
+                                        } else {
+                                        ?>
+                                        <span class="smallText"><em>NIK must be at least 16 characters</em></span>
+                                        <?php
                                         }
                                         ?>
                                     </div>
@@ -235,7 +238,7 @@ mainHeader("Dashboard");
                                         />
 
                                         <?php
-                                        if (isset($_SESSION["errorEmail"]) && $_SESSION["errorEmail"] == 1) {
+                                        if (isset($_SESSION["errorEmail"])) {
                                             ?>
                                             <div class="alert alert-danger" role="alert">
                                                 Sorry, your EMAIL is already exist. Please check your EMAIL again.
@@ -268,7 +271,7 @@ mainHeader("Dashboard");
                                                 class="form-control"
                                                 name="password"/>
                                         <?php
-                                        if (isset($_SESSION["errorPass"]) && $_SESSION["errorPass"] == 1) {
+                                        if (isset($_SESSION["errorPass"])) {
                                             ?>
                                             <div class="alert alert-danger" role="alert">
                                                 Sorry, your PASSWORD is weak. Password should include at least one
@@ -290,15 +293,15 @@ mainHeader("Dashboard");
                                                 class="form-control"
                                                 name="confirmPass"
                                         />
-                                        <?php
-                                        if (isset($_SESSION["confirmPass"]) && $_SESSION["confirmPass"] != 0) {
-                                            ?>
-                                            <div class="alert alert-danger" role="alert">
-                                                Sorry, your CONFIRMATION was wrong. Please check your PASSWORD again.
-                                            </div>
-                                            <?php
-                                        }
-                                        ?>
+<!--                                        --><?php
+//                                        if (isset($_SESSION["confirmPass"]) && $_SESSION["confirmPass"] != 0) {
+//                                            ?>
+<!--                                            <div class="alert alert-danger" role="alert">-->
+<!--                                                Sorry, your CONFIRMATION was wrong. Please check your PASSWORD again.-->
+<!--                                            </div>-->
+<!--                                            --><?php
+//                                        }
+//                                        ?>
                                     </div>
                                     <div class="mb-3 form-input-add-person">
                                         <label class="form-label required" for="sex-dropdown"

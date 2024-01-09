@@ -99,15 +99,16 @@ function generateId(array|null $persons = null): int
 function convertDateToTimestamp(string $date, string|null $format = 'd/m/Y'): int
 {
     $date = str_replace('-','/', $date);
-    $newDate = date($format, strtotime($date));
-    $birthDate = date_create_from_format($format, $newDate);
-    if ($birthDate) {
-        return date_format($birthDate, 'U');
-    }
-    return -1;
+    return strtotime($date);
+//    $newDate = date($format, strtotime($date));
+//    $birthDate = date_create_from_format($format, $newDate);
+//    if ($birthDate) {
+//        return date_format($birthDate, 'U');
+//    }
+//    return -1;
 }
 
-function getPerson(int|string $id = null, string|null $email = null): array
+function getPerson(int|null $id = null, string|null $email = null): array
 {
     $persons = getAll();
     if ($id != null) {
@@ -134,13 +135,13 @@ function translateBooleanToString(string $status): string
 
 function translateSwitch(string $on): bool
 {
-    return $on == "on";
+    return $on == "on" ? true : false;
 }
 
 function getAgeCategory(int $age){
     if($age <= 13){
        return CATEGORIES_CHILD;
-    } elseif ($age >= 14){
+    } elseif ($age <= 45){
         return CATEGORIES_PRODUCTIVE_AGE;
     } elseif ($age >= 46){
         return CATEGORIES_ELDERLY;

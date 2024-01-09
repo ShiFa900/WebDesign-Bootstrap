@@ -1,7 +1,7 @@
 <?php
-// include ("./action/dashboard.php");
+// include ("./action/actionDashboard.php");
 session_start();
-require_once __DIR__ . "/action/dashboard.php";
+require_once __DIR__ . "/action/actionDashboard.php";
 require_once __DIR__ . "/index.php";
 
 redirectIfNotAuthenticated();
@@ -103,7 +103,7 @@ redirectIfNotAuthenticated();
                         <hr class="dropdown-divider"/>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="action/logout.php">
+                        <a class="dropdown-item" href="action/actionLogout.php">
                             <ion-icon name="log-out-outline" class="icon"></ion-icon>
                             Logout</a>
                     </li>
@@ -142,7 +142,7 @@ redirectIfNotAuthenticated();
                             </li>
                             <li class="nav-item">
                                 <div class="wrapper">
-                                    <a href="action/logout.php" class="nav-link active">
+                                    <a href="action/actionLogout.php" class="nav-link active">
                                         <ion-icon name="log-out-outline" class="icon sidebar-icon"></ion-icon>
                                         Logout
                                     </a>
@@ -339,7 +339,7 @@ redirectIfNotAuthenticated();
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="action/logout.php" class="nav-link active">
+                                <a href="action/actionLogout.php" class="nav-link active">
                                     <ion-icon name="log-out-outline" class="icon sidebar-icon"></ion-icon>
                                     Logout
                                 </a>

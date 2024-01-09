@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . "/index.php";
-require_once __DIR__ . "/action/myProfile.php";
+require_once __DIR__ . "/action/actionMyProfile.php";
 require_once __DIR__ . "/include/header.php";
 
 redirectIfNotAuthenticated();
@@ -77,7 +77,7 @@ mainHeader("My Profile");
                         <hr class="dropdown-divider"/>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="action/logout.php"
+                        <a class="dropdown-item" href="action/actionLogout.php"
                         >
                             <ion-icon name="log-out-outline" class="icon"></ion-icon>
                             Logout</a
@@ -129,7 +129,7 @@ mainHeader("My Profile");
                             </li>
                             <li class="nav-item">
                                 <div class="wrapper">
-                                    <a href="action/logout.php" class="nav-link active">
+                                    <a href="action/actionLogout.php" class="nav-link active">
                                         <ion-icon
                                                 name="log-out-outline"
                                                 class="icon sidebar-icon"
@@ -168,7 +168,7 @@ mainHeader("My Profile");
 
                 <div class="row">
                     <div class="col-xxl-12">
-                        <form class="new-person-form" action="action/myProfile.php" method="post">
+                        <form class="new-person-form" action="action/actionMyProfile.php" method="post">
 
                             <?php
                             $person = getPerson(null, $_SESSION["userEmail"]);
@@ -410,7 +410,7 @@ mainHeader("My Profile");
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="action/logout.php" class="nav-link active">
+                                <a href="action/actionLogout.php" class="nav-link active">
                                     <ion-icon
                                             name="log-out-outline"
                                             class="icon sidebar-icon"

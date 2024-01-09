@@ -138,5 +138,19 @@
         "password": "cok",
         "status": true,
         "lastLoggedIn": null
+    },
+    {
+        "id": 13,
+        "firstName": "Oca",
+        "lastName": "Simantunggal",
+        "nik": "0012346710908726",
+        "email": "simangg23@gmail.com",
+        "birthDate": 1496491200,
+        "sex": "Male",
+        "internalNote": "",
+        "role": "Member",
+        "password": "mamang",
+        "status": true,
+        "lastLoggedIn": null
     }
 ]

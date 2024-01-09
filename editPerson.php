@@ -1,12 +1,13 @@
 <?php
 global $person;
+session_start();
+$person["personId"] = $_GET["id"];
 require_once __DIR__ . "/index.php";
 require_once __DIR__ . "/include/header.php";
-require_once __DIR__ . "/action/editPerson.php";
-$_SESSION["personId"] = $_GET["id"];
+require_once __DIR__ . "/action/actionEditPerson.php";
 
 redirectIfNotAuthenticated();
-//checkRoleAdmin("dashboard.php");
+//checkRoleAdmin("actionDashboard.php");
 
 ?>
 <?php
@@ -135,7 +136,7 @@ mainHeader("Edit Person");
                             </li>
                             <li class="nav-item">
                                 <div class="wrapper">
-                                    <a href="action/logout.php" class="nav-link active">
+                                    <a href="action/actionLogout.php" class="nav-link active">
                                         <ion-icon
                                                 name="log-out-outline"
                                                 class="icon sidebar-icon"
@@ -174,17 +175,14 @@ mainHeader("Edit Person");
 
                 <div class="row">
                     <div class="col-xxl-12">
-                        <form class="new-person-form" action="action/editPerson.php" method="post" name="editPerson">
+                        <form class="new-person-form" action="action/actionEditPerson.php" method="post" name="editPerson">
                             <div class="row">
                                 <div class="col-xxl-6 col-xl-6 col-lg-6 me-4">
                                     <div class="mb-3 form-input">
                                         <label for="f-name" class="form-label required"
                                         >First Name</label
                                         >
-                                        <?=$_SESSION["personId"]?>
-                                        <?php
-                                        var_dump($person);
-                                        ?>
+
                                         <input
                                                 id="f-name"
                                                 type="text"
@@ -331,8 +329,7 @@ mainHeader("Edit Person");
                                                   placeholder="Leave a comment here"
                                                   id="note"
                                                   name="note"
-                                          ><?php
-                                              echo filter_input(INPUT_GET, $person[PERSON_INTERNAL_NOTE], FILTER_SANITIZE_URL);
+                                          ><?=filter_input(INPUT_GET, $person[PERSON_INTERNAL_NOTE], FILTER_SANITIZE_URL);
                                               ?>
                                           </textarea>
                                         </div>
@@ -490,7 +487,7 @@ mainHeader("Edit Person");
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="action/logout.php" class="nav-link active">
+                                <a href="action/actionLogout.php" class="nav-link active">
                                     <ion-icon
                                             name="log-out-outline"
                                             class="icon sidebar-icon"

@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/action/persons.php";
+require_once __DIR__ . "/action/actionPersons.php";
 require_once __DIR__ . "/action/const.php";
 require_once __DIR__ . "/index.php";
 session_start();
@@ -202,7 +202,7 @@ $persons = getAll();
                         <hr class="dropdown-divider"/>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="action/logout.php"
+                        <a class="dropdown-item" href="action/actionLogout.php"
                         >
                             <ion-icon name="log-out-outline" class="icon"></ion-icon>
                             Logout</a
@@ -254,7 +254,7 @@ $persons = getAll();
                             </li>
                             <li class="nav-item">
                                 <div class="wrapper">
-                                    <a href="action/logout.php" class="nav-link active">
+                                    <a href="action/actionLogout.php" class="nav-link active">
                                         <ion-icon
                                                 name="log-out-outline"
                                                 class="icon sidebar-icon"
@@ -286,13 +286,6 @@ $persons = getAll();
         </div>
 
         <div class="w-100">
-<!--            --><?php
-//            if (isset($_POST["search"])) {
-//                $category = $_POST["category"];
-//                $keyWord = $_POST["keyWord"];
-//                $persons = search();
-//            }
-//            ?>
             <div class="person-content position-absolute px-5">
                 <div
                         class="content-wrapper page-header d-flex justify-content-between"
@@ -352,7 +345,7 @@ $persons = getAll();
                 <a class="nav-link d-flex justify-content-end" href="#table">
                     <span class="material-symbols-outlined"> expand_more </span>
                 </a>
-                <div class="table-section table-responsive{-sm|-md|-lg|-xl|-xxl}" id="table">
+                <div class="table-section table-responsive" id="table">
 
                     <table class="table">
                         <thead>
@@ -535,7 +528,7 @@ $persons = getAll();
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="action/logout.php" class="nav-link active">
+                                <a href="action/actionLogout.php" class="nav-link active">
                                     <ion-icon
                                             name="log-out-outline"
                                             class="icon sidebar-icon"

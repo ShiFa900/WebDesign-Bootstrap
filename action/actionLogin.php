@@ -14,12 +14,12 @@ if (isset($_POST['login'])) {
 
 // conditionals untuk meng-redirect page login ke dashboard jika berhasil login
     if ($userExist != null) {
-//  header('Location: ../dashboard.php');
+//  header('Location: ../actionDashboard.php');
 //  die();
         $_SESSION['userEmail'] = $_POST['email'];
         $_SESSION['userName'] = $userExist['firstName'];
         $_SESSION['logout'] = $userExist['lastLoggedIn'];
-        header("Location: ../dashboard.php");
+        header("Location: ../actionDashboard.php");
         exit();
 
     } else {
