@@ -47,7 +47,7 @@ if (isset($_POST["firstName"])) {
         PERSON_EMAIL => $_POST["email"],
         PERSON_BIRTH_DATE => convertDateToTimestamp($_POST["birthDate"]),
         PERSON_SEX => $_POST["sex"],
-        PERSON_INTERNAL_NOTE => $_POST["note"],
+        PERSON_INTERNAL_NOTE => $_POST["internalNote"],
         PERSON_ROLE => $_POST["role"],
         PASSWORD => $_POST["password"],
         PERSON_STATUS => translateSwitch($_POST["status"]),
@@ -74,7 +74,7 @@ function getErrorData(
     return $validated;
 }
 
-function hasNikCheck(int $nik): int
+function hasNikCheck(string $nik): int
 {
     $persons = getAll();
     for ($i = 0; $i < count($persons); $i++) {

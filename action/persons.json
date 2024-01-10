@@ -180,5 +180,19 @@
         "password": "mela",
         "status": true,
         "lastLoggedIn": null
+    },
+    {
+        "id": 16,
+        "firstName": "Asdas",
+        "lastName": "Asas",
+        "nik": "12345678901234567777777777",
+        "email": "asdas@asdas",
+        "birthDate": 316110600,
+        "sex": "Male",
+        "internalNote": null,
+        "role": "Admin",
+        "password": "Pacung1234;",
+        "status": false,
+        "lastLoggedIn": null
     }
 ]

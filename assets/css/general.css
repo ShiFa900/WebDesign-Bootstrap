@@ -270,9 +270,7 @@ body {
 
 /* HIGHLIGHT WHEN ACTIVE */
 
-#dashboard-active,
-#person-active,
-#profile-active {
+.nav-item.active {
   background-color: #e6f1f9;
 }
 

@@ -9,7 +9,7 @@ session_start();
 $persons = getAll();
 for ($i = 0; $i < count($persons); $i++) {
     if ($persons[$i][ID] == $_SESSION["personId"]) {
-        $personData = setPersonData(
+        setPersonData(
             $persons[$i],
             firstName: $_POST["firstName"],
             lastName: $_POST["lastName"],

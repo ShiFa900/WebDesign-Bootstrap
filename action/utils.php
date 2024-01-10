@@ -162,9 +162,9 @@ function translateBooleanToString(string $status): string
     return $status ? "Alive" : "Passed Away";
 }
 
-function translateSwitch(string $on): bool
+function translateSwitch(string|null $on): bool
 {
-    return $on === "on" ? true : false;
+    return $on === "on";
 }
 
 function getAgeCategory(int $age)
