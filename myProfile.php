@@ -1,9 +1,7 @@
 <?php
-require_once __DIR__ . "/index.php";
 require_once __DIR__ . "/action/actionMyProfile.php";
 require_once __DIR__ . "/include/header.php";
 
-redirectIfNotAuthenticated();
 ?>
 <?php
 mainHeader("My Profile");
@@ -167,156 +165,120 @@ mainHeader("My Profile");
                 </div>
 
                 <div class="row">
-                    <div class="col-xxl-12">
+                    <div class="col-xxl-6 col-xl-6 col-lg-6 me-4">
+                        <?php
+                        $person = getPerson(email: $_SESSION["userEmail"]);
+                        ?>
                         <form class="new-person-form" action="action/actionMyProfile.php" method="post">
-
-                            <?php
-                            $person = getPerson(null, $_SESSION["userEmail"]);
-                            ?>
                             <div class="row">
-                                <div class="col-xxl-8 col-xl-8 col-lg-10 col-12">
-                                    <div class="mb-3 form-input">
-                                        <label for="f-name" class="form-label required"
-                                        >First name</label
-                                        >
+                                <!--                                <div class="col-xxl-8 col-xl-8 col-lg-10 col-12">-->
+                                <div class="mb-3 form-input">
+                                    <label for="f-name" class="form-label required"
+                                    >First name</label
+                                    >
 
+                                    <input
+                                            id="f-name"
+                                            type="text"
+                                            value="<?= $_SESSION['userName'] ?>"
+                                            class="form-control"
+                                    />
+                                </div>
+                                <?php
+                                if (isset($person["lastName"])) {
+                                    ?>
+
+                                    <div class="mb-3 form-input">
+
+                                        <label for="l-name" class="form-label">Last name</label>
                                         <input
-                                                id="f-name"
+                                                id="l-name"
                                                 type="text"
-                                                value="<?= $_SESSION['userName'] ?>"
+                                                value="<?= $person[PERSON_LAST_NAME] ?>"
                                                 class="form-control"
                                         />
                                     </div>
                                     <?php
-                                    if (isset($person["lastName"])) {
-                                        ?>
+                                }
+                                ?>
+                                <div class="mb-3 form-input">
+                                    <label for="nik" class="form-label required">NIK</label>
+                                    <input
+                                            id="nik"
+                                            type="text"
+                                            value="<?= $person[PERSON_NIK] ?>"
+                                            class="form-control"
+                                    />
+                                </div>
+                                <div class="mb-3 form-input">
+                                    <label for="staticEmail" class="form-label required"
+                                    >Email</label
+                                    >
+                                    <input
+                                            id="staticEmail"
+                                            type="email"
+                                            value="<?= $_SESSION['userEmail'] ?>"
+                                            class="form-control"
+                                    />
+                                </div>
 
-                                        <div class="mb-3 form-input">
+                                <div class="mb-3 form-input">
+                                    <label for="datePicker" class="form-label required"
+                                    >Date of birth</label
+                                    >
+                                    <input
+                                            id="datePicker"
+                                            type="date"
+                                            class="form-control"
+                                            value="<?= date("Y-m-d", $person[PERSON_BIRTH_DATE]) ?>"
+                                    />
+                                </div>
 
-                                            <label for="l-name" class="form-label">Last name</label>
-                                            <input
-                                                    id="l-name"
-                                                    type="text"
-                                                    value="<?= $person[PERSON_LAST_NAME] ?>"
-                                                    class="form-control"
-                                            />
-                                        </div>
+                                <div class="mb-3 form-input">
+                                    <label for="sex-dropdown" class="form-label required"
+                                    >Sex</label
+                                    >
+
+                                    <select
+                                            id="sex-dropdown"
+                                            class="form-select form-control"
+                                            required
+                                            aria-label="Small select example"
+
+                                    >
+                                        <option selected><?= $person[PERSON_SEX] ?></option>
+                                        <!--opsi lainnya blum muncul-->
+
                                         <?php
-                                    }
-                                    ?>
-                                    <div class="mb-3 form-input">
-                                        <label for="nik" class="form-label required">NIK</label>
-                                        <input
-                                                id="nik"
-                                                type="text"
-                                                value="<?= $person[PERSON_NIK] ?>"
-                                                class="form-control"
-                                        />
-                                    </div>
-                                    <div class="mb-3 form-input">
-                                        <label for="staticEmail" class="form-label required"
-                                        >Email</label
-                                        >
-                                        <input
-                                                id="staticEmail"
-                                                type="email"
-                                                value="<?= $_SESSION['userEmail'] ?>"
-                                                class="form-control"
-                                        />
-                                    </div>
-
-                                    <div class="mb-3 form-input">
-                                        <label for="datePicker" class="form-label required"
-                                        >Date of birth</label
-                                        >
-                                        <input
-                                                id="datePicker"
-                                                type="date"
-                                                class="form-control"
-                                                value="<?= date("Y-m-d", $person[PERSON_BIRTH_DATE]) ?>"
-                                        />
-                                    </div>
-
-                                    <div class="mb-3 form-input">
-                                        <label for="sex-dropdown" class="form-label required"
-                                        >Sex</label
-                                        >
-
-                                        <select
-                                                id="sex-dropdown"
-                                                class="form-select form-control"
-                                                required
-                                                aria-label="Small select example"
-
-                                        >
-                                            <option selected><?= $person[PERSON_SEX] ?></option>
-                                            <!--opsi lainnya blum muncul-->
+                                        if ($person[PERSON_SEX] == SEX_MALE) {
+                                            ?>
+                                            <option value="1"><?= SEX_FEMALE ?></option>
+                                            <option value="2"><?= SEX_BETTER_NOT_SAY ?></option>
 
                                             <?php
-                                            if ($person[PERSON_SEX] == SEX_MALE) {
-                                                ?>
-                                                <option value="1"><?= SEX_FEMALE ?></option>
-                                                <option value="2"><?= SEX_BETTER_NOT_SAY ?></option>
-
-                                                <?php
-                                            } elseif ($person[PERSON_SEX] == SEX_FEMALE) {
-                                                ?>
-                                                <option value="1"><?= SEX_MALE ?></option>
-                                                <option value="2"><?= SEX_BETTER_NOT_SAY ?></option>
-                                                <?php
-                                            } else {
-                                                ?>
-                                                <option value="1"><?= SEX_MALE ?></option>
-                                                <option value="2"><?= SEX_FEMALE ?></option>
-                                                <?php
-                                            }
+                                        } elseif ($person[PERSON_SEX] == SEX_FEMALE) {
                                             ?>
-
-                                        </select>
-                                    </div>
-
-                                    <?php
-                                    if($person[PERSON_ROLE] == ROLE_ADMIN){
-                                    ?>
-
-                                    <div class="mb-3 form-input">
-                                        <label for="note" class="form-label"
-                                        >Internal notes</label
-                                        >
-                                        <div class="form-floating">
-                                              <textarea
-                                                      class="form-control"
-                                                      placeholder="Leave a comment here"
-                                                      id="note"
-                                              ><?= $person[PERSON_INTERNAL_NOTE]; ?>
-                                              </textarea>
-                                        </div>
-                                    </div>
-                                    <?php
-                                    }
-                                    ?>
-
-                                    <div class="mb-3 form-input">
-                                        <span class="required title">Role</span>
-                                        <p>
-                                            <?= $person[PERSON_ROLE];
+                                            <option value="1"><?= SEX_MALE ?></option>
+                                            <option value="2"><?= SEX_BETTER_NOT_SAY ?></option>
+                                            <?php
+                                        } else {
                                             ?>
-                                        </p>
+                                            <option value="1"><?= SEX_MALE ?></option>
+                                            <option value="2"><?= SEX_FEMALE ?></option>
+                                            <?php
+                                        }
+                                        ?>
 
-                                    </div>
-
-                                    <!-- ROLE -->
-                                    <!-- <div class="mb-3 form-input">
-                                    <label for="role-dropdown" class="form-label required">Role</label>
-                                    <select
-                                      class="form-select form-select-sm form-control"
-                                      aria-label="Small select example"
-                                    >
-                                      <option selected>Admin</option>
-                                      <option value="1">Member</option>
                                     </select>
-                                   -->
                                 </div>
+                                <div class="mb-3 form-input">
+                                    <span class="required title">Role</span>
+                                    <p>
+                                        <?= $person[PERSON_ROLE];
+                                        ?>
+                                    </p>
+                                </div>
+
                             </div>
 
                             <div class="btn-container d-flex column-gap-5">
@@ -333,6 +295,63 @@ mainHeader("My Profile");
                                 />
                             </div>
                         </form>
+                    </div>
+                    <div class="col-xxl-5 col-xl-6 col-lg-6">
+                        <?php
+                        if ($person[PERSON_ROLE] == ROLE_ADMIN) {
+                            ?>
+                            <div class="mb-3 form-input">
+                                <label for="note" class="form-label"
+                                >Internal notes</label
+                                >
+                                <div class="form-floating mb-4">
+                                              <textarea
+                                                      class="form-control"
+                                                      placeholder="Leave a comment here"
+                                                      id="note"
+                                              ><?= $person[PERSON_INTERNAL_NOTE] ?></textarea>
+                                </div>
+                                <hr/>
+                            </div>
+                            <?php
+                        }
+                        ?>
+
+                        <div class="mb-3 form-input mt-4">
+                            <label for="currentPass" class="form-label">Current Password</label>
+                            <input
+                                    id="currentPass"
+                                    type="password"
+                                    class="form-control"
+                                    name="currentPassword"/>
+
+                        </div>
+                        <div class="mb-3 form-input">
+                            <label for="newPass" class="form-label ">New Password</label>
+                            <input
+                                    id="newPass"
+                                    type="password"
+                                    class="form-control"
+                                    name="newPassword"/>
+
+                        </div>
+                        <div class="mb-3 form-input">
+                            <label for="confirmPass" class="form-label">Confirm Password</label>
+                            <input
+                                    id="confirmPass"
+                                    type="password"
+                                    class="form-control"
+                                <?php
+                                if ($_POST["newPassword"] != null){
+                                ?>
+                                    required
+                            <?php
+                            }
+                            ?>
+                                    name="confirmPassword"/>
+
+
+                        </div>
                     </div>
                 </div>
             </div>

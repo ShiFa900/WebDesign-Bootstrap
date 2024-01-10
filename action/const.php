@@ -27,8 +27,8 @@ const SEX_MALE = "Male";
 const SEX_BETTER_NOT_SAY = "Better not say";
 
 //cons for identified categories
-const CATEGORIES_CHILD = "Child";
-const CATEGORIES_PRODUCTIVE_AGE = "Productive Age";
-const CATEGORIES_ALL = "All";
-const CATEGORIES_ELDERLY = "Elderly";
-const CATEGORIES_PASSED_AWAY = "Passed Away";
+const CATEGORIES_CHILD = "child";
+const CATEGORIES_PRODUCTIVE_AGE = "productiveAge";
+const CATEGORIES_ALL = "all";
+const CATEGORIES_ELDERLY = "elderly";
+const CATEGORIES_PASSED_AWAY = "passedAway";

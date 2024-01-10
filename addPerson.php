@@ -1,14 +1,14 @@
 <?php
 require_once __DIR__ . "/action/actionAddPerson.php";
-require_once __DIR__ . "/index.php";
 require_once __DIR__ . "/include/header.php";
-session_start();
+require_once __DIR__ . "/index.php";
 
-redirectIfNotAuthenticated();
+checkRoleAdmin();
+
 ?>
 
 <?php
-mainHeader("Dashboard");
+mainHeader("Add Person");
 ?>
 <body>
 <header
@@ -209,7 +209,7 @@ mainHeader("Dashboard");
                                                 name="nik"
                                         />
                                         <?php
-                                        if (isset($_SESSION["errorNik"])) {
+                                        if (isset($_SESSION["errorNik"]) && $_SESSION["errorNik"] == 1) {
                                             ?>
 
                                             <div class="alert alert-danger" role="alert">
@@ -238,7 +238,7 @@ mainHeader("Dashboard");
                                         />
 
                                         <?php
-                                        if (isset($_SESSION["errorEmail"])) {
+                                        if (isset($_SESSION["errorEmail"]) && $_SESSION["errorEmail"] == 1) {
                                             ?>
                                             <div class="alert alert-danger" role="alert">
                                                 Sorry, your EMAIL is already exist. Please check your EMAIL again.
@@ -271,7 +271,7 @@ mainHeader("Dashboard");
                                                 class="form-control"
                                                 name="password"/>
                                         <?php
-                                        if (isset($_SESSION["errorPass"])) {
+                                        if (isset($_SESSION["errorPass"]) && $_SESSION["errorPass"] == 1) {
                                             ?>
                                             <div class="alert alert-danger" role="alert">
                                                 Sorry, your PASSWORD is weak. Password should include at least one
@@ -293,15 +293,15 @@ mainHeader("Dashboard");
                                                 class="form-control"
                                                 name="confirmPass"
                                         />
-<!--                                        --><?php
-//                                        if (isset($_SESSION["confirmPass"]) && $_SESSION["confirmPass"] != 0) {
-//                                            ?>
-<!--                                            <div class="alert alert-danger" role="alert">-->
-<!--                                                Sorry, your CONFIRMATION was wrong. Please check your PASSWORD again.-->
-<!--                                            </div>-->
-<!--                                            --><?php
-//                                        }
-//                                        ?>
+                                        <?php
+                                        if (isset($_SESSION["errorConfirm"]) && $_SESSION["errorConfirm"] == 1) {
+                                            ?>
+                                            <div class="alert alert-danger" role="alert">
+                                                Sorry, your CONFIRMATION was wrong. Please check your PASSWORD again.
+                                            </div>
+                                            <?php
+                                        }
+                                        ?>
                                     </div>
                                     <div class="mb-3 form-input-add-person">
                                         <label class="form-label required" for="sex-dropdown"
@@ -341,15 +341,6 @@ mainHeader("Dashboard");
                                 </div>
 
                                 <div class="col-xxl-5 col-xl-6 col-lg-6 new-person-form">
-
-                                    <div class="mb-3 form-input-add-person">
-                                        <label for="note" class="form-label"
-                                        >Internal notes</label
-                                        >
-                                        <div class="form-floating">
-                                            <textarea class="form-control" id="note" name="note"></textarea>
-                                        </div>
-                                    </div>
 
                                     <div class="mb-3 form-input-add-person">
                                         <label class="form-label required" for="role-dropdown"
@@ -470,4 +461,3 @@ unset($_SESSION["password"]);
 unset($_SESSION["role"]);
 ?>
 </body>
-</html>

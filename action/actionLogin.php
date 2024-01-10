@@ -19,7 +19,7 @@ if (isset($_POST['login'])) {
         $_SESSION['userEmail'] = $_POST['email'];
         $_SESSION['userName'] = $userExist['firstName'];
         $_SESSION['logout'] = $userExist['lastLoggedIn'];
-        header("Location: ../actionDashboard.php");
+        header("Location: ../dashboard.php");
         exit();
 
     } else {

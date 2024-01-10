@@ -3,41 +3,63 @@ require_once __DIR__ . "/utils.php";
 //membuat function untuk melakukan pencarian
 //hasil pencarian dapat semua data yang memiliki kriteria dari pencarian atau difilter lagi
 
-//if (isset($_POST['search-form'])) {
-//    $inputText = $_POST['search'];
+global $persons;
+//if(isset($_SESSION["categoryActive"])){
+//    $persons = getAll();
+//    $ageCategory = [];
+//    for($i = 0; $i < count($persons); $i++){
+//        $getPersonAge = calculateAge($persons[$i][PERSON_BIRTH_DATE]);
+//        $ageCategory[] = getAgeCategory($getPersonAge);
+//    }
 //
-//    search($inputText);
+//    for ($i = 0; $i < count($ageCategory); $i++){
+//        if($ageCategory[$i] == $_SESSION["categoryActive"]){
+//            $persons = $ageCategory[$i];
+//        }
+//    }
 //}
 
 
-function search()
-{
-    if (isset($_POST["search"])) {
-        $category = $_POST["category"];
-        $keyWord = $_POST["keyWord"];
-    }
-    $inputText = preg_quote($_POST['search']);
-    $persons = getAll();
-    $temp = [];
+//function search(): array
+//{
+    if (isset($_GET["category"])) {
+        $category = $_GET["category"];
+        $keyWord = $_GET["keyWord"];
 
-    while (true) {
-        if ($inputText == "") break;
-        for ($i = 0; $i < count($persons); $i++) {
-            if (preg_match("/$inputText/i", $persons[$i][PERSON_EMAIL])) {
-                if (!in_array($persons[$i][PERSON_EMAIL], $temp)) {
-                    $temp[] = $persons[$i];
+        $inputText = preg_quote($keyWord);
+        $persons = getAll();
+        $temp = [];
+
+        while (true) {
+            if ($inputText == "") break;
+            for ($i = 0; $i < count($persons); $i++) {
+                if (preg_match("/$inputText/i", $persons[$i][PERSON_EMAIL])) {
+                    if (!in_array($persons[$i][ID], $temp)) {
+                        $temp[] = $persons[$i];
+                    }
+                }
+                if (preg_match("/$inputText/i", $persons[$i][PERSON_FIRST_NAME])) {
+                    if (!in_array($persons[$i][ID], $temp)) {
+                        $temp[] = $persons[$i];
+                    }
+                }
+                if(preg_match("/$inputText/i", $persons[$i][PERSON_LAST_NAME])){
+                    if(!in_array($persons[$i][ID], $temp)){
+                        $temp[] = $persons[$i];
+                    }
                 }
             }
-            if (preg_match("/$inputText/i", $persons[$i][PERSON_FIRST_NAME]) || preg_match("/$inputText/i", $persons[$i][PERSON_LAST_NAME])) {
-                if (!in_array($persons[$i][PERSON_FIRST_NAME], $temp) || !in_array($persons[$i][PERSON_LAST_NAME], $temp)) {
-                    $temp[] = $persons[$i];
-                }
+
+            if (count($temp) != 0) {
+               for ($i = 0; $i < count($temp); $i++){
+                   $personAge = calculateAge($temp[$i][PERSON_BIRTH_DATE]);
+                   $ageCategory = getAgeCategory($personAge);
+                   if($ageCategory == $category){
+                       $persons[] = $temp[$i];
+                   }
+               }
             }
-        }
-        if (count($temp) != 0) {
-            return $temp;
         }
     }
 
-
-}
+//}

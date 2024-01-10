@@ -263,6 +263,10 @@ body {
   border: 1px solid #dddddd;
 }
 
+.alert-popup{
+  font-family: "Open-Sans", sans-serif;
+  line-height: 1.6;
+}
 
 /* HIGHLIGHT WHEN ACTIVE */
 

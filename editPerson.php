@@ -1,15 +1,12 @@
 <?php
-global $person;
-session_start();
-$person["personId"] = $_GET["id"];
-require_once __DIR__ . "/index.php";
 require_once __DIR__ . "/include/header.php";
-require_once __DIR__ . "/action/actionEditPerson.php";
+require_once __DIR__ . "/action/utils.php";
+session_start();
 
-redirectIfNotAuthenticated();
-//checkRoleAdmin("actionDashboard.php");
+checkRoleAdmin();
 
 ?>
+
 <?php
 mainHeader("Edit Person");
 ?>
@@ -175,7 +172,12 @@ mainHeader("Edit Person");
 
                 <div class="row">
                     <div class="col-xxl-12">
-                        <form class="new-person-form" action="action/actionEditPerson.php" method="post" name="editPerson">
+                        <?php
+                            $person = getPerson(id: $_GET["id"]);
+                            $_SESSION["personId"] = $_GET[ID];
+                        ?>
+                        <form class="new-person-form" action="action/actionEditPerson.php" method="post"
+                              name="editPerson">
                             <div class="row">
                                 <div class="col-xxl-6 col-xl-6 col-lg-6 me-4">
                                     <div class="mb-3 form-input">
@@ -270,19 +272,19 @@ mainHeader("Edit Person");
                                             <?php
                                             if ($person[PERSON_SEX] == SEX_MALE) {
                                                 ?>
-                                                <option value="<?=SEX_FEMALE?>"><?= SEX_FEMALE ?></option>
-                                                <option value="<?=SEX_BETTER_NOT_SAY?>"><?= SEX_BETTER_NOT_SAY ?></option>
+                                                <option value="<?= SEX_FEMALE ?>"><?= SEX_FEMALE ?></option>
+                                                <option value="<?= SEX_BETTER_NOT_SAY ?>"><?= SEX_BETTER_NOT_SAY ?></option>
 
                                                 <?php
                                             } elseif ($person[PERSON_SEX] == SEX_FEMALE) {
                                                 ?>
-                                                <option value="<?=SEX_MALE?>"><?= SEX_MALE ?></option>
-                                                <option value="<?=SEX_BETTER_NOT_SAY?>"><?= SEX_BETTER_NOT_SAY ?></option>
+                                                <option value="<?= SEX_MALE ?>"><?= SEX_MALE ?></option>
+                                                <option value="<?= SEX_BETTER_NOT_SAY ?>"><?= SEX_BETTER_NOT_SAY ?></option>
                                                 <?php
                                             } else {
                                                 ?>
-                                                <option value="<?=SEX_MALE?>"><?= SEX_MALE ?></option>
-                                                <option value="<?=SEX_FEMALE?>"><?= SEX_FEMALE ?></option>
+                                                <option value="<?= SEX_MALE ?>"><?= SEX_MALE ?></option>
+                                                <option value="<?= SEX_FEMALE ?>"><?= SEX_FEMALE ?></option>
                                                 <?php
                                             }
                                             ?>
@@ -301,10 +303,10 @@ mainHeader("Edit Person");
                                                     id="flexSwitchCheckDefault"
                                                     name="status"
                                                 <?php
-                                                if($person[PERSON_STATUS]){
-                                                ?>
+                                                if ($person[PERSON_STATUS]) {
+                                                    ?>
                                                     checked
-                                                <?php
+                                                    <?php
                                                 }
                                                 ?>
                                             />
@@ -318,22 +320,23 @@ mainHeader("Edit Person");
                                 </div>
 
                                 <div class="col-xxl-5 col-xl-6 col-lg-6">
+                                    <!--edit Person data, jangan diberikan akses untuk mengedit internal note, internal note khusus untuk user dengan role admin-->
 
-                                    <div class="mb-3 form-input">
-                                        <label for="note" class="form-label"
-                                        >Internal notes</label
-                                        >
-                                        <div class="form-floating">
-                                          <textarea
-                                                  class="form-control"
-                                                  placeholder="Leave a comment here"
-                                                  id="note"
-                                                  name="note"
-                                          ><?=filter_input(INPUT_GET, $person[PERSON_INTERNAL_NOTE], FILTER_SANITIZE_URL);
-                                              ?>
-                                          </textarea>
-                                        </div>
-                                    </div>
+                                    <!--                                    <div class="mb-3 form-input">-->
+                                    <!--                                        <label for="note" class="form-label"-->
+                                    <!--                                        >Internal notes</label-->
+                                    <!--                                        >-->
+                                    <!--                                        <div class="form-floating">-->
+                                    <!--                                          <textarea-->
+                                    <!--                                                  class="form-control"-->
+                                    <!--                                                  placeholder="Leave a comment here"-->
+                                    <!--                                                  id="note"-->
+                                    <!--                                                  name="note"-->
+                                    <!--                                          >--><?php //=filter_input(INPUT_GET, $person[PERSON_INTERNAL_NOTE], FILTER_SANITIZE_URL);
+                                    //                                              ?>
+                                    <!--                                          </textarea>-->
+                                    <!--                                        </div>-->
+                                    <!--                                    </div>-->
 
                                     <div class="mb-4 form-input">
                                         <label class="form-label" for="role-dropdown"
@@ -345,50 +348,24 @@ mainHeader("Edit Person");
                                                 aria-label="Small select example"
                                                 name="role"
                                         >
-                                            <option selected value="<?=$person[PERSON_ROLE]?>"><?=$person[PERSON_ROLE]?></option>
+                                            <option selected
+                                                    value="<?= $person[PERSON_ROLE] ?>"><?= $person[PERSON_ROLE] ?></option>
 
                                             <?php
-                                            if($person[PERSON_ROLE] == ROLE_ADMIN){
-                                            ?>
-                                                <option value="<?=ROLE_MEMBER?>">Member</option>
-                                            <?php
+                                            if ($person[PERSON_ROLE] == ROLE_ADMIN) {
+                                                ?>
+                                                <option value="<?= ROLE_MEMBER ?>">Member</option>
+                                                <?php
                                             } else {
-                                            ?>
-                                                <option value="<?=ROLE_ADMIN?>">Admin</option>
+                                                ?>
+                                                <option value="<?= ROLE_ADMIN ?>">Admin</option>
 
-                                            <?php
+                                                <?php
                                             }
                                             ?>
 
                                         </select>
                                     </div>
-<!--                                    <div class="mb-3 form-input">-->
-<!--                                        <label for="currentPass" class="form-label">Current Password</label>-->
-<!--                                        <input-->
-<!--                                                id="currentPass"-->
-<!--                                                type="password"-->
-<!--                                                class="form-control"-->
-<!--                                                name="currentPassword"/>-->
-<!---->
-<!--                                    </div>-->
-<!--                                    <div class="mb-3 form-input">-->
-<!--                                        <label for="newPass" class="form-label ">New Password</label>-->
-<!--                                        <input-->
-<!--                                                id="newPass"-->
-<!--                                                type="password"-->
-<!--                                                class="form-control"-->
-<!--                                                name="newPassword"/>-->
-<!---->
-<!--                                    </div>-->
-<!--                                    <div class="mb-3 form-input">-->
-<!--                                        <label for="confirmPass" class="form-label">Confirm Password</label>-->
-<!--                                        <input-->
-<!--                                                id="confirmPass"-->
-<!--                                                type="password"-->
-<!--                                                class="form-control"-->
-<!--                                                name="confirmPassword"/>-->
-<!---->
-<!--                                    </div>-->
                                 </div>
                             </div>
 
@@ -527,7 +504,6 @@ unset($_SESSION["nik"]);
 unset($_SESSION["email"]);
 unset($_SESSION["sex"]);
 unset($_SESSION["birthDate"]);
-unset($_SESSION["personId"]);
 unset($_SESSION["lastLoggedIn"]);
 unset($_SESSION["status"]);
 unset($_SESSION["password"]);

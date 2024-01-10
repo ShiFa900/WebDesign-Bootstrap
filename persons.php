@@ -1,11 +1,12 @@
 <?php
+session_start();
+//
+//$_SESSION["categoryActive"] = $_GET["productiveAge"];
 require_once __DIR__ . "/action/actionPersons.php";
 require_once __DIR__ . "/action/const.php";
-require_once __DIR__ . "/index.php";
-session_start();
 
-redirectIfNotAuthenticated();
 //checkRoleAdmin();
+//global $persons;
 $persons = getAll();
 
 ?>
@@ -307,7 +308,7 @@ $persons = getAll();
                                 class="search-form d-flex align-items-center gap-2"
                                 name="search-form"
                                 action="#table"
-                                method="post"
+                                method="get"
                         >
                             <!-- menggunakan select -->
                             <select
@@ -340,6 +341,36 @@ $persons = getAll();
                         </form>
                     </div>
                 </div>
+                <?php
+
+                if (isset($_GET["error"]) && $_GET["error"] === "userNotAuthenticate") {
+                    ?>
+                    <div class="alert alert-danger alert-popup" role="alert">
+                        Sorry, your role is MEMBER. Only ADMIN can create, edit and delete person data.
+                    </div>
+                    <?php
+                }
+                ?>
+                <!--menampilkan pesan saat berhasil menambah data orang baru-->
+                <?php
+                if (isset($_GET["msg"]) && $_GET["msg"] === "addSuccess") {
+                    ?>
+                    <div class="alert alert-success" role="alert">
+                        <?= end($persons)[PERSON_FIRST_NAME] ?> was successfully added to Person Management App!
+                    </div>
+                    <?php
+                } elseif (isset($_GET["msg"]) && $_GET["msg"] === "editSuccess") {
+                    ?>
+                    <div class="alert alert-success" role="alert">
+                        Successfully edit person data of <?= $_SESSION["personHasEdit"][PERSON_FIRST_NAME] ?>!
+                    </div>
+                    <?php
+                } elseif (isset($_GET["error"]) && $_GET["error"] === "gkMauDiaCok"){
+                ?>
+                    gak mau dia cokkk
+                <?php
+                }
+                ?>
 
                 <!-- EXPAND -->
                 <a class="nav-link d-flex justify-content-end" href="#table">
@@ -357,6 +388,7 @@ $persons = getAll();
                             <th scope="col">sex</th>
                             <th scope="col">Role</th>
                             <th scope="col">Status</th>
+                            <th scope="col"></th>
                             <th scope="col"></th>
                         </tr>
                         </thead>
@@ -380,9 +412,10 @@ $persons = getAll();
                             ?>
                             <td><?= $personStatus ?>
                             </td>
+                            <td></td>
 
 
-                            <td>
+                            <td class="d-flex">
                                 <button class="btn" name="btn-view">
                                     <a
 

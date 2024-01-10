@@ -1,20 +1,38 @@
 <?php
 require_once __DIR__ . "/utils.php";
 
-//session_start();
+session_start();
 
 if (isset($_POST["firstName"])) {
-    $errorData = getErrorData(
-        email: $_POST["email"],
-        password: $_POST["password"],
-        confirm: $_POST["confirmPass"],
-        nik: $_POST["nik"]);
+    if (hasNikCheck($_POST["nik"]) == -1) {
+        $_SESSION["errorNik"] = 1;
+    }
 
+    if (hasEmailCheck($_POST["email"]) == -1) {
+        $_SESSION["errorEmail"] = 1;
+    }
 
-    $_SESSION["errorNik"] = $errorData["nik"];
+    if (validatePassword($_POST["password"]) == -1) {
+        $_SESSION["errorPassword"] = 1;
+    }
+
+    if($_POST["confirmPass"] !== $_POST["password"]){
+        $_SESSION["errorConfirm"] = 1;
+    }
+
+//    unset($_SESSION["errorNik"]);
+//    unset($_SESSION["errorEmail"]);
+//    unset($_SESSION["errorPassword"]);
+//    unset($_SESSION["errorConfirm"]);
+//    $errorData = getErrorData(
+//        email: $_POST["email"],
+//        password: $_POST["password"],
+//        nik: $_POST["nik"]);
+//
+//
+//    $_SESSION["errorNik"] = $errorData["nik"];
 //    $_SESSION["errorEmail"] = $errorData["email"];
-//    $_SESSION["errorConfirmPass"] = $errorData["confirmPass"];
-    $_SESSION["errorPass"] = $errorData["password"];
+//    $_SESSION["errorPass"] = $errorData["password"];
 //    header("addPerson.php");
 //    exit();
 
@@ -46,53 +64,37 @@ if (isset($_POST["firstName"])) {
 function getErrorData(
     string $email,
     string $password,
-    string $confirm,
     string $nik,
 ): array
 {
 //    mendapatkan data yang mengandung error
     $validated = [];
 
-    if (!hasNikCheck($nik)) {
-        $validated["nik"] = 1;
-    }
-
-    if (!hasEmailCheck($email)) {
-        $validated["email"] = 1;
-    }
-
-    if ($confirm === $password) {
-        $validated["confirmPass"] = 0;
-    }
-
-    if (validatePassword($password) == "") {
-        $validated["password"] = 1;
-    }
 
     return $validated;
 }
 
-function hasNikCheck(int $nik): bool
+function hasNikCheck(int $nik): int
 {
     $persons = getAll();
     for ($i = 0; $i < count($persons); $i++) {
-        if (strlen($nik) != 16 && $persons[$i]["nik"] == $nik) return false;
+        if (strlen($nik) != 16 && $persons[$i][PERSON_NIK] == $nik) return -1;
     }
-    return true;
+    return 0;
 }
 
 
-function hasEmailCheck(string $email): bool
+function hasEmailCheck(string $email): int
 {
 //    mengecek agar tidak ada email yang duplicate
     $persons = getAll();
     foreach ($persons as $person) {
-        if ($email == $person["email"] && !filter_var($email, FILTER_VALIDATE_EMAIL)) return false;
+        if ($email == $person[PERSON_EMAIL] && !filter_var($email, FILTER_VALIDATE_EMAIL)) return -1;
     }
-    return true;
+    return 0;
 }
 
-function validatePassword(string $password): string
+function validatePassword(string $password): string|int
 {
     $uppercase = preg_match('@[A-Z]@', $password);
     $lowercase = preg_match('@[a-z]@', $password);
@@ -100,7 +102,7 @@ function validatePassword(string $password): string
     $specialChars = preg_match('@[^\w]@', $password);
 
     if (!$uppercase || !$lowercase || !$number || !$specialChars || strlen($password) < 8) {
-        return "";
+        return -1;
     }
     return $password;
 }

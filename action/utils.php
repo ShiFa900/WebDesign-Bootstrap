@@ -3,6 +3,9 @@
 require_once __DIR__ . "/../assets/json/jsonLoadData.php";
 require_once __DIR__ . "/const.php";
 
+//==============================
+//****** CHECK AUTHORISED ******
+//==============================
 /**
  * @param url go to login page if it unsucces
  * @param string error message on the header
@@ -13,12 +16,42 @@ function redirect($url, $getParams): void
     die();
 }
 
+function redirectIfNotAuthenticated(): void
+{
+    if (!isset($_SESSION['userEmail'])) {
+        header("Location: login.php");
+        exit(); // Terminate script execution after the redirect
+    }
+}
+
+function checkRoleAdmin(): bool
+{
+    $user = getPerson(email: $_SESSION["userEmail"]);
+    if ($user[PERSON_ROLE] != ROLE_ADMIN) {
+        redirect("persons.php", "error=userNotAuthenticate");
+
+    }
+    return true;
+}
+
+function checkAbility(): bool{
+    $user = getPerson(email: $_SESSION["userEmail"]);
+    if($user[PERSON_STATUS] == STATUS_PASSED_AWAY){
+        redirect("login.php", "error=userStatusPassedAway");
+    }return true;
+}
+
+
+//==============================
+//****** GENERAL ******
+//==============================
+
 function userExist(): array
 {
     $data = getAll();
 
     for ($i = 0; $i < count($data); $i++) {
-        if ($_POST[PERSON_EMAIL] == $data[$i][PERSON_EMAIL] && $_POST[PASSWORD] == $data[$i][PASSWORD]) {
+        if ($_POST["email"] == $data[$i][PERSON_EMAIL] && $_POST["password"] == $data[$i][PASSWORD]) {
             return $data[$i];
         }
     }
@@ -61,7 +94,7 @@ function savePerson(array $person, string $location): void
         $person[ID] = $id;
         $persons[] = $person;
         saveDataIntoJson($persons, "persons.json");
-        redirect("../" . $location, "error=0");
+        redirect("../" . $location, "msg=addSuccess");
 
     } else {
 //        EDIT MODE
@@ -82,8 +115,9 @@ function savePerson(array $person, string $location): void
                     PERSON_STATUS => translateSwitch($person[PERSON_STATUS]),
                     PERSON_LAST_LOGGED_IN => $persons[$i][PERSON_LAST_LOGGED_IN]
                 ];
+                $_SESSION["personHasEdit"] = $persons[$i];
                 saveDataIntoJson($persons, "persons.json");
-                redirect("../" . $location, "error=0");
+                redirect("../" . $location, "msg=editSuccess");
 
             }
         }
@@ -93,19 +127,14 @@ function savePerson(array $person, string $location): void
 function generateId(array|null $persons = null): int
 {
 //    return $persons == null ? 1 : (end($persons['id'])) + 1;
-    return is_array($persons) == null ? 1 : (end($persons)[ID]) + 1 ;
+    return is_array($persons) == null ? 1 : (end($persons)[ID]) + 1;
 }
 
 function convertDateToTimestamp(string $date, string|null $format = 'd/m/Y'): int
 {
-    $date = str_replace('-','/', $date);
+    $date = str_replace('-', '/', $date);
     return strtotime($date);
-//    $newDate = date($format, strtotime($date));
-//    $birthDate = date_create_from_format($format, $newDate);
-//    if ($birthDate) {
-//        return date_format($birthDate, 'U');
-//    }
-//    return -1;
+
 }
 
 function getPerson(int|null $id = null, string|null $email = null): array
@@ -135,33 +164,20 @@ function translateBooleanToString(string $status): string
 
 function translateSwitch(string $on): bool
 {
-    return $on == "on" ? true : false;
+    return $on === "on" ? true : false;
 }
 
-function getAgeCategory(int $age){
-    if($age <= 13){
-       return CATEGORIES_CHILD;
-    } elseif ($age <= 45){
+function getAgeCategory(int $age)
+{
+    if ($age <= 13) {
+        return CATEGORIES_CHILD;
+    } elseif ($age <= 45) {
         return CATEGORIES_PRODUCTIVE_AGE;
-    } elseif ($age >= 46){
+    } elseif ($age >= 46) {
         return CATEGORIES_ELDERLY;
     }
 }
-//function calculateAge(string $birthOfDate): int
-//{
-//    $currentDate = time();
-//    if ($birthOfDate > $currentDate) {
-//        return 0;
-//    }
-//    list($date, $month, $year) = explode('-', $birthOfDate);
-//    $wasBorn = mktime(0, 0, 0, (int)$month, (int)$date, $year); //jam,menit,detik,bulan,tanggal,tahun
-//    $age = ($wasBorn < 0) ? ($currentDate + ($wasBorn * -1)) : $currentDate - $wasBorn;
-//    $yearCalculate = 60 * 60 * 24 * 365;
-//    $wasBornOnYear = $age / $yearCalculate;
-//    return floor($wasBornOnYear);
-//
-//
-//}
+
 
 function calculateAge($birth_date_ts): int
 {

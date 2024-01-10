@@ -4,7 +4,6 @@ session_start();
 require_once __DIR__ . "/action/actionDashboard.php";
 require_once __DIR__ . "/index.php";
 
-redirectIfNotAuthenticated();
 ?>
 
 <!DOCTYPE html>
@@ -200,7 +199,7 @@ redirectIfNotAuthenticated();
 
                 <div class="row dashboard">
                     <div class="dashboard-card col-12 col-xxl-4 col-xl-4 col-lg-5 col-md-6">
-                        <div class="card">
+                        <a class="card card-link" href="#">
                             <div class="card-body">
                                 <p class="number">153</p>
                                 <h4 class="card-subtitle third-heading mb-2 text-body-secondary">
@@ -213,12 +212,12 @@ redirectIfNotAuthenticated();
                                     repellat quam voluptate sapiente doloribus, odit maiores,
                                     fuga magnam.
                                 </p>
-                                <a href="#" class="card-link">More &rarr;</a>
+
                             </div>
-                        </div>
+                        </a>
                     </div>
                     <div class="dashboard-card col-12 col-xxl-4 col-xl-4 col-lg-5 col-md-6">
-                        <div class="card">
+                        <a class="card card-link" href="persons.php?category=<?php echo CATEGORIES_PRODUCTIVE_AGE?>">
                             <div class="card-body">
                                 <p class="number">87</p>
                                 <h4 class="card-subtitle third-heading mb-2 text-body-secondary">
@@ -232,12 +231,11 @@ redirectIfNotAuthenticated();
                                     libero eius perspiciatis nobis. Non eos assumenda
                                     molestiae incidunt.
                                 </p>
-                                <a href="#" class="card-link">More &rarr;</a>
                             </div>
-                        </div>
+                        </a>
                     </div>
                     <div class="dashboard-card col-12 col-xxl-4 col-xl-4 col-lg-5 col-md-6">
-                        <div class="card">
+                        <a class="card card-link" href="#">
                             <div class="card-body">
                                 <p class="number">29</p>
                                 <h4 class="card-subtitle third-heading mb-2 text-body-secondary">
@@ -251,12 +249,11 @@ redirectIfNotAuthenticated();
                                     architecto minima quis deserunt reiciendis. Corporis
                                     neque, assumenda omnis voluptate rem recusandae.
                                 </p>
-                                <a href="#" class="card-link">More &rarr;</a>
                             </div>
-                        </div>
+                        </a>
                     </div>
                     <div class="dashboard-card col-12 col-xxl-4 col-xl-4 col-lg-5 col-md-6">
-                        <div class="card">
+                        <a class="card card-link" href="#">
                             <div class="card-body">
                                 <p class="number">22</p>
                                 <h4 class="card-subtitle third-heading mb-2 text-body-secondary">
@@ -270,13 +267,12 @@ redirectIfNotAuthenticated();
                                     doloribus a rem blanditiis fugiat quis odit, nulla
                                     corrupti!
                                 </p>
-                                <a href="#" class="card-link">More &rarr;</a>
                             </div>
-                        </div>
+                        </a>
                     </div>
 
                     <div class="dashboard-card col-12 col-xxl-4 col-xl-4 col-lg-5 col-md-6">
-                        <div class="card">
+                        <a class="card card-link" href="#">
                             <div class="card-body">
                                 <p class="number">5</p>
                                 <h4 class="card-subtitle third-heading mb-2 text-body-secondary">
@@ -290,9 +286,8 @@ redirectIfNotAuthenticated();
                                     magni. Unde, sunt laboriosam? Provident doloribus error
                                     nam dignissimos.
                                 </p>
-                                <a href="#" class="card-link">More &rarr;</a>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </div>

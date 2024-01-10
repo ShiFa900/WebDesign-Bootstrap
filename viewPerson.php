@@ -1,6 +1,5 @@
 <?php
 global $person;
-require_once __DIR__ . "/index.php";
 require_once __DIR__ . "/action/actionViewPerson.php";
 require_once __DIR__ . "/include/header.php";
 session_start();
@@ -281,8 +280,7 @@ mainHeader("View Person");
                                         if ($person[PERSON_INTERNAL_NOTE] != null) {
                                             ?>
                                             <span class="title">Internal Note</span>
-                                            <p>
-                                                <?= $person[PERSON_INTERNAL_NOTE];
+                                            <p><?= $person[PERSON_INTERNAL_NOTE];
                                                 ?>
                                             </p>
                                             <?php

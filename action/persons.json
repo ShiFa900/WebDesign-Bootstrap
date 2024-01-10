@@ -2,16 +2,16 @@
     {
         "id": 1,
         "firstName": "Rui",
-        "lastName": "Ayaki",
-        "nik": "1092836172830027",
+        "lastName": "",
+        "nik": "1234981723615234",
         "email": "Ayayaki@gmail.com",
-        "birthDate": 983476182,
-        "sex": "Male",
+        "birthDate": 898560000,
+        "sex": "Better not say",
         "internalNote": "I believe i can fly",
         "role": "Member",
         "password": "ayam",
         "status": true,
-        "lastLoggedIn": 1704700934
+        "lastLoggedIn": 1704873775
     },
     {
         "id": 2,
@@ -39,7 +39,7 @@
         "role": "Admin",
         "password": "sarah",
         "status": true,
-        "lastLoggedIn": 1704772256
+        "lastLoggedIn": 1704854901
     },
     {
         "id": 4,
@@ -53,7 +53,7 @@
         "role": "Member",
         "password": "pol",
         "status": true,
-        "lastLoggedIn": 1704768992
+        "lastLoggedIn": 1704881133
     },
     {
         "id": 5,
@@ -71,11 +71,11 @@
     },
     {
         "id": 6,
-        "firstName": "Mila",
-        "lastName": "",
+        "firstName": "Mimin",
+        "lastName": "Admin",
         "nik": "1234981723615234",
         "email": "milmil@gmail.com",
-        "birthDate": 898575286,
+        "birthDate": 898560000,
         "sex": "Better not say",
         "internalNote": "",
         "role": "Member",
@@ -109,7 +109,7 @@
         "role": "Admin",
         "password": "virginPerfume",
         "status": true,
-        "lastLoggedIn": null
+        "lastLoggedIn": 1704881060
     },
     {
         "id": 10,
@@ -150,6 +150,34 @@
         "internalNote": "",
         "role": "Member",
         "password": "mamang",
+        "status": true,
+        "lastLoggedIn": null
+    },
+    {
+        "id": 14,
+        "firstName": "Anjelia",
+        "lastName": "",
+        "nik": "0022338899201928",
+        "email": "anjelia4@gmail.com",
+        "birthDate": 1263081600,
+        "sex": "Female",
+        "internalNote": "",
+        "role": "Member",
+        "password": "liaa",
+        "status": true,
+        "lastLoggedIn": null
+    },
+    {
+        "id": 15,
+        "firstName": "Jamela",
+        "lastName": "",
+        "nik": "23",
+        "email": "jamela@gmail.com",
+        "birthDate": 1199059200,
+        "sex": "Better not say",
+        "internalNote": "",
+        "role": "Member",
+        "password": "mela",
         "status": true,
         "lastLoggedIn": null
     }
