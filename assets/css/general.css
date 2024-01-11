@@ -338,3 +338,175 @@ body {
 .nav-item:active {
   background-color: #e6eef9;
 }
+
+/* taken from persons.css - mohon dicek lagi*/
+/* HEADER */
+
+.header {
+  height: 70px;
+  padding: 0 1.4rem;
+  background-color: #015d98;
+  color: #ffff;
+
+  box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.532);
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  right: 0;
+}
+
+.bg-body-tertiary {
+  --bs-bg-opacity: 0;
+}
+
+/* NAVIGATION ON SIDEBAR*/
+
+ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+
+  /* margin: 0; */
+  /* padding: 0; */
+}
+
+li ul .nav-link {
+  padding-left: 1.2rem;
+}
+
+/* PERSONS SECTION */
+
+.person-content {
+  top: 100px;
+  right: 0;
+  left: 255px;
+}
+
+.btn-content {
+  background-color: #ffc436;
+  padding: 1rem 1rem;
+  border-radius: 50%;
+}
+
+.btn-outline-success {
+  background-color: #ffc436;
+  color: #333;
+  padding: 0.3rem 0.5rem;
+  border-radius: 2px;
+}
+
+.btn-outline-success:hover,
+.btn-outline-success:active {
+  background-color: #e6b031 !important;
+  color: #333;
+}
+
+/* TABLE */
+
+.table-section {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.09);
+}
+
+.table {
+  height: 100%;
+  min-width: 800px;
+  --bs-table-color: none;
+}
+
+/* td,
+th {
+  font-size: 1.6rem;
+} */
+
+thead tr {
+  background-color: #015d98;
+  color: #e6f1f9;
+  text-transform: uppercase;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.table tbody{
+  height: 50px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+.table-nav {
+  padding: 0.2rem 0.75rem;
+  border: 1px solid #015d98;
+  color: #333;
+  border-radius: 2px;
+}
+
+.view-btn {
+  background-color: #015d98;
+  color: #fff;
+}
+
+.edit {
+  border: 1px solid #015d98;
+  color: #015d98;
+}
+
+.view-btn:hover,
+.view-btn:active {
+  color: #fff !important;
+  background-color: #1a82c5;
+}
+
+.table > :not(caption) > * > * {
+  background: none;
+}
+
+.table > tbody {
+  vertical-align: baseline;
+}
+
+thead tr {
+  height: 55px;
+  vertical-align: middle;
+
+  /* position: fixed;
+  right: 25%;
+  left: 25%;
+  z-index: 9999;
+  width: 100%; */
+}
+
+tr th {
+  width: 90px;
+}
+
+
+/* FORM */
+.right select option {
+  padding: 1.2rem;
+}
+
+/* PAGINATION */
+.pagination {
+  margin-top: 2.4rem;
+}
+
+.material-symbols-outlined {
+  font-size: 2.4rem;
+}
+
+/* CONTENT */
+/* .content-wrapper {
+  position: fixed;
+  z-index: 999;
+  right: 50px;
+  left: 300px;
+  background-color: #fff;
+} */
+
+/* menunjukkan user seng berada di page mana */
+/* .nav-item-highlight {
+  background-color: #e6f1f9;
+  padding: 1.2rem 0;
+} */

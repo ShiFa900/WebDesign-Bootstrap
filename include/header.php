@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . "/sidebar.php";
-function mainHeader(string $title, string $link, string $user): void
+function mainHeader(string $cssIdentifier, string $title, string $link, array|null $pageStyles = null): void
 {
 ?>
 <!DOCTYPE html>
@@ -95,17 +95,27 @@ function mainHeader(string $title, string $link, string $user): void
 
     <!-- link styling -->
     <link rel="stylesheet" href="/assets/css/general.css"/>
-    <link rel="stylesheet" href="/assets/css/persons.css"/>
-    <link rel="stylesheet" href="/assets/css/addPerson.css"/>
-    <link rel="stylesheet" href="/assets/css/myProfile.css"/>
-    <link rel="stylesheet" href="/assets/css/editPerson.css"/>
-    <link rel="stylesheet" href="/assets/css/viewPerson.css"/>
-    <link rel="stylesheet" href="/assets/css/dashboard.css"/>
     <link rel="stylesheet" href="/assets/query/mediaQuery.css"/>
+
+    <?php
+        // page's specific css
+        if (is_array($pageStyles)):
+            foreach ($pageStyles as $style):
+                echo '<link rel="stylesheet" href="/assets/css/' . $style . '"/>';
+            endforeach;
+        endif;
+    ?>
+
+<!--    <link rel="stylesheet" href="/assets/css/persons.css"/>-->
+<!--    <link rel="stylesheet" href="/assets/css/addPerson.css"/>-->
+<!--    <link rel="stylesheet" href="/assets/css/myProfile.css"/>-->
+<!--    <link rel="stylesheet" href="/assets/css/editPerson.css"/>-->
+<!--    <link rel="stylesheet" href="/assets/css/viewPerson.css"/>-->
+<!--    <link rel="stylesheet" href="/assets/css/dashboard.css"/>-->
 
     <title>PerMap &mdash; <?=$title?></title>
 </head>
-<body>
+<body class="<?= $cssIdentifier ?>">
 <header
         class="header sticky-top d-flex align-items-center justify-content-between"
 >
@@ -135,7 +145,7 @@ function mainHeader(string $title, string $link, string $user): void
                     <div class="avatar">
                         <?php
                         echo "<span class='profile-text d-none d-xl-block'>";
-                        echo $user;
+                        echo $_SESSION["userEmail"];
                         echo "</span>";
                         ?>
 

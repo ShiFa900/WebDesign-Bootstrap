@@ -12,6 +12,3 @@ function mainFooter(string $link) {
     </html>
 	<?php
 }
-
-?>
-
