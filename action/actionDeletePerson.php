@@ -11,7 +11,7 @@ for ($i = 0; $i < count($persons); $i++) {
     }
 }
 
-header("Location: ../persons.php");
-exit();
+redirect("../persons.php", "msg=deleteSuccess");
+
 
 

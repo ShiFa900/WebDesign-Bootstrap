@@ -92,7 +92,10 @@ body {
   gap: 0.5rem;
 
   padding: 0.75rem;
+  color: #444444;
+
 }
+
 
 .dropdown-item:hover {
   background-color: #e6f1f9;
@@ -302,7 +305,7 @@ body {
   height: 100%;
 }
 
-.sidebar-icon {
+.color {
   color: #015d98;
 }
 

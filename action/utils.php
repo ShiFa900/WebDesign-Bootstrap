@@ -34,11 +34,13 @@ function checkRoleAdmin(): bool
     return true;
 }
 
-function checkAbility(): bool{
+function checkAbility(): bool
+{
     $user = getPerson(email: $_SESSION["userEmail"]);
-    if($user[PERSON_STATUS] == STATUS_PASSED_AWAY){
+    if ($user[PERSON_STATUS] == STATUS_PASSED_AWAY) {
         redirect("login.php", "error=userStatusPassedAway");
-    }return true;
+    }
+    return true;
 }
 
 
@@ -130,7 +132,7 @@ function generateId(array|null $persons = null): int
     return is_array($persons) == null ? 1 : (end($persons)[ID]) + 1;
 }
 
-function convertDateToTimestamp(string $date, string|null $format = 'd/m/Y'): int
+function convertDateToTimestamp(string $date): int
 {
     $date = str_replace('-', '/', $date);
     return strtotime($date);
@@ -185,4 +187,27 @@ function calculateAge($birth_date_ts): int
     $now = new DateTime('now');
     $interval = $date->diff($now);
     return floor($interval->y);
+}
+
+function setPersonData(
+    array       &$person,
+    string|null      $firstName,
+    string|null      $lastName,
+    string|null      $nik,
+    string|null      $email,
+    string|null      $birthDate,
+    string|null      $sex,
+    string|null      $role,
+    string|null      $status,
+    string|null $note = null): void
+{
+    $person[PERSON_FIRST_NAME] = $firstName == null ? $person[PERSON_FIRST_NAME] : $firstName;
+    $person[PERSON_LAST_NAME] = $lastName == null ? $person[PERSON_LAST_NAME] : $lastName;
+    $person[PERSON_NIK] = $nik == null ? $person[PERSON_NIK] : $nik;
+    $person[PERSON_EMAIL] = $email == null ? $person[PERSON_EMAIL] : $email;
+    $person[PERSON_BIRTH_DATE] = $birthDate == null ? $person[PERSON_BIRTH_DATE] : $birthDate;
+    $person[PERSON_SEX] = $sex == null ? $person[PERSON_SEX] : $sex;
+    $person[PERSON_ROLE] = $role == null ? $person[PERSON_ROLE] : $role;
+    $person[PERSON_STATUS] = $status == null ? $person[PERSON_STATUS] : $status;
+    $person[PERSON_INTERNAL_NOTE] = $note;
 }

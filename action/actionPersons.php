@@ -23,7 +23,7 @@ global $persons;
 //function search(): array
 //{
     if (isset($_GET["category"])) {
-        $category = $_GET["category"];
+//        $category = $_GET["category"];
         $keyWord = $_GET["keyWord"];
 
         $inputText = preg_quote($keyWord);
@@ -38,27 +38,31 @@ global $persons;
                         $temp[] = $persons[$i];
                     }
                 }
-                if (preg_match("/$inputText/i", $persons[$i][PERSON_FIRST_NAME])) {
-                    if (!in_array($persons[$i][ID], $temp)) {
-                        $temp[] = $persons[$i];
-                    }
-                }
-                if(preg_match("/$inputText/i", $persons[$i][PERSON_LAST_NAME])){
-                    if(!in_array($persons[$i][ID], $temp)){
-                        $temp[] = $persons[$i];
-                    }
-                }
+//                if (preg_match("/$inputText/i", $persons[$i][PERSON_FIRST_NAME])) {
+//                    if (!in_array($persons[$i][ID], $temp)) {
+//                        $temp[] = $persons[$i];
+//                    }
+//                }
+//                if(preg_match("/$inputText/i", $persons[$i][PERSON_LAST_NAME])){
+//                    if(!in_array($persons[$i][ID], $temp)){
+//                        $temp[] = $persons[$i];
+//                    }
+//                }
             }
 
             if (count($temp) != 0) {
-               for ($i = 0; $i < count($temp); $i++){
-                   $personAge = calculateAge($temp[$i][PERSON_BIRTH_DATE]);
-                   $ageCategory = getAgeCategory($personAge);
-                   if($ageCategory == $category){
-                       $persons[] = $temp[$i];
-                   }
-               }
+                 return $temp;
             }
+
+//            if (count($temp) != 0) {
+//               for ($i = 0; $i < count($temp); $i++){
+//                   $personAge = calculateAge($temp[$i][PERSON_BIRTH_DATE]);
+//                   $ageCategory = getAgeCategory($personAge);
+//                   if($ageCategory == $category){
+//                       $persons[] = $temp[$i];
+//                   }
+//               }
+//            }
         }
     }
 

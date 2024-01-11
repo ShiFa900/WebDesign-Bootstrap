@@ -2,40 +2,29 @@
 require_once __DIR__ . "/utils.php";
 
 session_start();
-
+echo $_POST["firstName"];
 if (isset($_POST["firstName"])) {
     if (hasNikCheck($_POST["nik"]) == -1) {
-        $_SESSION["errorNik"] = 1;
+        $_SESSION["errorNik"] = "Sorry, your NIK is already exist";
     }
 
     if (hasEmailCheck($_POST["email"]) == -1) {
-        $_SESSION["errorEmail"] = 1;
+        $_SESSION["errorEmail"] = "Sorry, your EMAIL is already exist";
     }
 
     if (validatePassword($_POST["password"]) == -1) {
-        $_SESSION["errorPassword"] = 1;
+        $_SESSION["errorPassword"] = " Sorry, your PASSWORD is weak. Password should include at least one" .
+            " UPPERCASE, one LOWERCASE, one NUMBER and one SPECIAL CHARACTER.";
     }
 
-    if($_POST["confirmPass"] !== $_POST["password"]){
-        $_SESSION["errorConfirm"] = 1;
+    if ($_POST["confirmPass"] !== $_POST["password"]) {
+        $_SESSION["errorConfirm"] = "Sorry, your CONFIRMATION was wrong. Please check your PASSWORD again.";
     }
 
 //    unset($_SESSION["errorNik"]);
 //    unset($_SESSION["errorEmail"]);
 //    unset($_SESSION["errorPassword"]);
 //    unset($_SESSION["errorConfirm"]);
-//    $errorData = getErrorData(
-//        email: $_POST["email"],
-//        password: $_POST["password"],
-//        nik: $_POST["nik"]);
-//
-//
-//    $_SESSION["errorNik"] = $errorData["nik"];
-//    $_SESSION["errorEmail"] = $errorData["email"];
-//    $_SESSION["errorPass"] = $errorData["password"];
-//    header("addPerson.php");
-//    exit();
-
 
     $persons = getAll();
 
@@ -47,7 +36,7 @@ if (isset($_POST["firstName"])) {
         PERSON_EMAIL => $_POST["email"],
         PERSON_BIRTH_DATE => convertDateToTimestamp($_POST["birthDate"]),
         PERSON_SEX => $_POST["sex"],
-        PERSON_INTERNAL_NOTE => $_POST["internalNote"],
+        PERSON_INTERNAL_NOTE => null,
         PERSON_ROLE => $_POST["role"],
         PASSWORD => $_POST["password"],
         PERSON_STATUS => translateSwitch($_POST["status"]),
@@ -57,28 +46,11 @@ if (isset($_POST["firstName"])) {
     savePerson($person, "persons.php");
 }
 
-/**
- * @return array
- * function untuk mengecek semua inputan untuk mencari error
- */
-function getErrorData(
-    string $email,
-    string $password,
-    string $nik,
-): array
-{
-//    mendapatkan data yang mengandung error
-    $validated = [];
-
-
-    return $validated;
-}
-
 function hasNikCheck(string $nik): int
 {
     $persons = getAll();
     for ($i = 0; $i < count($persons); $i++) {
-        if (strlen($nik) != 16 && $persons[$i][PERSON_NIK] == $nik) return -1;
+        if ($persons[$i][PERSON_NIK] == $nik) return -1;
     }
     return 0;
 }
