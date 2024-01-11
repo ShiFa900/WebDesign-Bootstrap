@@ -190,4 +190,3 @@ function mainHeader(string $title, string $link, string $user): void
 <?php
 	desktopSidebar($link);
 }
-    ?>
