@@ -1,28 +1,18 @@
 <?php
 session_start();
 //
-//$_SESSION["categoryActive"] = $_GET["productiveAge"];
 require_once __DIR__ . "/action/const.php";
 require_once __DIR__ . "/action/utils.php";
 require_once __DIR__ . "/include/header.php";
-require_once __DIR__ . "/include/sidebar.php";
+require_once __DIR__ . "/include/footer.php";
 
-//checkRoleAdmin();
-//global $persons;
 $persons = getAll();
 
 ?>
 
 <?php
-mainHeader("Persons View", $_SESSION["userEmail"]);
+mainHeader(cssIdentifier: "page-persons",title: "Persons View",link: "persons.php",pageStyles: ['persons.css']);
 ?>
-
-<main>
-    <section class="person-section d-flex position-relative">
-        <?php
-        desktopSidebar("persons.php");
-        ?>
-
         <div class="w-100">
             <div class="person-content position-absolute px-5">
                 <div
@@ -213,33 +203,9 @@ mainHeader("Persons View", $_SESSION["userEmail"]);
                     </table>
                 </div>
 
-
-                <!-- PAGINATION -->
-                <!-- <nav aria-label="Page navigation">
-                  <ul class="pagination d-flex flex-row justify-content-end">
-                    <li class="page-item disabled">
-                      <a class="page-link">Previous</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">1</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">3</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" href="#">Next</a>
-                    </li>
-                  </ul>
-                </nav> -->
             </div>
         </div>
-    </section>
-</main>
 
 <!-- sidebar -->
 <?php
-mobileSidebar("persons.php");
-?>
+mainFooter("persons.php");
