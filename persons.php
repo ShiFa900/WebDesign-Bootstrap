@@ -69,7 +69,8 @@ mainHeader("Persons View", $_SESSION["userEmail"]);
                                         type="search"
                                         placeholder="Search"
                                         aria-label="Search"
-                                        name="keyWord"
+                                        name="keyword"
+                                        value="<?=$_GET["keyword"]?>"
                                 />
                             </div>
                             <button class="btn btn-outline-success" type="submit" name="search">
@@ -135,10 +136,14 @@ mainHeader("Persons View", $_SESSION["userEmail"]);
 
                         <tr>
                             <?php
-                            $searchResult = search();
-                            if(count($searchResult) != 0){
-                                $persons = $searchResult;
+                            require_once __DIR__ . "/action/actionPersons.php";
+                            if(isset($_GET["keyword"])){
+                                $result = search(keyword: $_GET["keyword"],category: $_GET["category"]);
+                                if(!is_null($result)){
+                                    $persons = $result;
+                                }
                             }
+
                             $no = 1;
                             foreach ($persons
 

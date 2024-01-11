@@ -20,50 +20,46 @@ global $persons;
 //}
 
 
-//function search(): array
-//{
-    if (isset($_GET["category"])) {
-//        $category = $_GET["category"];
-        $keyWord = $_GET["keyWord"];
+function search(string $keyword, string|null $category = null): array
+{
+    $inputText = preg_quote($keyword);
+    $persons = getAll();
+    $temp = [];
 
-        $inputText = preg_quote($keyWord);
-        $persons = getAll();
-        $temp = [];
-
-        while (true) {
-            if ($inputText == "") break;
-            for ($i = 0; $i < count($persons); $i++) {
-                if (preg_match("/$inputText/i", $persons[$i][PERSON_EMAIL])) {
-                    if (!in_array($persons[$i][ID], $temp)) {
-                        $temp[] = $persons[$i];
-                    }
-                }
-//                if (preg_match("/$inputText/i", $persons[$i][PERSON_FIRST_NAME])) {
-//                    if (!in_array($persons[$i][ID], $temp)) {
-//                        $temp[] = $persons[$i];
-//                    }
-//                }
-//                if(preg_match("/$inputText/i", $persons[$i][PERSON_LAST_NAME])){
-//                    if(!in_array($persons[$i][ID], $temp)){
-//                        $temp[] = $persons[$i];
-//                    }
-//                }
+    for ($i = 0; $i < count($persons); $i++) {
+        if (preg_match("/$inputText/i", $persons[$i][PERSON_EMAIL])) {
+            if (!in_array($persons[$i][ID], $temp)) {
+                $temp[] = $persons[$i];
             }
-
-            if (count($temp) != 0) {
-                 return $temp;
+        }
+        if (preg_match("/$inputText/i", $persons[$i][PERSON_FIRST_NAME])) {
+            if (in_array($persons[$i][ID], $temp)) {
+                $temp[] = $persons[$i];
             }
-
-//            if (count($temp) != 0) {
-//               for ($i = 0; $i < count($temp); $i++){
-//                   $personAge = calculateAge($temp[$i][PERSON_BIRTH_DATE]);
-//                   $ageCategory = getAgeCategory($personAge);
-//                   if($ageCategory == $category){
-//                       $persons[] = $temp[$i];
-//                   }
-//               }
-//            }
+        }
+        if (preg_match("/$inputText/i", $persons[$i][PERSON_LAST_NAME])) {
+            if (in_array($persons[$i][ID], $temp)) {
+                $temp[] = $persons[$i];
+            }
         }
     }
 
-//}
+//    how to check category for each person??
+    if (count($temp) != 0) {
+        $filteredPerson = [];
+        for ($i = 0; $i < count($temp); $i++){
+//            mendapatkan umur dari tiap orang
+            $getPersonAge = calculateAge($temp[$i][PERSON_BIRTH_DATE]);
+//            mengset category untuk tiap orang
+            $personCategory = getAgeCategory($getPersonAge);
+            if($personCategory == $category){
+                $filteredPerson[] = $temp[$i];
+            }
+        }
+        return $filteredPerson;
+    }
+
+    return [];
+}
+
+

@@ -236,33 +236,5 @@
         "password": "totorro",
         "status": true,
         "lastLoggedIn": null
-    },
-    {
-        "id": 20,
-        "firstName": "Jamal",
-        "lastName": "",
-        "nik": "2223338901838127",
-        "email": "Ayayaki@gmail.com",
-        "birthDate": 506995200,
-        "sex": "Male",
-        "internalNote": null,
-        "role": "Member",
-        "password": "jamal",
-        "status": true,
-        "lastLoggedIn": null
-    },
-    {
-        "id": 21,
-        "firstName": "Jamal",
-        "lastName": "",
-        "nik": "1120391827345689",
-        "email": "Ayayaki@gmail.com",
-        "birthDate": 1355270400,
-        "sex": "Male",
-        "internalNote": null,
-        "role": "Member",
-        "password": "jamal",
-        "status": true,
-        "lastLoggedIn": null
     }
 ]
