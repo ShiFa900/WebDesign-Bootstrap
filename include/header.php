@@ -1,6 +1,6 @@
 <?php
-//session_start();
-function mainHeader(string $title, string $user): void
+require_once __DIR__ . "/sidebar.php";
+function mainHeader(string $cssIdentifier, string $title, string $link, array|null $pageStyles = null): void
 {
 ?>
 <!DOCTYPE html>
@@ -84,29 +84,7 @@ function mainHeader(string $title, string $user): void
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png"/>
     <meta name="theme-color" content="#ffffff"/>
 
-    <!-- Link Bootstrap -->
-    <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-                />
-    <link
-            href="https://getbootstrap.com/docs/5.3/assets/css/docs.css"
-            rel="stylesheet"
-                />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
-
-    <!-- link icon -->
-    <script
-            type="module"
-            src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
-                ></script>
-    <script
-            nomodule
-            src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
-                ></script>
-
+    <link href="assets/vendor/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/
     <!-- link font -->
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -117,18 +95,27 @@ function mainHeader(string $title, string $user): void
 
     <!-- link styling -->
     <link rel="stylesheet" href="/assets/css/general.css"/>
-    <link rel="stylesheet" href="/assets/css/persons.css"/>
-    <link rel="stylesheet" href="/assets/css/addPerson.css"/>
-    <link rel="stylesheet" href="/assets/css/myProfile.css"/>
-    <link rel="stylesheet" href="/assets/css/editPerson.css"/>
-    <link rel="stylesheet" href="/assets/css/viewPerson.css"/>
-    <link rel="stylesheet" href="/assets/css/dashboard.css"/>
-
     <link rel="stylesheet" href="/assets/query/mediaQuery.css"/>
+
+    <?php
+        // page's specific css
+        if (is_array($pageStyles)):
+            foreach ($pageStyles as $style):
+                echo '<link rel="stylesheet" href="/assets/css/' . $style . '"/>';
+            endforeach;
+        endif;
+    ?>
+
+<!--    <link rel="stylesheet" href="/assets/css/persons.css"/>-->
+<!--    <link rel="stylesheet" href="/assets/css/addPerson.css"/>-->
+<!--    <link rel="stylesheet" href="/assets/css/myProfile.css"/>-->
+<!--    <link rel="stylesheet" href="/assets/css/editPerson.css"/>-->
+<!--    <link rel="stylesheet" href="/assets/css/viewPerson.css"/>-->
+<!--    <link rel="stylesheet" href="/assets/css/dashboard.css"/>-->
 
     <title>PerMap &mdash; <?=$title?></title>
 </head>
-<body>
+<body class="<?= $cssIdentifier ?>">
 <header
         class="header sticky-top d-flex align-items-center justify-content-between"
 >
@@ -158,7 +145,7 @@ function mainHeader(string $title, string $user): void
                     <div class="avatar">
                         <?php
                         echo "<span class='profile-text d-none d-xl-block'>";
-                        echo $user;
+                        echo $_SESSION["userEmail"];
                         echo "</span>";
                         ?>
 
@@ -209,6 +196,7 @@ function mainHeader(string $title, string $user): void
         </a>
     </div>
 </header>
+    <main>
 <?php
+	desktopSidebar($link);
 }
-    ?>
