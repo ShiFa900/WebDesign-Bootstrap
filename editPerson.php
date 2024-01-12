@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . "/action/utils.php";
 require_once __DIR__ . "/include/header.php";
-require_once __DIR__ . "/include/sidebar.php";
+require_once __DIR__ . "/include/footer.php";
 
 session_start();
 
@@ -10,7 +10,7 @@ checkRoleAdmin();
 ?>
 
 <?php
-mainHeader("Edit Person", $_SESSION["userEmail"]);
+mainHeader(cssIdentifier: "page-edit-person",title: "Edit Person", link: "editPerson.php", pageStyles: ["editPerson.css"]);
 ?>
 
 <main>
@@ -177,7 +177,7 @@ mainHeader("Edit Person", $_SESSION["userEmail"]);
                                     </div>
                                 </div>
 
-                                <div class="col-xxl-5 col-xl-6 col-lg-6">
+                                <div class="col-xxl-5 col-xl-5 col-lg-5 col-md-4">
 
                                     <div class="mb-4 form-input">
                                         <label class="form-label" for="role-dropdown"
@@ -206,6 +206,30 @@ mainHeader("Edit Person", $_SESSION["userEmail"]);
                                             ?>
 
                                         </select>
+                                    </div>
+
+                                    <hr/>
+                                    <div class="mb-3 form-input">
+                                        <label for="newPass" class="form-label ">New Password</label>
+                                        <input
+                                                id="newPass"
+                                                type="password"
+                                                class="form-control"
+                                                name="newPassword"/>
+
+                                    </div>
+                                    <div class="mb-3 form-input">
+                                        <label for="confirmPass" class="form-label">Confirm Password </label>
+                                        <input
+                                                id="confirmPass"
+                                                type="password"
+                                                class="form-control"
+                                            <?php
+                                            if (isset($_SESSION["hasNewPassword"])) echo "required";
+                                            ?>
+                                                name="confirmPassword"/>
+
+
                                     </div>
                                 </div>
                             </div>
@@ -237,7 +261,7 @@ mainHeader("Edit Person", $_SESSION["userEmail"]);
 
 <!-- sidebar -->
 <?php
-mobileSidebar("persons.php");
+mainFooter("persons.php");
 ?>
 <?php
 // unset $_SESSION

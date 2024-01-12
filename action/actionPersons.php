@@ -45,7 +45,7 @@ function search(string $keyword, string|null $category = null): array
     }
 
 //    how to check category for each person??
-    if (count($temp) != 0) {
+    if (count($temp) != 0 && !is_null($category)) {
         $filteredPerson = [];
         for ($i = 0; $i < count($temp); $i++){
 //            mendapatkan umur dari tiap orang
@@ -59,7 +59,7 @@ function search(string $keyword, string|null $category = null): array
         return $filteredPerson;
     }
 
-    return [];
+    return $temp;
 }
 
 

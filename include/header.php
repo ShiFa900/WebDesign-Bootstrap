@@ -145,7 +145,7 @@ function mainHeader(string $cssIdentifier, string $title, string $link, array|nu
                 >
                     <div class="avatar">
                         <?php
-                        echo "<span class='profile-text d-none d-xl-block'>";
+                        echo "<span class='profile-text d-none d-lg-block'>";
                         echo $_SESSION["userEmail"];
                         echo "</span>";
                         ?>

@@ -8,6 +8,10 @@
   height: 145px;
 }
 
+.form-input-add-person {
+  margin: 1.6rem 0;
+}
+
 .form-input-add-person input,
 .form-input-add-person select,
 .form-input-add-person textarea {

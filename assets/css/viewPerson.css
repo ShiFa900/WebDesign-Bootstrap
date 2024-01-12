@@ -1,57 +1,12 @@
-.view-person-content {
+.page-view-person .view-person-content {
   top: 100px;
   right: 0;
-  left: 255px;
-}
-
-.form-input input,
-.form-input select {
-  border: none;
-  background-color: #fafafa;
-}
-
-.modal-footer .btn-primary {
-  color: #333;
-}
-
-.delete-btn {
-  background-color: #db1d30;
-  cursor: pointer;
-  border: none;
-}
-
-.delete-btn:hover {
-  background-color: #ff0000;
-}
-
-.modal-title,
-.modal-footer button {
-  font-size: 1rem;
-}
-
-.modal-footer button:nth-child(2):hover {
-  background: none;
-  /* border: 1px solid #015d98; */
-  color: #015d98;
-}
-
-.btn-block {
-  background-color: #ffc436;
 }
 
 
-/*DATA*/
-.title{
+/*TITLE FOR FORM*/
+.page-view-person .title{
   font-size: 1rem;
   letter-spacing: 0.5px;
   margin-bottom: 2rem;
-}
-
-.form-input p{
-  margin-top: 0.5rem;
-  /*font-size: 1.2rem;*/
-  background-color: #fafafa;
-  padding: 0.95rem 0.75rem;
-  color: #333;
-  border-radius: 1px;
 }

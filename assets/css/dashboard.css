@@ -1,71 +1,18 @@
 /* DASHBOARD CONTENT */
 
-.header-sm-title {
+.page-dashboard .header-sm-title {
   font-size: 1.2rem;
   margin-bottom: 0;
 
   line-height: 1.6;
 }
 
-.dashboard-content {
+.page-dashboard .dashboard-content {
   top: 100px;
   right: 0;
-  left: 255px;
 }
 
-/* .dashboard-card {
-  width: 30%;
-} */
-
-.dashboard {
+.page-dashboard .dashboard {
   row-gap: 3.6rem;
   margin-top: 3.6rem;
 }
-
-.number {
-  font-size: 4.4rem;
-  font-weight: 600;
-  margin-bottom: 1.2rem;
-  opacity: 80%;
-
-  /* text-align: center; */
-  color: #015d98;
-}
-
-.card-subtitle {
-  font-weight: 600;
-}
-
-.card {
-  background-color: #ebf4fa;
-  /* box-shadow: 0 0.5rem 1.75rem rgba(12, 12, 12, 0.119); */
-
-  padding: 1.2rem;
-
-  border-radius: 5px;
-  border: none;
-}
-
-.card-body .number, .card-body .card-subtitle{
-  border-bottom: none;
-}
-
-.card-text {
-  letter-spacing: 0.5px;
-  margin-top: 1.4rem;
-  color: #444;
-
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-.card-link {
-  padding-bottom: 2px;
-  border-bottom: 2px solid #1a82c5;
-  text-decoration: none;
-}
-
-/* .dashboard-card {
-  margin: 1.2rem;
-} */

@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . "/action/actionAddPerson.php";
 require_once __DIR__ . "/include/header.php";
-require_once __DIR__ . "/include/sidebar.php";
+require_once __DIR__ . "/include/footer.php";
 require_once __DIR__ . "/index.php";
 
 checkRoleAdmin();
@@ -9,7 +9,7 @@ checkRoleAdmin();
 ?>
 
 <?php
-mainHeader("Add Person", $_SESSION["userEmail"]);
+mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "addPerson.php", pageStyles: ["addPerson.css"]);
 ?>
 <main>
     <section class="add-person-section d-flex position-relative">
@@ -119,6 +119,10 @@ mainHeader("Add Person", $_SESSION["userEmail"]);
                                             name="birthDate"
                                     />
                                 </div>
+
+                            </div>
+
+                            <div class="col-xxl-5 col-xl-6 col-lg-6 new-person-form">
                                 <!--password-->
                                 <div class="mb-3 form-input-add-person">
                                     <label for="pass" class="form-label required">Password</label>
@@ -177,28 +181,6 @@ mainHeader("Add Person", $_SESSION["userEmail"]);
                                     </select>
                                 </div>
 
-                                <div class="form-input-add-person mt-0">
-                                    <div
-                                            class="form-check form-switch d-flex align-items-center column-gap-3"
-                                    >
-                                        <input
-                                                class="form-check-input"
-                                                type="checkbox"
-                                                role="switch"
-                                                id="flexSwitchCheckDefault"
-                                                name="status"
-                                        />
-                                        <label
-                                                class="form-check-label"
-                                                for="flexSwitchCheckDefault"
-                                        >This person is alive</label
-                                        >
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-xxl-5 col-xl-6 col-lg-6 new-person-form">
-
                                 <div class="mb-3 form-input-add-person">
                                     <label class="form-label required" for="role-dropdown"
                                     >Role</label
@@ -215,6 +197,25 @@ mainHeader("Add Person", $_SESSION["userEmail"]);
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="form-input-add-person mt-0">
+                                <div
+                                        class="form-check form-switch d-flex align-items-center column-gap-3"
+                                >
+                                    <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            role="switch"
+                                            id="flexSwitchCheckDefault"
+                                            name="status"
+                                    />
+                                    <label
+                                            class="form-check-label"
+                                            for="flexSwitchCheckDefault"
+                                    >This person is alive</label
+                                    >
+                                </div>
+                            </div>
                         </div>
 
                         <div class="btn-container d-flex column-gap-5">
@@ -226,13 +227,13 @@ mainHeader("Add Person", $_SESSION["userEmail"]);
                                 Save
                             </button>
 
-                            <button
+                            <a
                                     class="btn btn-primary btn--form has-border"
                                     type="submit"
-                                    name="btn"
+                                    href="persons.php"
                             >
                                 Cancel
-                            </button>
+                            </a>
                         </div>
                     </form>
                 </div>
@@ -242,7 +243,7 @@ mainHeader("Add Person", $_SESSION["userEmail"]);
     </section>
 </main>
 <!-- mobile sidebar -->
-<?php mobileSidebar("persons.php"); ?>
+<?php mainFooter("persons.php"); ?>
 <?php
 // unset $_SESSION
 unset($_SESSION["firstName"]);

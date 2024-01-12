@@ -2,13 +2,13 @@
 global $person;
 require_once __DIR__ . "/action/actionViewPerson.php";
 require_once __DIR__ . "/include/header.php";
-require_once __DIR__ . "/include/sidebar.php";
+require_once __DIR__ . "/include/footer.php";
 session_start();
 
 redirectIfNotAuthenticated();
 ?>
 <?php
-mainHeader("View Person", $_SESSION["userEmail"]);
+mainHeader(cssIdentifier: "page-view-person",title: "View Person", link: "viewPerson.php", pageStyles: ["viewPerson.css"]);
 ?>
 
 <main>
@@ -193,9 +193,6 @@ mainHeader("View Person", $_SESSION["userEmail"]);
     </section>
 </main>
 
-<!-- sidebar -->
+<!-- footer -->
 <?php
-mobileSidebar("persons.php");
-?>
-</body>
-</html>
+mainFooter("persons.php");

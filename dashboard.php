@@ -8,7 +8,7 @@ mainHeader(
 	cssIdentifier: "page-dashboard",
 	title: "Dashboard",
 	link: "dashboard.php",
-	pageStyles: [ 'dashboard.css' ]
+	pageStyles: [ "dashboard.css" ]
 );
 ?>
 

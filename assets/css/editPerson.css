@@ -1,5 +1,8 @@
-.edit-person-content {
+.page-edit-person .edit-person-content {
     top: 100px;
     right: 0;
-    left: 255px;
+}
+
+.page-edit-person .form-select{
+    padding: 0.75rem;
 }
