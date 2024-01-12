@@ -2,29 +2,53 @@
 require_once __DIR__ . "/utils.php";
 
 session_start();
-echo $_POST["firstName"];
-if (isset($_POST["firstName"])) {
-    if (hasNikCheck($_POST["nik"]) == -1) {
-        $_SESSION["errorNik"] = "Sorry, your NIK is already exist";
-    }
+$intDate = convertDateToTimestamp($_POST["birthDate"]);
 
-    if (hasEmailCheck($_POST["email"]) == -1) {
-        $_SESSION["errorEmail"] = "Sorry, your EMAIL is already exist";
-    }
+$inputData = [
+    'firstName' => htmlspecialchars($_POST["firstName"]),
+    'lastName' => htmlspecialchars($_POST["lastName"]),
+    'nik' => htmlspecialchars($_POST["nik"]),
+    'birthDate' => date("Y-m-d", $intDate),
+    'email' => filter_var($_POST["email"], FILTER_VALIDATE_EMAIL),
+    'role' => $_POST["role"],
+    'sex' => $_POST["sex"],
+    'status' => $_POST["status"]
+];
 
-    if (validatePassword($_POST["password"]) == -1) {
-        $_SESSION["errorPassword"] = " Sorry, your PASSWORD is weak. Password should include at least one" .
-            " UPPERCASE, one LOWERCASE, one NUMBER and one SPECIAL CHARACTER.";
-    }
 
-    if ($_POST["confirmPass"] !== $_POST["password"]) {
-        $_SESSION["errorConfirm"] = "Sorry, your CONFIRMATION was wrong. Please check your PASSWORD again.";
-    }
+function validate(): array
+{
 
-//    unset($_SESSION["errorNik"]);
-//    unset($_SESSION["errorEmail"]);
-//    unset($_SESSION["errorPassword"]);
-//    unset($_SESSION["errorConfirm"]);
+    $validate = [];
+    if (isset($_POST["firstName"])) {
+        if (hasNikCheck($_POST["nik"]) == -1) {
+            $validate["errorNik"] = "Sorry, your NIK is already exist";
+        }
+
+        if (hasEmailCheck($_POST["email"]) == -1) {
+            $validate["errorEmail"] = "Sorry, your EMAIL is already exist";
+        }
+
+        if (validatePassword($_POST["password"]) == -1) {
+            $validate["errorPassword"] = " Sorry, your PASSWORD is weak. Password should include at least one" .
+                " UPPERCASE, one LOWERCASE, and one NUMBER.";
+        }
+
+        if ($_POST["confirmPass"] !== $_POST["password"]) {
+            $validate["errorConfirm"] = "Sorry, your CONFIRMATION was wrong. Please check your PASSWORD again.";
+        }
+
+        if (birthDateValidate($_POST["birthDate"]) == -1) {
+            $validate["errorBirthDate"] = "Sorry, your BIRTH DATE is not valid. Please check your birth date again.";
+        }
+
+    }
+    return $validate;
+}
+
+if (count(validate()) == 0) {
+    unset($_SESSION["errorData"]);
+    unset($_SESSION["inputData"]);
 
     $persons = getAll();
 
@@ -44,7 +68,14 @@ if (isset($_POST["firstName"])) {
     ];
 
     savePerson($person, "persons.php");
+
+} else {
+//    echo hasEmailCheck($_POST["email"]);
+    $_SESSION["inputData"] = $inputData;
+    $_SESSION["errorData"] = validate();
+    redirect("../addPerson.php", "");
 }
+
 
 function hasNikCheck(string $nik): int
 {
@@ -55,13 +86,23 @@ function hasNikCheck(string $nik): int
     return 0;
 }
 
+function birthDateValidate(string $birthDate)
+{
+    $intDate = convertDateToTimestamp($birthDate);
+    if (time() < $intDate || $intDate == null) {
+        return -1;
+    }
+    return 0;
+
+}
+
 
 function hasEmailCheck(string $email): int
 {
 //    mengecek agar tidak ada email yang duplicate
     $persons = getAll();
-    foreach ($persons as $person) {
-        if ($email == $person[PERSON_EMAIL] && !filter_var($email, FILTER_VALIDATE_EMAIL)) return -1;
+    for ($i = 0; $i < count($persons); $i++) {
+        if ($email == $persons[$i][PERSON_EMAIL]) return -1;
     }
     return 0;
 }
@@ -71,9 +112,8 @@ function validatePassword(string $password): string|int
     $uppercase = preg_match('@[A-Z]@', $password);
     $lowercase = preg_match('@[a-z]@', $password);
     $number = preg_match('@[0-9]@', $password);
-    $specialChars = preg_match('@[^\w]@', $password);
 
-    if (!$uppercase || !$lowercase || !$number || !$specialChars || strlen($password) < 8) {
+    if (!$uppercase || !$lowercase || !$number || strlen($password) < 8) {
         return -1;
     }
     return $password;

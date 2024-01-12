@@ -169,16 +169,46 @@ function translateSwitch(string|null $on): bool
     return $on === "on";
 }
 
-function getAgeCategory(int $age)
+function getAgeCategory(array $person): string
 {
-    if ($age <= 13) {
-        return CATEGORIES_CHILD;
-    } elseif ($age <= 45) {
-        return CATEGORIES_PRODUCTIVE_AGE;
-    } elseif ($age >= 46) {
-        return CATEGORIES_ELDERLY;
+//    mendapatkan orang yang statusnya meninggal
+    $category = '';
+    if ($person[PERSON_STATUS] == STATUS_PASSED_AWAY) {
+        return CATEGORIES_PASSED_AWAY;
     }
+
+//mendapatkan umur dari tiap orang
+
+    $age = calculateAge($person[PERSON_BIRTH_DATE]);
+    if ($age <= 13) {
+        $category = CATEGORIES_CHILD;
+    } elseif ($age <= 45) {
+        $category = CATEGORIES_PRODUCTIVE_AGE;
+    } elseif ($age >= 46) {
+        $category = CATEGORIES_ELDERLY;
+    }
+    return $category;
 }
+//function getAgeCategory(array $person): array
+//{
+////    mendapatkan orang yang statusnya meninggal
+//    $category = '';
+//    if ($person[PERSON_STATUS] == STATUS_PASSED_AWAY) {
+//        return ['CATEGORIES_PASSED_AWAY', $person];
+//    }
+//
+////mendapatkan umur dari tiap orang
+//
+//    $age = calculateAge($person[PERSON_BIRTH_DATE]);
+//    if ($age <= 13) {
+//        $category = [CATEGORIES_CHILD, $person];
+//    } elseif ($age <= 45) {
+//        $category = [CATEGORIES_PRODUCTIVE_AGE, $person];
+//    } elseif ($age >= 46) {
+//        $category = [CATEGORIES_ELDERLY, $person];
+//    }
+//    return $category;
+//}
 
 
 function calculateAge($birth_date_ts): int
@@ -191,14 +221,14 @@ function calculateAge($birth_date_ts): int
 
 function setPersonData(
     array       &$person,
-    string|null      $firstName,
-    string|null      $lastName,
-    string|null      $nik,
-    string|null      $email,
-    string|null      $birthDate,
-    string|null      $sex,
-    string|null      $role,
-    string|null      $status,
+    string|null $firstName,
+    string|null $lastName,
+    string|null $nik,
+    string|null $email,
+    string|null $birthDate,
+    string|null $sex,
+    string|null $role,
+    string|null $status,
     string|null $note = null): void
 {
     $person[PERSON_FIRST_NAME] = $firstName == null ? $person[PERSON_FIRST_NAME] : $firstName;

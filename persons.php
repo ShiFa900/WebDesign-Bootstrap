@@ -45,16 +45,65 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
                                 name="category"
 
                         >
-                            <option selected name="category"
-                                    value="<?= $_GET["category"] ?>"><?= $_GET["category"] ?></option>
                             <?php
-                            if ($_GET["category"])
+                            if (isset($_GET["category"])) {
+                                ?>
+                            <option selected name="category"
+                                    value="<?= $_GET["category"] == null ? CATEGORIES_ALL : $_GET["category"] ?>"> <?= $_GET["category"] == null ? CATEGORIES_ALL : $_GET["category"] ?>
+                                <?php
+                                if ($_GET["category"] == CATEGORIES_ALL) {
+                                    ?>
+                                    <option value="<?= CATEGORIES_PRODUCTIVE_AGE ?>">Productive ages</option>
+                                    <option value="<?= CATEGORIES_CHILD ?>">Children</option>
+                                    <option value="<?= CATEGORIES_ELDERLY ?>">Elderly</option>
+                                    <option value="<?= CATEGORIES_PASSED_AWAY ?>">Passed away</option>
+                                    <?php
+                                }
+                                ?>
+                                <!--conditinal untuk menampilkan sisa kategori-->
+                                <?php
+                                if ($_GET["category"] == CATEGORIES_PRODUCTIVE_AGE) {
+                                    ?>
+                                    <option value="<?= CATEGORIES_CHILD ?>">Children</option>
+                                    <option value="<?= CATEGORIES_ELDERLY ?>">Elderly</option>
+                                    <option value="<?= CATEGORIES_PASSED_AWAY ?>">Passed away</option>
+                                    <option value="<?= CATEGORIES_ALL ?>">All</option>
+                                    <?php
+                                } elseif ($_GET["category"] == CATEGORIES_CHILD) {
+                                    ?>
+                                    <option value="<?= CATEGORIES_ELDERLY ?>">Elderly</option>
+                                    <option value="<?= CATEGORIES_PASSED_AWAY ?>">Passed away</option>
+                                    <option value="<?= CATEGORIES_ALL ?>">All</option>
+                                    <option value="<?= CATEGORIES_PRODUCTIVE_AGE ?>">Productive ages</option>
+                                    <?php
+                                } elseif ($_GET["category"] == CATEGORIES_ELDERLY) {
+                                    ?>
+                                    <option value="<?= CATEGORIES_PASSED_AWAY ?>">Passed away</option>
+                                    <option value="<?= CATEGORIES_ALL ?>">All</option>
+                                    <option value="<?= CATEGORIES_PRODUCTIVE_AGE ?>">Productive ages</option>
+                                    <option value="<?= CATEGORIES_CHILD ?>">Children</option>
+
+                                    <?php
+                                } elseif ($_GET["category"] == CATEGORIES_PASSED_AWAY) {
+                                    ?>
+                                    <option value="<?= CATEGORIES_ALL ?>">All</option>
+                                    <option value="<?= CATEGORIES_PRODUCTIVE_AGE ?>">Productive ages</option>
+                                    <option value="<?= CATEGORIES_CHILD ?>">Children</option>
+                                    <option value="<?= CATEGORIES_ELDERLY ?>">Elderly</option>
+                                    <?php
+                                }
+                                ?>
+                                <?php
+                            } else {
+                                ?>
+                                <option value="<?= CATEGORIES_ALL ?>">All</option>
+                                <option value="<?= CATEGORIES_PRODUCTIVE_AGE ?>">Productive ages</option>
+                                <option value="<?= CATEGORIES_CHILD ?>">Children</option>
+                                <option value="<?= CATEGORIES_ELDERLY ?>">Elderly</option>
+                                <option value="<?= CATEGORIES_PASSED_AWAY ?>">Passed away</option>
+                                <?php
+                            }
                             ?>
-                            <!--conditinal untuk menampilkan sisa kategori-->
-                            <option value="<?= CATEGORIES_PRODUCTIVE_AGE ?>">Productive ages</option>
-                            <option value="<?= CATEGORIES_CHILD ?>">Children</option>
-                            <option value="<?= CATEGORIES_ELDERLY ?>">Elderly</option>
-                            <option value="<?= CATEGORIES_PASSED_AWAY ?>">Passed away</option>
                         </select>
 
                         <div class="wrapper d-flex">
@@ -69,7 +118,7 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
                                         value="<?= $_GET["keyword"] ?>"
                                 />
                             </div>
-                            <button class="btn btn-outline-success" type="submit" name="search">
+                            <button class="btn btn-outline-success" type="submit">
                                 <ion-icon src="../assets/properties/icon/search-outline.svg" class="icon"></ion-icon>
                             </button>
                         </div>
@@ -135,11 +184,13 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
                     <tr>
                         <?php
                         require_once __DIR__ . "/action/actionPersons.php";
-                        if (isset($_GET["keyword"])) {
+                        if (isset($_GET["keyword"]) && $_GET["keyword"] != null) {
                             $result = search(keyword: $_GET["keyword"], category: $_GET["category"]);
                             if (!is_null($result)) {
                                 $persons = $result;
                             }
+                        } else {
+                            $persons = getAll();
                         }
 
                         $no = 1;
