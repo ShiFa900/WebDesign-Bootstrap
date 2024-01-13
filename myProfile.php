@@ -2,7 +2,6 @@
 require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
 require_once __DIR__ . "/action/utils.php";
-session_start();
 ?>
 <?php
 mainHeader(cssIdentifier: "page-my-profile",title: "My Profile", link: "myProfile.php",pageStyles: ["myProfile.css"]);

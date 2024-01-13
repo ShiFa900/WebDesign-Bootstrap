@@ -3,7 +3,21 @@ require_once __DIR__ . "/utils.php";
 require_once __DIR__ . "/const.php";
 session_start();
 
-//$currentUser = $_SESSION["userEmail"];
+// butuh refactor, jadikan function
+// menyimpan inputan dari user
+// untuk password tidak disimpan
+$intDate = convertDateToTimestamp($_POST["birthDate"]);
+$savePersonInputData = [
+    'firstName' => htmlspecialchars($_POST["firstName"]),
+    'lastName' => htmlspecialchars($_POST["lastName"]),
+    'nik' => htmlspecialchars($_POST["nik"]),
+    'birthDate' => date("Y-m-d", $intDate),
+    'email' => filter_var($_POST["email"], FILTER_VALIDATE_EMAIL),
+    'role' => $_POST["role"],
+    'sex' => $_POST["sex"],
+    'status' => $_POST["status"],
+    'internalNote' => $_POST["note"]
+];
 
 $persons = getAll();
 for ($i = 0; $i < count($persons); $i++) {

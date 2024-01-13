@@ -5,8 +5,8 @@
         "lastName": "Ayaki",
         "nik": "1234981723615234",
         "email": "Ayayaki@gmail.com",
-        "birthDate": 898560000,
-        "sex": "Better not say",
+        "birthDate": 898531200,
+        "sex": "Male",
         "internalNote": null,
         "role": "Member",
         "password": "ayam",
@@ -39,7 +39,7 @@
         "role": "Admin",
         "password": "sarah",
         "status": true,
-        "lastLoggedIn": 1705033508
+        "lastLoggedIn": 1705161439
     },
     {
         "id": 4,
@@ -234,6 +234,20 @@
         "internalNote": null,
         "role": "Member",
         "password": "Jul1M312",
+        "status": true,
+        "lastLoggedIn": null
+    },
+    {
+        "id": 20,
+        "firstName": "Kylie",
+        "lastName": "Osliek",
+        "nik": "9989763842390129",
+        "email": "osliek@gmail.com",
+        "birthDate": -293095800,
+        "sex": "Male",
+        "internalNote": null,
+        "role": "Member",
+        "password": "Osliek234",
         "status": true,
         "lastLoggedIn": null
     }

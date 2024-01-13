@@ -19,12 +19,13 @@ global $persons;
 //    }
 //}
 
-
-function search(string|null $keyword = null, string|null $category = null): array
+// belum selesai
+function search(string|null $keyword = null, string|null $category = null)
 {
     $persons = getAll();
     $temp = [];
-    if($keyword != null) {
+    if ($keyword != null) {
+//        mencari data yang sesuai dengan keyword
         $inputText = preg_quote($keyword);
         for ($i = 0; $i < count($persons); $i++) {
             if (preg_match("/$inputText/i", $persons[$i][PERSON_EMAIL])) {
@@ -44,35 +45,40 @@ function search(string|null $keyword = null, string|null $category = null): arra
             }
         }
 
-//    how to check category for each person??
-        if (count($temp) != 0) {
-            if (!is_null($category)) {
+//        menampilkan data dengan categori All, namun dengan spesifik keyword
+        if ($category == CATEGORIES_ALL) {
+            return $temp;
+        } else {
+            if (count($temp) != 0) {
+
                 $filteredPerson = [];
                 for ($i = 0; $i < count($temp); $i++) {
 //            mengset category untuk tiap orang
                     $personCategory = getAgeCategory($temp[$i]);
                     if ($personCategory == $category) {
                         $filteredPerson[] = $temp[$i];
+                    } else {
+                        $_GET["category"] = $personCategory;
+                        $filteredPerson[] = $temp[$i];
                     }
                 }
                 return $filteredPerson;
             }
-            return $temp;
         }
     } else {
-        if($category == CATEGORIES_ALL){
-            return $persons;
-        }
+        echo $category;
         $filteredPerson = [];
-        for ($i = 0; $i < count($persons); $i++){
+        for ($i = 0; $i < count($persons); $i++) {
             $personCategory = getAgeCategory($persons[$i]);
-            if($personCategory == $category){
+            if ($personCategory == $category) {
                 $filteredPerson[] = $persons[$i];
             }
         }
         return $filteredPerson;
+
     }
-    return [];
+    $_SESSION["noDataFound"] = "Sorry, we couldn't find person you looking for";
+    redirect("persons.php", "");
 }
 //function search(string|null $keyword = null, string|null $category = null): array
 //{

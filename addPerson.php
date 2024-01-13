@@ -111,8 +111,6 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "addPers
                                         />
 
                                         <?php
-//                                        echo $_SESSION["inputData"]["email"];
-//                                       hasEmailCheck($_SESSION["inputData"]["email"]);
                                         if (isset($_SESSION["errorData"]["errorEmail"])) {
                                             ?>
                                             <div class="alert alert-danger" role="alert">
@@ -226,7 +224,7 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "addPers
                                                 <?php
                                             }
 
-                                            if ($_SESSION["inputData"]["sex"] == SEX_FEMALE) {
+                                            if (isset($_SESSION["inputData"]["sex"]) == SEX_FEMALE) {
                                                 ?>
                                                 <option value="<?= SEX_MALE ?>"><?= SEX_MALE ?></option>
                                                 <option value="<?= SEX_BETTER_NOT_SAY ?>"><?= SEX_BETTER_NOT_SAY ?></option>

@@ -5,6 +5,7 @@ require_once __DIR__ . "/const.php";
 //membuat validasi untuk mengecek bila yang sedang view person orang yang sama dengan user atau bukan
 
 global $person;
+// error saat menampilkan
 $person = getPerson($_GET[ID]);
 
 if(count($person) != 0){

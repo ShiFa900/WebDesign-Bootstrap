@@ -169,14 +169,13 @@ function translateSwitch(string|null $on): bool
     return $on === "on";
 }
 
-function getAgeCategory(array $person): string
+function getAgeCategory(array &$person): array|string
 {
 //    mendapatkan orang yang statusnya meninggal
     $category = '';
     if ($person[PERSON_STATUS] == STATUS_PASSED_AWAY) {
         return CATEGORIES_PASSED_AWAY;
     }
-
 //mendapatkan umur dari tiap orang
 
     $age = calculateAge($person[PERSON_BIRTH_DATE]);
@@ -240,4 +239,98 @@ function setPersonData(
     $person[PERSON_ROLE] = $role == null ? $person[PERSON_ROLE] : $role;
     $person[PERSON_STATUS] = $status == null ? $person[PERSON_STATUS] : $status;
     $person[PERSON_INTERNAL_NOTE] = $note;
+}
+
+
+function validate(
+    string $nik,
+    string $email,
+    string $password,
+    string $confirmPassword,
+    string $birthDate,
+    string|null $currentPassword = null): array
+{
+
+    $validate = [];
+        if (getNikCheck($nik) == -1) {
+            $validate["errorNik"] = "Sorry, your NIK is already exist";
+        }
+
+        if (getValidEmail($email) == -1) {
+            $validate["errorEmail"] = "Sorry, your EMAIL is already exist";
+        }
+
+        if (getValidPassword($password) == -1) {
+            $validate["errorPassword"] = " Sorry, your PASSWORD is weak. Password should include at least one" .
+                " UPPERCASE, one LOWERCASE, and one NUMBER.";
+        }
+
+        if ($confirmPassword !== $password) {
+            $validate["errorConfirm"] = "Sorry, your CONFIRMATION was wrong. Please check again.";
+        }
+
+        if (getValidBirthDate($birthDate) == -1) {
+            $validate["errorBirthDate"] = "Sorry, your BIRTH DATE is not valid. Please check again.";
+        }
+
+        if($currentPassword != null){
+            if(getValidCurrentPassword() == -1){
+                $validate["errorCurrentPassword"] = "Sorry, your PASSWORD was wrong. Please check again.";
+            }
+        }
+
+    return $validate;
+}
+
+function getNikCheck(string $nik): int
+{
+    $persons = getAll();
+    for ($i = 0; $i < count($persons); $i++) {
+        if ($persons[$i][PERSON_NIK] == $nik) return -1;
+    }
+    return 0;
+}
+
+function getValidBirthDate(string $birthDate): int
+{
+    $intDate = convertDateToTimestamp($birthDate);
+    if (time() < $intDate || $intDate == null) {
+        return -1;
+    }
+    return 0;
+
+}
+
+
+function getValidEmail(string $email): int
+{
+//    mengecek agar tidak ada email yang duplicate
+    $persons = getAll();
+    for ($i = 0; $i < count($persons); $i++) {
+        if ($email == $persons[$i][PERSON_EMAIL]) return -1;
+    }
+    return 0;
+}
+
+function getValidPassword(string $password): string|int
+{
+    $uppercase = preg_match('@[A-Z]@', $password);
+    $lowercase = preg_match('@[a-z]@', $password);
+    $number = preg_match('@[0-9]@', $password);
+
+    if (!$uppercase || !$lowercase || !$number || strlen($password) < 8) {
+        return -1;
+    }
+    return $password;
+}
+
+function getValidCurrentPassword(): int{
+    $persons = getAll();
+    for ($i = 0; $i < count($persons); $i++){
+        if($persons[$i][PERSON_EMAIL] == $_SESSION["userEmail"]){
+            if($persons[$i][PASSWORD] == $_POST["currentPassword"]){
+                return 0;
+            }
+        }
+    }return -1;
 }
