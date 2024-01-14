@@ -136,7 +136,7 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
             </div>
             <?php
 
-            if (isset($_GET["error"]) && $_GET["error"] === "userNotAuthenticate") {
+            if (isset($_SESSION["userNotAuthenticate"])) {
                 ?>
                 <div class="alert alert-danger alert-popup" role="alert">
                     Sorry, your role is MEMBER. Only ADMIN can create, edit and delete person data.
@@ -147,19 +147,19 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
             <!--            semua yan GET disini, bagusnya dijadikan SESSION-->
             <!--menampilkan pesan saat berhasil menambah data orang baru-->
             <?php
-            if (isset($_GET["msg"]) && $_GET["msg"] === "addSuccess") {
+            if (isset($_SESSION["addSuccess"])) {
                 ?>
                 <div class="alert alert-success" role="alert">
                     <?= end($persons)[PERSON_FIRST_NAME] ?> was successfully added to Person Management App!
                 </div>
                 <?php
-            } elseif (isset($_GET["msg"]) && $_GET["msg"] === "editSuccess") {
+            } elseif (isset($_SESSION["editSuccess"])) {
                 ?>
                 <div class="alert alert-success" role="alert">
                     Successfully edit person data of <?= $_SESSION["personHasEdit"][PERSON_FIRST_NAME] ?>!
                 </div>
                 <?php
-            } elseif (isset($_GET["msg"]) && $_GET["msg"] === "deleteSuccess") {
+            } elseif (isset($_SESSION["deleteSuccess"])) {
                 ?>
                 <div class="alert alert-success" role="alert">
                     Successfuly delete person data!
@@ -201,13 +201,11 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
                         <tr>
                             <?php
                             require_once __DIR__ . "/action/actionPersons.php";
-                            if (isset($_GET["keyword"]) && $_GET["keyword"] != null) {
+                            if (isset($_GET["keyword"])) {
                                 $result = search(keyword: $_GET["keyword"], category: $_GET["category"]);
                                 if (!is_null($result)) {
                                     $persons = $result;
                                 }
-                            } else {
-                                $persons = getAll();
                             }
 
                             $no = 1;

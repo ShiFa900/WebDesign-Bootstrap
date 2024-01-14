@@ -3,6 +3,7 @@ global $person;
 require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
 require_once __DIR__ . "/index.php";
+session_start();
 
 
 redirectIfNotAuthenticated();
@@ -31,18 +32,18 @@ mainHeader(cssIdentifier: "page-view-person",title: "View Person", link: "viewPe
                                     <div class="mb-3 form-input">
                                         <span class="required title">First Name</span>
                                         <p>
-                                            <?= $person[PERSON_FIRST_NAME];
+                                            <?= $_SESSION["person"][PERSON_FIRST_NAME];
                                             ?>
                                         </p>
                                     </div>
 
                                     <div class="mb-3 form-input">
                                         <?php
-                                        if ($person[PERSON_LAST_NAME] != "") {
+                                        if ($_SESSION["person"][PERSON_LAST_NAME] != "") {
                                             ?>
                                             <span class="title">Last Name</span>
                                             <p>
-                                                <?= $person[PERSON_LAST_NAME];
+                                                <?= $_SESSION["person"][PERSON_LAST_NAME];
                                                 ?>
                                             </p>
                                             <?php
@@ -53,7 +54,7 @@ mainHeader(cssIdentifier: "page-view-person",title: "View Person", link: "viewPe
                                     <div class="mb-3 form-input">
                                         <span class="required title">NIK</span>
                                         <p>
-                                            <?= $person[PERSON_NIK];
+                                            <?= $_SESSION["person"][PERSON_NIK];
                                             ?>
                                         </p>
 
@@ -61,7 +62,7 @@ mainHeader(cssIdentifier: "page-view-person",title: "View Person", link: "viewPe
                                     <div class="mb-3 form-input">
                                         <span class="required title">Email</span>
                                         <p>
-                                            <?= $person[PERSON_EMAIL];
+                                            <?= $_SESSION["person"][PERSON_EMAIL];
                                             ?>
                                         </p>
 
@@ -70,7 +71,7 @@ mainHeader(cssIdentifier: "page-view-person",title: "View Person", link: "viewPe
                                     <div class="mb-3 form-input">
                                         <span class="required title">Birth Of Date</span>
                                         <p>
-                                            <?= date("d F Y", $person[PERSON_BIRTH_DATE]);
+                                            <?= date("d F Y", $_SESSION["person"][PERSON_BIRTH_DATE]);
                                             ?>
                                         </p>
 
@@ -79,7 +80,7 @@ mainHeader(cssIdentifier: "page-view-person",title: "View Person", link: "viewPe
                                     <div class="mb-3 form-input">
                                         <span class="required title">Sex</span>
                                         <p>
-                                            <?= $person[PERSON_SEX];
+                                            <?= $_SESSION["person"][PERSON_SEX];
                                             ?>
                                         </p>
 
@@ -91,7 +92,7 @@ mainHeader(cssIdentifier: "page-view-person",title: "View Person", link: "viewPe
                                         if ($person[PERSON_INTERNAL_NOTE] != null) {
                                             ?>
                                             <span class="title">Internal Note</span>
-                                            <p><?= $person[PERSON_INTERNAL_NOTE];
+                                            <p><?= $_SESSION["person"][PERSON_INTERNAL_NOTE];
                                                 ?>
                                             </p>
                                             <?php
@@ -104,7 +105,7 @@ mainHeader(cssIdentifier: "page-view-person",title: "View Person", link: "viewPe
                                     <div class="mb-3 form-input">
                                         <span class="required title">Role</span>
                                         <p>
-                                            <?= $person[PERSON_ROLE];
+                                            <?= $_SESSION["person"][PERSON_ROLE];
                                             ?>
                                         </p>
 
@@ -113,7 +114,7 @@ mainHeader(cssIdentifier: "page-view-person",title: "View Person", link: "viewPe
                                     <div class="mb-3 form-input">
                                         <span class="required title">Status</span>
                                         <p>
-                                            <?= translateBooleanToString($person[PERSON_STATUS]); ?>
+                                            <?= translateBooleanToString($_SESSION["person"][PERSON_STATUS]); ?>
                                         </p>
 
                                     </div>
@@ -176,7 +177,7 @@ mainHeader(cssIdentifier: "page-view-person",title: "View Person", link: "viewPe
                                                             </button>
                                                             <button type="button" class="btn btn-primary"
                                                                     name="btnDelete">
-                                                                <a href="action/actionDeletePerson.php?id=<?=$person[ID]?>" class="btn">Yes</a>
+                                                                <a href="action/actionDeletePerson.php?id=<?=$_SESSION["person"][ID]?>" class="btn">Yes</a>
                                                             </button>
                                                         </div>
                                                     </div>

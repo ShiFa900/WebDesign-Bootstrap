@@ -28,7 +28,8 @@ function checkRoleAdmin(): bool
 {
     $user = getPerson(email: $_SESSION["userEmail"]);
     if ($user[PERSON_ROLE] != ROLE_ADMIN) {
-        redirect("persons.php", "error=userNotAuthenticate");
+        $_SESSION["userNotAuthenticate"] = $user;
+        redirect("persons.php", "");
 
     }
     return true;
@@ -38,7 +39,8 @@ function checkAbility(): bool
 {
     $user = getPerson(email: $_SESSION["userEmail"]);
     if ($user[PERSON_STATUS] == STATUS_PASSED_AWAY) {
-        redirect("login.php", "error=userStatusPassedAway");
+        $_SESSION["userPassedAway"] = $user;
+        redirect("login.php", "");
     }
     return true;
 }
@@ -96,7 +98,8 @@ function savePerson(array $person, string $location): void
         $person[ID] = $id;
         $persons[] = $person;
         saveDataIntoJson($persons, "persons.json");
-        redirect("../" . $location, "msg=addSuccess");
+        $_SESSION["addSuccess"] = $persons;
+        redirect("../" . $location, "");
 
     } else {
 //        EDIT MODE
@@ -119,7 +122,8 @@ function savePerson(array $person, string $location): void
                 ];
                 $_SESSION["personHasEdit"] = $persons[$i];
                 saveDataIntoJson($persons, "persons.json");
-                redirect("../" . $location, "msg=editSuccess");
+                $_SESSION["editSuccess"] = $persons;
+                redirect("../" . $location, "");
 
             }
         }
@@ -241,13 +245,34 @@ function setPersonData(
     $person[PERSON_INTERNAL_NOTE] = $note;
 }
 
+function getUserInputData(
+    string $firstName,
+    string $lastName,
+    string $email,
+    string $nik,
+    string $role,
+    string $status,
+    string $birthDate,
+    string $sex): array{
+
+    return [
+        'firstName' => htmlspecialchars($firstName),
+        'lastName' => htmlspecialchars($lastName),
+        'nik' => htmlspecialchars($nik),
+        'birthDate' => date("Y-m-d", $birthDate),
+        'email' => filter_var($email, FILTER_VALIDATE_EMAIL),
+        'role' => $role,
+        'sex' => $sex,
+        'status' => $status
+    ];
+}
 
 function validate(
     string $nik,
     string $email,
-    string $password,
-    string $confirmPassword,
     string $birthDate,
+    string|null $password = null,
+    string|null $confirmPassword = null,
     string|null $currentPassword = null): array
 {
 
@@ -260,12 +285,12 @@ function validate(
             $validate["errorEmail"] = "Sorry, your EMAIL is already exist";
         }
 
-        if (getValidPassword($password) == -1) {
+        if (!is_null(getValidPassword($password)) == -1) {
             $validate["errorPassword"] = " Sorry, your PASSWORD is weak. Password should include at least one" .
                 " UPPERCASE, one LOWERCASE, and one NUMBER.";
         }
 
-        if ($confirmPassword !== $password) {
+        if (!is_null($confirmPassword) !== $password) {
             $validate["errorConfirm"] = "Sorry, your CONFIRMATION was wrong. Please check again.";
         }
 

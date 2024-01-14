@@ -3,10 +3,11 @@ require_once __DIR__ . "/utils.php";
 require_once __DIR__ . "/const.php";
 //session_start();
 //membuat validasi untuk mengecek bila yang sedang view person orang yang sama dengan user atau bukan
+// my profile bisa edit data person yang login
 
 global $person;
 // error saat menampilkan
-$person = getPerson($_GET[ID]);
+$_SESSION["person"] = getPerson($_GET[ID]);
 
 if(count($person) != 0){
     return [

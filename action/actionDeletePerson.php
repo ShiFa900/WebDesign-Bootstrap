@@ -8,10 +8,12 @@ for ($i = 0; $i < count($persons); $i++) {
         unset($persons[$i]);
         $persons = array_values($persons);
         saveDataIntoJson($persons, "persons.json");
+        $_SESSION["deleteSuccess"] = $persons;
+
     }
 }
 
-redirect("../persons.php", "msg=deleteSuccess");
+redirect("../persons.php", "");
 
 
 

@@ -3,7 +3,6 @@ require_once __DIR__ . "/action/utils.php";
 require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
 
-session_start();
 
 checkRoleAdmin();
 
@@ -28,8 +27,8 @@ mainHeader(cssIdentifier: "page-edit-person",title: "Edit Person", link: "editPe
                 <div class="row">
                     <div class="col-xxl-12">
                         <?php
-                            $person = getPerson(id: $_GET["id"]);
-                            $_SESSION["personId"] = $_GET[ID];
+                            $person = getPerson(id: $_GET[ID]);
+                            $_SESSION["personId"] = $person[ID];
                         ?>
                         <form class="new-person-form" action="action/actionEditPerson.php" method="post"
                               name="editPerson">
@@ -43,7 +42,7 @@ mainHeader(cssIdentifier: "page-edit-person",title: "Edit Person", link: "editPe
                                         <input
                                                 id="f-name"
                                                 type="text"
-                                                value="<?= $person[PERSON_FIRST_NAME] ?>"
+                                                value="<?php if(isset($_SESSION["userInputData"]["firstName"])){ echo $_SESSION["userInputData"]["firstName"];}else { echo $person[PERSON_FIRST_NAME];} ?>"
                                                 required
                                                 class="form-control"
                                                 name="firstName"
@@ -56,7 +55,7 @@ mainHeader(cssIdentifier: "page-edit-person",title: "Edit Person", link: "editPe
                                         <input
                                                 id="l-name"
                                                 type="text"
-                                                value="<?= $person[PERSON_LAST_NAME] ?>"
+                                                value="<?php if(isset($_SESSION["userInputData"]["lastName"])){ echo $_SESSION["userInputData"]["lastName"];}else { echo $person[PERSON_FIRST_NAME];} ?>"
                                                 class="form-control"
                                                 name="lastName"
                                         />
@@ -66,7 +65,7 @@ mainHeader(cssIdentifier: "page-edit-person",title: "Edit Person", link: "editPe
                                         <input
                                                 id="nik"
                                                 type="text"
-                                                value="<?= $person[PERSON_NIK] ?>"
+                                                value="<?php if(isset($_SESSION["userInputData"]["nik"])){ echo $_SESSION["userInputData"]["nik"];}else { echo $person[PERSON_LAST_NAME];} ?>"
                                                 required
                                                 class="form-control"
                                                 name="nik"
@@ -92,7 +91,7 @@ mainHeader(cssIdentifier: "page-edit-person",title: "Edit Person", link: "editPe
                                         <input
                                                 id="staticEmail"
                                                 type="email"
-                                                value="<?= $person[PERSON_EMAIL] ?>"
+                                                value="<?php if(isset($_SESSION["userInputData"]["email"])){ echo $_SESSION["userInputData"]["email"];}else { echo $person[PERSON_EMAIL];} ?>"
                                                 required
                                                 class="form-control"
                                                 name="email"
@@ -106,7 +105,7 @@ mainHeader(cssIdentifier: "page-edit-person",title: "Edit Person", link: "editPe
                                         <input
                                                 id="datePicker"
                                                 type="date"
-                                                value="<?= date("Y-m-d", $person[PERSON_BIRTH_DATE]) ?>"
+                                                value="<?php if(isset($_SESSION["userInputData"]["birthDate"])){ echo $_SESSION["userInputData"]["birthDate"];}else { echo  date("Y-m-d", $person[PERSON_BIRTH_DATE]);} ?>"
                                                 required
                                                 class="form-control"
                                                 name="birthDate"
@@ -124,7 +123,7 @@ mainHeader(cssIdentifier: "page-edit-person",title: "Edit Person", link: "editPe
                                                 aria-label="Small select example"
                                                 name="sex"
                                         >
-                                            <option selected><?= $person[PERSON_SEX] ?></option>
+                                            <option selected><?php if(isset($_SESSION["userInputData"]["sex"])){ echo $_SESSION["userInputData"]["sex"];}else { echo $person[PERSON_SEX];} ?></option>
                                             <!--opsi lainnya blum muncul-->
 
                                             <?php
@@ -190,7 +189,7 @@ mainHeader(cssIdentifier: "page-edit-person",title: "Edit Person", link: "editPe
                                                 name="role"
                                         >
                                             <option selected
-                                                    value="<?= $person[PERSON_ROLE] ?>"><?= $person[PERSON_ROLE] ?></option>
+                                                    value="<?php if(isset($_SESSION["userInputData"]["role"])){ echo $_SESSION["userInputData"]["role"];}else { echo $person[PERSON_ROLE];} ?>"><?php if(isset($_SESSION["userInputData"]["role"])){ echo $_SESSION["userInputData"]["role"];}else { echo $person[PERSON_ROLE];} ?></option>
 
                                             <?php
                                             if ($person[PERSON_ROLE] == ROLE_ADMIN) {
@@ -225,7 +224,7 @@ mainHeader(cssIdentifier: "page-edit-person",title: "Edit Person", link: "editPe
                                                 type="password"
                                                 class="form-control"
                                             <?php
-                                            if (isset($_SESSION["hasNewPassword"])) echo "required";
+                                            if (isset($_SESSION["newPassword"])) echo "required";
                                             ?>
                                                 name="confirmPassword"/>
 

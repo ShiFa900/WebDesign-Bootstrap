@@ -4,16 +4,16 @@ require_once __DIR__ . "/utils.php";
 session_start();
 $intDate = convertDateToTimestamp($_POST["birthDate"]);
 
-$inputData = [
-    'firstName' => htmlspecialchars($_POST["firstName"]),
-    'lastName' => htmlspecialchars($_POST["lastName"]),
-    'nik' => htmlspecialchars($_POST["nik"]),
-    'birthDate' => date("Y-m-d", $intDate),
-    'email' => filter_var($_POST["email"], FILTER_VALIDATE_EMAIL),
-    'role' => $_POST["role"],
-    'sex' => $_POST["sex"],
-    'status' => $_POST["status"]
-];
+$userInputData = getUserInputData(
+    firstName: $_POST["firstName"],
+    lastName: $_POST["lastName"],
+    email: $_POST["email"],
+    nik: $_POST["nik"],
+    role: $_POST["role"],
+    status: $_POST["status"],
+    birthDate: $intDate,
+    sex: $_POST["sex"]);
+
 
 $validate = validate(
     nik: $_POST["nik"],
@@ -29,16 +29,16 @@ if (count($validate) == 0) {
 
     $person = [
         ID => null,
-        PERSON_FIRST_NAME => ucwords($_POST["firstName"]),
-        PERSON_LAST_NAME => ucwords($_POST["lastName"]),
-        PERSON_NIK => $_POST["nik"],
-        PERSON_EMAIL => $_POST["email"],
-        PERSON_BIRTH_DATE => convertDateToTimestamp($_POST["birthDate"]),
-        PERSON_SEX => $_POST["sex"],
+        PERSON_FIRST_NAME => ucwords($userInputData["firstName"]),
+        PERSON_LAST_NAME => ucwords($userInputData["lastName"]),
+        PERSON_NIK => $userInputData["nik"],
+        PERSON_EMAIL => $userInputData["email"],
+        PERSON_BIRTH_DATE => convertDateToTimestamp($userInputData["birthDate"]),
+        PERSON_SEX => $userInputData["sex"],
         PERSON_INTERNAL_NOTE => null,
-        PERSON_ROLE => $_POST["role"],
-        PASSWORD => $_POST["password"],
-        PERSON_STATUS => translateSwitch($_POST["status"]),
+        PERSON_ROLE => $userInputData["role"],
+        PASSWORD => $userInputData["password"],
+        PERSON_STATUS => translateSwitch($userInputData["status"]),
         PERSON_LAST_LOGGED_IN => null,
     ];
 
@@ -46,7 +46,7 @@ if (count($validate) == 0) {
 
 } else {
 //    echo hasEmailCheck($_POST["email"]);
-    $_SESSION["inputData"] = $inputData;
+    $_SESSION["inputData"] = $userInputData;
     $_SESSION["errorData"] = $validate;
     redirect("../addPerson.php", "");
 }

@@ -39,7 +39,7 @@
         "role": "Admin",
         "password": "sarah",
         "status": true,
-        "lastLoggedIn": 1705161439
+        "lastLoggedIn": 1705245760
     },
     {
         "id": 4,
@@ -248,6 +248,20 @@
         "internalNote": null,
         "role": "Member",
         "password": "Osliek234",
+        "status": true,
+        "lastLoggedIn": null
+    },
+    {
+        "id": 21,
+        "firstName": "Zibalba",
+        "lastName": "Okuwe",
+        "nik": "2344598273027332",
+        "email": "mosty@gmail.com",
+        "birthDate": 346523400,
+        "sex": "Male",
+        "internalNote": null,
+        "role": "Member",
+        "password": "Zibalba6",
         "status": true,
         "lastLoggedIn": null
     }
