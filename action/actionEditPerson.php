@@ -19,13 +19,13 @@ $userInputData = getUserInputData(
 
 // belum suud ni cokk
 
-
 $validate = validate(
     nik: $_POST["nik"],
     email: $_POST["email"],
     birthDate: $_POST["birthDate"],
+    id: $_SESSION["personId"],
     password: $_POST["newPassword"],
-    confirmPassword: $_POST["confirmPass"]);
+    confirmPassword: $_POST["confirmPassword"]);
 if (count($validate) == 0) {
     unset($_SESSION["errorData"]);
     unset($_SESSION["userInputData"]);
@@ -35,14 +35,15 @@ if (count($validate) == 0) {
         if ($persons[$i][ID] == $_SESSION["personId"]) {
             setPersonData(
                 $persons[$i],
-                firstName: $_POST["firstName"],
-                lastName: $_POST["lastName"],
-                nik: $_POST["nik"],
-                email: $_POST["email"],
-                birthDate: $_POST["birthDate"],
-                sex: $_POST["sex"],
-                role: $_POST["role"],
-                status: $_POST["status"]);
+                firstName: $userInputData["firstName"],
+                lastName: $userInputData["lastName"],
+                nik: $userInputData["nik"],
+                email: $userInputData["email"],
+                birthDate: $userInputData["birthDate"],
+                sex: $userInputData["sex"],
+                role: $userInputData["role"],
+                status: $userInputData["status"]);
+            $persons[$i][PASSWORD] = $_POST["newPassword"] == null ? $persons[$i][PASSWORD] : $_POST["newPassword"];
 
             savePerson($persons[$i], "persons.php");
         }
@@ -68,7 +69,7 @@ if (count($validate) == 0) {
 //    echo hasEmailCheck($_POST["email"]);
     $_SESSION["userInputData"] = $userInputData;
     $_SESSION["errorData"] = $validate;
-    redirect("../editPerson.php", "");
+    redirect("../test.php", "");
 }
 
 

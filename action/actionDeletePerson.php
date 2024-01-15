@@ -1,7 +1,8 @@
 <?php
 require_once __DIR__ . "/utils.php";
+session_start();
 
-$personWillBeDeleted = getPerson($_GET[ID]);
+$personWillBeDeleted = getPerson($_SESSION["personId"]);
 $persons = getAll();
 for ($i = 0; $i < count($persons); $i++) {
     if ($persons[$i][ID] == $personWillBeDeleted[ID]) {

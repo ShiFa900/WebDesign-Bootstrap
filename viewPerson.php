@@ -1,5 +1,4 @@
 <?php
-global $person;
 require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
 require_once __DIR__ . "/index.php";
@@ -27,34 +26,39 @@ mainHeader(cssIdentifier: "page-view-person",title: "View Person", link: "viewPe
                 <div class="row">
                     <div class="col-xxl-12">
                         <form class="new-person-form" action="action/actionViewPerson.php" method="post">
+                            <?php
+                            $person = getPerson($_GET[ID]);
+                            $_SESSION["personId"] = $person[ID];
+                            ?>
                             <div class="row">
                                 <div class="col-xxl-8 col-xl-8 col-lg-10 col-12">
                                     <div class="mb-3 form-input">
                                         <span class="required title">First Name</span>
                                         <p>
-                                            <?= $_SESSION["person"][PERSON_FIRST_NAME];
+                                            <?= $person[PERSON_FIRST_NAME];
                                             ?>
                                         </p>
                                     </div>
 
+                                    <?php
+                                    if ($person[PERSON_LAST_NAME] != "") {
+                                    ?>
                                     <div class="mb-3 form-input">
-                                        <?php
-                                        if ($_SESSION["person"][PERSON_LAST_NAME] != "") {
-                                            ?>
+
                                             <span class="title">Last Name</span>
                                             <p>
-                                                <?= $_SESSION["person"][PERSON_LAST_NAME];
+                                                <?= $person[PERSON_LAST_NAME];
                                                 ?>
                                             </p>
-                                            <?php
-                                        }
-                                        ?>
                                     </div>
+                                        <?php
+                                    }
+                                    ?>
 
                                     <div class="mb-3 form-input">
                                         <span class="required title">NIK</span>
                                         <p>
-                                            <?= $_SESSION["person"][PERSON_NIK];
+                                            <?= $person[PERSON_NIK];
                                             ?>
                                         </p>
 
@@ -62,7 +66,7 @@ mainHeader(cssIdentifier: "page-view-person",title: "View Person", link: "viewPe
                                     <div class="mb-3 form-input">
                                         <span class="required title">Email</span>
                                         <p>
-                                            <?= $_SESSION["person"][PERSON_EMAIL];
+                                            <?= $person[PERSON_EMAIL];
                                             ?>
                                         </p>
 
@@ -71,7 +75,7 @@ mainHeader(cssIdentifier: "page-view-person",title: "View Person", link: "viewPe
                                     <div class="mb-3 form-input">
                                         <span class="required title">Birth Of Date</span>
                                         <p>
-                                            <?= date("d F Y", $_SESSION["person"][PERSON_BIRTH_DATE]);
+                                            <?= date("d F Y", $person[PERSON_BIRTH_DATE]);
                                             ?>
                                         </p>
 
@@ -80,7 +84,7 @@ mainHeader(cssIdentifier: "page-view-person",title: "View Person", link: "viewPe
                                     <div class="mb-3 form-input">
                                         <span class="required title">Sex</span>
                                         <p>
-                                            <?= $_SESSION["person"][PERSON_SEX];
+                                            <?= $person[PERSON_SEX];
                                             ?>
                                         </p>
 
@@ -89,10 +93,10 @@ mainHeader(cssIdentifier: "page-view-person",title: "View Person", link: "viewPe
 
                                     <div class="mb-3 form-input">
                                         <?php
-                                        if ($person[PERSON_INTERNAL_NOTE] != null) {
+                                        if (isset($person[PERSON_INTERNAL_NOTE])) {
                                             ?>
                                             <span class="title">Internal Note</span>
-                                            <p><?= $_SESSION["person"][PERSON_INTERNAL_NOTE];
+                                            <p><?= $person[PERSON_INTERNAL_NOTE];
                                                 ?>
                                             </p>
                                             <?php
@@ -105,7 +109,7 @@ mainHeader(cssIdentifier: "page-view-person",title: "View Person", link: "viewPe
                                     <div class="mb-3 form-input">
                                         <span class="required title">Role</span>
                                         <p>
-                                            <?= $_SESSION["person"][PERSON_ROLE];
+                                            <?= $person[PERSON_ROLE];
                                             ?>
                                         </p>
 
@@ -114,7 +118,7 @@ mainHeader(cssIdentifier: "page-view-person",title: "View Person", link: "viewPe
                                     <div class="mb-3 form-input">
                                         <span class="required title">Status</span>
                                         <p>
-                                            <?= translateBooleanToString($_SESSION["person"][PERSON_STATUS]); ?>
+                                            <?= translateBooleanToString($person[PERSON_STATUS]); ?>
                                         </p>
 
                                     </div>

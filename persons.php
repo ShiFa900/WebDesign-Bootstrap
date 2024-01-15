@@ -253,7 +253,7 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
                                             if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
                                                 ?>
 
-                                                href="editPerson.php?id=<?php echo $person[ID] ?>"
+                                                href="test.php?id=<?php echo $person[ID] ?>"
                                                 <?php
                                             }
                                             ?>
@@ -285,3 +285,7 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
     <!-- sidebar -->
 <?php
 mainFooter("persons.php");
+unset($_SESSION["addSuccess"]);
+unset($_SESSION["editSuccess"]);
+unset($_SESSION["personHasEdit"]);
+unset($_SESSION["userNotAuthenticate"]);

@@ -162,6 +162,23 @@ function getPerson(int|null $id = null, string|null $email = null): array
     return [];
 }
 
+function &findFirstFromArray(array &$array, string $key, string $value, int|null $id = null): mixed
+{
+    $default = [];
+    for ($i = 0; $i < count($array); $i++) {
+        if ($id == null) {
+            if ($array[$i][$key] == $value) {
+                return $array[$i];
+            }
+        } else {
+            if ($array[$i][$key] == $value && $array[$i][ID] != $id) {
+                return $array[$i];
+            }
+        }
+    }
+    return $default;
+
+}
 
 function translateBooleanToString(string $status): string
 {
@@ -192,6 +209,7 @@ function getAgeCategory(array &$person): array|string
     }
     return $category;
 }
+
 //function getAgeCategory(array $person): array
 //{
 ////    mendapatkan orang yang statusnya meninggal
@@ -224,14 +242,14 @@ function calculateAge($birth_date_ts): int
 
 function setPersonData(
     array       &$person,
-    string|null $firstName,
-    string|null $lastName,
-    string|null $nik,
-    string|null $email,
-    string|null $birthDate,
-    string|null $sex,
-    string|null $role,
-    string|null $status,
+    string|null $firstName = null,
+    string|null $lastName = null,
+    string|null $nik = null,
+    string|null $email = null,
+    string|null $birthDate = null,
+    string|null $sex = null,
+    string|null $role = null,
+    string|null $status = null,
     string|null $note = null): void
 {
     $person[PERSON_FIRST_NAME] = $firstName == null ? $person[PERSON_FIRST_NAME] : $firstName;
@@ -246,14 +264,15 @@ function setPersonData(
 }
 
 function getUserInputData(
-    string $firstName,
-    string $lastName,
-    string $email,
-    string $nik,
-    string $role,
-    string $status,
-    string $birthDate,
-    string $sex): array{
+    string|null $firstName = null,
+    string|null $lastName = null,
+    string|null $email= null,
+    string|null $nik = null,
+    string|null $role = null,
+    string|null $status = null,
+    string| null $birthDate = null,
+    string|null $sex = null): array
+{
 
     return [
         'firstName' => htmlspecialchars($firstName),
@@ -268,52 +287,62 @@ function getUserInputData(
 }
 
 function validate(
-    string $nik,
-    string $email,
-    string $birthDate,
+
+    string      $nik,
+    string      $email,
+    string      $birthDate,
+    int|null $id = null,
     string|null $password = null,
     string|null $confirmPassword = null,
     string|null $currentPassword = null): array
 {
 
     $validate = [];
-        if (getNikCheck($nik) == -1) {
-            $validate["errorNik"] = "Sorry, your NIK is already exist";
-        }
+    if (getNikCheck($nik, $id) == -1) {
+        print_r(getNikCheck($nik, $id));
+        $validate["errorNik"] = "Sorry, your NIK is already exist";
+    }
 
-        if (getValidEmail($email) == -1) {
-            $validate["errorEmail"] = "Sorry, your EMAIL is already exist";
-        }
+    if (getValidEmail($email, $id) == -1) {
+        $validate["errorEmail"] = "Sorry, your EMAIL is already exist";
+    }
 
-        if (!is_null(getValidPassword($password)) == -1) {
+    if (!is_null($password)) {
+        if (getValidPassword($password) == -1) {
             $validate["errorPassword"] = " Sorry, your PASSWORD is weak. Password should include at least one" .
                 " UPPERCASE, one LOWERCASE, and one NUMBER.";
         }
 
-        if (!is_null($confirmPassword) !== $password) {
+
+        if (!is_null($confirmPassword) != $password) {
             $validate["errorConfirm"] = "Sorry, your CONFIRMATION was wrong. Please check again.";
         }
+    }
 
-        if (getValidBirthDate($birthDate) == -1) {
-            $validate["errorBirthDate"] = "Sorry, your BIRTH DATE is not valid. Please check again.";
-        }
+    if (getValidBirthDate($birthDate) == -1) {
+        $validate["errorBirthDate"] = "Sorry, your BIRTH DATE is not valid. Please check again.";
+    }
 
-        if($currentPassword != null){
-            if(getValidCurrentPassword() == -1){
-                $validate["errorCurrentPassword"] = "Sorry, your PASSWORD was wrong. Please check again.";
-            }
+//        untuk di myProfile, user tidak bisa menganti password jika current password salah, namun tetap bisa diganti dengan bantuan admin
+    if ($currentPassword != null) {
+        if (getValidCurrentPassword() == -1) {
+            $validate["errorCurrentPassword"] = "Sorry, your PASSWORD was wrong. Please check again.";
         }
+    }
 
     return $validate;
 }
 
-function getNikCheck(string $nik): int
+function getNikCheck(string $nik, int|null $id = null)
 {
     $persons = getAll();
-    for ($i = 0; $i < count($persons); $i++) {
-        if ($persons[$i][PERSON_NIK] == $nik) return -1;
-    }
-    return 0;
+    $result = findFirstFromArray(
+        array: $persons,
+        key: PERSON_NIK,
+        value: $nik,
+        id: $id
+    );
+    if (count($result) != 0) return -1;
 }
 
 function getValidBirthDate(string $birthDate): int
@@ -327,14 +356,17 @@ function getValidBirthDate(string $birthDate): int
 }
 
 
-function getValidEmail(string $email): int
+function getValidEmail(string $email, int|null $id = null)
 {
 //    mengecek agar tidak ada email yang duplicate
     $persons = getAll();
-    for ($i = 0; $i < count($persons); $i++) {
-        if ($email == $persons[$i][PERSON_EMAIL]) return -1;
-    }
-    return 0;
+    $result = findFirstFromArray(
+        array: $persons,
+        key: PERSON_EMAIL,
+        value: $email,
+        id: $id
+    );
+    if (count($result) != 0) return -1;
 }
 
 function getValidPassword(string $password): string|int
@@ -349,13 +381,15 @@ function getValidPassword(string $password): string|int
     return $password;
 }
 
-function getValidCurrentPassword(): int{
+function getValidCurrentPassword(): int
+{
     $persons = getAll();
-    for ($i = 0; $i < count($persons); $i++){
-        if($persons[$i][PERSON_EMAIL] == $_SESSION["userEmail"]){
-            if($persons[$i][PASSWORD] == $_POST["currentPassword"]){
+    for ($i = 0; $i < count($persons); $i++) {
+        if ($persons[$i][PERSON_EMAIL] == $_SESSION["userEmail"]) {
+            if ($persons[$i][PASSWORD] == $_POST["currentPassword"]) {
                 return 0;
             }
         }
-    }return -1;
+    }
+    return -1;
 }

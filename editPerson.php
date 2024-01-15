@@ -9,28 +9,29 @@ checkRoleAdmin();
 ?>
 
 <?php
-mainHeader(cssIdentifier: "page-edit-person",title: "Edit Person", link: "editPerson.php", pageStyles: ["editPerson.css"]);
+mainHeader(cssIdentifier: "page-edit-person", title: "Edit Person", link: "editPerson.php", pageStyles: ["editPerson.css"]);
 ?>
 
-<main>
-    <section class="view-section d-flex position-relative">
-        <?php
-        desktopSidebar("persons.php");
-        ?>
+    <main>
+        <section class="view-section d-flex position-relative">
+            <?php
+            desktopSidebar("persons.php");
+            ?>
 
-        <div class="w-100">
-            <div class="edit-person-content position-absolute px-5">
-                <div class="page-header">
-                    <h1 class="first-heading">Edit Person Data</h1>
-                </div>
+            <div class="w-100">
+                <div class="edit-person-content position-absolute px-5">
+                    <div class="page-header">
+                        <h1 class="first-heading">Edit Person Data</h1>
+                    </div>
 
-                <div class="row">
-                    <div class="col-xxl-12">
+                    <div class="row">
                         <?php
-                            $person = getPerson(id: $_GET[ID]);
-                            $_SESSION["personId"] = $person[ID];
+                        $person = getPerson(id: $_GET[ID]);
+                        $_SESSION["personId"] = $person[ID];
                         ?>
-                        <form class="new-person-form" action="action/actionEditPerson.php" method="post"
+
+
+                        <form class="edit-person-form" action="action/actionEditPerson.php" method="post"
                               name="editPerson">
                             <div class="row">
                                 <div class="col-xxl-6 col-xl-6 col-lg-6 me-4">
@@ -42,7 +43,11 @@ mainHeader(cssIdentifier: "page-edit-person",title: "Edit Person", link: "editPe
                                         <input
                                                 id="f-name"
                                                 type="text"
-                                                value="<?php if(isset($_SESSION["userInputData"]["firstName"])){ echo $_SESSION["userInputData"]["firstName"];}else { echo $person[PERSON_FIRST_NAME];} ?>"
+                                                value="<?php if (isset($_SESSION["userInputData"]["firstName"])) {
+                                                    echo $_SESSION["userInputData"]["firstName"];
+                                                } else {
+                                                    echo $person[PERSON_FIRST_NAME];
+                                                } ?>"
                                                 required
                                                 class="form-control"
                                                 name="firstName"
@@ -55,7 +60,11 @@ mainHeader(cssIdentifier: "page-edit-person",title: "Edit Person", link: "editPe
                                         <input
                                                 id="l-name"
                                                 type="text"
-                                                value="<?php if(isset($_SESSION["userInputData"]["lastName"])){ echo $_SESSION["userInputData"]["lastName"];}else { echo $person[PERSON_FIRST_NAME];} ?>"
+                                                value="<?php if (isset($_SESSION["userInputData"]["lastName"])) {
+                                                    echo $_SESSION["userInputData"]["lastName"];
+                                                } else {
+                                                    echo $person[PERSON_LAST_NAME];
+                                                } ?>"
                                                 class="form-control"
                                                 name="lastName"
                                         />
@@ -65,7 +74,11 @@ mainHeader(cssIdentifier: "page-edit-person",title: "Edit Person", link: "editPe
                                         <input
                                                 id="nik"
                                                 type="text"
-                                                value="<?php if(isset($_SESSION["userInputData"]["nik"])){ echo $_SESSION["userInputData"]["nik"];}else { echo $person[PERSON_LAST_NAME];} ?>"
+                                                value="<?php if (isset($_SESSION["userInputData"]["nik"])) {
+                                                    echo $_SESSION["userInputData"]["nik"];
+                                                } else {
+                                                    echo $person[PERSON_NIK];
+                                                } ?>"
                                                 required
                                                 class="form-control"
                                                 name="nik"
@@ -73,16 +86,15 @@ mainHeader(cssIdentifier: "page-edit-person",title: "Edit Person", link: "editPe
                                                 minlength="16"
                                         />
                                         <?php
-                                        if (isset($_SESSION["addNik"]) && $_SESSION["addNik"] == 1) {
-                                            ?>
-
-                                            <div class="alert alert-danger" role="alert">
-                                                Sorry, your NIK is less than 16 characters OR already exist. Please
-                                                check your NIK again.
-                                            </div>
-                                            <?php
-                                        }
+                                        if (isset($_SESSION["errorData"]["errorNik"])) {
                                         ?>
+
+                                        <div class="alert alert-danger" role="alert">
+                                            <?= $_SESSION["errorData"]["errorNik"] ?>
+                                            <?php
+                                            }
+                                            ?>
+                                        </div>
                                     </div>
                                     <div class="mb-3 form-input">
                                         <label for="staticEmail" class="form-label required"
@@ -91,11 +103,25 @@ mainHeader(cssIdentifier: "page-edit-person",title: "Edit Person", link: "editPe
                                         <input
                                                 id="staticEmail"
                                                 type="email"
-                                                value="<?php if(isset($_SESSION["userInputData"]["email"])){ echo $_SESSION["userInputData"]["email"];}else { echo $person[PERSON_EMAIL];} ?>"
+                                                value="<?php if (isset($_SESSION["userInputData"]["email"])) {
+                                                    echo $_SESSION["userInputData"]["email"];
+                                                } else {
+                                                    echo $person[PERSON_EMAIL];
+                                                } ?>"
                                                 required
                                                 class="form-control"
                                                 name="email"
                                         />
+                                        <?php
+                                        if (isset($_SESSION["errorData"]["errorEmail"])) {
+                                        ?>
+
+                                        <div class="alert alert-danger" role="alert">
+                                            <?= $_SESSION["errorData"]["errorEmail"] ?>
+                                            <?php
+                                            }
+                                            ?>
+                                        </div>
                                     </div>
 
                                     <div class="mb-3 form-input">
@@ -105,12 +131,26 @@ mainHeader(cssIdentifier: "page-edit-person",title: "Edit Person", link: "editPe
                                         <input
                                                 id="datePicker"
                                                 type="date"
-                                                value="<?php if(isset($_SESSION["userInputData"]["birthDate"])){ echo $_SESSION["userInputData"]["birthDate"];}else { echo  date("Y-m-d", $person[PERSON_BIRTH_DATE]);} ?>"
+                                                value="<?php if (isset($_SESSION["userInputData"]["birthDate"])) {
+                                                    echo $_SESSION["userInputData"]["birthDate"];
+                                                } else {
+                                                    echo date("Y-m-d", $person[PERSON_BIRTH_DATE]);
+                                                } ?>"
                                                 required
                                                 class="form-control"
                                                 name="birthDate"
                                         />
+                                        <?php
+                                        if (isset($_SESSION["errorData"]["errorBirthDate"])){
+                                        ?>
+                                        <div class="alert alert-danger" role="alert">
+                                            <?= $_SESSION["errorData"]["errorBirthDate"] ?>
+                                            <?php
+                                            }
+                                            ?>
+                                        </div>
                                     </div>
+
 
                                     <div class="mb-3 form-input">
                                         <label class="form-label required" for="sex-dropdown"
@@ -123,17 +163,21 @@ mainHeader(cssIdentifier: "page-edit-person",title: "Edit Person", link: "editPe
                                                 aria-label="Small select example"
                                                 name="sex"
                                         >
-                                            <option selected><?php if(isset($_SESSION["userInputData"]["sex"])){ echo $_SESSION["userInputData"]["sex"];}else { echo $person[PERSON_SEX];} ?></option>
+                                            <option selected><?php if (isset($_SESSION["userInputData"]["sex"])) {
+                                                    echo $_SESSION["userInputData"]["sex"];
+                                                } else {
+                                                    echo $person[PERSON_SEX];
+                                                } ?></option>
                                             <!--opsi lainnya blum muncul-->
 
                                             <?php
-                                            if ($person[PERSON_SEX] == SEX_MALE) {
+                                            if ($person[PERSON_SEX] == SEX_MALE || $_SESSION["userInputData"]["sex"] == SEX_MALE) {
                                                 ?>
                                                 <option value="<?= SEX_FEMALE ?>"><?= SEX_FEMALE ?></option>
                                                 <option value="<?= SEX_BETTER_NOT_SAY ?>"><?= SEX_BETTER_NOT_SAY ?></option>
 
                                                 <?php
-                                            } elseif ($person[PERSON_SEX] == SEX_FEMALE) {
+                                            } elseif ($person[PERSON_SEX] == SEX_FEMALE || $_SESSION["userInputData"]["sex"] == SEX_FEMALE) {
                                                 ?>
                                                 <option value="<?= SEX_MALE ?>"><?= SEX_MALE ?></option>
                                                 <option value="<?= SEX_BETTER_NOT_SAY ?>"><?= SEX_BETTER_NOT_SAY ?></option>
@@ -148,7 +192,6 @@ mainHeader(cssIdentifier: "page-edit-person",title: "Edit Person", link: "editPe
 
                                         </select>
                                     </div>
-
                                     <div class="form-input mt-0">
                                         <div
                                                 class="form-check form-switch d-flex align-items-center column-gap-3"
@@ -174,6 +217,24 @@ mainHeader(cssIdentifier: "page-edit-person",title: "Edit Person", link: "editPe
                                             >
                                         </div>
                                     </div>
+
+                                    <div class="btn-container d-flex column-gap-5">
+                                        <button
+                                                class="btn btn-primary btn--form"
+                                                type="submit"
+                                                name="btn"
+                                        >
+                                            Save
+                                        </button>
+
+                                        <a
+                                                class="btn btn-primary btn--form has-border"
+                                                type="submit"
+                                                href="persons.php"
+                                        >
+                                            Cancel
+                                        </a>
+                                    </div>
                                 </div>
 
                                 <div class="col-xxl-5 col-xl-5 col-lg-5 col-md-4">
@@ -189,7 +250,11 @@ mainHeader(cssIdentifier: "page-edit-person",title: "Edit Person", link: "editPe
                                                 name="role"
                                         >
                                             <option selected
-                                                    value="<?php if(isset($_SESSION["userInputData"]["role"])){ echo $_SESSION["userInputData"]["role"];}else { echo $person[PERSON_ROLE];} ?>"><?php if(isset($_SESSION["userInputData"]["role"])){ echo $_SESSION["userInputData"]["role"];}else { echo $person[PERSON_ROLE];} ?></option>
+                                                    value="<?php if (isset($_SESSION["userInputData"]["role"])) {
+                                                        echo $_SESSION["userInputData"]["role"];
+                                                    } else {
+                                                        echo $person[PERSON_ROLE];
+                                                    } ?>"></option>
 
                                             <?php
                                             if ($person[PERSON_ROLE] == ROLE_ADMIN) {
@@ -216,6 +281,15 @@ mainHeader(cssIdentifier: "page-edit-person",title: "Edit Person", link: "editPe
                                                 class="form-control"
                                                 name="newPassword"/>
 
+                                        <?php
+                                        if (isset($_SESSION["errorData"]["newPassword"])) {
+                                            ?>
+                                            <div class="alert alert-danger" role="alert">
+                                                <?= $_SESSION["errorData"]["errorPassword"] ?>
+                                            </div>
+                                            <?php
+                                        }
+                                        ?>
                                     </div>
                                     <div class="mb-3 form-input">
                                         <label for="confirmPass" class="form-label">Confirm Password </label>
@@ -224,55 +298,46 @@ mainHeader(cssIdentifier: "page-edit-person",title: "Edit Person", link: "editPe
                                                 type="password"
                                                 class="form-control"
                                             <?php
-                                            if (isset($_SESSION["newPassword"])) echo "required";
+                                            if (isset($_SESSION["errorData"]["newPassword"])) echo "required";
                                             ?>
                                                 name="confirmPassword"/>
 
-
+                                        <?php
+                                        if (isset($_SESSION["errorData"]["confirmPassword"])) {
+                                            ?>
+                                            <div class="alert alert-danger" role="alert">
+                                                <?= $_SESSION["errorData"]["errorConfirm"] ?>
+                                            </div>
+                                            <?php
+                                        }
+                                        ?>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="btn-container d-flex column-gap-5">
-                                <button
-                                        class="btn btn-primary btn--form"
-                                        type="submit"
-                                        name="btn"
-                                >
-                                    Save
-                                </button>
-
-                                <a
-                                        class="btn btn-primary btn--form has-border"
-                                        type="submit"
-                                        href="persons.php"
-                                >
-                                    Cancel
-                                </a>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-</main>
+        </section>
+    </main>
 
-<!-- sidebar -->
+    <!-- sidebar -->
 <?php
 mainFooter("persons.php");
 ?>
 <?php
-// unset $_SESSION
-unset($_SESSION["firstName"]);
-unset($_SESSION["lastName"]);
-unset($_SESSION["internalNote"]);
-unset($_SESSION["nik"]);
-unset($_SESSION["email"]);
-unset($_SESSION["sex"]);
-unset($_SESSION["birthDate"]);
-unset($_SESSION["lastLoggedIn"]);
-unset($_SESSION["status"]);
-unset($_SESSION["password"]);
-unset($_SESSION["role"]);
-?>
+unset($_SESSION["userInputData"]);
+unset($_SESSION["errorData"]);
+//// unset $_SESSION
+//unset($_SESSION["firstName"]);
+//unset($_SESSION["lastName"]);
+//unset($_SESSION["internalNote"]);
+//unset($_SESSION["nik"]);
+//unset($_SESSION["email"]);
+//unset($_SESSION["sex"]);
+//unset($_SESSION["birthDate"]);
+//unset($_SESSION["lastLoggedIn"]);
+//unset($_SESSION["status"]);
+//unset($_SESSION["password"]);
+//unset($_SESSION["role"]);

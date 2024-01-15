@@ -18,9 +18,9 @@ $userInputData = getUserInputData(
 $validate = validate(
     nik: $_POST["nik"],
     email: $_POST["email"],
+    birthDate: $_POST["birthDate"],
     password: $_POST["password"],
-    confirmPassword: $_POST["confirmPass"],
-    birthDate: $_POST["birthDate"]);
+    confirmPassword: $_POST["confirmPass"]);
 if (count($validate) == 0) {
     unset($_SESSION["errorData"]);
     unset($_SESSION["inputData"]);

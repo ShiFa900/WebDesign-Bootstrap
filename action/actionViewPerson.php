@@ -5,10 +5,8 @@ require_once __DIR__ . "/const.php";
 //membuat validasi untuk mengecek bila yang sedang view person orang yang sama dengan user atau bukan
 // my profile bisa edit data person yang login
 
-global $person;
 // error saat menampilkan
-$_SESSION["person"] = getPerson($_GET[ID]);
-
+$person = getPerson($_SESSION["personId"]);
 if(count($person) != 0){
     return [
         PERSON_FIRST_NAME => $person[PERSON_FIRST_NAME],
