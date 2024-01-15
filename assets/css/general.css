@@ -552,4 +552,7 @@ tr th {
 .left{
   margin: 1rem 0;
 }
+ .errorText{
+   line-height: 1.5;
+ }
 

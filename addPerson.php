@@ -163,7 +163,7 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "addPers
                                         <?php
                                         if (isset($_SESSION["errorData"]["errorPassword"])) {
                                             ?>
-                                            <div class="alert alert-danger" role="alert">
+                                            <div class="alert alert-danger errorText" role="alert">
                                                 <?= $_SESSION["errorData"]["errorPassword"] ?>
                                             </div>
                                             <?php

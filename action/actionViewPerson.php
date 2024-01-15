@@ -6,7 +6,7 @@ require_once __DIR__ . "/const.php";
 // my profile bisa edit data person yang login
 
 // error saat menampilkan
-$person = getPerson($_SESSION["personId"]);
+$person = getPerson($_GET[ID]);
 if(count($person) != 0){
     return [
         PERSON_FIRST_NAME => $person[PERSON_FIRST_NAME],

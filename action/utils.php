@@ -270,7 +270,7 @@ function getUserInputData(
     string|null $nik = null,
     string|null $role = null,
     string|null $status = null,
-    string| null $birthDate = null,
+    string|null $birthDate = null,
     string|null $sex = null): array
 {
 
@@ -291,15 +291,15 @@ function validate(
     string      $nik,
     string      $email,
     string      $birthDate,
-    int|null $id = null,
+    int|null    $id = null,
     string|null $password = null,
     string|null $confirmPassword = null,
     string|null $currentPassword = null): array
 {
 
+    $persons = getAll();
     $validate = [];
     if (getNikCheck($nik, $id) == -1) {
-        print_r(getNikCheck($nik, $id));
         $validate["errorNik"] = "Sorry, your NIK is already exist";
     }
 
@@ -307,14 +307,14 @@ function validate(
         $validate["errorEmail"] = "Sorry, your EMAIL is already exist";
     }
 
-    if (!is_null($password)) {
+    if (!is_null($password) && $confirmPassword != null) {
         if (getValidPassword($password) == -1) {
             $validate["errorPassword"] = " Sorry, your PASSWORD is weak. Password should include at least one" .
                 " UPPERCASE, one LOWERCASE, and one NUMBER.";
         }
 
 
-        if (!is_null($confirmPassword) != $password) {
+        if ($confirmPassword != $password) {
             $validate["errorConfirm"] = "Sorry, your CONFIRMATION was wrong. Please check again.";
         }
     }
@@ -325,7 +325,7 @@ function validate(
 
 //        untuk di myProfile, user tidak bisa menganti password jika current password salah, namun tetap bisa diganti dengan bantuan admin
     if ($currentPassword != null) {
-        if (getValidCurrentPassword() == -1) {
+        if (getValidCurrentPassword($password, $persons) == -1) {
             $validate["errorCurrentPassword"] = "Sorry, your PASSWORD was wrong. Please check again.";
         }
     }
@@ -333,7 +333,7 @@ function validate(
     return $validate;
 }
 
-function getNikCheck(string $nik, int|null $id = null)
+function getNikCheck(string $nik, int|null $id = null): int
 {
     $persons = getAll();
     $result = findFirstFromArray(
@@ -342,7 +342,10 @@ function getNikCheck(string $nik, int|null $id = null)
         value: $nik,
         id: $id
     );
-    if (count($result) != 0) return -1;
+    if (count($result) == 0) {
+        return 0;
+    }
+    return -1;
 }
 
 function getValidBirthDate(string $birthDate): int
@@ -356,7 +359,7 @@ function getValidBirthDate(string $birthDate): int
 }
 
 
-function getValidEmail(string $email, int|null $id = null)
+function getValidEmail(string $email, int|null $id = null): int
 {
 //    mengecek agar tidak ada email yang duplicate
     $persons = getAll();
@@ -366,30 +369,32 @@ function getValidEmail(string $email, int|null $id = null)
         value: $email,
         id: $id
     );
-    if (count($result) != 0) return -1;
+    if (count($result) == 0) {
+        return 0;
+    }
+    return -1;
 }
 
-function getValidPassword(string $password): string|int
+function getValidPassword(string|null $password = null): string|int
 {
-    $uppercase = preg_match('@[A-Z]@', $password);
-    $lowercase = preg_match('@[a-z]@', $password);
-    $number = preg_match('@[0-9]@', $password);
+    if($password != null) {
+        $uppercase = preg_match('@[A-Z]@', $password);
+        $lowercase = preg_match('@[a-z]@', $password);
+        $number = preg_match('@[0-9]@', $password);
 
-    if (!$uppercase || !$lowercase || !$number || strlen($password) < 8) {
-        return -1;
+        if (!$uppercase || !$lowercase || !$number || strlen($password) < 8) {
+            return -1;
+        }
     }
     return $password;
+
 }
 
-function getValidCurrentPassword(): int
+function getValidCurrentPassword(string $password, array $persons): int
 {
-    $persons = getAll();
-    for ($i = 0; $i < count($persons); $i++) {
-        if ($persons[$i][PERSON_EMAIL] == $_SESSION["userEmail"]) {
-            if ($persons[$i][PASSWORD] == $_POST["currentPassword"]) {
-                return 0;
-            }
-        }
+    $validPassword = findFirstFromArray(array: $persons,key: PASSWORD, value: $password);
+    if(count($validPassword) != 0){
+        return 0;
     }
     return -1;
 }

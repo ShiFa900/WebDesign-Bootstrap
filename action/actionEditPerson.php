@@ -23,16 +23,18 @@ $validate = validate(
     nik: $_POST["nik"],
     email: $_POST["email"],
     birthDate: $_POST["birthDate"],
-    id: $_SESSION["personId"],
+    id: $_SESSION["personData"][ID],
     password: $_POST["newPassword"],
     confirmPassword: $_POST["confirmPassword"]);
+
+
 if (count($validate) == 0) {
     unset($_SESSION["errorData"]);
     unset($_SESSION["userInputData"]);
 
     $persons = getAll();
     for ($i = 0; $i < count($persons); $i++) {
-        if ($persons[$i][ID] == $_SESSION["personId"]) {
+        if ($persons[$i][ID] == $_SESSION["personData"][ID]) {
             setPersonData(
                 $persons[$i],
                 firstName: $userInputData["firstName"],
@@ -48,28 +50,12 @@ if (count($validate) == 0) {
             savePerson($persons[$i], "persons.php");
         }
     }
-//    $person = [
-//        ID => null,
-//        PERSON_FIRST_NAME => ucwords($userInputData["firstName"]),
-//        PERSON_LAST_NAME => ucwords($userInputData["lastName"]),
-//        PERSON_NIK => $userInputData["nik"],
-//        PERSON_EMAIL => $userInputData["email"],
-//        PERSON_BIRTH_DATE => convertDateToTimestamp($userInputData["birthDate"]),
-//        PERSON_SEX => $userInputData["sex"],
-//        PERSON_INTERNAL_NOTE => null,
-//        PERSON_ROLE => $userInputData["role"],
-//        PASSWORD => $userInputData["password"],
-//        PERSON_STATUS => translateSwitch($userInputData["status"]),
-//        PERSON_LAST_LOGGED_IN => null,
-//    ];
-
-//    savePerson($person, "persons.php");
 
 } else {
 //    echo hasEmailCheck($_POST["email"]);
     $_SESSION["userInputData"] = $userInputData;
     $_SESSION["errorData"] = $validate;
-    redirect("../test.php", "");
+    redirect("../editPerson.php", "id=" . $_SESSION["personData"][ID]);
 }
 
 

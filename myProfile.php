@@ -4,7 +4,7 @@ require_once __DIR__ . "/include/footer.php";
 require_once __DIR__ . "/action/utils.php";
 ?>
 <?php
-mainHeader(cssIdentifier: "page-my-profile",title: "My Profile", link: "myProfile.php",pageStyles: ["myProfile.css"]);
+mainHeader(cssIdentifier: "page-my-profile", title: "My Profile", link: "myProfile.php", pageStyles: ["myProfile.css"]);
 ?>
 
 <main>
@@ -23,6 +23,7 @@ mainHeader(cssIdentifier: "page-my-profile",title: "My Profile", link: "myProfil
                     <div class="col-xxl-6 col-xl-6 col-lg-6 me-4">
                         <?php
                         $person = getPerson(email: $_SESSION["userEmail"]);
+                        $_SESSION["personData"] = $person;
                         ?>
                         <form class="new-person-form" action="action/actionMyProfile.php" method="post">
                             <div class="row">
@@ -34,9 +35,14 @@ mainHeader(cssIdentifier: "page-my-profile",title: "My Profile", link: "myProfil
                                     <input
                                             id="f-name"
                                             type="text"
-                                            value="<?= $_SESSION['userName'] ?>"
+                                            value="<?php if (isset($_SESSION["userInputData"]["firstName"])) {
+                                                echo $_SESSION["userInputData"]["firstName"];
+                                            } else {
+                                                echo $_SESSION["personData"][PERSON_FIRST_NAME];
+                                            } ?>"
                                             class="form-control"
                                             name="firstName"
+                                            maxlength="30"
                                     />
                                 </div>
                                 <?php
@@ -49,9 +55,14 @@ mainHeader(cssIdentifier: "page-my-profile",title: "My Profile", link: "myProfil
                                         <input
                                                 id="l-name"
                                                 type="text"
-                                                value="<?= $person[PERSON_LAST_NAME] ?>"
+                                                value="<?php if (isset($_SESSION["userInputData"]["lastName"])) {
+                                                    echo $_SESSION["userInputData"]["lastName"];
+                                                } else {
+                                                    echo $_SESSION["personData"][PERSON_LAST_NAME];
+                                                } ?>"
                                                 class="form-control"
                                                 name="lastName"
+                                                maxlength="15"
                                         />
                                     </div>
                                     <?php
@@ -62,10 +73,23 @@ mainHeader(cssIdentifier: "page-my-profile",title: "My Profile", link: "myProfil
                                     <input
                                             id="nik"
                                             type="text"
-                                            value="<?= $person[PERSON_NIK] ?>"
+                                            value="<?php if (isset($_SESSION["userInputData"]["nik"])) {
+                                                echo $_SESSION["userInputData"]["nik"];
+                                            } else {
+                                                echo $_SESSION["personData"][PERSON_NIK];
+                                            } ?>"
                                             class="form-control"
                                             name="nik"
                                     />
+                                    <?php
+                                    if (isset($_SESSION["errorData"]["errorNik"])) {
+                                        ?>
+                                        <div class="alert alert-danger errorText" role="alert">
+                                            <?= $_SESSION["errorData"]["errorNik"] ?>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
                                 </div>
                                 <div class="mb-3 form-input">
                                     <label for="staticEmail" class="form-label required"
@@ -74,10 +98,23 @@ mainHeader(cssIdentifier: "page-my-profile",title: "My Profile", link: "myProfil
                                     <input
                                             id="staticEmail"
                                             type="email"
-                                            value="<?= $_SESSION['userEmail'] ?>"
+                                            value="<?php if (isset($_SESSION["userInputData"]["email"])) {
+                                                echo $_SESSION["userInputData"]["email"];
+                                            } else {
+                                                echo $_SESSION["personData"][PERSON_EMAIL];
+                                            } ?>"
                                             class="form-control"
                                             name="email"
                                     />
+                                    <?php
+                                    if (isset($_SESSION["errorData"]["errorEmail"])) {
+                                        ?>
+                                        <div class="alert alert-danger errorText" role="alert">
+                                            <?= $_SESSION["errorData"]["errorEmail"] ?>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
                                 </div>
 
                                 <div class="mb-3 form-input">
@@ -88,9 +125,22 @@ mainHeader(cssIdentifier: "page-my-profile",title: "My Profile", link: "myProfil
                                             id="datePicker"
                                             type="date"
                                             class="form-control"
-                                            value="<?= date("Y-m-d", $person[PERSON_BIRTH_DATE]) ?>"
+                                            value="<?php if (isset($_SESSION["userInputData"]["birthDate"])) {
+                                                echo $_SESSION["userInputData"]["birthDate"];
+                                            } else {
+                                                echo date("Y-m-d", $_SESSION["personData"][PERSON_BIRTH_DATE]);
+                                            } ?>"
                                             name="birthDate"
                                     />
+                                    <?php
+                                    if (isset($_SESSION["errorData"]["errorBirthDate"])) {
+                                        ?>
+                                        <div class="alert alert-danger errorText" role="alert">
+                                            <?= $_SESSION["errorData"]["errorBirthDate"] ?>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
                                 </div>
 
                                 <div class="mb-3 form-input">
@@ -106,16 +156,20 @@ mainHeader(cssIdentifier: "page-my-profile",title: "My Profile", link: "myProfil
                                             name="sex"
 
                                     >
-                                        <option selected><?= $person[PERSON_SEX] ?></option>
+                                        <option selected><?php if (isset($_SESSION["userInputData"]["sex"])) {
+                                                echo $_SESSION["userInputData"]["sex"];
+                                            } else {
+                                                echo $_SESSION["personData"][PERSON_SEX];
+                                            } ?></option>
 
                                         <?php
-                                        if ($person[PERSON_SEX] == SEX_MALE) {
+                                        if ($_SESSION["personData"][PERSON_SEX] == SEX_MALE) {
                                             ?>
                                             <option value="1"><?= SEX_FEMALE ?></option>
                                             <option value="2"><?= SEX_BETTER_NOT_SAY ?></option>
 
                                             <?php
-                                        } elseif ($person[PERSON_SEX] == SEX_FEMALE) {
+                                        } elseif ($_SESSION["personData"][PERSON_SEX] == SEX_FEMALE) {
                                             ?>
                                             <option value="1"><?= SEX_MALE ?></option>
                                             <option value="2"><?= SEX_BETTER_NOT_SAY ?></option>
@@ -169,7 +223,7 @@ mainHeader(cssIdentifier: "page-my-profile",title: "My Profile", link: "myProfil
                                                       placeholder="Leave a comment here"
                                                       id="note"
                                                       name="note"
-                                              ><?= $person[PERSON_INTERNAL_NOTE] ?></textarea>
+                                              ><?= $_SESSION["personData"][PERSON_INTERNAL_NOTE] ?></textarea>
                                 </div>
                                 <hr/>
                             </div>
@@ -184,6 +238,15 @@ mainHeader(cssIdentifier: "page-my-profile",title: "My Profile", link: "myProfil
                                     type="password"
                                     class="form-control"
                                     name="currentPassword"/>
+                            <?php
+                            if (isset($_SESSION["errorData"]["errorCurrentPassword"])) {
+                                ?>
+                                <div class="alert alert-danger errorText" role="alert">
+                                    <?= $_SESSION["errorData"]["errorCurrentPassword"] ?>
+                                </div>
+                                <?php
+                            }
+                            ?>
 
                         </div>
                         <div class="mb-3 form-input">
@@ -193,6 +256,15 @@ mainHeader(cssIdentifier: "page-my-profile",title: "My Profile", link: "myProfil
                                     type="password"
                                     class="form-control"
                                     name="newPassword"/>
+                            <?php
+                            if (isset($_SESSION["errorData"]["errorPassword"])) {
+                                ?>
+                                <div class="alert alert-danger errorText" role="alert">
+                                    <?= $_SESSION["errorData"]["errorPassword"] ?>
+                                </div>
+                                <?php
+                            }
+                            ?>
 
                         </div>
                         <div class="mb-3 form-input">
@@ -201,11 +273,16 @@ mainHeader(cssIdentifier: "page-my-profile",title: "My Profile", link: "myProfil
                                     id="confirmPass"
                                     type="password"
                                     class="form-control"
-                                <?php
-                                if (isset($_SESSION["hasNewPassword"])) echo "required";
-                                ?>
                                     name="confirmPassword"/>
-
+                            <?php
+                            if (isset($_SESSION["errorData"]["errorConfirm"])) {
+                                ?>
+                                <div class="alert alert-danger errorText" role="alert">
+                                    <?= $_SESSION["errorData"]["errorConfirm"] ?>
+                                </div>
+                                <?php
+                            }
+                            ?>
 
                         </div>
                     </div>
@@ -218,4 +295,5 @@ mainHeader(cssIdentifier: "page-my-profile",title: "My Profile", link: "myProfil
 <!-- sidebar -->
 <?php
 mainFooter("myProfile.php");
-?>
+unset($_SESSION["userInputData"]);
+unset($_SESSION["errorData"]);

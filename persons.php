@@ -228,6 +228,7 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
 
                             <td class="d-flex">
                                 <button class="btn" name="btn-view">
+<!--                                    klo direfresh hilang datanya-->
                                     <a
 
                                         <?php
@@ -251,9 +252,10 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
                                         <a
                                             <?php
                                             if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
+                                                $_SESSION["personToBeEdit"] = $person[ID];
                                                 ?>
 
-                                                href="test.php?id=<?php echo $person[ID] ?>"
+                                                href="editPerson.php?id=<?php echo $person[ID] ?>"
                                                 <?php
                                             }
                                             ?>
@@ -288,4 +290,5 @@ mainFooter("persons.php");
 unset($_SESSION["addSuccess"]);
 unset($_SESSION["editSuccess"]);
 unset($_SESSION["personHasEdit"]);
+unset($_SESSION["deleteSuccess"]);
 unset($_SESSION["userNotAuthenticate"]);
