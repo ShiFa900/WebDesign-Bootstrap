@@ -11,11 +11,14 @@ $userInputData = getUserInputData(
     lastName: $_POST["lastName"],
     email: $_POST["email"],
     nik: $_POST["nik"],
-//    kedua items ini tidak bisa diedit
+    status: $currentUser[PERSON_STATUS],
     birthDate: $intDate,
     sex: $_POST["sex"],
     note: $_POST["note"]
 );
+// user status menjadi string 1
+
+
 
 
 $validate = validate(
@@ -40,10 +43,12 @@ if (count($validate) == 0) {
         birthDate: $userInputData["birthDate"],
         sex: $userInputData["sex"],
         role: $currentUser[PERSON_ROLE],
-        status: $currentUser[PERSON_STATUS],
         note: $_POST["note"]);
-    $currentUser[PASSWORD] = $_POST["newPassword"] == null ? $currentUser[PASSWORD] : $_POST["newPassword"];
-    $currentUser[PERSON_INTERNAL_NOTE] = $userInputData["note"] == null ? $currentUser[PERSON_INTERNAL_NOTE] : $userInputData["note"];
+
+//    person status dengan status true, selalu berubah valuenya menjadi false
+    $userData[PASSWORD] = $_POST["newPassword"] == null ? $currentUser[PASSWORD] : $_POST["newPassword"];
+    $userData[PERSON_STATUS] = $currentUser[PERSON_STATUS];
+//    $currentUser[PERSON_INTERNAL_NOTE] = $userInputData["note"] == null ? $currentUser[PERSON_INTERNAL_NOTE] : $userInputData["note"];
     var_dump($userData);
     die();
     savePerson($userData, "persons.php");
@@ -54,8 +59,6 @@ if (count($validate) == 0) {
 
     redirect("../myProfile.php", "id=" . $currentUser[ID]);
 }
-
-
 
 
 

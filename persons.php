@@ -196,7 +196,7 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
                 }
                 ?>
                 <?php
-            } else {
+
                 ?>
                 <!-- EXPAND -->
                 <a class="nav-link d-flex justify-content-end" href="#table">

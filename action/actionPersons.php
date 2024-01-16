@@ -11,11 +11,8 @@ function search(array $persons, string $category, string|null $keyword = null): 
 {
 //    mencari kategori dari person
     $temp = [];
-    $categories = [];
-    $personsWithCategory = [];
 
     $inputText = preg_quote($keyword);
-
 
     $categories = getAgeCategory($persons, $category);
 
