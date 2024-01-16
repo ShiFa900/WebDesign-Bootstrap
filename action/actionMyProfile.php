@@ -35,10 +35,10 @@ $validate = validate(
     nik: $_POST["nik"],
     email: $_POST["email"],
     birthDate: $_POST["birthDate"],
-    id: $_SESSION["personData"][ID],
     password: $_POST["newPassword"],
     confirmPassword: $_POST["confirmPassword"],
-    currentPassword: $currentUser[PASSWORD]);
+    currentPassword: $currentUser[PASSWORD],
+    id: $currentUser[ID]);
 
 if (count($validate) == 0) {
     unset($_SESSION["errorData"]);

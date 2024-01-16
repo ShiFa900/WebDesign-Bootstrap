@@ -2,8 +2,6 @@
 require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
 require_once __DIR__ . "/index.php";
-session_start();
-
 
 redirectIfNotAuthenticated();
 ?>
@@ -181,7 +179,7 @@ mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "viewP
                                                                 </button>
                                                                 <button type="button" class="btn btn-primary"
                                                                         name="btnDelete">
-                                                                    <a href="action/actionDeletePerson.php?id=<?= $_SESSION["person"][ID] ?>"
+                                                                    <a href="action/actionDeletePerson.php"
                                                                        class="btn">Yes</a>
                                                                 </button>
                                                             </div>

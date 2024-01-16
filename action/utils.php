@@ -291,10 +291,10 @@ function validate(
     string      $nik,
     string      $email,
     string      $birthDate,
-    int|null    $id = null,
     string|null $password = null,
     string|null $confirmPassword = null,
-    string|null $currentPassword = null): array
+    string|null $currentPassword = null,
+    int|null    $id = null): array
 {
 
     $persons = getAll();

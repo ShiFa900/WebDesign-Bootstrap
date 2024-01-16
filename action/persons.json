@@ -39,7 +39,7 @@
         "role": "Admin",
         "password": "sarah",
         "status": true,
-        "lastLoggedIn": 1705293056
+        "lastLoggedIn": 1705359077
     },
     {
         "id": 4,
@@ -210,20 +210,6 @@
         "lastLoggedIn": null
     },
     {
-        "id": 18,
-        "firstName": "Ayam",
-        "lastName": "Goreng",
-        "nik": "1290783456238901",
-        "email": "gorengAyam@gmail.com",
-        "birthDate": 1319846400,
-        "sex": "Male",
-        "internalNote": null,
-        "role": "Member",
-        "password": "Ayam1234",
-        "status": true,
-        "lastLoggedIn": null
-    },
-    {
         "id": 19,
         "firstName": "Julaimei",
         "lastName": "",
@@ -262,6 +248,20 @@
         "internalNote": null,
         "role": "Member",
         "password": "Zibalba6",
+        "status": true,
+        "lastLoggedIn": null
+    },
+    {
+        "id": 22,
+        "firstName": "Sony",
+        "lastName": "Walkerman",
+        "nik": "0901288283974203",
+        "email": "festAve@gmail.com",
+        "birthDate": 1403539200,
+        "sex": "Male",
+        "internalNote": null,
+        "role": "Member",
+        "password": null,
         "status": true,
         "lastLoggedIn": null
     }
