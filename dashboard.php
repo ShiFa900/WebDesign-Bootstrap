@@ -1,7 +1,8 @@
 <?php
-require_once __DIR__ . "/action/actionDashboard.php";
 require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
+require_once __DIR__ . "/action/utils.php";
+require_once __DIR__ . "/index.php";
 
 mainHeader(
 	cssIdentifier: "page-dashboard",
@@ -17,18 +18,19 @@ mainHeader(
                 <div class="col-xxl-8">
                     <h1 class="first-heading">Hi,
 						<?php
-						echo $_SESSION['userName'] . "!";
+                        $user = getPerson(email: $_SESSION["userEmail"]);
+						echo $user[PERSON_FIRST_NAME] . "!";
 						?>
                     </h1>
 					<?php
-					if ( $_SESSION["logout"] != null ) {
+					if ( $user[PERSON_LAST_LOGGED_IN] != null ) {
 						?>
                         <p class="header-sm-title">
                             You were logged in previously in
 							<?php
 							date_default_timezone_set( 'Asia/Singapore' );
 							echo "<strong>";
-							echo date( 'l, F d Y H:i', $_SESSION['logout'] );
+							echo date( 'l, F d Y H:i', $user[PERSON_LAST_LOGGED_IN] );
 							echo "</strong>";
 							?>
                         </p>

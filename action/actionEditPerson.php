@@ -5,6 +5,7 @@ session_start();
 
 //mendapatkan data person yang akan di edit dengan menggunakan ID person tersebut
 //edit person data belum dicoba
+$currentUser = $_SESSION["personData"];
 $intDate = convertDateToTimestamp($_POST["birthDate"]);
 
 $userInputData = getUserInputData(
@@ -16,6 +17,9 @@ $userInputData = getUserInputData(
     status: $_POST["status"],
     birthDate: $intDate,
     sex: $_POST["sex"]);
+//var_dump($userInputData);
+//die();
+
 
 // belum suud ni cokk
 
@@ -23,39 +27,35 @@ $validate = validate(
     nik: $_POST["nik"],
     email: $_POST["email"],
     birthDate: $_POST["birthDate"],
-    id: $_SESSION["personData"][ID],
     password: $_POST["newPassword"],
-    confirmPassword: $_POST["confirmPassword"]);
+    confirmPassword: $_POST["confirmPassword"],
+    id: $currentUser[ID]);
 
 
 if (count($validate) == 0) {
     unset($_SESSION["errorData"]);
     unset($_SESSION["userInputData"]);
 
-    $persons = getAll();
-    for ($i = 0; $i < count($persons); $i++) {
-        if ($persons[$i][ID] == $_SESSION["personData"][ID]) {
-            setPersonData(
-                $persons[$i],
-                firstName: $userInputData["firstName"],
-                lastName: $userInputData["lastName"],
-                nik: $userInputData["nik"],
-                email: $userInputData["email"],
-                birthDate: $userInputData["birthDate"],
-                sex: $userInputData["sex"],
-                role: $userInputData["role"],
-                status: $userInputData["status"]);
-            $persons[$i][PASSWORD] = $_POST["newPassword"] == null ? $persons[$i][PASSWORD] : $_POST["newPassword"];
+    $currentUser = setPersonData(
+        $currentUser,
+        firstName: $userInputData["firstName"],
+        lastName: $userInputData["lastName"],
+        nik: $userInputData["nik"],
+        email: $userInputData["email"],
+        birthDate: $userInputData["birthDate"],
+        sex: $userInputData["sex"],
+        role: $userInputData["role"],
+        status: $userInputData["status"]);
+    $currentUser[PASSWORD] = $_POST["newPassword"] == null ? $currentUser[PASSWORD] : $_POST["newPassword"];
 
-            savePerson($persons[$i], "persons.php");
-        }
-    }
+    savePerson($currentUser, "persons.php");
+
 
 } else {
 //    echo hasEmailCheck($_POST["email"]);
     $_SESSION["userInputData"] = $userInputData;
     $_SESSION["errorData"] = $validate;
-    redirect("../editPerson.php", "id=" . $_SESSION["personData"][ID]);
+    redirect("../editPerson.php", "id=" . $currentUser[ID]);
 }
 
 

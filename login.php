@@ -66,15 +66,7 @@
                                 Welcome to <span>PerMap</span>
                             </h2>
                         </div>
-                        <?php
-                        if (isset($_GET["error"]) && $_GET["error"] == "userStatusPassedAway"){
-                            ?>
-                            <div class="alert alert-danger alert-popup" role="alert">
-                                Sorry, this person status is PASSED AWAY.
-                            </div>
-                            <?php
-                        }
-                        ?>
+
                         <form class="login-form" action="action/actionLogin.php" method="post" name="login-form">
                             <div class="mb-3 row">
                                 <label for="staticEmail" class="form-label">Email</label>
@@ -97,6 +89,7 @@
                                 <!--                --><?php
                             }
                             ?>
+
 
                             <span class="form-content-footer">Don't have an account? <a href="#">Create account</a> or
                   <a href="#">Forgot password</a></span>

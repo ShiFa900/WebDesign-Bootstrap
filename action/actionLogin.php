@@ -5,23 +5,19 @@ session_start();
 require_once __DIR__ . "/../assets/json/jsonLoadData.php";
 require_once __DIR__ . "/utils.php";
 
-$userExist = userExist();
 
-// ini apa?
 if (isset($_POST['login'])) {
-//    $email = $_POST['email'];
+    $userExist = userExist($_POST["email"], $_POST["password"]);
 
 
 // conditionals untuk meng-redirect page login ke dashboard jika berhasil login
     if ($userExist != null) {
-//  header('Location: ../actionDashboard.php');
-//  die();
-        $_SESSION['userEmail'] = $_POST['email'];
-        $_SESSION['userName'] = $userExist['firstName'];
-        $_SESSION['logout'] = $userExist['lastLoggedIn'];
-        header("Location: ../dashboard.php");
-        exit();
 
+        $_SESSION['userEmail'] = $_POST['email'];
+        if(checkPersonStatus($_SESSION["userEmail"])) {
+            header("Location: ../dashboard.php");
+            exit();
+        }
     } else {
         redirect("../login.php", "error=1");
     }

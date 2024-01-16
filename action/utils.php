@@ -18,15 +18,15 @@ function redirect($url, $getParams): void
 
 function redirectIfNotAuthenticated(): void
 {
-    if (!isset($_SESSION['userEmail'])) {
+    if (!isset($_SESSION["userEmail"])) {
         header("Location: login.php");
         exit(); // Terminate script execution after the redirect
     }
 }
 
-function checkRoleAdmin(): bool
+function checkRoleAdmin(string $userEmail): bool
 {
-    $user = getPerson(email: $_SESSION["userEmail"]);
+    $user = getPerson(email: $userEmail);
     if ($user[PERSON_ROLE] != ROLE_ADMIN) {
         $_SESSION["userNotAuthenticate"] = $user;
         redirect("persons.php", "");
@@ -35,12 +35,12 @@ function checkRoleAdmin(): bool
     return true;
 }
 
-function checkAbility(): bool
+function checkPersonStatus(string $userEmail): bool
 {
-    $user = getPerson(email: $_SESSION["userEmail"]);
+    $user = getPerson(email: $userEmail);
     if ($user[PERSON_STATUS] == STATUS_PASSED_AWAY) {
-        $_SESSION["userPassedAway"] = $user;
-        redirect("login.php", "");
+        $_SESSION["userPassedAway"] = "Sorry, this person status is PASSED AWAY. Ask ADMIN for more information.";
+        redirect("../login.php", "");
     }
     return true;
 }
@@ -50,12 +50,12 @@ function checkAbility(): bool
 //****** GENERAL ******
 //==============================
 
-function userExist(): array
+function userExist(string $email, string $password): array
 {
     $data = getAll();
 
     for ($i = 0; $i < count($data); $i++) {
-        if ($_POST["email"] == $data[$i][PERSON_EMAIL] && $_POST["password"] == $data[$i][PASSWORD]) {
+        if ($email == $data[$i][PERSON_EMAIL] && $password == $data[$i][PASSWORD]) {
             return $data[$i];
         }
     }
@@ -103,11 +103,11 @@ function savePerson(array $person, string $location): void
 
     } else {
 //        EDIT MODE
-        for ($i = 0; $i < count($persons); $i++) {
+        for ($i = 0; $i < count($persons); $i++) {  
             if ($person[ID] == $persons[$i][ID]) {
 
                 $persons[$i] = [
-                    ID => $persons[$i][ID],
+                    ID => $person[ID],
                     PERSON_FIRST_NAME => ucwords($person[PERSON_FIRST_NAME]),
                     PERSON_LAST_NAME => ucwords($person[PERSON_LAST_NAME]),
                     PERSON_NIK => $person[PERSON_NIK],
@@ -117,12 +117,16 @@ function savePerson(array $person, string $location): void
                     PERSON_INTERNAL_NOTE => $person[PERSON_INTERNAL_NOTE],
                     PERSON_ROLE => $person[PERSON_ROLE],
                     PASSWORD => $person[PASSWORD],
-                    PERSON_STATUS => translateSwitch($person[PERSON_STATUS]),
+                    PERSON_STATUS => $person[PERSON_STATUS],
                     PERSON_LAST_LOGGED_IN => $persons[$i][PERSON_LAST_LOGGED_IN]
                 ];
-                $_SESSION["personHasEdit"] = $persons[$i];
                 saveDataIntoJson($persons, "persons.json");
                 $_SESSION["editSuccess"] = $persons;
+                if ($person[PERSON_EMAIL] == $_SESSION["userEmail"]) {
+                    $_SESSION["userEmail"] = $person[PERSON_EMAIL];
+                    $_SESSION["personHasEdit"] = $person;
+
+                }
                 redirect("../" . $location, "");
 
             }
@@ -190,46 +194,35 @@ function translateSwitch(string|null $on): bool
     return $on === "on";
 }
 
-function getAgeCategory(array &$person): array|string
+function getAgeCategory(array &$persons, string $category): array
 {
 //    mendapatkan orang yang statusnya meninggal
-    $category = '';
-    if ($person[PERSON_STATUS] == STATUS_PASSED_AWAY) {
-        return CATEGORIES_PASSED_AWAY;
-    }
 //mendapatkan umur dari tiap orang
 
-    $age = calculateAge($person[PERSON_BIRTH_DATE]);
-    if ($age <= 13) {
-        $category = CATEGORIES_CHILD;
-    } elseif ($age <= 45) {
-        $category = CATEGORIES_PRODUCTIVE_AGE;
-    } elseif ($age >= 46) {
-        $category = CATEGORIES_ELDERLY;
-    }
-    return $category;
-}
+    $categories = [];
 
-//function getAgeCategory(array $person): array
-//{
-////    mendapatkan orang yang statusnya meninggal
-//    $category = '';
-//    if ($person[PERSON_STATUS] == STATUS_PASSED_AWAY) {
-//        return ['CATEGORIES_PASSED_AWAY', $person];
-//    }
-//
-////mendapatkan umur dari tiap orang
-//
-//    $age = calculateAge($person[PERSON_BIRTH_DATE]);
-//    if ($age <= 13) {
-//        $category = [CATEGORIES_CHILD, $person];
-//    } elseif ($age <= 45) {
-//        $category = [CATEGORIES_PRODUCTIVE_AGE, $person];
-//    } elseif ($age >= 46) {
-//        $category = [CATEGORIES_ELDERLY, $person];
-//    }
-//    return $category;
-//}
+    $personCategory = "";
+    for ($i = 0; $i < count($persons); $i++) {
+        $getPersonAge = calculateAge($persons[$i][PERSON_BIRTH_DATE]);
+        if ($category == CATEGORIES_ALL) {
+            return $persons;
+        } elseif ($persons[$i][PERSON_STATUS] == STATUS_PASSED_AWAY) {
+            $personCategory = CATEGORIES_PASSED_AWAY;
+        } elseif ($getPersonAge <= 13) {
+            $personCategory = CATEGORIES_CHILD;
+        } elseif ($getPersonAge <= 45) {
+            $personCategory = CATEGORIES_PRODUCTIVE_AGE;
+        } elseif ($getPersonAge > 50) {
+            $personCategory = CATEGORIES_ELDERLY;
+        }
+        if ($personCategory == $category) {
+            $categories[] = $persons[$i];
+        }
+    }
+
+    return $categories;
+
+}
 
 
 function calculateAge($birth_date_ts): int
@@ -250,7 +243,7 @@ function setPersonData(
     string|null $sex = null,
     string|null $role = null,
     string|null $status = null,
-    string|null $note = null): void
+    string|null $note = null): array
 {
     $person[PERSON_FIRST_NAME] = $firstName == null ? $person[PERSON_FIRST_NAME] : $firstName;
     $person[PERSON_LAST_NAME] = $lastName == null ? $person[PERSON_LAST_NAME] : $lastName;
@@ -259,19 +252,21 @@ function setPersonData(
     $person[PERSON_BIRTH_DATE] = $birthDate == null ? $person[PERSON_BIRTH_DATE] : $birthDate;
     $person[PERSON_SEX] = $sex == null ? $person[PERSON_SEX] : $sex;
     $person[PERSON_ROLE] = $role == null ? $person[PERSON_ROLE] : $role;
-    $person[PERSON_STATUS] = $status == null ? $person[PERSON_STATUS] : $status;
+    $person[PERSON_STATUS] = translateSwitch($status);
     $person[PERSON_INTERNAL_NOTE] = $note;
+    return $person;
 }
 
 function getUserInputData(
     string|null $firstName = null,
     string|null $lastName = null,
-    string|null $email= null,
+    string|null $email = null,
     string|null $nik = null,
     string|null $role = null,
     string|null $status = null,
     string|null $birthDate = null,
-    string|null $sex = null): array
+    string|null $sex = null,
+    string|null $note = null): array
 {
 
     return [
@@ -282,7 +277,8 @@ function getUserInputData(
         'email' => filter_var($email, FILTER_VALIDATE_EMAIL),
         'role' => $role,
         'sex' => $sex,
-        'status' => $status
+        'status' => $status,
+        'note' => $note
     ];
 }
 
@@ -300,11 +296,11 @@ function validate(
     $persons = getAll();
     $validate = [];
     if (getNikCheck($nik, $id) == -1) {
-        $validate["errorNik"] = "Sorry, your NIK is already exist";
+        $validate["errorNik"] = "Sorry, this NIK is already exist";
     }
 
     if (getValidEmail($email, $id) == -1) {
-        $validate["errorEmail"] = "Sorry, your EMAIL is already exist";
+        $validate["errorEmail"] = "Sorry, this EMAIL is already exist";
     }
 
     if (!is_null($password) && $confirmPassword != null) {
@@ -320,12 +316,12 @@ function validate(
     }
 
     if (getValidBirthDate($birthDate) == -1) {
-        $validate["errorBirthDate"] = "Sorry, your BIRTH DATE is not valid. Please check again.";
+        $validate["errorBirthDate"] = "Sorry, this BIRTH DATE is not valid. Please check again.";
     }
 
 //        untuk di myProfile, user tidak bisa menganti password jika current password salah, namun tetap bisa diganti dengan bantuan admin
     if ($currentPassword != null) {
-        if (getValidCurrentPassword($password, $persons) == -1) {
+        if (getValidCurrentPassword($currentPassword, $persons) == -1) {
             $validate["errorCurrentPassword"] = "Sorry, your PASSWORD was wrong. Please check again.";
         }
     }
@@ -377,7 +373,7 @@ function getValidEmail(string $email, int|null $id = null): int
 
 function getValidPassword(string|null $password = null): string|int
 {
-    if($password != null) {
+    if ($password != null) {
         $uppercase = preg_match('@[A-Z]@', $password);
         $lowercase = preg_match('@[a-z]@', $password);
         $number = preg_match('@[0-9]@', $password);
@@ -392,8 +388,8 @@ function getValidPassword(string|null $password = null): string|int
 
 function getValidCurrentPassword(string $password, array $persons): int
 {
-    $validPassword = findFirstFromArray(array: $persons,key: PASSWORD, value: $password);
-    if(count($validPassword) != 0){
+    $validPassword = findFirstFromArray(array: $persons, key: PASSWORD, value: $password);
+    if (count($validPassword) != 0) {
         return 0;
     }
     return -1;

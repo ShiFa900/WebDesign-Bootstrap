@@ -2,8 +2,9 @@
 require_once __DIR__ . "/action/utils.php";
 require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
+require_once __DIR__ . "/index.php";
 
-checkRoleAdmin();
+checkRoleAdmin($_SESSION["userEmail"]);
 
 ?>
 

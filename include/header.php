@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/sidebar.php";
+
 session_start();
 function mainHeader(string $cssIdentifier, string $title, string $link, array|null $pageStyles = null): void
 {

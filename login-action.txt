@@ -1,0 +1,40 @@
+
+=================================
+- saat edit my profile data, password harusnya tidak wajib untuk di edit, jadi ketika user menginput new password barulah confirm password required (sblum confirm password baru tidak akan disimpan ke database).
+- validasi saat create data
+- search
+- paginated
+- minor" sih banyaknya, dicoba ya :)
+- role, spesifik page untuk tiap role
+- unset session di page edit person sebelum tag body paling akhir, nama key sama dengan nama key di file edit person action
+
+- data di page person ditampilkan berdasarkan filter yang diberikan dan search button, default datanya adalah ALL dengan paginated.
+
+- pada dashboard, jika user meng-klik salah satu card, maka akan menampilkan table person di page person dengan data yang sesuai dengan filter atau title card tersebut
+
+- search error 'Maximum execution time of 30 seconds exceeded'
+
+- buat file 'cleaner', daripada menaruh tiap session di file utils, gunakan parameter untuk variablenya
+
+- pisahkan setiap function sesuai dengan kegunaannya di pagenya masing-masing
+
+- setelah melakukan search, inputan user harusnya masih tersimpan
+
+- bedakan style yang specifik untuk tiap page di css
+- template page 
+- berikan identifier untuk tiap body di beda page, css bisa dijadikan 1 file
+
+- editPerson -> bisakah tamppilan GET dihilangkan??
+- require di tiap page, spertinya bisa dijadikan function saja(?)
+- saat edit my profile, status person yang semula alive selalu menjadi passed away
+- saat edit person, entah kenapa usernya ganti sama person yang di edit
+===================================
+ROLE ADMIN
+- bisa create, edit dan delete
+- spesifik untuk edit, menu untuk edit password user tidak diberikan
+
+ROLE MEMBER
+- tidak bisa melakukan create, edit dan delete person data
+- role admin hanya bisa view person data
+- saat edit profile, user dengan role member diberikan akses untuk mengedit data personal dan passwordnya
+- di page person, menu untuk edit person data yang lain tidak ditampilkan

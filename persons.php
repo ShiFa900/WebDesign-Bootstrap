@@ -1,9 +1,8 @@
 <?php
-//
-require_once __DIR__ . "/action/const.php";
 require_once __DIR__ . "/action/utils.php";
 require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
+require_once __DIR__ . "/index.php";
 
 $persons = getAll();
 
@@ -125,11 +124,18 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
                                 <ion-icon src="../assets/properties/icon/search-outline.svg" class="icon"></ion-icon>
                             </button>
 
-                            <!--                            btn ini hanya tampil saat filter atau keyword pencarian ada-->
-                            <button class="btn btn-outline-primary" type="reset">
-                                <ion-icon src="../assets/properties/icon/refresh-outline.svg" class="icon"></ion-icon>
+                            <!--btn ini hanya tampil saat filter atau keyword pencarian ada-->
+                            <?php
+                            if (isset($_GET["keyword"]) || isset($_GET["category"])) {
+                                ?>
+                                <button class="btn" name="reset">
+                                    <ion-icon src="../assets/properties/icon/refresh-outline.svg"
+                                              class="icon"></ion-icon>
 
-                            </button>
+                                </button>
+                                <?php
+                            }
+                            ?>
                         </div>
                     </form>
                 </div>
@@ -144,8 +150,6 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
                 <?php
             }
             ?>
-            <!--            semua yan GET disini, bagusnya dijadikan SESSION-->
-            <!--menampilkan pesan saat berhasil menambah data orang baru-->
             <?php
             if (isset($_SESSION["addSuccess"])) {
                 ?>
@@ -155,9 +159,21 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
                 <?php
             } elseif (isset($_SESSION["editSuccess"])) {
                 ?>
-                <div class="alert alert-success" role="alert">
-                    Successfully edit person data of <?= $_SESSION["personHasEdit"][PERSON_FIRST_NAME] ?>!
-                </div>
+                <?php
+                if ($_SESSION["personHasEdit"][PERSON_ROLE] == ROLE_ADMIN) {
+                    ?>
+                    <div class="alert alert-success" role="alert">
+                        Your edit data was successfully saved!
+                    </div>
+                    <?php
+                } else {
+                    ?>
+                    <div class="alert alert-success" role="alert">
+                        Successfully edit person data of <?= $_SESSION["personHasEdit"][PERSON_FIRST_NAME] ?>!
+                    </div>
+                    <?php
+                }
+                ?>
                 <?php
             } elseif (isset($_SESSION["deleteSuccess"])) {
                 ?>
@@ -170,9 +186,15 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
 
 
             <?php
-            if (isset($_SESSION["noDataFound"])) {
+            require_once __DIR__ . "/action/actionPersons.php";
+            if (isset($_GET["keyword"])) {
+                $result = search(persons: $persons, category: $_GET["category"], keyword: $_GET["keyword"]);
+                if (!is_null($result)) {
+                    $persons = $result;
+                } else {
+                    echo $_SESSION["noDataFound"];
+                }
                 ?>
-                <?= $_SESSION["noDataFound"]?>
                 <?php
             } else {
                 ?>
@@ -200,14 +222,6 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
 
                         <tr>
                             <?php
-                            require_once __DIR__ . "/action/actionPersons.php";
-                            if (isset($_GET["keyword"])) {
-                                $result = search(keyword: $_GET["keyword"], category: $_GET["category"]);
-                                if (!is_null($result)) {
-                                    $persons = $result;
-                                }
-                            }
-
                             $no = 1;
                             foreach ($persons
 
@@ -228,7 +242,6 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
 
                             <td class="d-flex">
                                 <button class="btn" name="btn-view">
-<!--                                    klo direfresh hilang datanya-->
                                     <a
 
                                         <?php

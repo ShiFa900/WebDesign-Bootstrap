@@ -3,10 +3,8 @@ require_once __DIR__ . "/utils.php";
 require_once __DIR__ . "/const.php";
 session_start();
 
-$currentUser = $_SESSION["personData"];
-if(!isset($_POST["newPassword"])){
-    echo "adakah?";
-}
+$currentUser = $_SESSION["userData"];
+
 $intDate = convertDateToTimestamp($_POST["birthDate"]);
 $userInputData = getUserInputData(
     firstName: $_POST["firstName"],
@@ -14,22 +12,11 @@ $userInputData = getUserInputData(
     email: $_POST["email"],
     nik: $_POST["nik"],
 //    kedua items ini tidak bisa diedit
-    role: $currentUser[PERSON_ROLE],
-    status: $currentUser[PERSON_STATUS],
     birthDate: $intDate,
-    sex: $_POST["sex"]);
+    sex: $_POST["sex"],
+    note: $_POST["note"]
+);
 
-
-if($currentUser[PERSON_INTERNAL_NOTE] != null) {
-    $userAdditionalData = [
-        "internalNote" => htmlspecialchars($_POST["note"])
-    ];
-    $userInputData[] = $userAdditionalData;
-}
-//meng-append $userInputData dengan inputan internal note
-
-// belum suud ni cokk
-// key $_POST["newPassword"] dan confirmPassword tidak ditemukan
 
 $validate = validate(
     nik: $_POST["nik"],
@@ -44,31 +31,30 @@ if (count($validate) == 0) {
     unset($_SESSION["errorData"]);
     unset($_SESSION["userInputData"]);
 
-    $persons = getAll();
-    for ($i = 0; $i < count($persons); $i++) {
-        if ($persons[$i][ID] == $currentUser[ID]) {
-            setPersonData(
-                $persons[$i],
-                firstName: $userInputData["firstName"],
-                lastName: $userInputData["lastName"],
-                nik: $userInputData["nik"],
-                email: $userInputData["email"],
-                birthDate: $userInputData["birthDate"],
-                sex: $userInputData["sex"],
-                role: $userInputData["role"],
-                status: $userInputData["status"]);
-            $persons[$i][PASSWORD] = $_POST["newPassword"] == null ? $persons[$i][PASSWORD] : $_POST["newPassword"];
-
-            savePerson($persons[$i], "persons.php");
-        }
-    }
+    $userData = setPersonData(
+        $currentUser,
+        firstName: $userInputData["firstName"],
+        lastName: $userInputData["lastName"],
+        nik: $userInputData["nik"],
+        email: $userInputData["email"],
+        birthDate: $userInputData["birthDate"],
+        sex: $userInputData["sex"],
+        role: $currentUser[PERSON_ROLE],
+        status: $currentUser[PERSON_STATUS],
+        note: $_POST["note"]);
+    $currentUser[PASSWORD] = $_POST["newPassword"] == null ? $currentUser[PASSWORD] : $_POST["newPassword"];
+    $currentUser[PERSON_INTERNAL_NOTE] = $userInputData["note"] == null ? $currentUser[PERSON_INTERNAL_NOTE] : $userInputData["note"];
+    var_dump($userData);
+    die();
+    savePerson($userData, "persons.php");
 
 } else {
-//    echo hasEmailCheck($_POST["email"]);
     $_SESSION["userInputData"] = $userInputData;
     $_SESSION["errorData"] = $validate;
-    redirect("../myProfile.php", "id=" . $_SESSION["personData"][ID]);
+
+    redirect("../myProfile.php", "id=" . $currentUser[ID]);
 }
+
 
 
 
