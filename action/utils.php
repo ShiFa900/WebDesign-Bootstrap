@@ -194,36 +194,6 @@ function translateSwitch(string|null $on): bool
     return $on === "on";
 }
 
-function getAgeCategory(array &$persons, string $category): array
-{
-//    mendapatkan orang yang statusnya meninggal
-//mendapatkan umur dari tiap orang
-
-    $categories = [];
-
-    $personCategory = "";
-    for ($i = 0; $i < count($persons); $i++) {
-        $getPersonAge = calculateAge($persons[$i][PERSON_BIRTH_DATE]);
-        if ($category == CATEGORIES_ALL) {
-            return $persons;
-        } elseif ($persons[$i][PERSON_STATUS] == STATUS_PASSED_AWAY) {
-            $personCategory = CATEGORIES_PASSED_AWAY;
-        } elseif ($getPersonAge <= 13) {
-            $personCategory = CATEGORIES_CHILD;
-        } elseif ($getPersonAge <= 45) {
-            $personCategory = CATEGORIES_PRODUCTIVE_AGE;
-        } elseif ($getPersonAge > 50) {
-            $personCategory = CATEGORIES_ELDERLY;
-        }
-        if ($personCategory == $category) {
-            $categories[] = $persons[$i];
-        }
-    }
-
-    return $categories;
-
-}
-
 
 function calculateAge($birth_date_ts): int
 {
@@ -428,20 +398,17 @@ function showPaginatedData(array $array, callable $callback, int $limit = 5)
             break;
         }
         // show data
-        echo PHP_EOL . "== Halaman $page dari " . $paginated[PAGING_TOTAL_PAGE] . " (total: " . count($array) . ") ==";
-        // we let the caller of this function to decide how to display the data
+
         $data = $paginated[PAGING_DATA];
         for ($i = 0; $i < count($data); $i++) {
             $callback($data, $i, $page);
         }
 
-        echo "\n=============================" . PHP_EOL;
-        pressEnterToContinue();
         $page++;
     }
 }
 
-function getPaginatedData(array $array, int $page, int $limit = 5): array
+function getPaginatedData(array $array, int $page, int $limit): array
 {
     $totalPage = ceil((float)count($array) / (float)$limit);
     $indexStart = ($page - 1) * $limit;

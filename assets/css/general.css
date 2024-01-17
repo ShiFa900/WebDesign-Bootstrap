@@ -438,14 +438,12 @@ li ul .nav-link {
 
 /* TABLE */
 
-.table-section {
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.09);
-}
-
 .table {
   height: 100%;
   min-width: 800px;
   --bs-table-color: none;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.09);
+
 }
 
 /* td,
@@ -538,7 +536,7 @@ tr th {
 
 
 /* PAGINATION */
-.pagination {
+.paginated {
   margin-top: 2.4rem;
 }
 

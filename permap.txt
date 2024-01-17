@@ -2,10 +2,8 @@
 =================================
 - saat edit my profile data, password harusnya tidak wajib untuk di edit, jadi ketika user menginput new password
 barulah confirm password required (sblum confirm password baru tidak akan disimpan ke database). -> menggunakan JS
-- paginated
+- paginated, ruet sih ini
 - minor" sih banyaknya, dicoba ya :)
-
-- data di page person ditampilkan berdasarkan filter yang diberikan dan search button, default datanya adalah ALL dengan paginated.
 
 - buat file 'cleaner', daripada menaruh tiap session di file utils, gunakan parameter untuk variablenya
 
@@ -14,7 +12,6 @@ barulah confirm password required (sblum confirm password baru tidak akan disimp
 
 
 - editPerson -> bisakah tamppilan GET dihilangkan??
-- require di tiap page, spertinya bisa dijadikan function saja(?)
 ===================================
 ROLE ADMIN
 - bisa create, edit dan delete
