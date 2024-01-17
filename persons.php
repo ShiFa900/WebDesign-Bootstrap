@@ -3,6 +3,9 @@ require_once __DIR__ . "/action/utils.php";
 require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
 require_once __DIR__ . "/index.php";
+require_once __DIR__ . "/action/action-persons.php";
+
+
 
 $persons = getAll();
 
@@ -17,9 +20,9 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
                     class="content-wrapper page-header d-flex justify-content-between"
             >
                 <div class="left d-flex gap-4">
-                    <h1 class="first-heading d-flex align-items-center">Persons</h1>
+                    <h1 class="first-heading">Persons</h1>
                     <div class="add-person d-flex justify-content-end mb-0">
-                        <a href="addPerson.php" class="nav-link btn-content">
+                        <a href="add-person.php" class="nav-link btn-content">
                             <ion-icon src="../assets/properties/icon/person-add-outline.svg" class="icon"></ion-icon>
                         </a>
                     </div>
@@ -186,113 +189,109 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
 
 
             <?php
-            require_once __DIR__ . "/action/actionPersons.php";
-            if (isset($_GET["keyword"])) {
+            if (isset($_GET["keyword"]) || isset($_GET["category"])) {
                 $result = search(persons: $persons, category: $_GET["category"], keyword: $_GET["keyword"]);
                 if (!is_null($result)) {
                     $persons = $result;
-                } else {
-                    echo $_SESSION["noDataFound"];
                 }
                 ?>
                 <?php
+            }
+            ?>
+            <!-- EXPAND -->
+            <a class="nav-link d-flex justify-content-end" href="#table">
+                <button class="btn">
+                <ion-icon src="/assets/properties/icon/chevron-down-outline.svg"
+                          class="material-symbols-outlined"></ion-icon>
+                </button>
+            </a>
+            <div class="table-section table-responsive  ">
 
-                ?>
-                <!-- EXPAND -->
-                <a class="nav-link d-flex justify-content-end" href="#table">
-                    <ion-icon src="/assets/properties/icon/chevron-down-outline.svg"
-                              class="material-symbols-outlined"></ion-icon>
-                </a>
-                <div class="table-section table-responsive" id="table">
+                <table class="table table-responsive" id="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Full Name</th>
+                        <th scope="col">Age</th>
+                        <th scope="col">sex</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Status</th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
 
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Full Name</th>
-                            <th scope="col">Age</th>
-                            <th scope="col">sex</th>
-                            <th scope="col">Role</th>
-                            <th scope="col">Status</th>
-                            <th scope="col"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
+                    <tr>
+                        <?php
+                        $no = 1;
+                        foreach ($persons
 
-                        <tr>
-                            <?php
-                            $no = 1;
-                            foreach ($persons
-
-                            as $person) {
-                            ?>
-                            <td><?= $no++ ?></td>
-                            <td><?= $person[PERSON_EMAIL] ?></td>
-                            <td><?= $person[PERSON_FIRST_NAME] . " " . $person[PERSON_LAST_NAME] ?></td>
-                            <td><?= calculateAge($person[PERSON_BIRTH_DATE]) ?></td>
-                            <td><?= $person[PERSON_SEX] ?></td>
-                            <td><?= $person[PERSON_ROLE] ?></td>
-                            <?php
-                            $personStatus = translateBooleanToString($person[PERSON_STATUS]);
-                            ?>
-                            <td><?= $personStatus ?>
-                            </td>
+                        as $person) {
+                        ?>
+                        <td><?= $no++ ?></td>
+                        <td><?= $person[PERSON_EMAIL] ?></td>
+                        <td><?= $person[PERSON_FIRST_NAME] . " " . $person[PERSON_LAST_NAME] ?></td>
+                        <td><?= calculateAge($person[PERSON_BIRTH_DATE]) ?></td>
+                        <td><?= $person[PERSON_SEX] ?></td>
+                        <td><?= $person[PERSON_ROLE] ?></td>
+                        <?php
+                        $personStatus = translateBooleanToString($person[PERSON_STATUS]);
+                        ?>
+                        <td><?= $personStatus ?>
+                        </td>
 
 
-                            <td class="d-flex">
-                                <button class="btn" name="btn-view">
-                                    <a
+                        <td class="d-flex">
+                            <button class="btn" name="btn-view">
+                                <a
 
-                                        <?php
-                                        if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
-                                            ?>
-                                            href="viewPerson.php?id=<?php echo $person[ID] ?>"
-                                            <?php
-                                        }
-                                        ?>
-                                            href="myProfile.php"
-                                            class="nav-link table-nav view-btn"
-                                    >View</a
-                                    >
-                                </button>
-
-                                <button class="btn">
                                     <?php
-                                    $userRole = getPerson(email: $_SESSION["userEmail"]);
-                                    if ($userRole[PERSON_ROLE] == ROLE_ADMIN) {
+                                    if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
                                         ?>
-                                        <a
-                                            <?php
-                                            if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
-                                                $_SESSION["personToBeEdit"] = $person[ID];
-                                                ?>
-
-                                                href="editPerson.php?id=<?php echo $person[ID] ?>"
-                                                <?php
-                                            }
-                                            ?>
-                                                href="myProfile.php"
-                                                class="nav-link table-nav edit-btn"
-                                        >Edit</a
-                                        >
+                                        href="view-person.php?id=<?php echo $person[ID] ?>"
                                         <?php
                                     }
                                     ?>
-                                </button>
+                                        href="my-profile.php"
+                                        class="nav-link table-nav view-btn"
+                                >View</a
+                                >
+                            </button>
 
-                            </td>
+                            <button class="btn">
+                                <?php
+                                $userRole = getPerson(email: $_SESSION["userEmail"]);
+                                if ($userRole[PERSON_ROLE] == ROLE_ADMIN) {
+                                    ?>
+                                    <a
+                                        <?php
+                                        if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
+                                            $_SESSION["personToBeEdit"] = $person[ID];
+                                            ?>
 
-                        </tr>
-                        <?php
-                        }
-                        ?>
-                        </tbody>
-                    </table>
-                </div>
-                <?php
-            }
-            ?>
+                                            href="edit-person.php?id=<?php echo $person[ID] ?>"
+                                            <?php
+                                        }
+                                        ?>
+                                            href="my-profile.php"
+                                            class="nav-link table-nav edit-btn"
+                                    >Edit</a
+                                    >
+                                    <?php
+                                }
+                                ?>
+                            </button>
+
+                        </td>
+
+                    </tr>
+                    <?php
+                    }
+                    ?>
+                    </tbody>
+                </table>
+            </div>
 
         </div>
     </div>

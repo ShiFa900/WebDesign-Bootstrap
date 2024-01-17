@@ -9,7 +9,7 @@ checkRoleAdmin($_SESSION["userEmail"]);
 ?>
 
 <?php
-mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "addPerson.php", pageStyles: ["addPerson.css"]);
+mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-person.php", pageStyles: ["add-person.css"]);
 ?>
     <main>
         <section class="add-person-section d-flex position-relative">
@@ -24,7 +24,7 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "addPers
                 </div>
                 <div class="row">
                     <div class="col-xxl-12">
-                        <form class="new-person-form" action="action/actionAddPerson.php" method="post"
+                        <form class="new-person-form" action="action/action-add-person.php" method="post"
                               name="addPerson">
                             <div class="row">
                                 <div class="col-xxl-6 col-xl-6 col-lg-6 new-person-form">

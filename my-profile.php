@@ -6,13 +6,13 @@ require_once __DIR__ . "/index.php";
 
 ?>
 <?php
-mainHeader(cssIdentifier: "page-my-profile", title: "My Profile", link: "myProfile.php", pageStyles: ["myProfile.css"]);
+mainHeader(cssIdentifier: "page-my-profile", title: "My Profile", link: "my-profile.php", pageStyles: ["my-profile.css"]);
 ?>
 
     <main>
         <section class="profile-section d-flex position-relative">
             <?php
-            desktopSidebar("myProfile.php");
+            desktopSidebar("my-profile.php");
             ?>
 
             <div class="w-100">
@@ -21,7 +21,7 @@ mainHeader(cssIdentifier: "page-my-profile", title: "My Profile", link: "myProfi
                         <h1 class="first-heading">My profile</h1>
                     </div>
 
-                    <form class="new-person-form" action="action/actionMyProfile.php" method="post">
+                    <form class="new-person-form" action="action/action-my-profile.php" method="post">
 
                         <div class="row">
 
@@ -297,6 +297,6 @@ mainHeader(cssIdentifier: "page-my-profile", title: "My Profile", link: "myProfi
 
     <!-- sidebar -->
 <?php
-mainFooter("myProfile.php");
+mainFooter("my-profile.php");
 unset($_SESSION["userInputData"]);
 unset($_SESSION["errorData"]);

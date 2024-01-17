@@ -103,7 +103,7 @@ function savePerson(array $person, string $location): void
 
     } else {
 //        EDIT MODE
-        for ($i = 0; $i < count($persons); $i++) {  
+        for ($i = 0; $i < count($persons); $i++) {
             if ($person[ID] == $persons[$i][ID]) {
 
                 $persons[$i] = [
@@ -394,3 +394,67 @@ function getValidCurrentPassword(string $password, array $persons): int
     }
     return -1;
 }
+
+
+// PAGINATION (nnti dipindahkan)
+/**
+ * Helper to show paginated data of the given array with specified limit (or how many data per page).
+ * Data rendering per each row (loop) of paginated array should be done by the callable $callback function.
+ * For example:
+ *
+ * ```
+ * $displayingDataCallback = function ($data, $currentIndex, $currentPage) {
+ *     $currentData = $data[$currentIndex];
+ *     // then do something with $currentData ..
+ * }
+ * ```
+ *
+ * The $callback function will be provided with 3 callback parameters
+ * - $data as the paginated data based on the current page
+ * - $currentIndex as the current row index that will be shown on the loop
+ * - $currentPage current page of the loop
+ */
+function showPaginatedData(array $array, callable $callback, int $limit = 5)
+{
+    // apa bedanya ini $callback($array, $i) dengan call_user_func($callback, $array, $i)
+    $page = 1;
+    while (true) {
+        $paginated = getPaginatedData(
+            array: $array,
+            page: $page,
+            limit: $limit
+        );
+        if ($paginated[PAGING_TOTAL_PAGE] < $page) {
+            break;
+        }
+        // show data
+        echo PHP_EOL . "== Halaman $page dari " . $paginated[PAGING_TOTAL_PAGE] . " (total: " . count($array) . ") ==";
+        // we let the caller of this function to decide how to display the data
+        $data = $paginated[PAGING_DATA];
+        for ($i = 0; $i < count($data); $i++) {
+            $callback($data, $i, $page);
+        }
+
+        echo "\n=============================" . PHP_EOL;
+        pressEnterToContinue();
+        $page++;
+    }
+}
+
+function getPaginatedData(array $array, int $page, int $limit = 5): array
+{
+    $totalPage = ceil((float)count($array) / (float)$limit);
+    $indexStart = ($page - 1) * $limit;
+    $length = $limit;
+    if (($indexStart + $limit) > count($array)) {
+        $length = count($array) - $indexStart;
+    }
+
+    return [
+        PAGING_TOTAL_PAGE => $totalPage,
+        PAGING_DATA => array_slice($array, $indexStart, $length),
+        PAGING_CURRENT_PAGE => $page,
+    ];
+}
+
+

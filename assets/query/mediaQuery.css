@@ -49,4 +49,14 @@
   .page-dashboard .dashboard-card {
     width: 100%;
   }
+  .page-persons .form-select-sm{
+    width: 100%;
+  }
+
+  .page-persons .first-heading{
+    display: none !important;
+  }
+
+
 }
+

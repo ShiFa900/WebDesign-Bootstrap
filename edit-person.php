@@ -9,7 +9,7 @@ checkRoleAdmin($_SESSION["userEmail"]);
 ?>
 
 <?php
-mainHeader(cssIdentifier: "page-edit-person", title: "Edit Person", link: "editPerson.php", pageStyles: ["editPerson.css"]);
+mainHeader(cssIdentifier: "page-edit-person", title: "Edit Person", link: "edit-person.php", pageStyles: ["editPerson.css"]);
 ?>
 
     <main>
@@ -31,7 +31,7 @@ mainHeader(cssIdentifier: "page-edit-person", title: "Edit Person", link: "editP
                             $person = getPerson(id: $_GET[ID]);
                             $_SESSION["personData"] = $person;
                             ?>
-                            <form class="new-person-form" action="action/actionEditPerson.php" method="post"
+                            <form class="new-person-form" action="action/action-edit-person.php" method="post"
                                   name="editPerson">
                                 <div class="row">
                                     <div class="col-xxl-6 col-xl-6 col-lg-6 me-4">

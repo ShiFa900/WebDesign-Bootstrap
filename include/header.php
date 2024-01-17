@@ -161,7 +161,7 @@ function mainHeader(string $cssIdentifier, string $title, string $link, array|nu
 
                 <ul class="dropdown-menu">
                     <li>
-                        <a class="dropdown-item" href="../myProfile.php"
+                        <a class="dropdown-item" href="../my-profile.php"
                         >
                             <ion-icon
                                     src="../assets/properties/icon/person-outline.svg"

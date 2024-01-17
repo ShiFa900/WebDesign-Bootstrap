@@ -8,73 +8,73 @@
     <link
       rel="apple-touch-icon"
       sizes="57x57"
-      href="assets/properties/favicon/apple-icon-57x57.png"
+      href="../assets/properties/favicon/apple-icon-57x57.png"
     />
     <link
       rel="apple-touch-icon"
       sizes="60x60"
-      href="assets/properties/favicon/apple-icon-60x60.png"
+      href="../assets/properties/favicon/apple-icon-60x60.png"
     />
     <link
       rel="apple-touch-icon"
       sizes="72x72"
-      href="assets/properties/favicon/apple-icon-72x72.png"
+      href="../assets/properties/favicon/apple-icon-72x72.png"
     />
     <link
       rel="apple-touch-icon"
       sizes="76x76"
-      href="assets/properties/favicon/apple-icon-76x76.png"
+      href="../assets/properties/favicon/apple-icon-76x76.png"
     />
     <link
       rel="apple-touch-icon"
       sizes="114x114"
-      href="assets/properties/favicon/apple-icon-114x114.png"
+      href="../assets/properties/favicon/apple-icon-114x114.png"
     />
     <link
       rel="apple-touch-icon"
       sizes="120x120"
-      href="assets/properties/favicon/apple-icon-120x120.png"
+      href="../assets/properties/favicon/apple-icon-120x120.png"
     />
     <link
       rel="apple-touch-icon"
       sizes="144x144"
-      href="assets/properties/favicon/apple-icon-144x144.png"
+      href="../assets/properties/favicon/apple-icon-144x144.png"
     />
     <link
       rel="apple-touch-icon"
       sizes="152x152"
-      href="assets/properties/favicon/apple-icon-152x152.png"
+      href="../assets/properties/favicon/apple-icon-152x152.png"
     />
     <link
       rel="apple-touch-icon"
       sizes="180x180"
-      href="assets/properties/favicon/apple-icon-180x180.png"
+      href="../assets/properties/favicon/apple-icon-180x180.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="192x192"
-      href="assets/properties/favicon/android-icon-192x192.png"
+      href="../assets/properties/favicon/android-icon-192x192.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="assets/properties/favicon/favicon-32x32.png"
+      href="../assets/properties/favicon/favicon-32x32.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="96x96"
-      href="assets/properties/favicon/favicon-96x96.png"
+      href="../assets/properties/favicon/favicon-96x96.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="assets/properties/favicon/favicon-16x16.png"
+      href="../assets/properties/favicon/favicon-16x16.png"
     />
-    <link rel="manifest" href="assets/properties/favicon/manifest.json" />
+    <link rel="manifest" href="../assets/properties/favicon/manifest.json" />
     <meta name="msapplication-TileColor" content="#ffffff" />
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
     <meta name="theme-color" content="#ffffff" />
@@ -111,20 +111,20 @@
     />
 
     <!-- link styling -->
-    <link rel="stylesheet" href="assets/css/general.css" />
-    <link rel="stylesheet" href="assets/css/persons.css" />
-    <link rel="stylesheet" href="assets/css/addPerson.css" />
+    <link rel="stylesheet" href="../assets/css/general.css" />
+    <link rel="stylesheet" href="../assets/css/persons.css" />
+    <link rel="stylesheet" href="../assets/css/view-person.css" />
 
-    <link rel="stylesheet" href="assets/query/mediaQuery.css" />
+    <link rel="stylesheet" href="../assets/query/mediaQuery.css" />
 
-    <title>PerMap &mdash; Add new person</title>
+    <title>PerMap &mdash; View person</title>
   </head>
   <body>
     <header
       class="header sticky-top d-flex align-items-center justify-content-between"
     >
-      <a href="#" id="logo">
-        <img src="assets/properties/pma-border.png" alt="PerMap logo" class="logo" />
+      <a href="#">
+        <img src="../assets/properties/pma-border.png" alt="PerMap logo" class="logo" />
       </a>
 
       <div class="head-wrapper d-flex align-items-center gap-3">
@@ -149,7 +149,7 @@
             >
               <div class="avatar">
                 <img
-                  src="assets/properties/image.png"
+                  src="../assets/properties/image.png"
                   class="avatar-md avatar-img"
                   alt="User profile"
                 />
@@ -192,7 +192,7 @@
     </header>
 
     <main>
-      <section class="add-person-section d-flex position-relative">
+      <section class="view-section d-flex position-relative">
         <div class="sidebar d-none d-lg-block">
           <nav class="header-nav d-flex flex-column justify-content-between">
             <ul>
@@ -259,34 +259,34 @@
         </div>
 
         <div class="w-100">
-          <div class="add-person-content position-absolute px-5">
+          <div class="view-person-content position-absolute px-5">
             <div class="page-header">
-              <h1 class="first-heading">Add person</h1>
+              <h1 class="first-heading">View person</h1>
             </div>
+
             <div class="row">
               <div class="col-xxl-12">
                 <form class="new-person-form" action="#">
                   <div class="row">
-                    <div class="col-xxl-6 col-xl-6 col-lg-6 new-person-form">
+                    <div class="col-xxl-8 col-xl-8 col-lg-10 col-12">
                       <div class="mb-3 form-input">
                         <label for="f-name" class="form-label required"
                           >First name</label
                         >
+
                         <input
                           id="f-name"
                           type="text"
-                          placeholder="First name"
-                          required
+                          value="Rui"
                           class="form-control"
                         />
                       </div>
                       <div class="mb-3 form-input">
                         <label for="l-name" class="form-label">Last name</label>
-
                         <input
                           id="l-name"
                           type="text"
-                          placeholder="Last name"
+                          value="Ayaki"
                           class="form-control"
                         />
                       </div>
@@ -295,11 +295,9 @@
                         <input
                           id="nik"
                           type="text"
-                          placeholder="NIK"
-                          required
+                          value="0051893241002134"
                           class="form-control"
                         />
-                        <span><em>NIK must be at least 16 characters</em></span>
                       </div>
                       <div class="mb-3 form-input">
                         <label for="staticEmail" class="form-label required"
@@ -308,8 +306,7 @@
                         <input
                           id="staticEmail"
                           type="email"
-                          placeholder="Email"
-                          required
+                          value="Ayayaki@gmail.com"
                           class="form-control"
                         />
                       </div>
@@ -321,29 +318,29 @@
                         <input
                           id="datePicker"
                           type="date"
-                          placeholder="Date of birth"
-                          required
                           class="form-control"
+                          value="2001-05-25"
                         />
                       </div>
 
                       <div class="mb-3 form-input">
-                        <label class="form-label required" for="sex-dropdown"
+                        <label for="sex-dropdown" class="form-label required"
                           >Sex</label
                         >
                         <select
-                          class="form-select form-control"
                           id="sex-dropdown"
+                          class="form-select form-control"
                           required
                           aria-label="Small select example"
                         >
-                          <option value="1">Male</option>
-                          <option value="2">Female</option>
-                          <option value="3">Better not say</option>
+                          <option selected>Male</option>
+                          <option value="1">Female</option>
+                          <option value="2">Better not say</option>
                         </select>
                       </div>
 
-                      <div class="form-input mt-0">
+                      <!-- SWITCH BUTTON -->
+                      <!-- <div class="mb-3 form-input">
                         <div
                           class="form-check form-switch d-flex align-items-center column-gap-3"
                         >
@@ -351,8 +348,8 @@
                             class="form-check-input"
                             type="checkbox"
                             role="switch"
-                            required
                             id="flexSwitchCheckDefault"
+                            style="width: 4rem; height: 2.4rem"
                           />
                           <label
                             class="form-check-label"
@@ -360,10 +357,8 @@
                             >This person is alive</label
                           >
                         </div>
-                      </div>
-                    </div>
+                      </div> -->
 
-                    <div class="col-xxl-5 col-xl-6 col-lg-6 new-person-form">
                       <div class="mb-3 form-input">
                         <label for="note" class="form-label"
                           >Internal notes</label
@@ -373,34 +368,85 @@
                         </div>
                       </div>
 
-                      <div class="mb-3 form-input">
-                        <label class="form-label" for="role-dropdown"
-                          >Role</label
-                        >
-                        <select
-                          id="role-dropdown"
-                          class="form-select form-control"
-                          aria-label="Small select example"
-                        >
-                          <option selected>Admin</option>
-                          <option value="1">Member</option>
-                        </select>
-                      </div>
+                      <!-- ROLE -->
+                      <!-- <div class="mb-3 form-input">
+                      <label for="role-dropdown" class="form-label required">Role</label>
+                      <select
+                        class="form-select form-select-sm form-control"
+                        aria-label="Small select example"
+                      >
+                        <option selected>Admin</option>
+                        <option value="1">Member</option>
+                      </select>
+                     -->
                     </div>
                   </div>
 
-                  <div class="btn-container d-flex column-gap-5">
-                    <input
-                      class="btn btn-primary btn--form"
-                      type="submit"
-                      value="Save"
-                    />
+                  <div class="row">
+                    <div class="col-xxl-8 col-xl-8 col-lg-10 col-12">
+                      <div
+                        class="btn-container d-flex column-gap-5 justify-content-between"
+                      >
+                        <!-- Button trigger modal -->
+                        <input
+                          type="button"
+                          class="btn btn-primary btn--form delete-btn"
+                          data-bs-toggle="modal"
+                          data-bs-target="#exampleModal"
+                          value="Delete"
+                        />
 
-                    <input
-                      class="btn btn-primary btn--form has-border"
-                      type="submit"
-                      value="Cancel"
-                    />
+                        <!-- Modal -->
+                        <div
+                          class="modal fade"
+                          id="exampleModal"
+                          tabindex="-1"
+                          aria-labelledby="exampleModalLabel"
+                          aria-hidden="true"
+                        >
+                          <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h1 class="modal-title" id="exampleModalLabel">
+                                  Are you sure want to delete this person?
+                                </h1>
+                                <button
+                                  type="button"
+                                  class="btn-close"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
+                                ></button>
+                              </div>
+                              <div class="modal-footer">
+                                <button
+                                  type="button"
+                                  class="btn btn-secondary btn-block"
+                                  data-bs-dismiss="modal"
+                                >
+                                  No
+                                </button>
+                                <button type="button" class="btn btn-primary">
+                                  Yes
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="btn-wrapper d-flex column-gap-3">
+                          <input
+                            class="btn btn-primary btn--form has-border"
+                            type="submit"
+                            value="Back"
+                          />
+
+                          <input
+                            class="btn btn-primary btn--form"
+                            type="submit"
+                            value="Save"
+                          />
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </form>
               </div>
@@ -427,7 +473,7 @@
           >
             <a href="#" id="logo">
               <img
-                src="assets/properties/pma-color.png"
+                src="../assets/properties/pma-color.png"
                 alt="PerMap logo"
                 class="logo"
               />

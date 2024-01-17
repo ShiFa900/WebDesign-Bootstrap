@@ -7,6 +7,10 @@ const ROLE_MEMBER = "Member";
 const STATUS_ALIVE = true;
 const STATUS_PASSED_AWAY = false;
 const PASSWORD = "password";
+const PAGING_TOTAL_PAGE = "PAGING_TOTAL_PAGE";
+const PAGING_DATA = "PAGING_DATA";
+const PAGING_CURRENT_PAGE = "PAGING_CURRENT_PAGE";
+const PAGE_LIMIT = 10;
 
 
 // Const for person personal data

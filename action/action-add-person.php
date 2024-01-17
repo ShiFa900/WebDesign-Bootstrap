@@ -48,8 +48,8 @@ if (count($validate) == 0) {
 //    echo hasEmailCheck($_POST["email"]);
     $_SESSION["inputData"] = $userInputData;
     $_SESSION["errorData"] = $validate;
-    redirect("../addPerson.php", "");
+    redirect("../add-person.php", "");
 }
 
 //buat sebuah variable array yang akan menyimpan semua data-data yang error ketika mengambil input
-//kemudian, cek variable tersebut di file actionAddPerson.php untuk menampilkan pesan error (jika terdapat)
+//kemudian, cek variable tersebut di file action-add-person.php untuk menampilkan pesan error (jika terdapat)

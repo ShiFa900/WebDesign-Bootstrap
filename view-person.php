@@ -5,7 +5,7 @@ require_once __DIR__ . "/index.php";
 
 ?>
 <?php
-mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "viewPerson.php", pageStyles: ["viewPerson.css"]);
+mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-person.php", pageStyles: ["view-person.css"]);
 ?>
 
     <main>
@@ -22,7 +22,7 @@ mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "viewP
 
                     <div class="row">
                         <div class="col-xxl-12">
-                            <form class="new-person-form" action="action/actionViewPerson.php" method="post">
+                            <form class="new-person-form" action="action/action-view-person.php" method="post">
                                 <?php
                                 $person = getPerson($_GET[ID]);
                                 $_SESSION["personId"] = $person[ID];
@@ -178,7 +178,7 @@ mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "viewP
                                                                 </button>
                                                                 <button type="button" class="btn btn-primary"
                                                                         name="btnDelete">
-                                                                    <a href="action/actionDeletePerson.php"
+                                                                    <a href="action/action-delete-person.php"
                                                                        class="btn">Yes</a>
                                                                 </button>
                                                             </div>

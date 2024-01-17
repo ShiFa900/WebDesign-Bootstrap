@@ -1,0 +1,27 @@
+
+=================================
+- saat edit my profile data, password harusnya tidak wajib untuk di edit, jadi ketika user menginput new password
+barulah confirm password required (sblum confirm password baru tidak akan disimpan ke database). -> menggunakan JS
+- paginated
+- minor" sih banyaknya, dicoba ya :)
+
+- data di page person ditampilkan berdasarkan filter yang diberikan dan search button, default datanya adalah ALL dengan paginated.
+
+- buat file 'cleaner', daripada menaruh tiap session di file utils, gunakan parameter untuk variablenya
+
+- pisahkan setiap function sesuai dengan kegunaannya di pagenya masing-masing
+
+
+
+- editPerson -> bisakah tamppilan GET dihilangkan??
+- require di tiap page, spertinya bisa dijadikan function saja(?)
+===================================
+ROLE ADMIN
+- bisa create, edit dan delete
+- spesifik untuk edit, menu untuk edit password user tidak diberikan
+
+ROLE MEMBER
+- tidak bisa melakukan create, edit dan delete person data
+- role admin hanya bisa view person data
+- saat edit profile, user dengan role member diberikan akses untuk mengedit data personal dan passwordnya
+- di page person, menu untuk edit person data yang lain tidak ditampilkan

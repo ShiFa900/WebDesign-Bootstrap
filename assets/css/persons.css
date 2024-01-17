@@ -24,4 +24,8 @@
   row-gap: 1rem;
 }
 
+.page-persons .first-heading{
+  display: flex;
+  align-items: center;
+}
 

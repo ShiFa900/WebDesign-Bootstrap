@@ -67,7 +67,7 @@
                             </h2>
                         </div>
 
-                        <form class="login-form" action="action/actionLogin.php" method="post" name="login-form">
+                        <form class="login-form" action="action/action-login.php" method="post" name="login-form">
                             <div class="mb-3 row">
                                 <label for="staticEmail" class="form-label">Email</label>
                                 <div class="col-sm-12">

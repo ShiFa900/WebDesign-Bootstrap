@@ -55,7 +55,7 @@ if (count($validate) == 0) {
 //    echo hasEmailCheck($_POST["email"]);
     $_SESSION["userInputData"] = $userInputData;
     $_SESSION["errorData"] = $validate;
-    redirect("../editPerson.php", "id=" . $currentUser[ID]);
+    redirect("../edit-person.php", "id=" . $currentUser[ID]);
 }
 
 

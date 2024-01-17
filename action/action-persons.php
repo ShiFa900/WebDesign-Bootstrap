@@ -4,9 +4,9 @@ require_once __DIR__ . "/utils.php";
 //hasil pencarian dapat semua data yang memiliki kriteria dari pencarian atau difilter lagi
 
 global $persons;
-//if(isset($_GET["reset"])){
-//    redirect("../persons.php", "");
-//}
+if(isset($_GET["reset"])){
+    redirect("../persons.php", "");
+}
 function search(array $persons, string $category, string|null $keyword = null): array
 {
 //    mencari kategori dari person
@@ -45,5 +45,7 @@ function search(array $persons, string $category, string|null $keyword = null): 
     $_SESSION["noDataFound"] = "Sorry, we couldn't find what you looking for.";
     return [];
 }
+
+
 
 

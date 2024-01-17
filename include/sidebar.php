@@ -31,8 +31,8 @@ function desktopSidebar($activeMenu)
                 <li class="nav-title fourth-heading">My account</li>
                 <li>
                     <ul>
-                        <li class="nav-item <?php if ($activeMenu === 'myProfile.php') echo 'active'; ?>">
-                            <a href="../myProfile.php" class="nav-link active">
+                        <li class="nav-item <?php if ($activeMenu === 'my-profile.php') echo 'active'; ?>">
+                            <a href="../my-profile.php" class="nav-link active">
                                 <ion-icon
                                         src="../assets/properties/icon/create-outline.svg"
                                         class="icon color"
@@ -42,7 +42,7 @@ function desktopSidebar($activeMenu)
                         </li>
                         <li class="nav-item">
                             <div class="wrapper">
-                                <a href="../action/actionLogout.php" class="nav-link active">
+                                <a href="../action/action-logout.php" class="nav-link active">
                                     <ion-icon
                                             src="../assets/properties/icon/log-out-outline.svg"
                                             class="icon color"
@@ -108,13 +108,13 @@ function mobileSidebar($activeMenu)
                         <li>
                             <ul>
                                 <li class="nav-item">
-                                    <a href="../myProfile.php" class="nav-link">
+                                    <a href="../my-profile.php" class="nav-link">
                                         <ion-icon src="../assets/properties/icon/create-outline.svg" class="icon color"></ion-icon>
                                         Edit profile
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="../action/actionLogout.php" class="nav-link">
+                                    <a href="../action/action-logout.php" class="nav-link">
                                         <ion-icon src="../assets/properties/icon/log-out-outline.svg" class="icon color"></ion-icon>
                                         Log out
                                     </a>
