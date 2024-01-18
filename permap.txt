@@ -8,7 +8,8 @@ barulah confirm password required (sblum confirm password baru tidak akan disimp
 - buat file 'cleaner', daripada menaruh tiap session di file utils, gunakan parameter untuk variablenya
 
 - pisahkan setiap function sesuai dengan kegunaannya di pagenya masing-masing
-
+- function search pan page
+- cek error"
 
 
 - editPerson -> bisakah tamppilan GET dihilangkan??

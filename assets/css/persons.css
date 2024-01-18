@@ -29,3 +29,31 @@
   align-items: center;
 }
 
+.page-persons .no-data-img{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  opacity: 65%;
+}
+
+.page-persons .table-container{
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.09);
+
+}
+
+.page-persons .btn-reset:hover,
+.page-persons .btn-reset:active{
+  color: #015d98;
+}
+
+.page-persons table tr td{
+  line-height: 1.5rem;
+}
+
+.page-persons .material-symbols-outlined {
+  font-size: 2.4rem;
+}
+
+.page-persons .pagination-btn{
+  margin: 1rem;
+}

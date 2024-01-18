@@ -19,7 +19,7 @@ function desktopSidebar($activeMenu)
                 </li>
 
                 <li class="nav-item <?php if ($activeMenu === 'persons.php') echo 'active'; ?>">
-                    <a href="../persons.php" class="nav-link">
+                    <a href="../persons.php?page=1" class="nav-link">
                         <ion-icon
                                 src="../assets/properties/icon/people-outline.svg"
                                 class="icon color"
@@ -99,7 +99,7 @@ function mobileSidebar($activeMenu)
                         </li>
 
                         <li class="nav-item <?php if ($activeMenu === 'persons.php') echo 'active'; ?>">
-                            <a href="../persons.php" class="nav-link">
+                            <a href="../persons.php?page=1" class="nav-link">
                                 <ion-icon src="../assets/properties/icon/people-outline.svg" class="icon color"></ion-icon>
                                 Persons
                             </a>

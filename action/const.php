@@ -10,7 +10,7 @@ const PASSWORD = "password";
 const PAGING_TOTAL_PAGE = "PAGING_TOTAL_PAGE";
 const PAGING_DATA = "PAGING_DATA";
 const PAGING_CURRENT_PAGE = "PAGING_CURRENT_PAGE";
-const PAGE_LIMIT = 10;
+const PAGE_LIMIT = 8;
 
 
 // Const for person personal data

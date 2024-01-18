@@ -14,6 +14,7 @@ if (isset($_POST['login'])) {
     if ($userExist != null) {
 
         $_SESSION['userEmail'] = $_POST['email'];
+        $_SESSION['startTime'] = time();
         if(checkPersonStatus($_SESSION["userEmail"])) {
             header("Location: ../dashboard.php");
             exit();

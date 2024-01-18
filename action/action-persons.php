@@ -41,7 +41,6 @@ function search(array $persons, string $category, string|null $keyword = null): 
     } else {
         return getAgeCategory($persons, $category);
     }
-    $_SESSION["noDataFound"] = "Sorry, we couldn't find what you looking for.";
     return [];
 }
 
@@ -61,7 +60,7 @@ function getAgeCategory(array &$persons, string $category): array
     } elseif ($category == CATEGORIES_ELDERLY){
         $personCategory = getElderlyCategory($persons);
     } elseif ($category == CATEGORIES_PRODUCTIVE_AGE){
-        $personCategory = getProductiveCatagory($persons);
+        $personCategory = getProductiveCategory($persons);
     }
 
     if($category == CATEGORIES_PASSED_AWAY) {
@@ -87,7 +86,7 @@ function getChildCategory(array $persons): array
     return $childCategory;
 }
 
-function getProductiveCatagory(array $persons): array
+function getProductiveCategory(array $persons): array
 {
     $productiveCategory = [];
     for($i = 0; $i < count($persons); $i++){

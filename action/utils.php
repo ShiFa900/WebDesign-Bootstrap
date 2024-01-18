@@ -22,6 +22,10 @@ function redirectIfNotAuthenticated(): void
         header("Location: login.php");
         exit(); // Terminate script execution after the redirect
     }
+//    elseif($_SESSION["startTime"] > (60 *30)){
+//        unset($_SESSION["userEmail"]);
+//        unset($_SESSION["startTime"]);
+//    }
 }
 
 function checkRoleAdmin(string $userEmail): bool
@@ -366,62 +370,5 @@ function getValidCurrentPassword(string $password, array $persons): int
 }
 
 
-// PAGINATION (nnti dipindahkan)
-/**
- * Helper to show paginated data of the given array with specified limit (or how many data per page).
- * Data rendering per each row (loop) of paginated array should be done by the callable $callback function.
- * For example:
- *
- * ```
- * $displayingDataCallback = function ($data, $currentIndex, $currentPage) {
- *     $currentData = $data[$currentIndex];
- *     // then do something with $currentData ..
- * }
- * ```
- *
- * The $callback function will be provided with 3 callback parameters
- * - $data as the paginated data based on the current page
- * - $currentIndex as the current row index that will be shown on the loop
- * - $currentPage current page of the loop
- */
-function showPaginatedData(array $array, callable $callback, int $limit = 5)
-{
-    // apa bedanya ini $callback($array, $i) dengan call_user_func($callback, $array, $i)
-    $page = 1;
-    while (true) {
-        $paginated = getPaginatedData(
-            array: $array,
-            page: $page,
-            limit: $limit
-        );
-        if ($paginated[PAGING_TOTAL_PAGE] < $page) {
-            break;
-        }
-        // show data
-
-        $data = $paginated[PAGING_DATA];
-        for ($i = 0; $i < count($data); $i++) {
-            $callback($data, $i, $page);
-        }
-
-        $page++;
-    }
-}
-
-function getPaginatedData(array $array, int $page, int $limit): array
-{
-    $totalPage = ceil((float)count($array) / (float)$limit);
-    $indexStart = ($page - 1) * $limit;
-    $length = $limit;
-    if (($indexStart + $limit) > count($array)) {
-        $length = count($array) - $indexStart;
-    }
-
-    return [
-        PAGING_TOTAL_PAGE => $totalPage,
-        PAGING_DATA => array_slice($array, $indexStart, $length),
-        PAGING_CURRENT_PAGE => $page,
-    ];
-}
 
 

@@ -4,6 +4,7 @@ require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
 require_once __DIR__ . "/index.php";
 require_once __DIR__ . "/action/action-persons.php";
+require_once __DIR__ . "/action/pagination.php";
 
 //$persons = getAll();
 
@@ -37,74 +38,88 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
                         action="#table"
                         method="get"
                 >
-                    <!-- menggunakan select -->
-                    <select
-                            id="form-select-catagories"
-                            class="form-select form-select-lg form-select-sm mb-1"
-                            aria-label="Large select example"
-                            name="category"
-
-                    >
+                    <div class="wrapper d-flex">
+                        <!--btn ini hanya tampil saat filter atau keyword pencarian ada-->
                         <?php
-                        if (isset($_GET["category"])) {
+                        if (isset($_GET["keyword"]) || isset($_GET["category"])) {
                             ?>
-                        <option selected name="category"
-                                value="<?= $_GET["category"] == null ? CATEGORIES_ALL : $_GET["category"] ?>"> <?= $_GET["category"] == null ? CATEGORIES_ALL : $_GET["category"] ?>
-                            <?php
-                            if ($_GET["category"] == CATEGORIES_ALL) {
-                                ?>
-                                <option value="<?= CATEGORIES_PRODUCTIVE_AGE ?>">Productive ages</option>
-                                <option value="<?= CATEGORIES_CHILD ?>">Children</option>
-                                <option value="<?= CATEGORIES_ELDERLY ?>">Elderly</option>
-                                <option value="<?= CATEGORIES_PASSED_AWAY ?>">Passed away</option>
-                                <?php
-                            }
-                            ?>
-                            <!--conditinal untuk menampilkan sisa kategori-->
-                            <?php
-                            if ($_GET["category"] == CATEGORIES_PRODUCTIVE_AGE) {
-                                ?>
-                                <option value="<?= CATEGORIES_CHILD ?>">Children</option>
-                                <option value="<?= CATEGORIES_ELDERLY ?>">Elderly</option>
-                                <option value="<?= CATEGORIES_PASSED_AWAY ?>">Passed away</option>
-                                <option value="<?= CATEGORIES_ALL ?>">All</option>
-                                <?php
-                            } elseif ($_GET["category"] == CATEGORIES_CHILD) {
-                                ?>
-                                <option value="<?= CATEGORIES_ELDERLY ?>">Elderly</option>
-                                <option value="<?= CATEGORIES_PASSED_AWAY ?>">Passed away</option>
-                                <option value="<?= CATEGORIES_ALL ?>">All</option>
-                                <option value="<?= CATEGORIES_PRODUCTIVE_AGE ?>">Productive ages</option>
-                                <?php
-                            } elseif ($_GET["category"] == CATEGORIES_ELDERLY) {
-                                ?>
-                                <option value="<?= CATEGORIES_PASSED_AWAY ?>">Passed away</option>
-                                <option value="<?= CATEGORIES_ALL ?>">All</option>
-                                <option value="<?= CATEGORIES_PRODUCTIVE_AGE ?>">Productive ages</option>
-                                <option value="<?= CATEGORIES_CHILD ?>">Children</option>
-
-                                <?php
-                            } elseif ($_GET["category"] == CATEGORIES_PASSED_AWAY) {
-                                ?>
-                                <option value="<?= CATEGORIES_ALL ?>">All</option>
-                                <option value="<?= CATEGORIES_PRODUCTIVE_AGE ?>">Productive ages</option>
-                                <option value="<?= CATEGORIES_CHILD ?>">Children</option>
-                                <option value="<?= CATEGORIES_ELDERLY ?>">Elderly</option>
-                                <?php
-                            }
-                            ?>
-                            <?php
-                        } else {
-                            ?>
-                            <option value="<?= CATEGORIES_ALL ?>">All</option>
-                            <option value="<?= CATEGORIES_PRODUCTIVE_AGE ?>">Productive ages</option>
-                            <option value="<?= CATEGORIES_CHILD ?>">Children</option>
-                            <option value="<?= CATEGORIES_ELDERLY ?>">Elderly</option>
-                            <option value="<?= CATEGORIES_PASSED_AWAY ?>">Passed away</option>
+                            <button class="btn btn-reset" name="reset">
+                                <ion-icon src="../assets/properties/icon/refresh-outline.svg"
+                                          class="icon"></ion-icon>
+                            </button>
                             <?php
                         }
                         ?>
-                    </select>
+
+                        <!-- menggunakan select -->
+                        <select
+                                id="form-select-catagories"
+                                class="form-select form-select-lg form-select-sm mb-1"
+                                aria-label="Large select example"
+                                name="category"
+
+                        >
+                            <?php
+                            if (isset($_GET["category"])) {
+                                ?>
+                            <option selected name="category"
+                                    value="<?= $_GET["category"] == null ? CATEGORIES_ALL : $_GET["category"] ?>"> <?= $_GET["category"] == null ? CATEGORIES_ALL : $_GET["category"] ?>
+                                <?php
+                                if ($_GET["category"] == CATEGORIES_ALL) {
+                                    ?>
+                                    <option value="<?= CATEGORIES_PRODUCTIVE_AGE ?>">Productive ages</option>
+                                    <option value="<?= CATEGORIES_CHILD ?>">Children</option>
+                                    <option value="<?= CATEGORIES_ELDERLY ?>">Elderly</option>
+                                    <option value="<?= CATEGORIES_PASSED_AWAY ?>">Passed away</option>
+                                    <?php
+                                }
+                                ?>
+                                <!--conditinal untuk menampilkan sisa kategori-->
+                                <?php
+                                if ($_GET["category"] == CATEGORIES_PRODUCTIVE_AGE) {
+                                    ?>
+                                    <option value="<?= CATEGORIES_CHILD ?>">Children</option>
+                                    <option value="<?= CATEGORIES_ELDERLY ?>">Elderly</option>
+                                    <option value="<?= CATEGORIES_PASSED_AWAY ?>">Passed away</option>
+                                    <option value="<?= CATEGORIES_ALL ?>">All</option>
+                                    <?php
+                                } elseif ($_GET["category"] == CATEGORIES_CHILD) {
+                                    ?>
+                                    <option value="<?= CATEGORIES_ELDERLY ?>">Elderly</option>
+                                    <option value="<?= CATEGORIES_PASSED_AWAY ?>">Passed away</option>
+                                    <option value="<?= CATEGORIES_ALL ?>">All</option>
+                                    <option value="<?= CATEGORIES_PRODUCTIVE_AGE ?>">Productive ages</option>
+                                    <?php
+                                } elseif ($_GET["category"] == CATEGORIES_ELDERLY) {
+                                    ?>
+                                    <option value="<?= CATEGORIES_PASSED_AWAY ?>">Passed away</option>
+                                    <option value="<?= CATEGORIES_ALL ?>">All</option>
+                                    <option value="<?= CATEGORIES_PRODUCTIVE_AGE ?>">Productive ages</option>
+                                    <option value="<?= CATEGORIES_CHILD ?>">Children</option>
+
+                                    <?php
+                                } elseif ($_GET["category"] == CATEGORIES_PASSED_AWAY) {
+                                    ?>
+                                    <option value="<?= CATEGORIES_ALL ?>">All</option>
+                                    <option value="<?= CATEGORIES_PRODUCTIVE_AGE ?>">Productive ages</option>
+                                    <option value="<?= CATEGORIES_CHILD ?>">Children</option>
+                                    <option value="<?= CATEGORIES_ELDERLY ?>">Elderly</option>
+                                    <?php
+                                }
+                                ?>
+                                <?php
+                            } else {
+                                ?>
+                                <option value="<?= CATEGORIES_ALL ?>">All</option>
+                                <option value="<?= CATEGORIES_PRODUCTIVE_AGE ?>">Productive ages</option>
+                                <option value="<?= CATEGORIES_CHILD ?>">Children</option>
+                                <option value="<?= CATEGORIES_ELDERLY ?>">Elderly</option>
+                                <option value="<?= CATEGORIES_PASSED_AWAY ?>">Passed away</option>
+                                <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
 
                     <div class="wrapper d-flex">
                         <div class="form-search w-100 me-1">
@@ -126,17 +141,6 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
                             <ion-icon src="../assets/properties/icon/search-outline.svg" class="icon"></ion-icon>
                         </button>
 
-                        <!--btn ini hanya tampil saat filter atau keyword pencarian ada-->
-                        <?php
-                        if (isset($_GET["keyword"]) || isset($_GET["category"])) {
-                            ?>
-                            <button class="btn" name="reset">
-                                <ion-icon src="../assets/properties/icon/refresh-outline.svg"
-                                          class="icon"></ion-icon>
-                            </button>
-                            <?php
-                        }
-                        ?>
                     </div>
                 </form>
             </div>
@@ -197,124 +201,171 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
             <?php
         }
         ?>
-        <!-- EXPAND -->
 
         <?php
         if ($persons == null) {
             ?>
-            <div class="alert alert-danger justify-content-center" role="alert">
-            <?= $_SESSION["noDataFound"] ?>
-            </div<?php
+            <div class="row">
+                <div class="col-xl-12 d-flex flex-column justify-content-center align-items-center mt-5">
+                    <div class="col-xxl-6 col-xl-8 col-lg-10 col-md-12 col-sm-12">
+
+                        <img class="no-data-img" alt="no data found on server" src="assets/properties/no-data-pana.svg">
+                    </div>
+                </div>
+            </div><?php
         } else {
             ?>
-<!--            <div class="paging">-->
-<!--                <nav aria-label="Search result pages">-->
-<!--                    <ul class="pagination justify-content-end">-->
-<!--                        <li class="page-item disabled">-->
-<!--                            <a class="page-link">Previous</a>-->
-<!--                        </li>-->
-<!--                        <li class="page-item"><a class="page-link" href="#">1</a></li>-->
-<!--                        <li class="page-item"><a class="page-link" href="#">2</a></li>-->
-<!--                        <li class="page-item"><a class="page-link" href="#">3</a></li>-->
-<!--                        <li class="page-item">-->
-<!--                            <a class="page-link" href="#">Next</a>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-<!--                </nav>-->
-<!--            </div>-->
-            <a class="nav-link d-flex justify-content-end" href="#table">
-                <button class="btn">
-                    <ion-icon src="/assets/properties/icon/chevron-down-outline.svg"
-                              class="material-symbols-outlined"></ion-icon>
-                </button>
-            </a>
 
-            <table class="table table-responsive" id="table">
-                <thead>
-                <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Full Name</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">sex</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Status</th>
-                    <th scope="col"></th>
-                </tr>
-                </thead>
-                <tbody>
-
-                <tr>
-                    <?php
-                    $displayingData = function ($data, $currentIndex, $currentPage) {
-                    $page = 1;
-                    $no = 1;
-                    $person = $data[$currentIndex];
-                    ?>
-                    <td><?= $currentIndex + 1 ?></td>
-                    <td><?= $person[PERSON_EMAIL] ?></td>
-                    <td><?= $person[PERSON_FIRST_NAME] . " " . $person[PERSON_LAST_NAME] ?></td>
-                    <td><?= calculateAge($person[PERSON_BIRTH_DATE]) ?></td>
-                    <td><?= $person[PERSON_SEX] ?></td>
-                    <td><?= $person[PERSON_ROLE] ?></td>
-                    <?php
-                    $personStatus = translateBooleanToString($person[PERSON_STATUS]);
-                    ?>
-                    <td><?= $personStatus ?>
-                    </td>
-
-
-                    <td class="d-flex">
-                        <button class="btn" name="btn-view">
-                            <a
-
-                                <?php
-                                if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
-                                    ?>
-                                    href="view-person.php?id=<?php echo $person[ID] ?>"
-                                    <?php
-                                }
-                                ?>
-                                    href="my-profile.php"
-                                    class="nav-link table-nav view-btn"
-                            >View</a
-                            >
-                        </button>
-
-                        <button class="btn">
-                            <?php
-                            $userRole = getPerson(email: $_SESSION["userEmail"]);
-                            if ($userRole[PERSON_ROLE] == ROLE_ADMIN) {
-                                ?>
-                                <a
-                                    <?php
-                                    if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
-                                        $_SESSION["personToBeEdit"] = $person[ID];
-                                        ?>
-
-                                        href="edit-person.php?id=<?php echo $person[ID] ?>"
-                                        <?php
-                                    }
-                                    ?>
-                                        href="my-profile.php"
-                                        class="nav-link table-nav edit-btn"
-                                >Edit</a
-                                >
-                                <?php
-                            }
-                            ?>
-                        </button>
-                    </td>
-
-                </tr>
+            <div class="wrapper pagination-btn d-flex justify-content-end">
                 <?php
-                };
-                showPaginatedData(
-                    array: $persons, callback: $displayingData, limit: PAGE_LIMIT
-                );
+                $page = $_GET["page"] ?? 1;
+                $displayingData = getPaginatedData(array: $persons, page: $page, limit: PAGE_LIMIT);
+                $persons = $displayingData[PAGING_DATA];
+                $prev = $displayingData[PAGING_CURRENT_PAGE] - 1;
+                $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
                 ?>
-                </tbody>
-            </table>
+
+                <?php
+                if ($page <= 1) {
+                    ?>
+                    <button class="btn" disabled>
+                        <a class="nav-link d-flex justify-content-end" href="?page=<?= $prev ?>">
+                            <ion-icon src="/assets/properties/icon/chevron-back-outline.svg"
+                                      class="material-symbols-outlined"></ion-icon>
+                        </a>
+                    </button>
+
+                    <?php
+                } else {
+                    ?>
+                    <button class="btn">
+                        <a class="nav-link d-flex justify-content-end" href="?page=<?= $prev ?>">
+                            <ion-icon src="/assets/properties/icon/chevron-back-outline.svg"
+                                      class="material-symbols-outlined"></ion-icon>
+                        </a>
+                    </button>
+                    <?php
+                }
+                ?>
+
+                <div class="d-flex align-items-center">
+                    <?= $displayingData[PAGING_CURRENT_PAGE] . " of " . $displayingData[PAGING_TOTAL_PAGE]?>
+                </div>
+
+                <?php
+                if ($_GET["page"] >= $displayingData[PAGING_TOTAL_PAGE]) {
+                    ?>
+                    <button class="btn" disabled>
+                        <a class="nav-link d-flex justify-content-end" href="?page=<?= $next ?>">
+                            <ion-icon src="/assets/properties/icon/chevron-forward-outline.svg"
+                                      class="material-symbols-outlined"></ion-icon>
+                        </a>
+                    </button>
+                    <?php
+                } else {
+                    ?>
+                    <button class="btn">
+                        <a class="nav-link d-flex justify-content-end" href="?page=<?= $next ?>">
+
+                            <ion-icon src="/assets/properties/icon/chevron-forward-outline.svg"
+                                      class="material-symbols-outlined"></ion-icon>
+                        </a>
+                    </button>
+                    <?php
+                }
+                ?>
+
+
+            </div>
+            <div class="table-responsive table-container">
+                <table class="table " id="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Full Name</th>
+                        <th scope="col">Age</th>
+                        <th scope="col">sex</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Status</th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <?php
+                    $number = ($page - 1) * PAGE_LIMIT + 1;
+                    foreach ($persons as $person) {
+                        ?>
+                        <tr>
+
+                            <td><?= $number ?></td>
+                            <td><?= $person[PERSON_EMAIL] ?></td>
+                            <td><?= $person[PERSON_FIRST_NAME] . " " . $person[PERSON_LAST_NAME] ?></td>
+                            <td><?= calculateAge($person[PERSON_BIRTH_DATE]) ?></td>
+                            <td><?= $person[PERSON_SEX] ?></td>
+                            <td><?= $person[PERSON_ROLE] ?></td>
+                            <?php
+                            $personStatus = translateBooleanToString($person[PERSON_STATUS]);
+                            ?>
+                            <td><?= $personStatus ?>
+                            </td>
+
+                            <td>
+                                <div class="person-btn d-flex">
+                                    <button class="btn" name="btn-view">
+                                        <a
+
+                                            <?php
+                                            if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
+                                                ?>
+                                                href="view-person.php?id=<?php echo $person[ID] ?>"
+                                                <?php
+                                            }
+                                            ?>
+                                                href="my-profile.php"
+                                                class="nav-link table-nav view-btn"
+                                        >View</a
+                                        >
+                                    </button>
+
+                                    <button class="btn">
+                                        <?php
+                                        $userRole = getPerson(email: $_SESSION["userEmail"]);
+                                        if ($userRole[PERSON_ROLE] == ROLE_ADMIN) {
+                                            ?>
+                                            <a
+                                                <?php
+                                                if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
+                                                    $_SESSION["personToBeEdit"] = $person[ID];
+                                                    ?>
+
+                                                    href="edit-person.php?id=<?php echo $person[ID] ?>"
+                                                    <?php
+                                                }
+                                                ?>
+                                                    href="my-profile.php"
+                                                    class="nav-link table-nav edit-btn"
+                                            >Edit</a
+                                            >
+                                            <?php
+                                        }
+                                        ?>
+                                    </button>
+                                </div>
+                            </td>
+
+                        </tr>
+                        <?php
+                        $number++;
+                        ?>
+                        <?php
+                    }
+                    ?>
+                    </tbody>
+                </table>
+
+            </div>
             <?php
         }
         ?>
