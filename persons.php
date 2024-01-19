@@ -2,11 +2,12 @@
 require_once __DIR__ . "/action/utils.php";
 require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
+require_once __DIR__ . "/include/showPaginationButton.php";
 require_once __DIR__ . "/index.php";
 require_once __DIR__ . "/action/action-persons.php";
 require_once __DIR__ . "/action/pagination.php";
 
-//$persons = getAll();
+$persons = getAll();
 
 ?>
 
@@ -219,61 +220,111 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
             <div class="wrapper pagination-btn d-flex justify-content-end">
                 <?php
                 $page = $_GET["page"] ?? 1;
+
                 $displayingData = getPaginatedData(array: $persons, page: $page, limit: PAGE_LIMIT);
                 $persons = $displayingData[PAGING_DATA];
                 $prev = $displayingData[PAGING_CURRENT_PAGE] - 1;
                 $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
-                ?>
 
-                <?php
-                if ($page <= 1) {
-                    ?>
-                    <button class="btn" disabled>
-                        <a class="nav-link d-flex justify-content-end" href="?page=<?= $prev ?>">
-                            <ion-icon src="/assets/properties/icon/chevron-back-outline.svg"
-                                      class="material-symbols-outlined"></ion-icon>
-                        </a>
-                    </button>
-
-                    <?php
+                if (isset($_GET["category"]) || isset($_GET["keyword"])) {
+                    showPaginationButton(
+                        page: $page,
+                        displayingData: $displayingData,
+                        prev: $prev,
+                        next: $next,
+                        keyword: $_GET["keyword"],
+                        category: $_GET["category"]);
                 } else {
-                    ?>
-                    <button class="btn">
-                        <a class="nav-link d-flex justify-content-end" href="?page=<?= $prev ?>">
-                            <ion-icon src="/assets/properties/icon/chevron-back-outline.svg"
-                                      class="material-symbols-outlined"></ion-icon>
-                        </a>
-                    </button>
-                    <?php
+                    showPaginationButton(
+                        page: $page,
+                        displayingData: $displayingData,
+                        prev: $prev,
+                        next: $next);
                 }
                 ?>
 
-                <div class="d-flex align-items-center">
-                    <?= $displayingData[PAGING_CURRENT_PAGE] . " of " . $displayingData[PAGING_TOTAL_PAGE]?>
-                </div>
-
-                <?php
-                if ($_GET["page"] >= $displayingData[PAGING_TOTAL_PAGE]) {
-                    ?>
-                    <button class="btn" disabled>
-                        <a class="nav-link d-flex justify-content-end" href="?page=<?= $next ?>">
-                            <ion-icon src="/assets/properties/icon/chevron-forward-outline.svg"
-                                      class="material-symbols-outlined"></ion-icon>
-                        </a>
-                    </button>
-                    <?php
-                } else {
-                    ?>
-                    <button class="btn">
-                        <a class="nav-link d-flex justify-content-end" href="?page=<?= $next ?>">
-
-                            <ion-icon src="/assets/properties/icon/chevron-forward-outline.svg"
-                                      class="material-symbols-outlined"></ion-icon>
-                        </a>
-                    </button>
-                    <?php
-                }
-                ?>
+                <!--                --><?php
+                //                if ($page <= 1) {
+                //                    ?>
+                <!--                    <button class="btn" disabled>-->
+                <!--                        <a class="nav-link d-flex justify-content-end">-->
+                <!--                            <ion-icon src="/assets/properties/icon/chevron-back-outline.svg"-->
+                <!--                                      class="material-symbols-outlined"></ion-icon>-->
+                <!--                        </a>-->
+                <!--                    </button>-->
+                <!---->
+                <!--                    --><?php
+                //                } else {
+                //                    if (isset($_GET["keyword"]) || isset($_GET["category"])) {
+                //                        ?>
+                <!---->
+                <!--                        <button class="btn">-->
+                <!--                            <a class="nav-link d-flex justify-content-end"-->
+                <!--                               href="?page=--><?php //= $prev ?><!--&category=-->
+                <?php //= $_GET["category"] ?><!--&keyword=--><?php //= $_GET["keyword"] ?><!--">-->
+                <!--                                <ion-icon src="/assets/properties/icon/chevron-back-outline.svg"-->
+                <!--                                          class="material-symbols-outlined"></ion-icon>-->
+                <!--                            </a>-->
+                <!--                        </button>-->
+                <!--                        --><?php
+                //                    } else {
+                //                        ?>
+                <!--                        <button class="btn">-->
+                <!--                            <a class="nav-link d-flex justify-content-end"-->
+                <!--                               href="?page=--><?php //= $prev ?><!--">-->
+                <!--                                <ion-icon src="/assets/properties/icon/chevron-back-outline.svg"-->
+                <!--                                          class="material-symbols-outlined"></ion-icon>-->
+                <!--                            </a>-->
+                <!--                        </button>-->
+                <!--                        --><?php
+                //                    }
+                //                    ?>
+                <!--                    --><?php
+                //                }
+                //                ?>
+                <!---->
+                <!--                <div class="d-flex align-items-center">-->
+                <!--                    --><?php //= $displayingData[PAGING_CURRENT_PAGE] . " of " . $displayingData[PAGING_TOTAL_PAGE] ?>
+                <!--                </div>-->
+                <!---->
+                <!--                --><?php
+                //                if ($page >= $displayingData[PAGING_TOTAL_PAGE]) {
+                //                    ?>
+                <!--                    <button class="btn" disabled>-->
+                <!--                        <a class="nav-link d-flex justify-content-end">-->
+                <!--                            <ion-icon src="/assets/properties/icon/chevron-forward-outline.svg"-->
+                <!--                                      class="material-symbols-outlined"></ion-icon>-->
+                <!--                        </a>-->
+                <!--                    </button>-->
+                <!--                    --><?php
+                //                } else {
+                //                    if (isset($_GET["category"]) || isset($_GET["keyword"])) {
+                //                        ?>
+                <!--                        <button class="btn">-->
+                <!--                            <a class="nav-link d-flex justify-content-end"-->
+                <!--                               href="?page=--><?php //= $next ?><!--&category=-->
+                <?php //= $_GET["category"] ?><!--&keyword=--><?php //= $_GET["keyword"] ?><!--">-->
+                <!---->
+                <!--                                <ion-icon src="/assets/properties/icon/chevron-forward-outline.svg"-->
+                <!--                                          class="material-symbols-outlined"></ion-icon>-->
+                <!--                            </a>-->
+                <!--                        </button>-->
+                <!--                        --><?php
+                //                    } else {
+                //                        ?>
+                <!--                        <button class="btn">-->
+                <!--                            <a class="nav-link d-flex justify-content-end"-->
+                <!--                               href="?page=--><?php //= $prev ?><!--">-->
+                <!--                                <ion-icon src="/assets/properties/icon/chevron-forward-outline.svg"-->
+                <!--                                          class="material-symbols-outlined"></ion-icon>-->
+                <!--                            </a>-->
+                <!--                        </button>-->
+                <!--                        --><?php
+                //                    }
+                //                    ?>
+                <!--                    --><?php
+                //                }
+                //                ?>
 
 
             </div>

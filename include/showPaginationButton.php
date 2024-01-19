@@ -1,17 +1,30 @@
 <?php
 
-function showPaginationButton(int $page, array $displayingData, string|null $keyword = null, string|null $category = null)
+function showPaginationButton(
+        int $page,
+        array $displayingData,
+        int $prev,
+        int $next,
+        string|null $keyword = null,
+        string|null $category = null): void
 {
-    ?>
-    <?php
     if ($page <= 1) {
         ?>
+        <button class="btn" disabled>
+            <a class="nav-link d-flex justify-content-end">
+                <ion-icon src="/assets/properties/icon/chevron-back-outline.svg"
+                          class="material-symbols-outlined"></ion-icon>
+            </a>
+        </button>
+
         <?php
-        if ($keyword != null || $category != null) {
+    } else {
+        if (isset($_GET["keyword"]) || isset($_GET["category"])) {
             ?>
-            <button class="btn" disabled>
+
+            <button class="btn">
                 <a class="nav-link d-flex justify-content-end"
-                   href="?page=<?= $page ?>?category=<?= $category ?>&keyword=<?= $keyword ?>">
+                   href="?page=<?= $prev ?>&category=<?= $category ?>&keyword=<?= $keyword ?>">
                     <ion-icon src="/assets/properties/icon/chevron-back-outline.svg"
                               class="material-symbols-outlined"></ion-icon>
                 </a>
@@ -21,7 +34,7 @@ function showPaginationButton(int $page, array $displayingData, string|null $key
             ?>
             <button class="btn">
                 <a class="nav-link d-flex justify-content-end"
-                   href="?page=<?= $page ?>">
+                   href="?page=<?= $prev ?>">
                     <ion-icon src="/assets/properties/icon/chevron-back-outline.svg"
                               class="material-symbols-outlined"></ion-icon>
                 </a>
@@ -29,16 +42,6 @@ function showPaginationButton(int $page, array $displayingData, string|null $key
             <?php
         }
         ?>
-
-        <?php
-    } else {
-        ?>
-        <button class="btn">
-            <a class="nav-link d-flex justify-content-end" href="?page=<?= $page ?>?category=<?= $category ?>?keyword=<?= $keyword ?>">
-                <ion-icon src="/assets/properties/icon/chevron-back-outline.svg"
-                          class="material-symbols-outlined"></ion-icon>
-            </a>
-        </button>
         <?php
     }
     ?>
@@ -48,13 +51,22 @@ function showPaginationButton(int $page, array $displayingData, string|null $key
     </div>
 
     <?php
-    if ($_GET["page"] >= $displayingData[PAGING_TOTAL_PAGE]) {
+    if ($page >= $displayingData[PAGING_TOTAL_PAGE]) {
         ?>
+        <button class="btn" disabled>
+            <a class="nav-link d-flex justify-content-end">
+                <ion-icon src="/assets/properties/icon/chevron-forward-outline.svg"
+                          class="material-symbols-outlined"></ion-icon>
+            </a>
+        </button>
         <?php
-        if ($keyword != null || $category != null) {
+    } else {
+        if (isset($category) || isset($keyword)) {
             ?>
-            <button class="btn" disabled>
-                <a class="nav-link d-flex justify-content-end" href="?page=<?= $page ?>?category=<?= $category ?>?keyword=<?= $keyword ?>">
+            <button class="btn">
+                <a class="nav-link d-flex justify-content-end"
+                   href="?page=<?= $next ?>&category=<?= $category ?>&keyword=<?= $keyword ?>">
+
                     <ion-icon src="/assets/properties/icon/chevron-forward-outline.svg"
                               class="material-symbols-outlined"></ion-icon>
                 </a>
@@ -63,7 +75,8 @@ function showPaginationButton(int $page, array $displayingData, string|null $key
         } else {
             ?>
             <button class="btn">
-                <a class="nav-link d-flex justify-content-end" href="?page=<?= $page ?>">
+                <a class="nav-link d-flex justify-content-end"
+                   href="?page=<?= $next ?>">
                     <ion-icon src="/assets/properties/icon/chevron-forward-outline.svg"
                               class="material-symbols-outlined"></ion-icon>
                 </a>
@@ -72,20 +85,6 @@ function showPaginationButton(int $page, array $displayingData, string|null $key
         }
         ?>
         <?php
-    } else {
-        ?>
-        <button class="btn">
-            <a class="nav-link d-flex justify-content-end" href="?page=<?= $page ?>?category=<?= $category ?>?keyword=<?= $keyword ?>">
-
-                <ion-icon src="/assets/properties/icon/chevron-forward-outline.svg"
-                          class="material-symbols-outlined"></ion-icon>
-            </a>
-        </button>
-        <?php
     }
-    ?>
-
-    <?php
 }
 
-?>

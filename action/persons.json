@@ -292,5 +292,19 @@
         "password": null,
         "status": true,
         "lastLoggedIn": null
+    },
+    {
+        "id": 25,
+        "firstName": "&lt;p&gt;kaizen&lt;\/p&gt;",
+        "lastName": "Kuro To Shiro",
+        "nik": "9012891827389237",
+        "email": "kai@gmail.com",
+        "birthDate": 1388160000,
+        "sex": "Male",
+        "internalNote": null,
+        "role": "Member",
+        "password": null,
+        "status": true,
+        "lastLoggedIn": null
     }
 ]

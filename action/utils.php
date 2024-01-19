@@ -22,6 +22,7 @@ function redirectIfNotAuthenticated(): void
         header("Location: login.php");
         exit(); // Terminate script execution after the redirect
     }
+
 //    elseif($_SESSION["startTime"] > (60 *30)){
 //        unset($_SESSION["userEmail"]);
 //        unset($_SESSION["startTime"]);
@@ -148,7 +149,11 @@ function convertDateToTimestamp(string $date): int
 {
     $date = str_replace('-', '/', $date);
     return strtotime($date);
+}
 
+function replaceSpace(string $string): string
+{
+    return preg_replace('/\s+/', '+', $string);
 }
 
 function getPerson(int|null $id = null, string|null $email = null): array
