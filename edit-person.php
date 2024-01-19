@@ -28,7 +28,7 @@ mainHeader(cssIdentifier: "page-edit-person", title: "Edit Person", link: "edit-
                         <div class="col-xxl-12">
 
                             <?php
-                            $person = getPerson(id: $_GET[ID]);
+                            $person = getPerson(id: $_GET["person"]);
                             $_SESSION["personData"] = $person;
                             ?>
                             <form class="new-person-form" action="action/action-edit-person.php" method="post"
@@ -318,7 +318,7 @@ mainHeader(cssIdentifier: "page-edit-person", title: "Edit Person", link: "edit-
                                     <a
                                             class="btn btn-primary btn--form has-border"
                                             type="submit"
-                                            href="persons.php"
+                                            href="persons.php?page=1"
                                     >
                                         Cancel
                                     </a>

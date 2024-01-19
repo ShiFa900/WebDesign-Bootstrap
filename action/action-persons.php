@@ -5,7 +5,7 @@ require_once __DIR__ . "/utils.php";
 
 global $persons;
 if (isset($_GET["reset"])) {
-    redirect("../persons.php", "");
+    redirect("../persons.php", "page=1");
 }
 function search(array $persons, string $category, string|null $keyword = null): array
 {

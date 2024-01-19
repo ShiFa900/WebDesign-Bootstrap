@@ -48,7 +48,7 @@ if (count($validate) == 0) {
         status: $userInputData["status"]);
     $currentUser[PASSWORD] = $_POST["newPassword"] == null ? $currentUser[PASSWORD] : $_POST["newPassword"];
 
-    savePerson($currentUser, "persons.php");
+    savePerson($currentUser, "persons.php?page=1");
 
 
 } else {

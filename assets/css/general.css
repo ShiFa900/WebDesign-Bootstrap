@@ -487,10 +487,6 @@ thead tr {
   vertical-align: middle;
 }
 
-tr th {
-  width: 90px;
-}
-
 /*TABLE RESPONSIVE STACK*/
 .table-responsive-stack tr {
   display: -webkit-box;

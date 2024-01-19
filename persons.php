@@ -13,12 +13,27 @@ $persons = getAll();
 
 <?php
 mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.php", pageStyles: ['persons.css']);
+
+$persons = getAll();
+if (isset($_GET["keyword"]) || isset($_GET["category"])) {
+    $result = search(persons: $persons, category: $_GET["category"], keyword: $_GET["keyword"]);
+    if (!is_null($result)) {
+        $persons = $result;
+    }
+}
+
+$page = $_GET["page"] ?? 1;
+
+$displayingData = getPaginatedData(array: $persons, page: $page, limit: PAGE_LIMIT);
+$persons = $displayingData[PAGING_DATA];
+$prev = $displayingData[PAGING_CURRENT_PAGE] - 1;
+$next = $displayingData[PAGING_CURRENT_PAGE] + 1;
 ?>
     <div class="person-content position-absolute px-5">
         <div
-                class="content-wrapper page-header d-flex justify-content-between"
+                class="content-wrapper d-lg-flex justify-content-between "
         >
-            <div class="left d-flex gap-4">
+            <div class="left d-flex gap-4 page-header ">
                 <a class="first-heading nav-link" href="persons.php">
                     <h1 class="first-heading">Persons</h1>
                 </a>
@@ -30,16 +45,16 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
             </div>
 
             <div
-                    class="right d-flex"
+                    class="right d-lg-flex gap-2"
             >
                 <!--SEARCH-->
                 <form
-                        class="search-form align-items-center gap-2 d-md-flex flex-md-row-column"
+                        class="search-form"
                         name="search-form"
                         action="#table"
                         method="get"
                 >
-                    <div class="wrapper d-flex">
+                    <div class="wrapper d-lg-flex mb-2">
                         <!-- menggunakan select -->
                         <select
                                 id="form-select-catagories"
@@ -110,8 +125,8 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
                         </select>
                     </div>
 
-                    <div class="wrapper d-flex">
-                        <div class="form-search w-100 me-1">
+                    <div class="wrapper d-lg-flex">
+                        <div class="form-search w-100 mb-3">
                             <input
                                     id="search"
                                     class="form-control form-control-sm"
@@ -126,21 +141,24 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
                                     } ?>"
                             />
                         </div>
-                        <button class="btn btn-outline-success" type="submit">
-                            <ion-icon src="../assets/properties/icon/search-outline.svg" class="icon"></ion-icon>
-                        </button>
-                        
-                        <!--btn ini hanya tampil saat filter atau keyword pencarian ada-->
-                        <?php
-                        if (isset($_GET["keyword"]) || isset($_GET["category"])) {
-                            ?>
-                            <button class="btn btn-reset" name="reset">
-                                <ion-icon src="../assets/properties/icon/refresh-outline.svg"
-                                          class="icon"></ion-icon>
+                        <div class="btn-wrapper d-flex flex-row justify-content-end">
+                            <button class="btn btn-outline-success d-flex align-items-center gap-2" type="submit">
+                                Search
+                                <ion-icon src="../assets/properties/icon/search-outline.svg" class="icon"></ion-icon>
                             </button>
+
+                            <!--btn ini hanya tampil saat filter atau keyword pencarian ada-->
                             <?php
-                        }
-                        ?>
+                            if (isset($_GET["keyword"]) || isset($_GET["category"])) {
+                                ?>
+                                <button class="btn btn-reset" name="reset">
+                                    <ion-icon src="../assets/properties/icon/refresh-outline.svg"
+                                              class="icon"></ion-icon>
+                                </button>
+                                <?php
+                            }
+                            ?>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -191,18 +209,6 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
 
 
         <?php
-        $persons = getAll();
-        if (isset($_GET["keyword"]) || isset($_GET["category"])) {
-            $result = search(persons: $persons, category: $_GET["category"], keyword: $_GET["keyword"]);
-            if (!is_null($result)) {
-                $persons = $result;
-            }
-            ?>
-            <?php
-        }
-        ?>
-
-        <?php
         if ($persons == null) {
             ?>
             <div class="row">
@@ -216,207 +222,121 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
         } else {
             ?>
 
-            <div class="wrapper pagination-btn d-flex justify-content-end">
-                <?php
-                $page = $_GET["page"] ?? 1;
 
-                $displayingData = getPaginatedData(array: $persons, page: $page, limit: PAGE_LIMIT);
-                $persons = $displayingData[PAGING_DATA];
-                $prev = $displayingData[PAGING_CURRENT_PAGE] - 1;
-                $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
-
-                if (isset($_GET["category"]) || isset($_GET["keyword"])) {
-                    showPaginationButton(
-                        page: $page,
-                        displayingData: $displayingData,
-                        prev: $prev,
-                        next: $next,
-                        keyword: $_GET["keyword"],
-                        category: $_GET["category"]);
-                } else {
-                    showPaginationButton(
-                        page: $page,
-                        displayingData: $displayingData,
-                        prev: $prev,
-                        next: $next);
-                }
-                ?>
-
-                <!--                --><?php
-                //                if ($page <= 1) {
-                //                    ?>
-                <!--                    <button class="btn" disabled>-->
-                <!--                        <a class="nav-link d-flex justify-content-end">-->
-                <!--                            <ion-icon src="/assets/properties/icon/chevron-back-outline.svg"-->
-                <!--                                      class="material-symbols-outlined"></ion-icon>-->
-                <!--                        </a>-->
-                <!--                    </button>-->
-                <!---->
-                <!--                    --><?php
-                //                } else {
-                //                    if (isset($_GET["keyword"]) || isset($_GET["category"])) {
-                //                        ?>
-                <!---->
-                <!--                        <button class="btn">-->
-                <!--                            <a class="nav-link d-flex justify-content-end"-->
-                <!--                               href="?page=--><?php //= $prev ?><!--&category=-->
-                <?php //= $_GET["category"] ?><!--&keyword=--><?php //= $_GET["keyword"] ?><!--">-->
-                <!--                                <ion-icon src="/assets/properties/icon/chevron-back-outline.svg"-->
-                <!--                                          class="material-symbols-outlined"></ion-icon>-->
-                <!--                            </a>-->
-                <!--                        </button>-->
-                <!--                        --><?php
-                //                    } else {
-                //                        ?>
-                <!--                        <button class="btn">-->
-                <!--                            <a class="nav-link d-flex justify-content-end"-->
-                <!--                               href="?page=--><?php //= $prev ?><!--">-->
-                <!--                                <ion-icon src="/assets/properties/icon/chevron-back-outline.svg"-->
-                <!--                                          class="material-symbols-outlined"></ion-icon>-->
-                <!--                            </a>-->
-                <!--                        </button>-->
-                <!--                        --><?php
-                //                    }
-                //                    ?>
-                <!--                    --><?php
-                //                }
-                //                ?>
-                <!---->
-                <!--                <div class="d-flex align-items-center">-->
-                <!--                    --><?php //= $displayingData[PAGING_CURRENT_PAGE] . " of " . $displayingData[PAGING_TOTAL_PAGE] ?>
-                <!--                </div>-->
-                <!---->
-                <!--                --><?php
-                //                if ($page >= $displayingData[PAGING_TOTAL_PAGE]) {
-                //                    ?>
-                <!--                    <button class="btn" disabled>-->
-                <!--                        <a class="nav-link d-flex justify-content-end">-->
-                <!--                            <ion-icon src="/assets/properties/icon/chevron-forward-outline.svg"-->
-                <!--                                      class="material-symbols-outlined"></ion-icon>-->
-                <!--                        </a>-->
-                <!--                    </button>-->
-                <!--                    --><?php
-                //                } else {
-                //                    if (isset($_GET["category"]) || isset($_GET["keyword"])) {
-                //                        ?>
-                <!--                        <button class="btn">-->
-                <!--                            <a class="nav-link d-flex justify-content-end"-->
-                <!--                               href="?page=--><?php //= $next ?><!--&category=-->
-                <?php //= $_GET["category"] ?><!--&keyword=--><?php //= $_GET["keyword"] ?><!--">-->
-                <!---->
-                <!--                                <ion-icon src="/assets/properties/icon/chevron-forward-outline.svg"-->
-                <!--                                          class="material-symbols-outlined"></ion-icon>-->
-                <!--                            </a>-->
-                <!--                        </button>-->
-                <!--                        --><?php
-                //                    } else {
-                //                        ?>
-                <!--                        <button class="btn">-->
-                <!--                            <a class="nav-link d-flex justify-content-end"-->
-                <!--                               href="?page=--><?php //= $prev ?><!--">-->
-                <!--                                <ion-icon src="/assets/properties/icon/chevron-forward-outline.svg"-->
-                <!--                                          class="material-symbols-outlined"></ion-icon>-->
-                <!--                            </a>-->
-                <!--                        </button>-->
-                <!--                        --><?php
-                //                    }
-                //                    ?>
-                <!--                    --><?php
-                //                }
-                //                ?>
-
-
-            </div>
-            <div class="table-responsive table-container">
-                <table class="table " id="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Full Name</th>
-                        <th scope="col">Age</th>
-                        <th scope="col">sex</th>
-                        <th scope="col">Role</th>
-                        <th scope="col">Status</th>
-                        <th scope="col"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    <?php
-                    $number = ($page - 1) * PAGE_LIMIT + 1;
-                    foreach ($persons as $person) {
-                        ?>
+            <div class="table-container">
+                <div class="table-responsive ">
+                    <table class="table" id="table">
+                        <thead>
                         <tr>
+                            <th scope="col" class="text-center p-3">No</th>
+                            <th scope="col" class="text-center p-3">Email</th>
+                            <th scope="col" class="text-center p-3">Name</th>
+                            <th scope="col" class="text-center p-3">Age</th>
+                            <!--                        <th scope="col" class="text-center">sex</th>-->
+                            <th scope="col" class="text-center p-3">Role</th>
+                            <th scope="col" class="text-center p-3">Status</th>
+                            <th scope="col" class="text-center p-3"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
-                            <td><?= $number ?></td>
-                            <td><?= $person[PERSON_EMAIL] ?></td>
-                            <td><?= $person[PERSON_FIRST_NAME] . " " . $person[PERSON_LAST_NAME] ?></td>
-                            <td><?= calculateAge($person[PERSON_BIRTH_DATE]) ?></td>
-                            <td><?= $person[PERSON_SEX] ?></td>
-                            <td><?= $person[PERSON_ROLE] ?></td>
-                            <?php
-                            $personStatus = translateBooleanToString($person[PERSON_STATUS]);
+                        <?php
+                        $number = ($page - 1) * PAGE_LIMIT + 1;
+                        foreach ($persons as $person) {
                             ?>
-                            <td><?= $personStatus ?>
-                            </td>
+                            <tr>
 
-                            <td>
-                                <div class="person-btn d-flex">
-                                    <button class="btn" name="btn-view">
-                                        <a
+                                <td class="text-center"><?= $number ?></td>
+                                <td><?= $person[PERSON_EMAIL] ?></td>
+                                <td><?= $person[PERSON_FIRST_NAME] . " " . $person[PERSON_LAST_NAME] ?></td>
+                                <td class="text-center"><?= calculateAge($person[PERSON_BIRTH_DATE]) ?></td>
+                                <!--                            <td class="text-center">-->
+                                <?php //= $person[PERSON_SEX] ?><!--</td>-->
+                                <td class="text-center"><?= $person[PERSON_ROLE] ?></td>
+                                <?php
+                                $personStatus = translateBooleanToString($person[PERSON_STATUS]);
+                                ?>
+                                <td class="text-center"><?= $personStatus ?>
+                                </td>
 
-                                            <?php
-                                            if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
-                                                ?>
-                                                href="view-person.php?id=<?php echo $person[ID] ?>"
-                                                <?php
-                                            }
-                                            ?>
-                                                href="my-profile.php"
-                                                class="nav-link table-nav view-btn"
-                                        >View</a
-                                        >
-                                    </button>
-
-                                    <button class="btn">
-                                        <?php
-                                        $userRole = getPerson(email: $_SESSION["userEmail"]);
-                                        if ($userRole[PERSON_ROLE] == ROLE_ADMIN) {
-                                            ?>
+                                <td>
+                                    <div class="person-btn d-flex justify-content-center">
+                                        <button class="btn" name="btn-view">
                                             <a
+
                                                 <?php
                                                 if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
-                                                    $_SESSION["personToBeEdit"] = $person[ID];
                                                     ?>
-
-                                                    href="edit-person.php?id=<?php echo $person[ID] ?>"
+                                                    href="view-person.php?person=<?php echo $person[ID] ?>"
                                                     <?php
                                                 }
                                                 ?>
                                                     href="my-profile.php"
-                                                    class="nav-link table-nav edit-btn"
-                                            >Edit</a
+                                                    class="nav-link table-nav view-btn"
+                                            >View</a
                                             >
+                                        </button>
+
+                                        <button class="btn">
                                             <?php
-                                        }
-                                        ?>
-                                    </button>
-                                </div>
-                            </td>
+                                            $userRole = getPerson(email: $_SESSION["userEmail"]);
+                                            if ($userRole[PERSON_ROLE] == ROLE_ADMIN) {
+                                                ?>
+                                                <a
+                                                    <?php
+                                                    if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
+                                                        $_SESSION["personToBeEdit"] = $person[ID];
+                                                        ?>
 
-                        </tr>
-                        <?php
-                        $number++;
+                                                        href="edit-person.php?person=<?php echo $person[ID] ?>"
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                        href="my-profile.php"
+                                                        class="nav-link table-nav edit-btn"
+                                                >Edit</a
+                                                >
+                                                <?php
+                                            }
+                                            ?>
+                                        </button>
+                                    </div>
+                                </td>
+
+                            </tr>
+                            <?php
+                            $number++;
+                            ?>
+                            <?php
+                        }
                         ?>
+                        </tbody>
+                    </table>
+                    <div class="wrapper pagination-btn d-flex justify-content-end">
                         <?php
-                    }
-                    ?>
-                    </tbody>
-                </table>
 
+                        if (isset($_GET["category"]) || isset($_GET["keyword"])) {
+                            showPaginationButton(
+                                page: $page,
+                                displayingData: $displayingData,
+                                prev: $prev,
+                                next: $next,
+                                keyword: $_GET["keyword"],
+                                category: $_GET["category"]);
+                        } else {
+                            showPaginationButton(
+                                page: $page,
+                                displayingData: $displayingData,
+                                prev: $prev,
+                                next: $next);
+                        }
+                        ?>
+                    </div>
+                </div>
             </div>
+
             <?php
+
         }
         ?>
     </div>

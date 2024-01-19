@@ -24,7 +24,7 @@ mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-
                         <div class="col-xxl-12">
                             <form class="new-person-form" action="action/action-view-person.php" method="post">
                                 <?php
-                                $person = getPerson($_GET[ID]);
+                                $person = getPerson($_GET["person"]);
                                 $_SESSION["personId"] = $person[ID];
                                 ?>
                                 <div class="row">
@@ -127,7 +127,7 @@ mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-
                                                     class="btn-container d-flex column-gap-5 justify-content-between"
                                             >
                                                 <div class="btn-wrapper d-flex column-gap-3">
-                                                    <a href="persons.php" class="btn btn-primary btn--form has-border"
+                                                    <a href="persons.php?page=1" class="btn btn-primary btn--form has-border"
                                                        type="submit"
                                                     >Back
                                                     </a>
