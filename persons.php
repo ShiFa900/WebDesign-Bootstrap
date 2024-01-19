@@ -40,23 +40,11 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
                         method="get"
                 >
                     <div class="wrapper d-flex">
-                        <!--btn ini hanya tampil saat filter atau keyword pencarian ada-->
-                        <?php
-                        if (isset($_GET["keyword"]) || isset($_GET["category"])) {
-                            ?>
-                            <button class="btn btn-reset" name="reset">
-                                <ion-icon src="../assets/properties/icon/refresh-outline.svg"
-                                          class="icon"></ion-icon>
-                            </button>
-                            <?php
-                        }
-                        ?>
-
                         <!-- menggunakan select -->
                         <select
                                 id="form-select-catagories"
-                                class="form-select form-select-lg form-select-sm mb-1"
-                                aria-label="Large select example"
+                                class="form-select form-select-lg mb-1"
+                                aria-label="Select age category"
                                 name="category"
 
                         >
@@ -141,7 +129,18 @@ mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.
                         <button class="btn btn-outline-success" type="submit">
                             <ion-icon src="../assets/properties/icon/search-outline.svg" class="icon"></ion-icon>
                         </button>
-
+                        
+                        <!--btn ini hanya tampil saat filter atau keyword pencarian ada-->
+                        <?php
+                        if (isset($_GET["keyword"]) || isset($_GET["category"])) {
+                            ?>
+                            <button class="btn btn-reset" name="reset">
+                                <ion-icon src="../assets/properties/icon/refresh-outline.svg"
+                                          class="icon"></ion-icon>
+                            </button>
+                            <?php
+                        }
+                        ?>
                     </div>
                 </form>
             </div>

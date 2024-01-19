@@ -306,7 +306,7 @@ mainHeader(cssIdentifier: "page-edit-person", title: "Edit Person", link: "edit-
                                     </div>
                                 </div>
 
-                                <div class="btn-container d-flex column-gap-5">
+                                <div class="btn-container d-flex column-gap-3">
                                     <button
                                             class="btn btn-primary btn--form"
                                             type="submit"
