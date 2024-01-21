@@ -28,6 +28,11 @@ $displayingData = getPaginatedData(array: $persons, page: $page, limit: PAGE_LIM
 $persons = $displayingData[PAGING_DATA];
 $prev = $displayingData[PAGING_CURRENT_PAGE] - 1;
 $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
+
+if($_GET["page"] > count($persons) || $_GET["page"] <= 0 || !is_countable($_GET["page"]) ){
+    $page = 1;
+}
+
 ?>
     <div class="person-content position-absolute px-5">
         <div
@@ -54,7 +59,7 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
                         action="#table"
                         method="get"
                 >
-                    <div class="wrapper d-lg-flex mb-2">
+                    <div class="wrapper d-lg-flex">
                         <!-- menggunakan select -->
                         <select
                                 id="form-select-catagories"
@@ -126,7 +131,7 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
                     </div>
 
                     <div class="wrapper d-lg-flex">
-                        <div class="form-search w-100 mb-3">
+                        <div class="form-search w-100 me-2">
                             <input
                                     id="search"
                                     class="form-control form-control-sm"
@@ -142,8 +147,8 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
                             />
                         </div>
                         <div class="btn-wrapper d-flex flex-row justify-content-end">
-                            <button class="btn btn-outline-success d-flex align-items-center gap-2" type="submit">
-                                Search
+                            <button class="btn btn-outline-success d-flex align-items-center" type="submit">
+                                <span class="d-none">Search</span>
                                 <ion-icon src="../assets/properties/icon/search-outline.svg" class="icon"></ion-icon>
                             </button>
 

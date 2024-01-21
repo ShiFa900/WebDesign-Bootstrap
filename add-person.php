@@ -149,9 +149,89 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
                                         ?>
                                     </div>
 
+                                    <div class="mb-3 form-input-add-person">
+                                        <label class="form-label required" for="sex-dropdown"
+                                        >Sex</label
+                                        >
+                                        <select
+                                                class="form-select form-control "
+                                                id="sex-dropdown"
+                                                required
+                                                aria-label="Small select example"
+                                                name="sex"
+                                        >
+                                            <?php
+                                            if (isset($_SESSION["inputData"]["sex"])) {
+                                                ?>
+                                                <option selected
+                                                        value="<?= $_SESSION["inputData"]["sex"] ?>"><?php if ($_SESSION["inputData"]["sex"] == SEX_MALE) {
+                                                        echo SEX_MALE;
+                                                    } else {
+                                                        echo SEX_FEMALE;
+                                                    } ?></option>
+                                                <?php
+
+//                                            ?>
+                                                <?php
+                                            } else { ?>
+                                                <option selected value="<?= SEX_MALE ?>"><?= SEX_MALE ?></option>
+                                                <?php
+                                            }
+
+                                            if (isset($_SESSION["inputData"]["sex"]) == SEX_FEMALE) {
+                                                ?>
+                                                <option value="<?= SEX_MALE ?>"><?= SEX_MALE ?></option>
+                                                <option value="<?= SEX_BETTER_NOT_SAY ?>"><?= SEX_BETTER_NOT_SAY ?></option>
+
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <option value="<?= SEX_FEMALE ?>"><?= SEX_FEMALE ?></option>
+                                                <option value="<?= SEX_BETTER_NOT_SAY ?>"><?= SEX_BETTER_NOT_SAY ?></option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-input-add-person mt-0">
+                                        <div
+                                                class="form-check form-switch d-flex align-items-center column-gap-3"
+                                        >
+                                            <input
+                                                    class="form-check-input"
+                                                    type="checkbox"
+                                                    role="switch"
+                                                    id="flexSwitchCheckDefault"
+                                                    name="status"
+                                            />
+                                            <label
+                                                    class="form-check-label"
+                                                    for="flexSwitchCheckDefault"
+                                            >This person is alive</label
+                                            >
+                                        </div>
+                                    </div>
+
                                 </div>
 
                                 <div class="col-xxl-5 col-xl-6 col-lg-6 new-person-form">
+                                    <div class="mb-3 form-input-add-person">
+                                        <label for="note" class="form-label"
+                                        >Internal notes</label
+                                        >
+                                        <div class="form-floating mb-4">
+                                              <textarea
+                                                      class="form-control"
+                                                      placeholder="Leave a comment here"
+                                                      id="note"
+                                                      name="note"
+                                                      aria-placeholder="Take a note here..."
+                                              ></textarea>
+                                        </div>
+                                        <hr/>
+                                    </div>
+
                                     <!--password-->
                                     <div class="mb-3 form-input-add-person">
                                         <label for="pass" class="form-label required">Password</label>
@@ -192,53 +272,6 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
                                             <?php
                                         }
                                         ?>
-                                    </div>
-                                    <div class="mb-3 form-input-add-person">
-                                        <label class="form-label required" for="sex-dropdown"
-                                        >Sex</label
-                                        >
-                                        <select
-                                                class="form-select form-control "
-                                                id="sex-dropdown"
-                                                required
-                                                aria-label="Small select example"
-                                                name="sex"
-                                        >
-                                            <?php
-                                            if (isset($_SESSION["inputData"]["sex"])) {
-                                                ?>
-                                                <option selected
-                                                        value="<?= $_SESSION["inputData"]["sex"] ?>"><?php if ($_SESSION["inputData"]["sex"] == SEX_MALE) {
-                                                        echo SEX_MALE;
-                                                    } else {
-                                                        echo SEX_FEMALE;
-                                                    } ?></option>
-                                                <?php
-
-//                                        } else {
-//                                            ?>
-                                                <!--                                            <option selected value="--><?php //= SEX_MALE ?><!--">Male</option>-->
-                                                <!---->
-                                                <!--                                            --><?php
-                                            } else { ?>
-                                                <option selected value="<?= SEX_MALE ?>"><?= SEX_MALE ?></option>
-                                                <?php
-                                            }
-
-                                            if (isset($_SESSION["inputData"]["sex"]) == SEX_FEMALE) {
-                                                ?>
-                                                <option value="<?= SEX_MALE ?>"><?= SEX_MALE ?></option>
-                                                <option value="<?= SEX_BETTER_NOT_SAY ?>"><?= SEX_BETTER_NOT_SAY ?></option>
-
-                                                <?php
-                                            } else {
-                                                ?>
-                                                <option value="<?= SEX_FEMALE ?>"><?= SEX_FEMALE ?></option>
-                                                <option value="<?= SEX_BETTER_NOT_SAY ?>"><?= SEX_BETTER_NOT_SAY ?></option>
-                                                <?php
-                                            }
-                                            ?>
-                                        </select>
                                     </div>
 
                                     <div class="mb-3 form-input-add-person">
@@ -281,24 +314,6 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
                                     </div>
                                 </div>
 
-                                <div class="form-input-add-person mt-0">
-                                    <div
-                                            class="form-check form-switch d-flex align-items-center column-gap-3"
-                                    >
-                                        <input
-                                                class="form-check-input"
-                                                type="checkbox"
-                                                role="switch"
-                                                id="flexSwitchCheckDefault"
-                                                name="status"
-                                        />
-                                        <label
-                                                class="form-check-label"
-                                                for="flexSwitchCheckDefault"
-                                        >This person is alive</label
-                                        >
-                                    </div>
-                                </div>
                             </div>
 
                             <div class="btn-container d-flex column-gap-5">

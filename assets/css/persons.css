@@ -61,3 +61,11 @@
 .page-persons .pagination-btn{
   margin: 1rem;
 }
+
+.page-persons .btn-wrapper{
+  margin: 0.5rem 0;
+}
+
+.page-persons .search-form{
+  row-gap: 1rem ;
+}
