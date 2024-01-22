@@ -4,13 +4,21 @@ require_once __DIR__ . "/include/footer.php";
 require_once __DIR__ . "/action/utils.php";
 require_once __DIR__ . "/index.php";
 require_once __DIR__ . "/action/action-dashboard.php";
+?>
 
+<?php
 mainHeader(
-	cssIdentifier: "page-dashboard",
-	title: "Dashboard",
-	link: "dashboard.php",
-	pageStyles: [ "dashboard.css" ]
+    cssIdentifier: "page-dashboard",
+    title: "Dashboard",
+    link: "dashboard.php",
+    pageStyles: [ "dashboard.css" ]
 );
+
+date_default_timezone_set( 'Asia/Singapore' );
+
+
+$user = getPerson(email: $_SESSION["userEmail"]);
+
 ?>
 
     <div class="w-100">
@@ -19,7 +27,6 @@ mainHeader(
                 <div class="col-xxl-8">
                     <h1 class="first-heading">Hi,
 						<?php
-                        $user = getPerson(email: $_SESSION["userEmail"]);
 						echo $user[PERSON_FIRST_NAME] . "!";
 						?>
                     </h1>
@@ -29,7 +36,6 @@ mainHeader(
                         <p class="header-sm-title">
                             You were logged in previously in
 							<?php
-							date_default_timezone_set( 'Asia/Singapore' );
 							echo "<strong>";
 							echo date( 'l, F d Y H:i', $user[PERSON_LAST_LOGGED_IN] );
 							echo "</strong>";
@@ -49,7 +55,7 @@ mainHeader(
 
             <div class="row dashboard">
                 <div class="dashboard-card col-12 col-xxl-4 col-xl-4 col-lg-5 col-md-6">
-                    <a class="card card-link" href="persons.php?category=<?=replaceSpace(CATEGORIES_ALL)?>">
+                    <a class="card card-link" href="persons.php?category=<?=CATEGORIES_ALL?>">
                         <div class="card-body">
                             <p class="number">153</p>
                             <h4 class="card-subtitle third-heading mb-2 text-body-secondary">
@@ -76,7 +82,7 @@ mainHeader(
                     </a>
                 </div>
                 <div class="dashboard-card col-12 col-xxl-4 col-xl-4 col-lg-5 col-md-6">
-                    <a class="card card-link" href="persons.php?category=<?=replaceSpace(CATEGORIES_CHILD)?>">
+                    <a class="card card-link" href="persons.php?category=<?=CATEGORIES_CHILD?>">
                         <div class="card-body">
                             <p class="number">29</p>
                             <h4 class="card-subtitle third-heading mb-2 text-body-secondary">
@@ -89,7 +95,7 @@ mainHeader(
                     </a>
                 </div>
                 <div class="dashboard-card col-12 col-xxl-4 col-xl-4 col-lg-5 col-md-6">
-                    <a class="card card-link"href="persons.php?category=<?=replaceSpace(CATEGORIES_ELDERLY)?>">
+                    <a class="card card-link"href="persons.php?category=<?=CATEGORIES_ELDERLY?>">
                         <div class="card-body">
                             <p class="number">22</p>
                             <h4 class="card-subtitle third-heading mb-2 text-body-secondary">
@@ -103,7 +109,7 @@ mainHeader(
                 </div>
 
                 <div class="dashboard-card col-12 col-xxl-4 col-xl-4 col-lg-5 col-md-6">
-                    <a class="card card-link" href="persons.php?category=<?=replaceSpace(CATEGORIES_PASSED_AWAY)?>">
+                    <a class="card card-link" href="persons.php?category=<?=CATEGORIES_PASSED_AWAY?>">
                         <div class="card-body">
                             <p class="number">5</p>
                             <h4 class="card-subtitle third-heading mb-2 text-body-secondary">

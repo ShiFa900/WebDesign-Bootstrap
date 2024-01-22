@@ -14,6 +14,7 @@ $persons = getAll();
 <?php
 mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.php", pageStyles: ['persons.css']);
 
+$userRole = getPerson(email: $_SESSION["userEmail"]);
 $persons = getAll();
 if (isset($_GET["keyword"]) || isset($_GET["category"])) {
     $result = search(persons: $persons, category: $_GET["category"], keyword: $_GET["keyword"]);
@@ -24,7 +25,7 @@ if (isset($_GET["keyword"]) || isset($_GET["category"])) {
 $totalPage = ceil((float)count($persons) / (float)PAGE_LIMIT);
 
 $page = $_GET["page"] ?? 1;
-if($page <= 0 || !is_numeric($page) || $page > $totalPage){
+if ($page <= 0 || !is_numeric($page) || $page > $totalPage) {
     $page = 1;
 }
 $displayingData = getPaginatedData(array: $persons, page: $page, limit: PAGE_LIMIT, totalPage: $totalPage);
@@ -36,7 +37,7 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
 ?>
     <div class="person-content position-absolute px-5">
         <div
-                class="content-wrapper d-flex justify-content-between"
+                class="content-wrapper d-xl-flex justify-content-between d-md-block"
         >
             <div class="left d-flex gap-4 page-header ">
                 <a class="first-heading nav-link" href="persons.php">
@@ -54,7 +55,7 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
             >
                 <!--SEARCH-->
                 <form
-                        class="search-form d-flex column gap-2"
+                        class="search-form d-xl-flex column gap-2"
                         name="search-form"
                         action="#table"
                         method="get"
@@ -93,7 +94,7 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
                         </select>
                     </div>
 
-                    <div class="wrapper d-flex column-gap-2">
+                    <div class="wrapper d-xl-flex d-md-block column-gap-2">
                         <div class="form-search w-100">
                             <input
                                     id="search"
@@ -199,7 +200,6 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
                             <th scope="col" class="p-3">Email</th>
                             <th scope="col" class="p-3">Name</th>
                             <th scope="col" class="text-center p-3">Age</th>
-                            <!--                        <th scope="col" class="text-center">sex</th>-->
                             <th scope="col" class="text-center p-3">Role</th>
                             <th scope="col" class="text-center p-3">Status</th>
                             <th scope="col" class="text-center p-3"></th>
@@ -251,7 +251,6 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
 
                                                 <button class="btn">
                                                     <?php
-                                                    $userRole = getPerson(email: $_SESSION["userEmail"]);
                                                     if ($userRole[PERSON_ROLE] == ROLE_ADMIN) {
                                                         ?>
                                                         <a

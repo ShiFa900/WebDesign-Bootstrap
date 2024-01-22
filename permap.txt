@@ -12,7 +12,7 @@
 - editPerson -> bisakah tamppilan GET dihilangkan??
 - require di tiap page, spertinya bisa dijadikan function saja(?)
 - my profile role dan sex valuenya blom yaa
-
+- tampilkan jumlah orang untuk setiap kategori (dashboard)
 - clean up dan cek error
 ===================================
 ROLE ADMIN
