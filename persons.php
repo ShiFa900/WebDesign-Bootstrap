@@ -21,22 +21,22 @@ if (isset($_GET["keyword"]) || isset($_GET["category"])) {
         $persons = $result;
     }
 }
+$totalPage = ceil((float)count($persons) / (float)PAGE_LIMIT);
 
 $page = $_GET["page"] ?? 1;
-
-$displayingData = getPaginatedData(array: $persons, page: $page, limit: PAGE_LIMIT);
+if($page <= 0 || !is_numeric($page) || $page > $totalPage){
+    $page = 1;
+}
+$displayingData = getPaginatedData(array: $persons, page: $page, limit: PAGE_LIMIT, totalPage: $totalPage);
 $persons = $displayingData[PAGING_DATA];
 $prev = $displayingData[PAGING_CURRENT_PAGE] - 1;
 $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
 
-if($_GET["page"] > count($persons) || $_GET["page"] <= 0 || !is_countable($_GET["page"]) ){
-    $page = 1;
-}
 
 ?>
     <div class="person-content position-absolute px-5">
         <div
-                class="content-wrapper d-lg-flex justify-content-between "
+                class="content-wrapper d-flex justify-content-between"
         >
             <div class="left d-flex gap-4 page-header ">
                 <a class="first-heading nav-link" href="persons.php">
@@ -50,16 +50,16 @@ if($_GET["page"] > count($persons) || $_GET["page"] <= 0 || !is_countable($_GET[
             </div>
 
             <div
-                    class="right d-lg-flex gap-2"
+                    class="right"
             >
                 <!--SEARCH-->
                 <form
-                        class="search-form"
+                        class="search-form d-flex column gap-2"
                         name="search-form"
                         action="#table"
                         method="get"
                 >
-                    <div class="wrapper d-lg-flex">
+                    <div class="wrapper ">
                         <!-- menggunakan select -->
                         <select
                                 id="form-select-catagories"
@@ -70,73 +70,36 @@ if($_GET["page"] > count($persons) || $_GET["page"] <= 0 || !is_countable($_GET[
                         >
                             <?php
                             if (isset($_GET["category"])) {
-                                ?>
-                            <option selected name="category"
-                                    value="<?= $_GET["category"] == null ? CATEGORIES_ALL : $_GET["category"] ?>"> <?= $_GET["category"] == null ? CATEGORIES_ALL : $_GET["category"] ?>
-                                <?php
-                                if ($_GET["category"] == CATEGORIES_ALL) {
+                                $arrayCategories = sortCategories($_GET["category"]);
+                                foreach ($arrayCategories as $category) {
                                     ?>
-                                    <option value="<?= CATEGORIES_PRODUCTIVE_AGE ?>">Productive ages</option>
-                                    <option value="<?= CATEGORIES_CHILD ?>">Children</option>
-                                    <option value="<?= CATEGORIES_ELDERLY ?>">Elderly</option>
-                                    <option value="<?= CATEGORIES_PASSED_AWAY ?>">Passed away</option>
-                                    <?php
-                                }
-                                ?>
-                                <!--conditinal untuk menampilkan sisa kategori-->
-                                <?php
-                                if ($_GET["category"] == CATEGORIES_PRODUCTIVE_AGE) {
-                                    ?>
-                                    <option value="<?= CATEGORIES_CHILD ?>">Children</option>
-                                    <option value="<?= CATEGORIES_ELDERLY ?>">Elderly</option>
-                                    <option value="<?= CATEGORIES_PASSED_AWAY ?>">Passed away</option>
-                                    <option value="<?= CATEGORIES_ALL ?>">All</option>
-                                    <?php
-                                } elseif ($_GET["category"] == CATEGORIES_CHILD) {
-                                    ?>
-                                    <option value="<?= CATEGORIES_ELDERLY ?>">Elderly</option>
-                                    <option value="<?= CATEGORIES_PASSED_AWAY ?>">Passed away</option>
-                                    <option value="<?= CATEGORIES_ALL ?>">All</option>
-                                    <option value="<?= CATEGORIES_PRODUCTIVE_AGE ?>">Productive ages</option>
-                                    <?php
-                                } elseif ($_GET["category"] == CATEGORIES_ELDERLY) {
-                                    ?>
-                                    <option value="<?= CATEGORIES_PASSED_AWAY ?>">Passed away</option>
-                                    <option value="<?= CATEGORIES_ALL ?>">All</option>
-                                    <option value="<?= CATEGORIES_PRODUCTIVE_AGE ?>">Productive ages</option>
-                                    <option value="<?= CATEGORIES_CHILD ?>">Children</option>
-
-                                    <?php
-                                } elseif ($_GET["category"] == CATEGORIES_PASSED_AWAY) {
-                                    ?>
-                                    <option value="<?= CATEGORIES_ALL ?>">All</option>
-                                    <option value="<?= CATEGORIES_PRODUCTIVE_AGE ?>">Productive ages</option>
-                                    <option value="<?= CATEGORIES_CHILD ?>">Children</option>
-                                    <option value="<?= CATEGORIES_ELDERLY ?>">Elderly</option>
+                                    <option
+                                            value="<?= $category ?>"<?php if ($category === $_GET["category"]) echo "selected name='category'" ?>>
+                                        <?= CATEGORY_LABEL[$category . "_LABEL"] ?></option>
                                     <?php
                                 }
                                 ?>
                                 <?php
                             } else {
                                 ?>
-                                <option value="<?= CATEGORIES_ALL ?>">All</option>
-                                <option value="<?= CATEGORIES_PRODUCTIVE_AGE ?>">Productive ages</option>
-                                <option value="<?= CATEGORIES_CHILD ?>">Children</option>
-                                <option value="<?= CATEGORIES_ELDERLY ?>">Elderly</option>
-                                <option value="<?= CATEGORIES_PASSED_AWAY ?>">Passed away</option>
+                                <option value="<?= CATEGORIES_ALL ?>"><?= CATEGORY_LABEL["CATEGORIES_ALL_LABEL"] ?></option>
+                                <option value="<?= CATEGORIES_PRODUCTIVE_AGE ?>"><?= CATEGORY_LABEL["CATEGORIES_PRODUCTIVE_AGE_LABEL"] ?></option>
+                                <option value="<?= CATEGORIES_CHILD ?>"><?= CATEGORY_LABEL["CATEGORIES_CHILD_LABEL"] ?></option>
+                                <option value="<?= CATEGORIES_ELDERLY ?>"><?= CATEGORY_LABEL["CATEGORIES_ELDERLY_LABEL"] ?></option>
+                                <option value="<?= CATEGORIES_PASSED_AWAY ?>"><?= CATEGORY_LABEL["CATEGORIES_PASSED_AWAY_LABEL"] ?></option>
                                 <?php
                             }
                             ?>
                         </select>
                     </div>
 
-                    <div class="wrapper d-lg-flex">
-                        <div class="form-search w-100 me-2">
+                    <div class="wrapper d-flex column-gap-2">
+                        <div class="form-search w-100">
                             <input
                                     id="search"
                                     class="form-control form-control-sm"
                                     type="search"
-                                    placeholder="Search"
+                                    placeholder="Search..."
                                     aria-label="Search"
                                     name="keyword"
                                     value="<?php if (isset($_GET["keyword"])) {
@@ -146,9 +109,8 @@ if($_GET["page"] > count($persons) || $_GET["page"] <= 0 || !is_countable($_GET[
                                     } ?>"
                             />
                         </div>
-                        <div class="btn-wrapper d-flex flex-row justify-content-end">
-                            <button class="btn btn-outline-success d-flex align-items-center" type="submit">
-                                <span class="d-none">Search</span>
+                        <div class="btn-wrapper d-flex">
+                            <button class="btn btn-outline-success" type="submit">
                                 <ion-icon src="../assets/properties/icon/search-outline.svg" class="icon"></ion-icon>
                             </button>
 
@@ -156,7 +118,7 @@ if($_GET["page"] > count($persons) || $_GET["page"] <= 0 || !is_countable($_GET[
                             <?php
                             if (isset($_GET["keyword"]) || isset($_GET["category"])) {
                                 ?>
-                                <button class="btn btn-reset" name="reset">
+                                <button class="btn btn-reset ms-2" name="reset">
                                     <ion-icon src="../assets/properties/icon/refresh-outline.svg"
                                               class="icon"></ion-icon>
                                 </button>
@@ -188,7 +150,7 @@ if($_GET["page"] > count($persons) || $_GET["page"] <= 0 || !is_countable($_GET[
         } elseif (isset($_SESSION["editSuccess"])) {
             ?>
             <?php
-            if ($_SESSION["personHasEdit"][PERSON_ROLE] == ROLE_ADMIN) {
+            if ($_SESSION["personHasEdit"][PERSON_EMAIL] == $_SESSION["userEmail"]) {
                 ?>
                 <div class="alert alert-success" role="alert">
                     Your edit data was successfully saved!
@@ -234,8 +196,8 @@ if($_GET["page"] > count($persons) || $_GET["page"] <= 0 || !is_countable($_GET[
                         <thead>
                         <tr>
                             <th scope="col" class="text-center p-3">No</th>
-                            <th scope="col" class="text-center p-3">Email</th>
-                            <th scope="col" class="text-center p-3">Name</th>
+                            <th scope="col" class="p-3">Email</th>
+                            <th scope="col" class="p-3">Name</th>
                             <th scope="col" class="text-center p-3">Age</th>
                             <!--                        <th scope="col" class="text-center">sex</th>-->
                             <th scope="col" class="text-center p-3">Role</th>
@@ -248,68 +210,74 @@ if($_GET["page"] > count($persons) || $_GET["page"] <= 0 || !is_countable($_GET[
                         <?php
                         $number = ($page - 1) * PAGE_LIMIT + 1;
                         foreach ($persons as $person) {
-                            ?>
-                            <tr>
+                            $personsRole = sortRole($person[PERSON_ROLE]);
+                            foreach ($personsRole as $role) {
+                                if ($role == $person[PERSON_ROLE]) {
+                                    $personRole = ROLE_LABEL[$role . "_LABEL"];
+                                    ?>
+                                    <tr>
 
-                                <td class="text-center"><?= $number ?></td>
-                                <td><?= $person[PERSON_EMAIL] ?></td>
-                                <td><?= $person[PERSON_FIRST_NAME] . " " . $person[PERSON_LAST_NAME] ?></td>
-                                <td class="text-center"><?= calculateAge($person[PERSON_BIRTH_DATE]) ?></td>
-                                <!--                            <td class="text-center">-->
-                                <?php //= $person[PERSON_SEX] ?><!--</td>-->
-                                <td class="text-center"><?= $person[PERSON_ROLE] ?></td>
-                                <?php
-                                $personStatus = translateBooleanToString($person[PERSON_STATUS]);
-                                ?>
-                                <td class="text-center"><?= $personStatus ?>
-                                </td>
+                                        <td class="text-center"><?= $number ?></td>
+                                        <td><?= $person[PERSON_EMAIL] ?></td>
+                                        <td><?= $person[PERSON_FIRST_NAME] . " " . $person[PERSON_LAST_NAME] ?></td>
+                                        <td class="text-center"><?= calculateAge($person[PERSON_BIRTH_DATE]) ?></td>
+                                        <!--                            <td class="text-center">-->
+                                        <?php //= $person[PERSON_SEX]
+                                        ?><!--</td>-->
+                                        <td class="text-center"><?= $personRole ?></td>
+                                        <?php
+                                        $personStatus = translateBooleanToString($person[PERSON_STATUS]);
+                                        ?>
+                                        <td class="text-center"><?= $personStatus ?>
+                                        </td>
 
-                                <td>
-                                    <div class="person-btn d-flex justify-content-center">
-                                        <button class="btn" name="btn-view">
-                                            <a
+                                        <td>
+                                            <div class="person-btn d-flex justify-content-center">
+                                                <button class="btn" name="btn-view">
+                                                    <a
 
-                                                <?php
-                                                if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
-                                                    ?>
-                                                    href="view-person.php?person=<?php echo $person[ID] ?>"
-                                                    <?php
-                                                }
-                                                ?>
-                                                    href="my-profile.php"
-                                                    class="nav-link table-nav view-btn"
-                                            >View</a
-                                            >
-                                        </button>
-
-                                        <button class="btn">
-                                            <?php
-                                            $userRole = getPerson(email: $_SESSION["userEmail"]);
-                                            if ($userRole[PERSON_ROLE] == ROLE_ADMIN) {
-                                                ?>
-                                                <a
-                                                    <?php
-                                                    if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
-                                                        $_SESSION["personToBeEdit"] = $person[ID];
+                                                        <?php
+                                                        if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
+                                                            ?>
+                                                            href="view-person.php?person=<?php echo $person[ID] ?>"
+                                                            <?php
+                                                        }
                                                         ?>
+                                                            href="my-profile.php"
+                                                            class="nav-link table-nav view-btn"
+                                                    >View</a
+                                                    >
+                                                </button>
 
-                                                        href="edit-person.php?person=<?php echo $person[ID] ?>"
+                                                <button class="btn">
+                                                    <?php
+                                                    $userRole = getPerson(email: $_SESSION["userEmail"]);
+                                                    if ($userRole[PERSON_ROLE] == ROLE_ADMIN) {
+                                                        ?>
+                                                        <a
+                                                            <?php
+                                                            if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
+                                                                $_SESSION["personToBeEdit"] = $person[ID];
+                                                                ?>
+
+                                                                href="edit-person.php?person=<?php echo $person[ID] ?>"
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                                href="my-profile.php"
+                                                                class="nav-link table-nav edit-btn"
+                                                        >Edit</a
+                                                        >
                                                         <?php
                                                     }
                                                     ?>
-                                                        href="my-profile.php"
-                                                        class="nav-link table-nav edit-btn"
-                                                >Edit</a
-                                                >
-                                                <?php
-                                            }
-                                            ?>
-                                        </button>
-                                    </div>
-                                </td>
-
-                            </tr>
-                            <?php
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
+                            }
                             $number++;
                             ?>
                             <?php
@@ -322,18 +290,18 @@ if($_GET["page"] > count($persons) || $_GET["page"] <= 0 || !is_countable($_GET[
 
                         if (isset($_GET["category"]) || isset($_GET["keyword"])) {
                             showPaginationButton(
-                                page: $page,
                                 displayingData: $displayingData,
                                 prev: $prev,
                                 next: $next,
+                                page: $page,
                                 keyword: $_GET["keyword"],
                                 category: $_GET["category"]);
                         } else {
                             showPaginationButton(
-                                page: $page,
                                 displayingData: $displayingData,
                                 prev: $prev,
-                                next: $next);
+                                next: $next,
+                                page: $page);
                         }
                         ?>
                     </div>
@@ -341,7 +309,6 @@ if($_GET["page"] > count($persons) || $_GET["page"] <= 0 || !is_countable($_GET[
             </div>
 
             <?php
-
         }
         ?>
     </div>

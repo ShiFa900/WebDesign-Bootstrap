@@ -1,8 +1,7 @@
 <?php
 
-function getPaginatedData(array $array, int $page, int $limit): array
+function getPaginatedData(array $array, string $page, int $limit, int $totalPage): array
 {
-    $totalPage = ceil((float)count($array) / (float)$limit);
     $indexStart = ($page - 1) * $limit;
     $length = $limit;
     if (($indexStart + $limit) > count($array)) {
@@ -14,4 +13,5 @@ function getPaginatedData(array $array, int $page, int $limit): array
         PAGING_DATA => array_slice($array, $indexStart, $length),
         PAGING_CURRENT_PAGE => $page,
     ];
+
 }

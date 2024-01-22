@@ -7,6 +7,18 @@ require_once __DIR__ . "/index.php";
 ?>
 <?php
 mainHeader(cssIdentifier: "page-my-profile", title: "My Profile", link: "my-profile.php", pageStyles: ["my-profile.css"]);
+
+$person = getPerson(email: $_SESSION["userEmail"]);
+$_SESSION["userData"] = $person;
+
+$arraySex = sortSex($person[PERSON_SEX]);
+$personRole = sortRole($person[PERSON_ROLE]);
+foreach ($personRole as $role) {
+    if ($role === $person[PERSON_ROLE]) {
+        $userRole = ROLE_LABEL[$role . "_LABEL"];
+    }
+}
+
 ?>
 
     <main>
@@ -17,7 +29,7 @@ mainHeader(cssIdentifier: "page-my-profile", title: "My Profile", link: "my-prof
 
             <div class="w-100">
                 <div class="my-profile-content position-absolute px-5">
-                    <div class="page-header">
+                    <div class="page-header content-wrapper">
                         <h1 class="first-heading">My profile</h1>
                     </div>
 
@@ -26,10 +38,6 @@ mainHeader(cssIdentifier: "page-my-profile", title: "My Profile", link: "my-prof
                         <div class="row">
 
                             <div class="col-xxl-6 col-xl-6 col-lg-6 me-4">
-                                <?php
-                                $person = getPerson(email: $_SESSION["userEmail"]);
-                                $_SESSION["userData"] = $person;
-                                ?>
                                 <div class="row">
                                     <div class="mb-3 form-input">
                                         <label for="f-name" class="form-label required"
@@ -160,28 +168,27 @@ mainHeader(cssIdentifier: "page-my-profile", title: "My Profile", link: "my-prof
                                                 name="sex"
 
                                         >
-                                            <option selected><?php if (isset($_SESSION["userInputData"]["sex"])) {
-                                                    echo $_SESSION["userInputData"]["sex"];
-                                                } else {
-                                                    echo $_SESSION["userData"][PERSON_SEX];
-                                                } ?></option>
-
                                             <?php
-                                            if ($_SESSION["userData"][PERSON_SEX] == SEX_MALE) {
+                                            if (isset($_SESSION["userInputData"]["sex"])) {
+                                                $arraySex = sortSex($_SESSION["userInputData"]["sex"]);
+                                                foreach ($arraySex as $role) { ?>
+                                                    <option
+                                                            value="<?= $role ?>"<?php if ($role === $_SESSION["inputData"]["sex"]) echo "selected" ?>>
+                                                        <?= ROLE_LABEL[$role . "_LABEL"] ?></option>
+                                                    }
+                                                    <?php
+                                                }
                                                 ?>
-                                                <option value="1"><?= SEX_FEMALE ?></option>
-                                                <option value="2"><?= SEX_BETTER_NOT_SAY ?></option>
-
-                                                <?php
-                                            } elseif ($_SESSION["userData"][PERSON_SEX] == SEX_FEMALE) {
-                                                ?>
-                                                <option value="1"><?= SEX_MALE ?></option>
-                                                <option value="2"><?= SEX_BETTER_NOT_SAY ?></option>
                                                 <?php
                                             } else {
+                                                foreach ($arraySex as $role) {
+                                                    ?>
+                                                    <option
+                                                            value="<?= $role ?>"<?php if ($role === $person[PERSON_SEX]) echo "selected" ?>>
+                                                        <?= SEX_LABEL[$role . "_LABEL"] ?></option>
+                                                    <?php
+                                                }
                                                 ?>
-                                                <option value="1"><?= SEX_MALE ?></option>
-                                                <option value="2"><?= SEX_FEMALE ?></option>
                                                 <?php
                                             }
                                             ?>
@@ -191,8 +198,7 @@ mainHeader(cssIdentifier: "page-my-profile", title: "My Profile", link: "my-prof
                                     <div class="mb-3 form-input">
                                         <span class="required title">Role</span>
                                         <p>
-                                            <?= $person[PERSON_ROLE];
-                                            ?>
+                                            <?= $userRole ?>
                                         </p>
                                     </div>
 

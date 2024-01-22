@@ -129,9 +129,9 @@ function savePerson(array $person, string $location): void
                 $_SESSION["editSuccess"] = $persons;
                 if ($person[PERSON_EMAIL] == $_SESSION["userEmail"]) {
                     $_SESSION["userEmail"] = $person[PERSON_EMAIL];
-                    $_SESSION["personHasEdit"] = $person;
 
                 }
+                $_SESSION["personHasEdit"] = $persons[$i];
                 redirect("../" . $location, "");
 
             }
@@ -257,7 +257,7 @@ function getUserInputData(
         'role' => $role,
         'sex' => $sex,
         'status' => $status,
-        'note' => $note
+        'note' => htmlspecialchars($note)
     ];
 }
 
@@ -372,6 +372,78 @@ function getValidCurrentPassword(string $password, array $persons): int
         return 0;
     }
     return -1;
+}
+
+function sortSex(string $value): array
+{
+    $sex = [];
+
+    if($value == SEX_FEMALE){
+        $sex[] = SEX_FEMALE;
+        $sex[] = SEX_MALE;
+        $sex[] = SEX_BETTER_NOT_SAY;
+    } elseif ($value == SEX_MALE){
+        $sex[] = SEX_MALE;
+        $sex[] = SEX_FEMALE;
+        $sex[] = SEX_BETTER_NOT_SAY;
+    } else {
+        $sex[] = SEX_BETTER_NOT_SAY;
+        $sex[] = SEX_MALE;
+        $sex[] = SEX_FEMALE;
+    }
+    return $sex;
+}
+
+function sortRole(string $value)
+{
+    $role = [];
+
+    if($value == ROLE_ADMIN){
+        $role[] = ROLE_ADMIN;
+        $role[] = ROLE_MEMBER;
+    } else{
+        $role[] = ROLE_MEMBER;
+        $role[] = ROLE_ADMIN;
+    }return $role;
+
+}
+
+function sortCategories(string $value): array
+{
+    $categories = [];
+
+    if($value == CATEGORIES_ALL){
+        $categories[] = CATEGORIES_ALL;
+        $categories[] = CATEGORIES_PRODUCTIVE_AGE;
+        $categories[] = CATEGORIES_CHILD;
+        $categories[] = CATEGORIES_ELDERLY;
+        $categories[] = CATEGORIES_PASSED_AWAY;
+    } elseif ($value == CATEGORIES_PRODUCTIVE_AGE){
+        $categories[] = CATEGORIES_PRODUCTIVE_AGE;
+        $categories[] = CATEGORIES_CHILD;
+        $categories[] = CATEGORIES_ELDERLY;
+        $categories[] = CATEGORIES_PASSED_AWAY;
+        $categories[] = CATEGORIES_ALL;
+    } elseif ($value == CATEGORIES_CHILD){
+        $categories[] = CATEGORIES_CHILD;
+        $categories[] = CATEGORIES_ELDERLY;
+        $categories[] = CATEGORIES_PASSED_AWAY;
+        $categories[] = CATEGORIES_ALL;
+        $categories[] = CATEGORIES_PRODUCTIVE_AGE;
+    } elseif ($value == CATEGORIES_ELDERLY){
+        $categories[] = CATEGORIES_ELDERLY;
+        $categories[] = CATEGORIES_PASSED_AWAY;
+        $categories[] = CATEGORIES_ALL;
+        $categories[] = CATEGORIES_PRODUCTIVE_AGE;
+        $categories[] = CATEGORIES_CHILD;
+    } else {
+        $categories[] = CATEGORIES_PASSED_AWAY;
+        $categories[] = CATEGORIES_ALL;
+        $categories[] = CATEGORIES_PRODUCTIVE_AGE;
+        $categories[] = CATEGORIES_CHILD;
+        $categories[] = CATEGORIES_ELDERLY;
+    }
+    return $categories;
 }
 
 

@@ -10,6 +10,9 @@ checkRoleAdmin($_SESSION["userEmail"]);
 
 <?php
 mainHeader(cssIdentifier: "page-edit-person", title: "Edit Person", link: "edit-person.php", pageStyles: ["editPerson.css"]);
+
+$person = getPerson(id: $_GET["person"]);
+$_SESSION["personData"] = $person;
 ?>
 
     <main>
@@ -20,17 +23,13 @@ mainHeader(cssIdentifier: "page-edit-person", title: "Edit Person", link: "edit-
 
             <div class="w-100">
                 <div class="edit-person-content position-absolute px-5">
-                    <div class="page-header">
+                    <div class="page-header content-wrapper">
                         <h1 class="first-heading">Edit Person Data</h1>
                     </div>
 
                     <div class="row">
                         <div class="col-xxl-12">
 
-                            <?php
-                            $person = getPerson(id: $_GET["person"]);
-                            $_SESSION["personData"] = $person;
-                            ?>
                             <form class="new-person-form" action="action/action-edit-person.php" method="post"
                                   name="editPerson">
                                 <div class="row">
@@ -165,32 +164,31 @@ mainHeader(cssIdentifier: "page-edit-person", title: "Edit Person", link: "edit-
                                                     aria-label="Small select example"
                                                     name="sex"
                                             >
-                                                <option selected><?php if (isset($_SESSION["userInputData"]["sex"])) {
-                                                        echo $_SESSION["userInputData"]["sex"];
-                                                    } else {
-                                                        echo $_SESSION["personData"][PERSON_SEX];
-                                                    } ?></option>
-                                                <!--opsi lainnya blum muncul-->
-
                                                 <?php
-                                                if ($_SESSION["personData"][PERSON_SEX] == SEX_MALE) {
+                                                $arraySex = sortSex($person[PERSON_SEX]);
+                                                if (isset($_SESSION["userInputData"]["sex"])) {
+                                                    $arraySex = sortSex($_SESSION["userInputData"]["sex"]);
+                                                    foreach ($arraySex as $sex) { ?>
+                                                        <option
+                                                                value="<?= $sex ?>"<?php if ($sex === $_SESSION["inputData"]["sex"]) echo "selected" ?>>
+                                                            <?= ROLE_LABEL[$sex . "_LABEL"] ?></option>
+                                                        }
+                                                        <?php
+                                                    }
                                                     ?>
-                                                    <option value="<?= SEX_FEMALE ?>"><?= SEX_FEMALE ?></option>
-                                                    <option value="<?= SEX_BETTER_NOT_SAY ?>"><?= SEX_BETTER_NOT_SAY ?></option>
-
-                                                    <?php
-                                                } elseif ($_SESSION["personData"][PERSON_SEX] == SEX_FEMALE) {
-                                                    ?>
-                                                    <option value="<?= SEX_MALE ?>"><?= SEX_MALE ?></option>
-                                                    <option value="<?= SEX_BETTER_NOT_SAY ?>"><?= SEX_BETTER_NOT_SAY ?></option>
                                                     <?php
                                                 } else {
+                                                    foreach ($arraySex as $sex) {
+                                                        ?>
+                                                        <option
+                                                                value="<?= $sex ?>"<?php if ($sex === $person[PERSON_SEX]) echo "selected" ?>>
+                                                            <?= SEX_LABEL[$sex . "_LABEL"] ?></option>
+                                                        <?php
+                                                    }
                                                     ?>
-                                                    <option value="<?= SEX_MALE ?>"><?= SEX_MALE ?></option>
-                                                    <option value="<?= SEX_FEMALE ?>"><?= SEX_FEMALE ?></option>
                                                     <?php
                                                 }
-                                                ?>
+                                                    ?>
 
                                             </select>
                                         </div>
@@ -223,6 +221,19 @@ mainHeader(cssIdentifier: "page-edit-person", title: "Edit Person", link: "edit-
                                     </div>
 
                                     <div class="col-xxl-5 col-xl-5 col-lg-5 col-md-4">
+                                        <div class="mb-3 form-input-add-person">
+                                            <label for="note" class="form-label"
+                                            >Internal notes</label
+                                            >
+                                            <div class="form-floating mb-4">
+                                              <textarea
+                                                      class="form-control"
+                                                      placeholder="Leave a comment here"
+                                                      id="note"
+                                                      name="note"
+                                              ><?= $person[PERSON_INTERNAL_NOTE]; ?></textarea>
+                                            </div>
+                                        </div>
 
                                         <div class="mb-4 form-input">
                                             <label class="form-label" for="role-dropdown"
@@ -234,26 +245,26 @@ mainHeader(cssIdentifier: "page-edit-person", title: "Edit Person", link: "edit-
                                                     aria-label="Small select example"
                                                     name="role"
                                             >
-                                                <option selected
-                                                        value="<?php if (isset($_SESSION["userInputData"]["role"])) {
-                                                            echo $_SESSION["userInputData"]["role"];
-                                                        } else {
-                                                            echo $_SESSION["personData"][PERSON_ROLE];
-                                                        } ?>"><?php if (isset($_SESSION["userInputData"]["role"])) {
-                                                        echo $_SESSION["userInputData"]["role"];
-                                                    } else {
-                                                        echo $_SESSION["personData"][PERSON_ROLE];
-                                                    } ?></option>
-
                                                 <?php
-                                                if ($_SESSION["personData"][PERSON_ROLE] == ROLE_ADMIN) {
-                                                    ?>
-                                                    <option value="<?= ROLE_MEMBER ?>">Member</option>
-                                                    <?php
+                                                $arrayRole = sortRole($person[PERSON_ROLE]);
+                                                if (isset($_SESSION["userInputData"]["role"])) {
+                                                    $arrayRole = sortRole($_SESSION["inputData"]["role"]);
+                                                    foreach ($arrayRole as $role) {
+                                                        ?>
+                                                        <option
+                                                                value="<?= $role ?>"<?php if ($role === $_SESSION["inputData"]["role"]) echo "selected" ?>>
+                                                            <?= ROLE_LABEL[$role . "_LABEL"] ?></option>
+                                                        <?php
+                                                    }
                                                 } else {
+                                                    foreach ($arrayRole as $role) {
+                                                        ?>
+                                                        <option
+                                                                value="<?= $role ?>"<?php if ($role === $person[PERSON_ROLE]) echo "selected" ?>>
+                                                            <?= ROLE_LABEL[$role . "_LABEL"] ?></option>
+                                                        <?php
+                                                    }
                                                     ?>
-                                                    <option value="<?= ROLE_ADMIN ?>">Admin</option>
-
                                                     <?php
                                                 }
                                                 ?>
@@ -288,10 +299,6 @@ mainHeader(cssIdentifier: "page-edit-person", title: "Edit Person", link: "edit-
                                                     class="form-control"
                                                     name="confirmPassword"/>
 
-<!--                                                    confirm password akan required saat new password diinput-->
-<!--                                                --><?php
-//                                                if (isset($_SESSION["newPassword"]) && $_SESSION["newPassword"] != null) echo "required";
-//                                                ?>
                                             <?php
                                             if (isset($_SESSION["errorData"]["errorConfirm"])) {
                                                 ?>
@@ -306,7 +313,15 @@ mainHeader(cssIdentifier: "page-edit-person", title: "Edit Person", link: "edit-
                                     </div>
                                 </div>
 
-                                <div class="btn-container d-flex column-gap-3">
+                                <div class="btn-container d-flex column-gap-5">
+                                    <a
+                                            class="btn btn-primary btn--form has-border"
+                                            type="submit"
+                                            href="persons.php?page=1"
+                                    >
+                                        Cancel
+                                    </a>
+
                                     <button
                                             class="btn btn-primary btn--form"
                                             type="submit"
@@ -315,13 +330,7 @@ mainHeader(cssIdentifier: "page-edit-person", title: "Edit Person", link: "edit-
                                         Save
                                     </button>
 
-                                    <a
-                                            class="btn btn-primary btn--form has-border"
-                                            type="submit"
-                                            href="persons.php?page=1"
-                                    >
-                                        Cancel
-                                    </a>
+
                                 </div>
                             </form>
                         </div>

@@ -1,13 +1,14 @@
 <?php
 
 function showPaginationButton(
-        int $page,
         array $displayingData,
         int $prev,
         int $next,
+        int $page,
         string|null $keyword = null,
         string|null $category = null): void
 {
+
     if ($page <= 1) {
         ?>
         <button class="btn" disabled>

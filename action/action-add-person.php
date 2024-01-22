@@ -12,8 +12,12 @@ $userInputData = getUserInputData(
     role: $_POST["role"],
     status: $_POST["status"],
     birthDate: $intDate,
-    sex: $_POST["sex"]);
+    sex: $_POST["sex"],
+    note: $_POST["note"]);
 
+$arrayuser = sortSex($_POST["sex"]);
+//var_dump($arrayuser);
+//die();
 
 $validate = validate(
     nik: $_POST["nik"],
@@ -35,9 +39,9 @@ if (count($validate) == 0) {
         PERSON_EMAIL => $userInputData["email"],
         PERSON_BIRTH_DATE => convertDateToTimestamp($userInputData["birthDate"]),
         PERSON_SEX => $userInputData["sex"],
-        PERSON_INTERNAL_NOTE => null,
+        PERSON_INTERNAL_NOTE => $userInputData["note"],
         PERSON_ROLE => $userInputData["role"],
-        PASSWORD => $userInputData["password"],
+        PASSWORD => $_POST["password"],
         PERSON_STATUS => translateSwitch($userInputData["status"]),
         PERSON_LAST_LOGGED_IN => null,
     ];
@@ -50,6 +54,7 @@ if (count($validate) == 0) {
     $_SESSION["errorData"] = $validate;
     redirect("../add-person.php", "");
 }
+
 
 //buat sebuah variable array yang akan menyimpan semua data-data yang error ketika mengambil input
 //kemudian, cek variable tersebut di file action-add-person.php untuk menampilkan pesan error (jika terdapat)

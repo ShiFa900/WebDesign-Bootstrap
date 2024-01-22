@@ -2,15 +2,20 @@
 
 //Const for general
 const ID = "id";
-const ROLE_ADMIN = "Admin";
-const ROLE_MEMBER = "Member";
+const ROLE_ADMIN = "ROLE_ADMIN";
+const ROLE_MEMBER = "ROLE_MEMBER";
+const ROLE_LABEL = [
+    "ROLE_ADMIN_LABEL" => "Admin",
+    "ROLE_MEMBER_LABEL" => "Member"
+];
+
 const STATUS_ALIVE = true;
 const STATUS_PASSED_AWAY = false;
 const PASSWORD = "password";
 const PAGING_TOTAL_PAGE = "PAGING_TOTAL_PAGE";
 const PAGING_DATA = "PAGING_DATA";
 const PAGING_CURRENT_PAGE = "PAGING_CURRENT_PAGE";
-const PAGE_LIMIT = 6;
+const PAGE_LIMIT = 7;
 
 
 // Const for person personal data
@@ -26,27 +31,27 @@ const PERSON_ROLE = "role";
 const PERSON_STATUS = "status";
 
 //const for identified sex
-const SEX_FEMALE = "FEMALE";
-const SEX_MALE = "MALE";
-const SEX_BETTER_NOT_SAY = "BETTER_NOT_SAY";
+const SEX_FEMALE = "SEX_FEMALE";
+const SEX_MALE = "SEX_MALE";
+const SEX_BETTER_NOT_SAY = "SEX_BETTER_NOT_SAY";
 
-const SEX_VALUE = [
+const SEX_LABEL = [
     "SEX_FEMALE_LABEL" => "Female",
     "SEX_MALE_LABEL" => "Male",
     "SEX_BETTER_NOT_SAY_LABEL" => "Better not say"
 ];
 
-const CATEGORY_VALUE = [
+const CATEGORY_LABEL = [
     "CATEGORIES_CHILD_LABEL" => "Children",
-    "CATEGORIES_PRODUCTIVE_AGE" => "Productive ages",
-    "CATEGORIES_ELDERLY" => "Elderly",
-    "CATEGORIES_PASSED_AWAY" => "Passed away",
-    "CATEGORIES_ALL" => "All"
+    "CATEGORIES_PRODUCTIVE_AGE_LABEL" => "Productive ages",
+    "CATEGORIES_ELDERLY_LABEL" => "Elderly",
+    "CATEGORIES_PASSED_AWAY_LABEL" => "Passed away",
+    "CATEGORIES_ALL_LABEL" => "All"
 ];
 
 //cons for identified categories
-const CATEGORIES_CHILD = "Children";
-const CATEGORIES_PRODUCTIVE_AGE = "Productive ages";
-const CATEGORIES_ALL = "All";
-const CATEGORIES_ELDERLY = "Elderly";
-const CATEGORIES_PASSED_AWAY = "Passed away";
+const CATEGORIES_CHILD = "CATEGORIES_CHILD";
+const CATEGORIES_PRODUCTIVE_AGE = "CATEGORIES_PRODUCTIVE_AGE";
+const CATEGORIES_ALL = "CATEGORIES_ALL";
+const CATEGORIES_ELDERLY = "CATEGORIES_ELDERLY";
+const CATEGORIES_PASSED_AWAY = "CATEGORIES_PASSED_AWAY";

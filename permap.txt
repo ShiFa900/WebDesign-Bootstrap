@@ -1,18 +1,19 @@
 
 =================================
-- saat edit my profile data, password harusnya tidak wajib untuk di edit, jadi ketika user menginput new password
-barulah confirm password required (sblum confirm password baru tidak akan disimpan ke database). -> menggunakan JS
-- paginated, ruet sih ini
+- saat edit my profile data, password harusnya tidak wajib untuk di edit, jadi ketika user menginput new password barulah confirm password required (sblum confirm password baru tidak akan disimpan ke database).
+- validasi saat create data
+
 - minor" sih banyaknya, dicoba ya :)
 
 - buat file 'cleaner', daripada menaruh tiap session di file utils, gunakan parameter untuk variablenya
 
 - pisahkan setiap function sesuai dengan kegunaannya di pagenya masing-masing
-- function search pan page
-- cek error"
-
 
 - editPerson -> bisakah tamppilan GET dihilangkan??
+- require di tiap page, spertinya bisa dijadikan function saja(?)
+- my profile role dan sex valuenya blom yaa
+
+- clean up dan cek error
 ===================================
 ROLE ADMIN
 - bisa create, edit dan delete

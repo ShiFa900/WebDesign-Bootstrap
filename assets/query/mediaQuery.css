@@ -21,6 +21,10 @@
     width: 50%;
   }
 
+  .page-persons .content-wrapper {
+    display: block;
+  }
+
   .page-dashboard .dashboard-content,
   .page-persons .person-content,
   .page-add-person .add-person-content,

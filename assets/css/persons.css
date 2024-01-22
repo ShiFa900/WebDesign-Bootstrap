@@ -4,6 +4,17 @@
   right: 0;
 }
 
+/*.page-persons .content-wrapper{*/
+/*  margin-bottom: 2.5rem;*/
+/*  display: flex;*/
+/*  justify-content: space-between;*/
+/*}*/
+
+/*.page-persons .right{*/
+/*  display: flex;*/
+/*  align-items: center;*/
+/*}*/
+
 .page-persons .view-btn {
   background-color: #015d98;
   color: #fff;
@@ -62,9 +73,9 @@
   margin: 1rem;
 }
 
-.page-persons .btn-wrapper{
-  margin: 0.5rem 0;
-}
+/*.page-persons .btn-wrapper{*/
+/*  margin: 0.5rem 0;*/
+/*}*/
 
 .page-persons .search-form{
   row-gap: 1rem ;

@@ -17,9 +17,6 @@ $userInputData = getUserInputData(
     status: $_POST["status"],
     birthDate: $intDate,
     sex: $_POST["sex"]);
-//var_dump($userInputData);
-//die();
-
 
 // belum suud ni cokk
 

@@ -10,6 +10,7 @@ checkRoleAdmin($_SESSION["userEmail"]);
 
 <?php
 mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-person.php", pageStyles: ["add-person.css"]);
+
 ?>
     <main>
         <section class="add-person-section d-flex position-relative">
@@ -162,35 +163,25 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
                                         >
                                             <?php
                                             if (isset($_SESSION["inputData"]["sex"])) {
-                                                ?>
-                                                <option selected
-                                                        value="<?= $_SESSION["inputData"]["sex"] ?>"><?php if ($_SESSION["inputData"]["sex"] == SEX_MALE) {
-                                                        echo SEX_MALE;
-                                                    } else {
-                                                        echo SEX_FEMALE;
-                                                    } ?></option>
-                                                <?php
+                                                $arraySex = sortSex($_SESSION["inputData"]["sex"]);
+
+                                                foreach ($arraySex as $sex) { ?>
+                                                    <option value="<?= $sex ?>" <?php if ($sex === $_SESSION["inputData"]["sex"]) echo "selected" ?>>
+                                                        <?= SEX_LABEL[$sex . "_LABEL"] ?></option>
+                                                    <?php
+                                                }
 
 //                                            ?>
                                                 <?php
                                             } else { ?>
-                                                <option selected value="<?= SEX_MALE ?>"><?= SEX_MALE ?></option>
+                                                <option selected
+                                                        value="<?= SEX_MALE ?>"><?= SEX_LABEL["SEX_MALE_LABEL"] ?></option>
+                                                <option value="<?= SEX_FEMALE ?>"><?= SEX_LABEL["SEX_FEMALE_LABEL"] ?></option>
+                                                <option value="<?= SEX_BETTER_NOT_SAY ?>"><?= SEX_LABEL["SEX_BETTER_NOT_SAY_LABEL"] ?></option>
                                                 <?php
                                             }
 
-                                            if (isset($_SESSION["inputData"]["sex"]) == SEX_FEMALE) {
-                                                ?>
-                                                <option value="<?= SEX_MALE ?>"><?= SEX_MALE ?></option>
-                                                <option value="<?= SEX_BETTER_NOT_SAY ?>"><?= SEX_BETTER_NOT_SAY ?></option>
-
-                                                <?php
-                                            } else {
-                                                ?>
-                                                <option value="<?= SEX_FEMALE ?>"><?= SEX_FEMALE ?></option>
-                                                <option value="<?= SEX_BETTER_NOT_SAY ?>"><?= SEX_BETTER_NOT_SAY ?></option>
-                                                <?php
-                                            }
-                                            ?>
+                                            //                                            ?>
                                         </select>
                                     </div>
 
@@ -226,8 +217,9 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
                                                       placeholder="Leave a comment here"
                                                       id="note"
                                                       name="note"
-                                                      aria-placeholder="Take a note here..."
-                                              ></textarea>
+                                              ><?php if (isset($_SESSION["inputData"])) {
+                                                      echo $_SESSION["inputData"]["note"];
+                                                  } ?></textarea>
                                         </div>
                                         <hr/>
                                     </div>
@@ -288,24 +280,21 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
                                         >
                                             <?php
                                             if (isset($_SESSION["inputData"]["role"])) {
+                                                $arrayRole = sortRole($_SESSION["inputData"]["role"]);
+                                                foreach ($arrayRole as $role) {
+                                                    ?>
+                                                    <option
+                                                            value="<?= $role ?>"<?php if ($role === $_SESSION["inputData"]["role"]) echo "selected"?>>
+                                                        <?= ROLE_LABEL[$role . "_LABEL"] ?></option>
+                                                    <?php
+                                                }
+                                                ?>
+                                                <?php
+                                            } else {
                                                 ?>
                                                 <option selected
-                                                        value="<?= $_SESSION["inputData"]["role"] ?>"><?= $_SESSION["inputData"]["role"]; ?></option>
-                                                <?php
-                                            } else {
-                                                ?>
-                                                <option selected value="<?= ROLE_ADMIN ?>">Admin</option>
-
-                                                <?php
-                                            }
-                                            if ($_SESSION["inputData"]["role"] == ROLE_MEMBER) {
-                                                ?>
-                                                <option value="<?= ROLE_ADMIN ?>"><?= ROLE_ADMIN ?></option>
-
-                                                <?php
-                                            } else {
-                                                ?>
-                                                <option value="<?= ROLE_MEMBER ?>"><?= ROLE_MEMBER ?></option>
+                                                        value="<?= ROLE_MEMBER ?>"><?= ROLE_LABEL["ROLE_MEMBER_LABEL"] ?></option>
+                                                <option value="<?= ROLE_MEMBER ?>"><?= ROLE_LABEL["ROLE_ADMIN_LABEL"] ?></option>
 
                                                 <?php
                                             }

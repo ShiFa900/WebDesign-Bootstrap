@@ -160,6 +160,10 @@ body {
   --bs-btn-border-radius: none;
 }
 
+.page.persons form .btn-reset{
+  padding: 0 !important;
+}
+
 .btn-secondary:hover {
   background-color: #ffc436 !important;
   color: #333;
@@ -583,10 +587,11 @@ thead tr {
 }
 
 /*CONTENT*/
-.left{
-  margin: 1rem 0;
-}
  .errorText{
    line-height: 1.5;
+ }
+
+ .content-wrapper{
+   margin-bottom: 2.5rem;
  }
 
