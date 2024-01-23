@@ -74,7 +74,7 @@ foreach ($persons as $person){
                                 Number of persons
                             </h4>
                             <p class="card-text">
-                                Number of persons in Person Management App.
+                                Total number of persons.
                             </p>
 
                         </div>
@@ -88,7 +88,7 @@ foreach ($persons as $person){
                                 In productive ages
                             </h4>
                             <p class="card-text">
-                                Number of persons with Productive Age category.
+                                Total number of persons aged more than 15 years old, and less than 45 years old.
                             </p>
                         </div>
                     </a>
@@ -101,7 +101,7 @@ foreach ($persons as $person){
                                 Children
                             </h4>
                             <p class="card-text">
-                                Number of persons with Children category.
+                                Total number of children, aged less than 15 years old.
                             </p>
                         </div>
                     </a>
@@ -114,7 +114,7 @@ foreach ($persons as $person){
                                 Elderly
                             </h4>
                             <p class="card-text">
-                                Number of persons with Elderly category.
+                                Total number of persons aged more than 50 years old.
                             </p>
                         </div>
                     </a>
@@ -128,7 +128,7 @@ foreach ($persons as $person){
                                 Passed away
                             </h4>
                             <p class="card-text">
-                                Number of Passed Away persons.
+                                Total number of people who have died.
                             </p>
                         </div>
                     </a>

@@ -1,46 +1,47 @@
 /* LOGIN SECTION */
 .login-section {
-  height: 100vh;
-  font-family: "Times New Roman", Times, serif;
+    height: 100vh;
+    font-family: "Times New Roman", Times, serif;
 }
 
 .login-img {
-  /* gambar tidak akan ditampilkan pada mobile */
-  display: flex;
-  align-items: center;
-  width: 100%;
+    /* gambar tidak akan ditampilkan pada mobile */
+    display: flex;
+    align-items: center;
+    width: 100%;
 }
 
 .login-icon {
-  height: 6rem;
-  display: flex;
-  justify-content: center;
+    height: 6rem;
+    opacity: 89%;
+
+    margin-bottom: 2rem;
 }
 
 .heading-content {
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  line-height: 1.5;
-  font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    line-height: 1.5;
+    font-weight: 600;
 }
 
 .heading-content span {
-  color: #0174be;
-  text-decoration: underline;
+    color: #0174be;
+    text-decoration: underline;
 }
 
 .form-label {
-  margin: 1.2rem 0;
-  /* width: 50%; */
+    margin: 1.2rem 0;
+    /* width: 50%; */
 }
 
 .btn-container {
-  display: flex;
-  column-gap: 3.6rem;
-  margin-top: 2.4rem;
+    display: flex;
+    column-gap: 3.6rem;
+    margin-top: 2.4rem;
 }
 
 label {
-  font-size: 1.2rem;
-  margin-bottom: 1.4rem;
+    font-size: 1.2rem;
+    margin-bottom: 1.4rem;
 }

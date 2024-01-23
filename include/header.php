@@ -126,7 +126,7 @@ function mainHeader(string $cssIdentifier, string $title, string $link, array|nu
         <img src="../assets/properties/pma-border.png" alt="PerMap logo" class="logo"/>
     </a>
 
-    <div class="head-wrapper d-flex align-items-center gap-3">
+    <div class="head-wrapper d-flex align-items-center gap-1">
         <button
                 class="btn btn-primary d-xxl-none d-xl-none d-lg-none"
                 type="button"
@@ -152,11 +152,10 @@ function mainHeader(string $cssIdentifier, string $title, string $link, array|nu
                         echo "</span>";
                         ?>
 
-                        <img
-                                src="../assets/properties/image.png"
-                                class="avatar-md avatar-img"
-                                alt="User profile"
-                        />
+                        <ion-icon
+                                src="../assets/properties/icon/person-outline.svg"
+                                class="icon color"
+                        ></ion-icon
                     </div>
                 </a>
 
@@ -173,21 +172,10 @@ function mainHeader(string $cssIdentifier, string $title, string $link, array|nu
                         >
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#"
-                        >
-                            <ion-icon
-                                    src="../assets/properties/icon/notifications-outline.svg"
-                                    class="icon color"
-                            ></ion-icon
-                            >
-                            Notifications</a
-                        >
-                    </li>
-                    <li>
                         <hr class="dropdown-divider"/>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#"
+                        <a class="dropdown-item" href="../action/action-logout.php"
                         >
                             <ion-icon src="../assets/properties/icon/log-out-outline.svg" class="icon color"></ion-icon>
                             Log

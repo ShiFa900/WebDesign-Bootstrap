@@ -54,20 +54,7 @@ function desktopSidebar($activeMenu)
                     </ul>
                 </li>
             </ul>
-            <div class="sidebar-footer">
-                <hr/>
-                <ul>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">
-                            <ion-icon
-                                    src="../assets/properties/icon/settings-outline.svg"
-                                    class="icon color"
-                            ></ion-icon>
-                            Settings
-                        </a>
-                    </li>
-                </ul>
-            </div>
+
         </nav>
     </div>
     <?php
@@ -120,17 +107,6 @@ function mobileSidebar($activeMenu)
                                     </a>
                                 </li>
                             </ul>
-                        </li>
-                    </ul>
-                </div>
-                <div class="sidebar-footer">
-                    <hr/>
-                    <ul>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <ion-icon src="../assets/properties/icon/settings-outline.svg" class="icon color"></ion-icon>
-                                Settings
-                            </a>
                         </li>
                     </ul>
                 </div>

@@ -16,7 +16,7 @@ for ($i = 0; $i < count($persons); $i++) {
     }
 }
 
-redirect("../persons.php", "");
+redirect("../persons.php", "page=1");
 
 
 

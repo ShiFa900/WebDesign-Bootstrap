@@ -38,7 +38,7 @@ if (count($validate) == 0) {
         PERSON_EMAIL => $userInputData["email"],
         PERSON_BIRTH_DATE => convertDateToTimestamp($userInputData["birthDate"]),
         PERSON_SEX => $userInputData["sex"],
-        PERSON_INTERNAL_NOTE => $userInputData["note"] == null ? $userInputData["note"] : null,
+        PERSON_INTERNAL_NOTE => $userInputData["note"] == "" ? null : $userInputData["note"],
         PERSON_ROLE => $userInputData["role"],
         PASSWORD => $_POST["password"],
         PERSON_STATUS => translateSwitch($userInputData["status"]),

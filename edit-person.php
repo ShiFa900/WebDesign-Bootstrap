@@ -317,7 +317,7 @@ $arraySex = sortSex($person[PERSON_SEX]);
                                     </div>
                                 </div>
 
-                                <div class="btn-container d-flex column-gap-5">
+                                <div class="btn-container d-flex column-gap-3">
                                     <a
                                             class="btn btn-primary btn--form has-border"
                                             type="submit"

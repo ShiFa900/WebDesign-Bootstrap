@@ -131,7 +131,13 @@ body {
 
 .avatar-md {
   width: 2.4rem;
-  /* font-size: 1rem; */
+   /*font-size: 1rem;*/
+}
+
+.header-icon{
+  width: 2.4rem;
+  color: #ffffff;
+  background-color: #fafafa;
 }
 
 .avatar-img {
@@ -179,7 +185,6 @@ body {
 
 .btn--form {
   padding: 0.75rem 1.4rem;
-  /* font-size: 1.6rem; */
   letter-spacing: 1.75px;
 
   background-color: #015d98;
@@ -189,7 +194,7 @@ body {
 
 .btn--form:hover,
 .btn--form:active {
-  background-color: #1a82c5;
+  background-color: #1a82c5 !important;
   color: #ffffff;
 }
 
@@ -237,13 +242,20 @@ body {
 }
 
 .delete-btn {
+  padding: 0.75rem 1.4rem;
+  letter-spacing: 1.75px;
+
+  color: #ffffff;
+  transition: all 0.3s ease;
   background-color: #db1d30;
   cursor: pointer;
-  border: none;
+  border: none !important;
 }
 
-.delete-btn:hover {
-  background-color: #ff0000;
+
+.delete-btn:hover,
+.delete-btn:active{
+  background-color: #ff0000 !important;
 }
 
 .modal-title,
@@ -384,6 +396,8 @@ body {
   width: 250px;
   height: 100%;
 }
+
+
 
 .color {
   color: #015d98;
@@ -574,6 +588,7 @@ thead tr {
 .card-text {
   letter-spacing: 0.5px;
   margin-top: 1.4rem;
+  padding-bottom: 0.5rem;
   color: #444;
 
   text-overflow: ellipsis;

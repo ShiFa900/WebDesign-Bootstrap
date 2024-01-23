@@ -11,6 +11,9 @@
 - editPerson -> bisakah tamppilan GET dihilangkan??
 - require di tiap page, spertinya bisa dijadikan function saja(?)
 - clean up dan cek error
+- jika user menginput new password tapi tidak confirm, maka tampilkan pesan error untuk editd data person atau my profile
+- bagian user profile
+- revisi
 ===================================
 ROLE ADMIN
 - bisa create, edit dan delete

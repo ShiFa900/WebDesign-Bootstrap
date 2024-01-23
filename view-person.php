@@ -46,7 +46,7 @@ foreach ($personSex as $sex) {
                     } elseif (isset($_SESSION["addSuccess"])) {
                         ?>
                         <div class="alert alert-success" role="alert">
-                            <?= $person[PERSON_FIRST_NAME]?> was successfully added to Person Management App!
+                            <?= $person[PERSON_FIRST_NAME] ?> was successfully added to Person Management App!
                         </div>
                         <?php
                     }
@@ -55,9 +55,9 @@ foreach ($personSex as $sex) {
 
                     <div class="row">
                         <div class="col-xxl-12">
-                            <form class="new-person-form" action="#" method="post">
+                            <form class="new-person-form" action="action/action-view-person.php" method="post">
                                 <div class="row">
-                                    <div class="col-xxl-8 col-xl-8 col-lg-10 col-12">
+                                    <div class="col-xxl-6 col-xl-6 col-lg-6 me-4">
                                         <div class="mb-3 form-input">
 
                                             <span class="required title">First Name</span>
@@ -116,25 +116,25 @@ foreach ($personSex as $sex) {
                                                 echo $userSex;
                                                 ?>
                                             </p>
-
                                         </div>
+                                    </div>
 
-
+                                    <div class="col-xxl-5 col-xl-2 col-lg-5">
                                         <?php
                                         if ($currentUser[PERSON_ROLE] == ROLE_ADMIN) {
                                             ?>
-                                            <div class="mb-3 form-input">
-                                                <?php
-                                                if (isset($person[PERSON_INTERNAL_NOTE])) {
-                                                    ?>
+                                            <?php
+                                            if (isset($person[PERSON_INTERNAL_NOTE])) {
+                                                ?>
+                                                <div class="mb-3 form-input">
+
                                                     <span class="title">Internal Note</span>
                                                     <p><?= $person[PERSON_INTERNAL_NOTE]; ?>
                                                     </p>
-                                                    <?php
-                                                }
-                                                ?>
-
-                                            </div>
+                                                </div>
+                                                <?php
+                                            }
+                                            ?>
                                             <?php
                                         }
                                         ?>
@@ -163,75 +163,83 @@ foreach ($personSex as $sex) {
 
                                         </div>
                                     </div>
+                                </div>
 
-                                    <div class="row">
-                                        <div class="col-xxl-8 col-xl-8 col-lg-10 col-12">
-                                            <div
-                                                    class="btn-container d-flex column-gap-5 justify-content-between"
-                                            >
-                                                <div class="btn-wrapper d-flex column-gap-3">
-                                                    <a href="persons.php?page=1"
-                                                       class="btn btn-primary btn--form has-border"
-                                                       type="submit"
-                                                    >Back
-                                                    </a>
+                                <div
+                                        class="btn-container d-flex column-gap-5"
+                                >
+                                    <div class="btn-wrapper d-flex">
+                                        <a href="persons.php?page=1"
+                                           class="btn btn-primary btn--form has-border"
+                                           type="submit"
+                                        >Back
+                                        </a>
+                                    </div>
+                                    <div class="wrapper d-flex column-gap-3">
+                                        <?php
+                                        // only admin can delete person data
+                                        if ($currentUser[PERSON_ROLE] == ROLE_ADMIN) {
+                                            ?>
+                                            <div class="btn-wrapper ">
+                                                <a href="edit-person.php?person=<?= $person[ID] ?>"
+                                                   class="btn btn-primary btn--form"
+                                                   type="submit"
+                                                >Edit
+                                                </a>
+                                            </div>
+
+                                            <!-- Button trigger modal -->
+                                            <button type="button"
+                                                    class="btn btn-primary delete-btn"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal"
+                                            >Delete
+                                            </button>
+
+                                            <?php
+                                        }
+                                        ?>
+                                    </div>
+
+                                    <!-- Modal -->
+                                    <div
+                                            class="modal fade"
+                                            id="exampleModal"
+                                            tabindex="-1"
+                                            aria-labelledby="exampleModalLabel"
+                                            aria-hidden="true"
+                                    >
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title" id="exampleModalLabel">
+                                                        Are you sure want to delete this person?
+                                                    </h1>
+                                                    <button
+                                                            type="button"
+                                                            class="btn-close"
+                                                            data-bs-dismiss="modal"
+                                                            aria-label="Close"
+                                                    ></button>
                                                 </div>
-                                                <?php
-                                                // only admin can delete person data
-                                                if ($currentUser[PERSON_ROLE] == ROLE_ADMIN) {
-                                                    ?>
-                                                    <!-- Button trigger modal -->
-                                                    <button type="button"
-                                                            class="btn btn-primary btn--form delete-btn"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#exampleModal"
-                                                    >Delete
+                                                <div class="modal-footer">
+                                                    <button
+                                                            type="button"
+                                                            class="btn btn-secondary btn-block"
+                                                            data-bs-dismiss="modal"
+                                                    >
+                                                        No
                                                     </button>
-                                                    <?php
-                                                }
-                                                ?>
-
-                                                <!-- Modal -->
-                                                <div
-                                                        class="modal fade"
-                                                        id="exampleModal"
-                                                        tabindex="-1"
-                                                        aria-labelledby="exampleModalLabel"
-                                                        aria-hidden="true"
-                                                >
-                                                    <div class="modal-dialog modal-dialog-centered">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h1 class="modal-title" id="exampleModalLabel">
-                                                                    Are you sure want to delete this person?
-                                                                </h1>
-                                                                <button
-                                                                        type="button"
-                                                                        class="btn-close"
-                                                                        data-bs-dismiss="modal"
-                                                                        aria-label="Close"
-                                                                ></button>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button
-                                                                        type="button"
-                                                                        class="btn btn-secondary btn-block"
-                                                                        data-bs-dismiss="modal"
-                                                                >
-                                                                    No
-                                                                </button>
-                                                                <button type="button" class="btn btn-primary"
-                                                                        name="btnDelete">
-                                                                    <a href="action/action-delete-person.php"
-                                                                       class="btn">Yes</a>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    <button type="button" class="btn btn-primary"
+                                                            name="btnDelete">
+                                                        <a href="action/action-delete-person.php"
+                                                           class="btn">Yes</a>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                             </form>
                         </div>
                     </div>

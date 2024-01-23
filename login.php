@@ -51,8 +51,11 @@
                 <!-- the form -->
                 <div class="col-12 col-lg-6 col-xl-5">
                     <div class="login-form-wrapper px-3">
-                        <div class="login-header">
+                        <div class="wrapper ">
+                            <img alt="PerMap logo" src="assets/properties/pma-color.png" class="login-icon" >
 
+                        </div>
+                        <div class="login-header">
                             <h2 class="second-heading heading-content">
                                 Hello,
                                 <?php
@@ -90,14 +93,10 @@
                             }
                             ?>
 
-
-                            <span class="form-content-footer">Don't have an account? <a href="#">Create account</a> or
-                  <a href="#">Forgot password</a></span>
-
                             <div class="btn-container">
                                 <!--                  <input class="btn btn-primary btn--form" type="submit" value="login" name="login"/>-->
                                 <button class="btn--form btn btn-primary" name="login">
-                                    login
+                                    Login
                                 </button>
                             </div>
 

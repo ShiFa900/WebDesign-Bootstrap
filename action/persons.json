@@ -7,7 +7,7 @@
         "email": "Ayayaki@gmail.com",
         "birthDate": 898473600,
         "sex": "SEX_MALE",
-        "internalNote": "",
+        "internalNote": null,
         "role": "ROLE_MEMBER",
         "password": "AyamY4ki",
         "status": true,
@@ -105,11 +105,11 @@
         "email": "parfume@gmail.com",
         "birthDate": -2314310400,
         "sex": "SEX_MALE",
-        "internalNote": "i feel so fucking GREAT!!                                                                                                                                                                                                                        ",
+        "internalNote": "i feel so fucking GREAT!!                                                                                                                                                                                                                                                                              ",
         "role": "ROLE_ADMIN",
         "password": "virginP4rfume",
         "status": true,
-        "lastLoggedIn": 1705996946
+        "lastLoggedIn": 1706003120
     },
     {
         "id": 10,
@@ -166,20 +166,6 @@
         "password": "liaa",
         "status": true,
         "lastLoggedIn": 1705997955
-    },
-    {
-        "id": 15,
-        "firstName": "Jamela",
-        "lastName": "",
-        "nik": "2334793702001803",
-        "email": "jamela@gmail.com",
-        "birthDate": 1199059200,
-        "sex": "BETTER_NOT_SAY",
-        "internalNote": null,
-        "role": "ROLE_MEMBER",
-        "password": "Memela12",
-        "status": true,
-        "lastLoggedIn": null
     },
     {
         "id": 16,
@@ -305,6 +291,34 @@
         "role": "ROLE_MEMBER",
         "password": "M4laraba",
         "status": true,
+        "lastLoggedIn": null
+    },
+    {
+        "id": 26,
+        "firstName": "Megumi",
+        "lastName": "Akara",
+        "nik": "2389819370017301",
+        "email": "gumite@gmail.com",
+        "birthDate": 1508112000,
+        "sex": "SEX_MALE",
+        "internalNote": null,
+        "role": "ROLE_MEMBER",
+        "password": "Megumi1",
+        "status": true,
+        "lastLoggedIn": null
+    },
+    {
+        "id": 27,
+        "firstName": "Jaya",
+        "lastName": "Kusuma",
+        "nik": "0092083027047230",
+        "email": "jaya@gmail.com",
+        "birthDate": 1545523200,
+        "sex": "SEX_MALE",
+        "internalNote": null,
+        "role": "ROLE_MEMBER",
+        "password": "Jaya1234",
+        "status": false,
         "lastLoggedIn": null
     }
 ]

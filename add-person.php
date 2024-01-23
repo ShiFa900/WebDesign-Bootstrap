@@ -195,6 +195,7 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
                                                     role="switch"
                                                     id="flexSwitchCheckDefault"
                                                     name="status"
+                                                    checked
                                             />
                                             <label
                                                     class="form-check-label"
@@ -305,15 +306,7 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
 
                             </div>
 
-                            <div class="btn-container d-flex column-gap-5">
-                                <button
-                                        class="btn btn-primary btn--form"
-                                        type="submit"
-                                        name="btn"
-                                >
-                                    Save
-                                </button>
-
+                            <div class="btn-container d-flex column-gap-3">
                                 <a
                                         class="btn btn-primary btn--form has-border"
                                         type="submit"
@@ -321,6 +314,14 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
                                 >
                                     Cancel
                                 </a>
+
+                                <button
+                                        class="btn btn-primary btn--form"
+                                        type="submit"
+                                        name="btn"
+                                >
+                                    Save
+                                </button>
                             </div>
                         </form>
                     </div>

@@ -18,6 +18,11 @@ $userInputData = getUserInputData(
     note: $_POST["note"]
 );
 
+// jika new password ada tapi confirm password tidak ada, jadikan ini sbgai error
+if(isset($_POST["newPassword"])){
+    $noConfirmPass = $_POST["newPassword"];
+}
+
 // validate person input data
 $validate = validate(
     nik: $_POST["nik"],

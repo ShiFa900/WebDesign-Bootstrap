@@ -333,7 +333,7 @@ foreach ($personRole as $role) {
                                     ?>
                                 </div>
                             </div>
-                            <div class="btn-container d-flex column-gap-5 justify-content-start">
+                            <div class="btn-container d-flex column-gap-3 justify-content-start">
                                 <a class="btn btn-primary btn--form has-border"
                                    type="submit"
                                    href="persons.php"
