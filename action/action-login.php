@@ -24,6 +24,35 @@ if (isset($_POST['login'])) {
     }
 }
 
-// NOTE
-// 1. User berhasil login dan masuk ke halaman dashboard (tidak bisa kembali ke halaman login lagi harusnya)
-// 2. Nama di header untuk dashboard dan nama user di header nav akan sync dengan user yang sedang login
+/**
+ * @param string $userEmail
+ * @return bool
+ * check user status, cannot login with account of Passed away status
+ */
+function checkPersonStatus(string $userEmail): bool
+{
+    $user = getPerson(email: $userEmail);
+    if ($user[PERSON_STATUS] == STATUS_PASSED_AWAY) {
+        $_SESSION["userPassedAway"] = "Sorry, this person status is PASSED AWAY. Ask ADMIN for more information.";
+        redirect("../login.php", "");
+    }
+    return true;
+}
+
+/**
+ * @param string $email
+ * @param string $password
+ * @return array
+ * search user data for login form, user data must be existed in json file
+ */
+function userExist(string $email, string $password): array
+{
+    $data = getAll();
+
+    for ($i = 0; $i < count($data); $i++) {
+        if ($email == $data[$i][PERSON_EMAIL] && $password == $data[$i][PASSWORD]) {
+            return $data[$i];
+        }
+    }
+    return [];
+}

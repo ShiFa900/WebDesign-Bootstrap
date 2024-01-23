@@ -1,65 +1,71 @@
 @media (min-width: 1400px) {
-  .page-dashboard .dashboard-content,
-  .page-persons .person-content,
-  .page-add-person .add-person-content,
-  .page-view-person .view-person-content,
-  .page-edit-person .edit-person-content,
-  .page-my-profile .my-profile-content {
-    left: 250px;
-  }
+    .page-dashboard .dashboard-content,
+    .page-persons .person-content,
+    .page-add-person .add-person-content,
+    .page-view-person .view-person-content,
+    .page-edit-person .edit-person-content,
+    .page-my-profile .my-profile-content {
+        left: 250px;
+    }
 }
 
 @media (max-width: 1200px) {
-  .page-dashboard  .dashboard-card {
-    width: 50%;
-  }
+    .page-dashboard .dashboard-card {
+        width: 50%;
+    }
+
+    .page-persons .search-form .wrapper,
+    .page-persons .search-form .wrapper .form-search {
+        padding-bottom: 0.75rem;
+    }
 }
 
 
 @media (max-width: 992px) {
-  .page-dashboard .dashboard-card {
-    width: 50%;
-  }
+    .page-dashboard .dashboard-card {
+        width: 50%;
+    }
 
-  .page-persons .content-wrapper {
-    display: block;
-  }
+    .page-persons .content-wrapper {
+        display: block;
+    }
 
-  .page-dashboard .dashboard-content,
-  .page-persons .person-content,
-  .page-add-person .add-person-content,
-  .page-view-person .view-person-content,
-  .page-edit-person .edit-person-content,
-  .page-my-profile .my-profile-content {
-    left: 0;
-    right: 0;
-  }
+    .page-dashboard .dashboard-content,
+    .page-persons .person-content,
+    .page-add-person .add-person-content,
+    .page-view-person .view-person-content,
+    .page-edit-person .edit-person-content,
+    .page-my-profile .my-profile-content {
+        left: 0;
+        right: 0;
+    }
 
 }
 
 @media (min-width: 992px) {
-  .page-dashboard .dashboard-content,
-  .page-persons .person-content,
-  .page-add-person .add-person-content,
-  .page-view-person .view-person-content,
-  .page-edit-person .edit-person-content,
-  .page-my-profile .my-profile-content{
-    left: 250px;
-  }
+    .page-dashboard .dashboard-content,
+    .page-persons .person-content,
+    .page-add-person .add-person-content,
+    .page-view-person .view-person-content,
+    .page-edit-person .edit-person-content,
+    .page-my-profile .my-profile-content {
+        left: 250px;
+    }
 
 }
 
 @media (max-width: 768px) {
-  .page-dashboard .dashboard-card {
-    width: 100%;
-  }
-  .page-persons .form-select-sm{
-    width: 100%;
-  }
+    .page-dashboard .dashboard-card {
+        width: 100%;
+    }
 
-  /*.page-persons .first-heading{*/
-  /*  display: none !important;*/
-  /*}*/
+    .page-persons .form-select-sm {
+        width: 100%;
+    }
+
+    /*.page-persons .first-heading{*/
+    /*  display: none !important;*/
+    /*}*/
 
 
 }

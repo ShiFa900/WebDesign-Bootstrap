@@ -8,10 +8,13 @@ require_once __DIR__ . "/index.php";
 <?php
 mainHeader(cssIdentifier: "page-my-profile", title: "My Profile", link: "my-profile.php", pageStyles: ["my-profile.css"]);
 
+// get user data by given email
 $person = getPerson(email: $_SESSION["userEmail"]);
 $_SESSION["userData"] = $person;
 
 $arraySex = sortSex($person[PERSON_SEX]);
+
+// get user role label for role form
 $personRole = sortRole($person[PERSON_ROLE]);
 foreach ($personRole as $role) {
     if ($role === $person[PERSON_ROLE]) {
@@ -32,6 +35,16 @@ foreach ($personRole as $role) {
                     <div class="page-header content-wrapper">
                         <h1 class="first-heading">My profile</h1>
                     </div>
+                    <?php
+                    if ($_SESSION["personHasEdit"][PERSON_EMAIL] == $_SESSION["userEmail"]) {
+                        ?>
+                        <div class="alert alert-success" role="alert">
+                            Your edit data was successfully saved!
+                        </div>
+
+                        <?php
+                    }
+                    ?>
 
                     <form class="new-person-form" action="action/action-my-profile.php" method="post">
 
@@ -92,6 +105,8 @@ foreach ($personRole as $role) {
                                                 } ?>"
                                                 class="form-control"
                                                 name="nik"
+                                                maxlength="16"
+                                                minlength="16"
                                         />
                                         <?php
                                         if (isset($_SESSION["errorData"]["errorNik"])) {
@@ -169,23 +184,23 @@ foreach ($personRole as $role) {
 
                                         >
                                             <?php
-                                            if (isset($_SESSION["userInputData"]["sex"])) {
+                                            if (isset($_SESSION["userInputData"])) {
                                                 $arraySex = sortSex($_SESSION["userInputData"]["sex"]);
-                                                foreach ($arraySex as $role) { ?>
+                                                foreach ($arraySex as $sex) { ?>
                                                     <option
-                                                            value="<?= $role ?>"<?php if ($role === $_SESSION["inputData"]["sex"]) echo "selected" ?>>
-                                                        <?= ROLE_LABEL[$role . "_LABEL"] ?></option>
+                                                            value="<?= $sex ?>"<?php if ($sex == $_SESSION["userInputData"]["sex"]) echo "selected" ?>
+                                                    ><?= SEX_LABEL[$sex . "_LABEL"] ?></option>
                                                     }
                                                     <?php
                                                 }
                                                 ?>
                                                 <?php
                                             } else {
-                                                foreach ($arraySex as $role) {
+                                                foreach ($arraySex as $sex) {
                                                     ?>
                                                     <option
-                                                            value="<?= $role ?>"<?php if ($role === $person[PERSON_SEX]) echo "selected" ?>>
-                                                        <?= SEX_LABEL[$role . "_LABEL"] ?></option>
+                                                            value="<?= $sex ?>"<?php if ($sex == $person[PERSON_SEX]) echo "selected" ?>
+                                                    ><?= SEX_LABEL[$sex . "_LABEL"] ?></option>
                                                     <?php
                                                 }
                                                 ?>
@@ -203,22 +218,8 @@ foreach ($personRole as $role) {
                                     </div>
 
                                 </div>
-
-                                <div class="btn-container d-flex column-gap-5">
-                                    <a class="btn btn-primary btn--form has-border"
-                                       type="submit"
-                                       href="persons.php"
-                                    >
-                                        Cancel
-                                    </a>
-                                    <input
-                                            class="btn btn-primary btn--form"
-                                            type="submit"
-                                            value="Save"
-                                    />
-                                </div>
                             </div>
-                            <div class="col-xxl-5 col-xl-6 col-lg-6">
+                            <div class="col-xxl-5 col-xl-5 col-lg-5">
                                 <?php
                                 if ($person[PERSON_ROLE] == ROLE_ADMIN) {
                                     ?>
@@ -232,7 +233,29 @@ foreach ($personRole as $role) {
                                                       placeholder="Leave a comment here"
                                                       id="note"
                                                       name="note"
-                                              ><?= $_SESSION["userData"][PERSON_INTERNAL_NOTE] ?></textarea>
+                                              ><?php
+                                                  if (isset($_SESSION["userInputData"])) {
+                                                      echo $_SESSION["userInputData"]["note"];
+                                                  } else {
+                                                      echo $_SESSION["userData"][PERSON_INTERNAL_NOTE];
+                                                  } ?>
+                                                      </textarea>
+                                        </div>
+                                        <hr/>
+                                    </div>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <div class="mb-3 form-input">
+                                        <label for="note" class="form-label"
+                                        >Internal notes</label
+                                        >
+                                        <div class="form-floating mb-4">
+                                            <p
+                                                    class="form-control"
+                                                    id="note"
+                                                    disabled
+                                            ><?= $_SESSION["userData"][PERSON_INTERNAL_NOTE] ?></p>
                                         </div>
                                         <hr/>
                                     </div>
@@ -264,7 +287,10 @@ foreach ($personRole as $role) {
                                             id="newPass"
                                             type="password"
                                             class="form-control"
-                                            name="newPassword"/>
+                                            name="newPassword"
+                                            minlength="8"
+
+                                    />
                                     <?php
                                     if (isset($_SESSION["errorData"]["errorPassword"])) {
                                         ?>
@@ -294,6 +320,19 @@ foreach ($personRole as $role) {
                                     ?>
                                 </div>
                             </div>
+                            <div class="btn-container d-flex column-gap-5 justify-content-start">
+                                <a class="btn btn-primary btn--form has-border"
+                                   type="submit"
+                                   href="persons.php"
+                                >
+                                    Cancel
+                                </a>
+                                <input
+                                        class="btn btn-primary btn--form"
+                                        type="submit"
+                                        value="Save"
+                                />
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -304,5 +343,8 @@ foreach ($personRole as $role) {
     <!-- sidebar -->
 <?php
 mainFooter("my-profile.php");
+// unset all session if user switch to other page
 unset($_SESSION["userInputData"]);
 unset($_SESSION["errorData"]);
+unset($_SESSION["editSuccess"]);
+unset($_SESSION["personHasEdit"]);

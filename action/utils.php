@@ -16,6 +16,10 @@ function redirect($url, $getParams): void
     die();
 }
 
+/**
+ * @return void
+ * check if user has login
+ */
 function redirectIfNotAuthenticated(): void
 {
     if (!isset($_SESSION["userEmail"])) {
@@ -23,12 +27,14 @@ function redirectIfNotAuthenticated(): void
         exit(); // Terminate script execution after the redirect
     }
 
-//    elseif($_SESSION["startTime"] > (60 *30)){
-//        unset($_SESSION["userEmail"]);
-//        unset($_SESSION["startTime"]);
-//    }
 }
 
+
+/**
+ * @param string $userEmail
+ * @return bool
+ * check role of user, give userNotAuthenticate label if user role is member
+ */
 function checkRoleAdmin(string $userEmail): bool
 {
     $user = getPerson(email: $userEmail);
@@ -40,33 +46,14 @@ function checkRoleAdmin(string $userEmail): bool
     return true;
 }
 
-function checkPersonStatus(string $userEmail): bool
-{
-    $user = getPerson(email: $userEmail);
-    if ($user[PERSON_STATUS] == STATUS_PASSED_AWAY) {
-        $_SESSION["userPassedAway"] = "Sorry, this person status is PASSED AWAY. Ask ADMIN for more information.";
-        redirect("../login.php", "");
-    }
-    return true;
-}
-
-
 //==============================
 //****** GENERAL ******
 //==============================
 
-function userExist(string $email, string $password): array
-{
-    $data = getAll();
-
-    for ($i = 0; $i < count($data); $i++) {
-        if ($email == $data[$i][PERSON_EMAIL] && $password == $data[$i][PASSWORD]) {
-            return $data[$i];
-        }
-    }
-    return [];
-}
-
+/**
+ * @return array
+ * load json data into an array
+ */
 function getAll(): array
 {
     // we need to convert it into array of Person
@@ -93,18 +80,24 @@ function getAll(): array
     return $result;
 }
 
+/**
+ * @param array $person
+ * @param string $location
+ * @return void
+ * saving person data when user do create or edit
+ */
 function savePerson(array $person, string $location): void
 {
-//menyimpan data person saat melakukan penambahan atau pengeditan
     $persons = getAll();
 //    CREATE MODE
     if ($person[ID] == null) {
         $id = generateId($persons);
+        // generate ID for new person
         $person[ID] = $id;
         $persons[] = $person;
         saveDataIntoJson($persons, "persons.json");
         $_SESSION["addSuccess"] = $persons;
-        redirect("../" . $location, "");
+        redirect("../" . $location, "person=" . $id );
 
     } else {
 //        EDIT MODE
@@ -132,31 +125,42 @@ function savePerson(array $person, string $location): void
 
                 }
                 $_SESSION["personHasEdit"] = $persons[$i];
-                redirect("../" . $location, "");
+                redirect("../" . $location, "person=" . $persons[$i][ID]);
 
             }
         }
     }
 }
 
+/**
+ * @param array|null $persons
+ * @return int
+ * generate ID person, key ID is auto increment
+ */
 function generateId(array|null $persons = null): int
 {
-//    return $persons == null ? 1 : (end($persons['id'])) + 1;
     return is_array($persons) == null ? 1 : (end($persons)[ID]) + 1;
 }
 
+/**
+ * @param string $date given data from a form
+ * @return int
+ * convert given date into timestamp
+ */
 function convertDateToTimestamp(string $date): int
 {
     $date = str_replace('-', '/', $date);
     return strtotime($date);
 }
 
-function replaceSpace(string $string): string
-{
-    return preg_replace('/\s+/', '+', $string);
-}
 
-function getPerson(int|null $id = null, string|null $email = null): array
+/**
+ * @param string|null $id
+ * @param string|null $email
+ * @return array
+ * get person data by given ID or EMAIl if isn't null
+ */
+function getPerson(string|null $id = null, string|null $email = null): array
 {
     $persons = getAll();
     if ($id != null) {
@@ -175,6 +179,14 @@ function getPerson(int|null $id = null, string|null $email = null): array
     return [];
 }
 
+/**
+ * @param array $array
+ * @param string $key
+ * @param string $value
+ * @param int|null $id
+ * @return mixed
+ * get first data from array by specific key and value
+ */
 function &findFirstFromArray(array &$array, string $key, string $value, int|null $id = null): mixed
 {
     $default = [];
@@ -184,6 +196,7 @@ function &findFirstFromArray(array &$array, string $key, string $value, int|null
                 return $array[$i];
             }
         } else {
+            // do especially when ID is not null (edit)
             if ($array[$i][$key] == $value && $array[$i][ID] != $id) {
                 return $array[$i];
             }
@@ -193,17 +206,33 @@ function &findFirstFromArray(array &$array, string $key, string $value, int|null
 
 }
 
+/**
+ * @param string $status
+ * @return string
+ * translate person status, alive for true and passed away otherwise
+ */
 function translateBooleanToString(string $status): string
 {
     return $status ? "Alive" : "Passed Away";
 }
 
+/**
+ * @param string|null $on
+ * @return bool
+ * translate switch 'This person is alive', true if  the switch is on
+ */
 function translateSwitch(string|null $on): bool
 {
     return $on === "on";
 }
 
 
+/**
+ * @param $birth_date_ts
+ * @return int age of person by given birthdate
+ * @throws Exception
+ *
+ */
 function calculateAge($birth_date_ts): int
 {
     $date = new DateTime('@' . $birth_date_ts);
@@ -212,6 +241,20 @@ function calculateAge($birth_date_ts): int
     return floor($interval->y);
 }
 
+/**
+ * @param array $person
+ * @param string|null $firstName
+ * @param string|null $lastName
+ * @param string|null $nik
+ * @param string|null $email
+ * @param string|null $birthDate
+ * @param string|null $sex
+ * @param string|null $role
+ * @param string|null $status
+ * @param string|null $note
+ * @return array
+ * setting up person data before saved into json
+ */
 function setPersonData(
     array       &$person,
     string|null $firstName = null,
@@ -236,6 +279,19 @@ function setPersonData(
     return $person;
 }
 
+/**
+ * @param string|null $firstName
+ * @param string|null $lastName
+ * @param string|null $email
+ * @param string|null $nik
+ * @param string|null $role
+ * @param string|null $status
+ * @param string|null $birthDate
+ * @param string|null $sex
+ * @param string|null $note
+ * @return array
+ * temp save person data, if there are error that will be shown
+ */
 function getUserInputData(
     string|null $firstName = null,
     string|null $lastName = null,
@@ -261,6 +317,17 @@ function getUserInputData(
     ];
 }
 
+/**
+ * @param string $nik
+ * @param string $email
+ * @param string $birthDate
+ * @param string|null $password
+ * @param string|null $confirmPassword
+ * @param string|null $currentPassword
+ * @param int|null $id
+ * @return array
+ * validate input and save it into temp array
+ */
 function validate(
 
     string      $nik,
@@ -274,11 +341,11 @@ function validate(
 
     $persons = getAll();
     $validate = [];
-    if (getNikCheck($nik, $id) == -1) {
+    if (isNikExist($nik, $id) == -1) {
         $validate["errorNik"] = "Sorry, this NIK is already exist";
     }
 
-    if (getValidEmail($email, $id) == -1) {
+    if (isEmailExist($email, $id) == -1) {
         $validate["errorEmail"] = "Sorry, this EMAIL is already exist";
     }
 
@@ -308,7 +375,13 @@ function validate(
     return $validate;
 }
 
-function getNikCheck(string $nik, int|null $id = null): int
+/**
+ * @param string $nik
+ * @param int|null $id
+ * @return int
+ * checking if given NIK is already existed
+ */
+function isNikExist(string $nik, int|null $id = null): int
 {
     $persons = getAll();
     $result = findFirstFromArray(
@@ -323,6 +396,11 @@ function getNikCheck(string $nik, int|null $id = null): int
     return -1;
 }
 
+/**
+ * @param string $birthDate
+ * @return int
+ * check given birthdate from a form
+ */
 function getValidBirthDate(string $birthDate): int
 {
     $intDate = convertDateToTimestamp($birthDate);
@@ -333,10 +411,14 @@ function getValidBirthDate(string $birthDate): int
 
 }
 
-
-function getValidEmail(string $email, int|null $id = null): int
+/**
+ * @param string $email
+ * @param int|null $id
+ * @return int
+ * checking if given email is already existed
+ */
+function isEmailExist(string $email, int|null $id = null): int
 {
-//    mengecek agar tidak ada email yang duplicate
     $persons = getAll();
     $result = findFirstFromArray(
         array: $persons,
@@ -350,6 +432,11 @@ function getValidEmail(string $email, int|null $id = null): int
     return -1;
 }
 
+/**
+ * @param string|null $password
+ * @return string|int
+ * given password must be strict
+ */
 function getValidPassword(string|null $password = null): string|int
 {
     if ($password != null) {
@@ -357,7 +444,7 @@ function getValidPassword(string|null $password = null): string|int
         $lowercase = preg_match('@[a-z]@', $password);
         $number = preg_match('@[0-9]@', $password);
 
-        if (!$uppercase || !$lowercase || !$number || strlen($password) < 8) {
+        if (!$uppercase || !$lowercase || !$number || strlen($password) > 16) {
             return -1;
         }
     }
@@ -365,6 +452,12 @@ function getValidPassword(string|null $password = null): string|int
 
 }
 
+/**
+ * @param string $password
+ * @param array $persons
+ * @return int
+ * checking if given current password is true, same as password that user use for login
+ */
 function getValidCurrentPassword(string $password, array $persons): int
 {
     $validPassword = findFirstFromArray(array: $persons, key: PASSWORD, value: $password);
@@ -374,10 +467,106 @@ function getValidCurrentPassword(string $password, array $persons): int
     return -1;
 }
 
+/**
+ * @param array $persons
+ * @return array
+ * @throws Exception
+ * get persons data with age child category
+ */
+function getChildCategory(array $persons): array
+{
+    $childCategory = [];
+    for($i = 0; $i < count($persons); $i++){
+        $getAge = calculateAge($persons[$i][PERSON_BIRTH_DATE]);
+        if($getAge <= 14){
+            $childCategory[] = $persons[$i];
+        }
+    }
+    return $childCategory;
+}
+
+/**
+ * @param array $persons
+ * @return array
+ * @throws Exception
+ * get persons data with age productive category
+ */
+function getProductiveCategory(array $persons): array
+{
+    $productiveCategory = [];
+    for($i = 0; $i < count($persons); $i++){
+        $getAge = calculateAge($persons[$i][PERSON_BIRTH_DATE]);
+        if($getAge <= 45){
+            $productiveCategory[] = $persons[$i];
+        }
+    }
+    return $productiveCategory;
+}
+
+/**
+ * @param array $persons
+ * @return array
+ * @throws Exception
+ * get persons data with age elderly age category
+ */
+function getElderlyCategory(array $persons): array
+{
+    $elderlyCategory = [];
+    for($i = 0; $i < count($persons); $i++){
+        $getAge = calculateAge($persons[$i][PERSON_BIRTH_DATE]);
+        if($getAge > 50){
+            $elderlyCategory[] = $persons[$i];
+        }
+    }
+    return $elderlyCategory;
+}
+
+/**
+ * @param array $persons
+ * @param string $category
+ * @return array
+ * @throws Exception
+ * classify all person by given category
+ */
+function getAgeCategory(array &$persons, string $category): array
+{
+    $personCategory = [];
+
+    // return all person if category = CATEGORIES_ALL
+    if ($category == CATEGORIES_ALL) {
+        return $persons;
+    }
+
+    if($category == CATEGORIES_CHILD){
+        $personCategory = getChildCategory($persons);
+    } elseif ($category == CATEGORIES_ELDERLY){
+        $personCategory = getElderlyCategory($persons);
+    } elseif ($category == CATEGORIES_PRODUCTIVE_AGE){
+        $personCategory = getProductiveCategory($persons);
+    }
+
+    // find all person with status passed away
+    if($category == CATEGORIES_PASSED_AWAY) {
+        for ($i = 0; $i < count($persons); $i++) {
+            if ($persons[$i][PERSON_STATUS] == STATUS_PASSED_AWAY) {
+                $personCategory[] = $persons[$i];
+            }
+        }
+    }
+
+    return $personCategory;
+}
+
+/**
+ * @param string $value
+ * @return array
+ * sort person sex for form select sex
+ */
 function sortSex(string $value): array
 {
     $sex = [];
 
+    // if person sex == female, the next order of sex select will be male and better not say
     if($value == SEX_FEMALE){
         $sex[] = SEX_FEMALE;
         $sex[] = SEX_MALE;
@@ -386,7 +575,7 @@ function sortSex(string $value): array
         $sex[] = SEX_MALE;
         $sex[] = SEX_FEMALE;
         $sex[] = SEX_BETTER_NOT_SAY;
-    } else {
+    } elseif ($value == SEX_BETTER_NOT_SAY) {
         $sex[] = SEX_BETTER_NOT_SAY;
         $sex[] = SEX_MALE;
         $sex[] = SEX_FEMALE;
@@ -394,6 +583,11 @@ function sortSex(string $value): array
     return $sex;
 }
 
+/**
+ * @param string $value
+ * @return array
+ * sort person role for form select role
+ */
 function sortRole(string $value)
 {
     $role = [];
@@ -408,43 +602,6 @@ function sortRole(string $value)
 
 }
 
-function sortCategories(string $value): array
-{
-    $categories = [];
-
-    if($value == CATEGORIES_ALL){
-        $categories[] = CATEGORIES_ALL;
-        $categories[] = CATEGORIES_PRODUCTIVE_AGE;
-        $categories[] = CATEGORIES_CHILD;
-        $categories[] = CATEGORIES_ELDERLY;
-        $categories[] = CATEGORIES_PASSED_AWAY;
-    } elseif ($value == CATEGORIES_PRODUCTIVE_AGE){
-        $categories[] = CATEGORIES_PRODUCTIVE_AGE;
-        $categories[] = CATEGORIES_CHILD;
-        $categories[] = CATEGORIES_ELDERLY;
-        $categories[] = CATEGORIES_PASSED_AWAY;
-        $categories[] = CATEGORIES_ALL;
-    } elseif ($value == CATEGORIES_CHILD){
-        $categories[] = CATEGORIES_CHILD;
-        $categories[] = CATEGORIES_ELDERLY;
-        $categories[] = CATEGORIES_PASSED_AWAY;
-        $categories[] = CATEGORIES_ALL;
-        $categories[] = CATEGORIES_PRODUCTIVE_AGE;
-    } elseif ($value == CATEGORIES_ELDERLY){
-        $categories[] = CATEGORIES_ELDERLY;
-        $categories[] = CATEGORIES_PASSED_AWAY;
-        $categories[] = CATEGORIES_ALL;
-        $categories[] = CATEGORIES_PRODUCTIVE_AGE;
-        $categories[] = CATEGORIES_CHILD;
-    } else {
-        $categories[] = CATEGORIES_PASSED_AWAY;
-        $categories[] = CATEGORIES_ALL;
-        $categories[] = CATEGORIES_PRODUCTIVE_AGE;
-        $categories[] = CATEGORIES_CHILD;
-        $categories[] = CATEGORIES_ELDERLY;
-    }
-    return $categories;
-}
 
 
 

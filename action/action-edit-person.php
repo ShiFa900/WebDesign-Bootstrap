@@ -3,11 +3,10 @@ require_once __DIR__ . "/utils.php";
 require_once __DIR__ . "/const.php";
 session_start();
 
-//mendapatkan data person yang akan di edit dengan menggunakan ID person tersebut
-//edit person data belum dicoba
 $currentUser = $_SESSION["personData"];
 $intDate = convertDateToTimestamp($_POST["birthDate"]);
 
+// get user input data, data still there if page is reload when showing error input data
 $userInputData = getUserInputData(
     firstName: $_POST["firstName"],
     lastName: $_POST["lastName"],
@@ -16,10 +15,10 @@ $userInputData = getUserInputData(
     role: $_POST["role"],
     status: $_POST["status"],
     birthDate: $intDate,
-    sex: $_POST["sex"]);
+    sex: $_POST["sex"],
+    note: $_POST["note"]);
 
-// belum suud ni cokk
-
+// do validate person input data
 $validate = validate(
     nik: $_POST["nik"],
     email: $_POST["email"],
@@ -33,8 +32,9 @@ if (count($validate) == 0) {
     unset($_SESSION["errorData"]);
     unset($_SESSION["userInputData"]);
 
+    // set person data before saving
     $currentUser = setPersonData(
-        $currentUser,
+        person: $currentUser,
         firstName: $userInputData["firstName"],
         lastName: $userInputData["lastName"],
         nik: $userInputData["nik"],
@@ -42,17 +42,18 @@ if (count($validate) == 0) {
         birthDate: $userInputData["birthDate"],
         sex: $userInputData["sex"],
         role: $userInputData["role"],
-        status: $userInputData["status"]);
+        status: $userInputData["status"],
+        note: $userInputData["note"] == "" ? null : $userInputData["note"]);
     $currentUser[PASSWORD] = $_POST["newPassword"] == null ? $currentUser[PASSWORD] : $_POST["newPassword"];
 
-    savePerson($currentUser, "persons.php?page=1");
+    savePerson($currentUser, "view-person.php");
 
 
 } else {
-//    echo hasEmailCheck($_POST["email"]);
     $_SESSION["userInputData"] = $userInputData;
     $_SESSION["errorData"] = $validate;
-    redirect("../edit-person.php", "id=" . $currentUser[ID]);
+    // redirect to edit person page if error in input data
+    redirect("../edit-person.php", "person=" . $currentUser[ID]);
 }
 
 

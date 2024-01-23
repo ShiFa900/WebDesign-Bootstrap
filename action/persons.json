@@ -5,7 +5,7 @@
         "lastName": "Ayaki",
         "nik": "1234981723615234",
         "email": "Ayayaki@gmail.com",
-        "birthDate": 898531200,
+        "birthDate": 898473600,
         "sex": "SEX_MALE",
         "internalNote": null,
         "role": "ROLE_MEMBER",
@@ -39,7 +39,7 @@
         "role": "ROLE_ADMIN",
         "password": "s4r4hEti",
         "status": true,
-        "lastLoggedIn": 1705402098
+        "lastLoggedIn": 1705982808
     },
     {
         "id": 4,
@@ -51,7 +51,7 @@
         "sex": "SEX_FEMALE",
         "internalNote": null,
         "role": "ROLE_MEMBER",
-        "password": "pol",
+        "password": "KomiSan0",
         "status": true,
         "lastLoggedIn": 1704881133
     },
@@ -65,7 +65,7 @@
         "sex": "SEX_MALE",
         "internalNote": null,
         "role": "ROLE_MEMBER",
-        "password": "ocani",
+        "password": "1niOcan3",
         "status": false,
         "lastLoggedIn": null
     },
@@ -76,10 +76,10 @@
         "nik": "2380192872873827",
         "email": "milmil@gmail.com",
         "birthDate": 898560000,
-        "sex": "BETTER_NOT_SAY",
+        "sex": "SEX_BETTER_NOT_SAY",
         "internalNote": null,
         "role": "ROLE_MEMBER",
-        "password": "milocoklat",
+        "password": "M1loCoklat",
         "status": false,
         "lastLoggedIn": 1704439823
     },
@@ -103,13 +103,13 @@
         "lastName": "Genoullio",
         "nik": "12009817230920",
         "email": "parfume@gmail.com",
-        "birthDate": -2314248925,
+        "birthDate": -2314310400,
         "sex": "SEX_MALE",
-        "internalNote": "i feel so fucking GREAT!!",
+        "internalNote": "i feel so fucking GREAT!!                                                                                                                                                                  ",
         "role": "ROLE_ADMIN",
         "password": "virginP4rfume",
         "status": true,
-        "lastLoggedIn": 1705543588
+        "lastLoggedIn": 1705983349
     },
     {
         "id": 10,
@@ -161,11 +161,11 @@
         "email": "anjelia4@gmail.com",
         "birthDate": 1263081600,
         "sex": "SEX_FEMALE",
-        "internalNote": null,
+        "internalNote": "jangan lupa makan sayur dan buah ya :)",
         "role": "ROLE_MEMBER",
         "password": "liaa",
         "status": true,
-        "lastLoggedIn": null
+        "lastLoggedIn": 1705983300
     },
     {
         "id": 15,
@@ -262,6 +262,48 @@
         "internalNote": null,
         "role": "ROLE_MEMBER",
         "password": "PonyoD0g",
+        "status": true,
+        "lastLoggedIn": null
+    },
+    {
+        "id": 23,
+        "firstName": "Mini",
+        "lastName": "Mama Ponyo",
+        "nik": "0927178298129070",
+        "email": "mimi@gmail.com",
+        "birthDate": 1283212800,
+        "sex": "SEX_FEMALE",
+        "internalNote": "ini mamanya ponyo",
+        "role": "ROLE_MEMBER",
+        "password": "MimiT1m1",
+        "status": false,
+        "lastLoggedIn": null
+    },
+    {
+        "id": 24,
+        "firstName": "Salmonellesia",
+        "lastName": "Wishman",
+        "nik": "1190128237927301",
+        "email": "nela@gmail.com",
+        "birthDate": 1473206400,
+        "sex": "SEX_FEMALE",
+        "internalNote": "tolong cek buku Boy Swallow Universe di Gramed",
+        "role": "ROLE_MEMBER",
+        "password": "Nela1234",
+        "status": true,
+        "lastLoggedIn": null
+    },
+    {
+        "id": 25,
+        "firstName": "Elly",
+        "lastName": "Malaraba",
+        "nik": "2230089273927133",
+        "email": "malvest@gmail.com",
+        "birthDate": 1355356800,
+        "sex": "SEX_FEMALE",
+        "internalNote": null,
+        "role": "ROLE_MEMBER",
+        "password": "M4laraba",
         "status": true,
         "lastLoggedIn": null
     }

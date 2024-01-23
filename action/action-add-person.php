@@ -4,6 +4,7 @@ require_once __DIR__ . "/utils.php";
 session_start();
 $intDate = convertDateToTimestamp($_POST["birthDate"]);
 
+// get user input data, and temp save if there are an error
 $userInputData = getUserInputData(
     firstName: $_POST["firstName"],
     lastName: $_POST["lastName"],
@@ -15,10 +16,8 @@ $userInputData = getUserInputData(
     sex: $_POST["sex"],
     note: $_POST["note"]);
 
-$arrayuser = sortSex($_POST["sex"]);
-//var_dump($arrayuser);
-//die();
 
+// validate for input data
 $validate = validate(
     nik: $_POST["nik"],
     email: $_POST["email"],
@@ -39,22 +38,18 @@ if (count($validate) == 0) {
         PERSON_EMAIL => $userInputData["email"],
         PERSON_BIRTH_DATE => convertDateToTimestamp($userInputData["birthDate"]),
         PERSON_SEX => $userInputData["sex"],
-        PERSON_INTERNAL_NOTE => $userInputData["note"],
+        PERSON_INTERNAL_NOTE => $userInputData["note"] == null ? $userInputData["note"] : null,
         PERSON_ROLE => $userInputData["role"],
         PASSWORD => $_POST["password"],
         PERSON_STATUS => translateSwitch($userInputData["status"]),
         PERSON_LAST_LOGGED_IN => null,
     ];
 
-    savePerson($person, "persons.php");
+    savePerson($person, "view-person.php");
 
 } else {
-//    echo hasEmailCheck($_POST["email"]);
     $_SESSION["inputData"] = $userInputData;
     $_SESSION["errorData"] = $validate;
+    // redirect to edit person page if error in input data
     redirect("../add-person.php", "");
 }
-
-
-//buat sebuah variable array yang akan menyimpan semua data-data yang error ketika mengambil input
-//kemudian, cek variable tersebut di file action-add-person.php untuk menampilkan pesan error (jika terdapat)

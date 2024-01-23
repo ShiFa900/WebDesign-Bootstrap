@@ -13,24 +13,34 @@ $persons = getAll();
 
 <?php
 mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.php", pageStyles: ['persons.css']);
-
+// get current user data
 $userRole = getPerson(email: $_SESSION["userEmail"]);
+
+// showing all person data if category | keyword is null or showing person data with specific category or keyword otherwise
 $persons = getAll();
 if (isset($_GET["keyword"]) || isset($_GET["category"])) {
     $result = search(persons: $persons, category: $_GET["category"], keyword: $_GET["keyword"]);
+    // is result is null or data not found, will show img no data found
     if (!is_null($result)) {
         $persons = $result;
     }
 }
+
+// get total page for showing person data
 $totalPage = ceil((float)count($persons) / (float)PAGE_LIMIT);
 
+// set page for paginated data, page cannot less than 1, bigger than total page and not a numeric
 $page = $_GET["page"] ?? 1;
 if ($page <= 0 || !is_numeric($page) || $page > $totalPage) {
     $page = 1;
 }
+
+// get the data that will be displayed on each page
 $displayingData = getPaginatedData(array: $persons, page: $page, limit: PAGE_LIMIT, totalPage: $totalPage);
 $persons = $displayingData[PAGING_DATA];
+// previous page
 $prev = $displayingData[PAGING_CURRENT_PAGE] - 1;
+// next page
 $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
 
 
@@ -64,12 +74,13 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
                         <!-- menggunakan select -->
                         <select
                                 id="form-select-catagories"
-                                class="form-select form-select-lg mb-1"
+                                class="form-select form-select-lg"
                                 aria-label="Select age category"
                                 name="category"
 
                         >
                             <?php
+                            // showing search category
                             if (isset($_GET["category"])) {
                                 $arrayCategories = sortCategories($_GET["category"]);
                                 foreach ($arrayCategories as $category) {
@@ -82,6 +93,7 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
                                 ?>
                                 <?php
                             } else {
+                                // show this for default
                                 ?>
                                 <option value="<?= CATEGORIES_ALL ?>"><?= CATEGORY_LABEL["CATEGORIES_ALL_LABEL"] ?></option>
                                 <option value="<?= CATEGORIES_PRODUCTIVE_AGE ?>"><?= CATEGORY_LABEL["CATEGORIES_PRODUCTIVE_AGE_LABEL"] ?></option>
@@ -110,8 +122,10 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
                                     } ?>"
                             />
                         </div>
-                        <div class="btn-wrapper d-flex">
-                            <button class="btn btn-outline-success" type="submit">
+                        <div class="btn-wrapper d-flex justify-content-end">
+                            <button class="btn btn-outline-success d-flex align-items-center column-gap-1"
+                                    type="submit">
+                                <span class="d-xl-none d-flex flex-column">Search</span>
                                 <ion-icon src="../assets/properties/icon/search-outline.svg" class="icon"></ion-icon>
                             </button>
 
@@ -144,27 +158,7 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
         <?php
         if (isset($_SESSION["addSuccess"])) {
             ?>
-            <div class="alert alert-success" role="alert">
-                <?= end($persons)[PERSON_FIRST_NAME] ?> was successfully added to Person Management App!
-            </div>
-            <?php
-        } elseif (isset($_SESSION["editSuccess"])) {
-            ?>
-            <?php
-            if ($_SESSION["personHasEdit"][PERSON_EMAIL] == $_SESSION["userEmail"]) {
-                ?>
-                <div class="alert alert-success" role="alert">
-                    Your edit data was successfully saved!
-                </div>
-                <?php
-            } else {
-                ?>
-                <div class="alert alert-success" role="alert">
-                    Successfully edit person data of <?= $_SESSION["personHasEdit"][PERSON_FIRST_NAME] ?>!
-                </div>
-                <?php
-            }
-            ?>
+
             <?php
         } elseif (isset($_SESSION["deleteSuccess"])) {
             ?>
@@ -177,6 +171,7 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
 
 
         <?php
+        // show this img if person data not found
         if ($persons == null) {
             ?>
             <div class="row">
@@ -208,6 +203,7 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
                         <tbody>
 
                         <?php
+                        // number is total data in database
                         $number = ($page - 1) * PAGE_LIMIT + 1;
                         foreach ($persons as $person) {
                             $personsRole = sortRole($person[PERSON_ROLE]);
@@ -221,9 +217,6 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
                                         <td><?= $person[PERSON_EMAIL] ?></td>
                                         <td><?= $person[PERSON_FIRST_NAME] . " " . $person[PERSON_LAST_NAME] ?></td>
                                         <td class="text-center"><?= calculateAge($person[PERSON_BIRTH_DATE]) ?></td>
-                                        <!--                            <td class="text-center">-->
-                                        <?php //= $person[PERSON_SEX]
-                                        ?><!--</td>-->
                                         <td class="text-center"><?= $personRole ?></td>
                                         <?php
                                         $personStatus = translateBooleanToString($person[PERSON_STATUS]);
@@ -286,7 +279,7 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
                     </table>
                     <div class="wrapper pagination-btn d-flex justify-content-end">
                         <?php
-
+                        // show pagination button
                         if (isset($_GET["category"]) || isset($_GET["keyword"])) {
                             showPaginationButton(
                                 displayingData: $displayingData,
@@ -316,7 +309,5 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
 <?php
 mainFooter("persons.php");
 unset($_SESSION["addSuccess"]);
-unset($_SESSION["editSuccess"]);
-unset($_SESSION["personHasEdit"]);
 unset($_SESSION["deleteSuccess"]);
 unset($_SESSION["userNotAuthenticate"]);

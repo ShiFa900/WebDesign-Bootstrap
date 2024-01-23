@@ -11,8 +11,12 @@ checkRoleAdmin($_SESSION["userEmail"]);
 <?php
 mainHeader(cssIdentifier: "page-edit-person", title: "Edit Person", link: "edit-person.php", pageStyles: ["editPerson.css"]);
 
+// get person data to be edited
 $person = getPerson(id: $_GET["person"]);
 $_SESSION["personData"] = $person;
+// sort person role when edited
+$arraySex = sortSex($person[PERSON_SEX]);
+
 ?>
 
     <main>
@@ -165,13 +169,12 @@ $_SESSION["personData"] = $person;
                                                     name="sex"
                                             >
                                                 <?php
-                                                $arraySex = sortSex($person[PERSON_SEX]);
                                                 if (isset($_SESSION["userInputData"]["sex"])) {
                                                     $arraySex = sortSex($_SESSION["userInputData"]["sex"]);
                                                     foreach ($arraySex as $sex) { ?>
                                                         <option
-                                                                value="<?= $sex ?>"<?php if ($sex === $_SESSION["inputData"]["sex"]) echo "selected" ?>>
-                                                            <?= ROLE_LABEL[$sex . "_LABEL"] ?></option>
+                                                                value="<?= $sex ?>"<?php if ($sex === $_SESSION["userInputData"]["sex"]) echo "selected" ?>>
+                                                            <?= SEX_LABEL[$sex . "_LABEL"] ?></option>
                                                         }
                                                         <?php
                                                     }
@@ -188,12 +191,12 @@ $_SESSION["personData"] = $person;
                                                     ?>
                                                     <?php
                                                 }
-                                                    ?>
+                                                ?>
 
                                             </select>
                                         </div>
 
-                                        <div class="form-input mt-0">
+                                        <div class="form-input mt-0 mb-3">
                                             <div
                                                     class="form-check form-switch d-flex align-items-center column-gap-3"
                                             >
@@ -220,7 +223,7 @@ $_SESSION["personData"] = $person;
                                         </div>
                                     </div>
 
-                                    <div class="col-xxl-5 col-xl-5 col-lg-5 col-md-4">
+                                    <div class="col-xxl-5 col-xl-5 col-lg-5">
                                         <div class="mb-3 form-input-add-person">
                                             <label for="note" class="form-label"
                                             >Internal notes</label
@@ -248,7 +251,7 @@ $_SESSION["personData"] = $person;
                                                 <?php
                                                 $arrayRole = sortRole($person[PERSON_ROLE]);
                                                 if (isset($_SESSION["userInputData"]["role"])) {
-                                                    $arrayRole = sortRole($_SESSION["inputData"]["role"]);
+                                                    $arrayRole = sortRole($_SESSION["userInputData"]["role"]);
                                                     foreach ($arrayRole as $role) {
                                                         ?>
                                                         <option
@@ -279,7 +282,8 @@ $_SESSION["personData"] = $person;
                                                     id="newPass"
                                                     type="password"
                                                     class="form-control"
-                                                    name="newPassword"/>
+                                                    name="newPassword"
+                                                    minlength="8"/>
 
                                             <?php
                                             if (isset($_SESSION["errorData"]["errorPassword"])) {

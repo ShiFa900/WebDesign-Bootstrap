@@ -7,8 +7,21 @@ require_once __DIR__ . "/index.php";
 <?php
 mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-person.php", pageStyles: ["view-person.css"]);
 
-$person = getPerson($_GET["person"]);
+// get person data by given person ID
+$person = getPerson(id: $_GET["person"]);
+// get person ID when user want to delete person data
 $_SESSION["personId"] = $person[ID];
+// get current user
+$currentUser = getPerson(email: $_SESSION["userEmail"]);
+
+
+//get person sex label for showing it
+$personSex = sortSex($person[PERSON_SEX]);
+foreach ($personSex as $sex) {
+    if ($sex == $person[PERSON_SEX]) {
+        $userSex = SEX_LABEL[$sex . "_LABEL"];
+    }
+}
 ?>
 
     <main>
@@ -22,13 +35,31 @@ $_SESSION["personId"] = $person[ID];
                     <div class="page-header content-wrapper">
                         <h1 class="first-heading">View person</h1>
                     </div>
+                    <?php
+                    // this alert will show if person edit data was succeeded save
+                    if (isset($_SESSION["editSuccess"])) {
+                        ?>
+                        <div class="alert alert-success" role="alert">
+                            Successfully edit person data of <?= $_SESSION["personHasEdit"][PERSON_FIRST_NAME] ?>!
+                        </div>
+                        <?php
+                    } elseif (isset($_SESSION["addSuccess"])) {
+                        ?>
+                        <div class="alert alert-success" role="alert">
+                            <?= $person[PERSON_FIRST_NAME]?> was successfully added to Person Management App!
+                        </div>
+                        <?php
+                    }
+                    ?>
+
 
                     <div class="row">
                         <div class="col-xxl-12">
-                            <form class="new-person-form" action="action/action-view-person.php" method="post">
+                            <form class="new-person-form" action="#" method="post">
                                 <div class="row">
                                     <div class="col-xxl-8 col-xl-8 col-lg-10 col-12">
                                         <div class="mb-3 form-input">
+
                                             <span class="required title">First Name</span>
                                             <p>
                                                 <?= $person[PERSON_FIRST_NAME];
@@ -37,6 +68,7 @@ $_SESSION["personId"] = $person[ID];
                                         </div>
 
                                         <?php
+                                        // showing person last name if person have it
                                         if ($person[PERSON_LAST_NAME] != "") {
                                             ?>
                                             <div class="mb-3 form-input">
@@ -81,12 +113,7 @@ $_SESSION["personId"] = $person[ID];
                                             <span class="required title">Sex</span>
                                             <p>
                                                 <?php
-                                                $personRole = sortSex($person[PERSON_SEX]);
-                                                foreach ($personRole as $role) {
-                                                    if ($role == $person[PERSON_SEX]) {
-                                                        echo SEX_LABEL[$role . "_LABEL"];
-                                                    }
-                                                }
+                                                echo $userSex;
                                                 ?>
                                             </p>
 
@@ -94,7 +121,6 @@ $_SESSION["personId"] = $person[ID];
 
 
                                         <?php
-                                        $currentUser = getPerson(email: $_SESSION["userEmail"]);
                                         if ($currentUser[PERSON_ROLE] == ROLE_ADMIN) {
                                             ?>
                                             <div class="mb-3 form-input">
@@ -151,8 +177,8 @@ $_SESSION["personId"] = $person[ID];
                                                     </a>
                                                 </div>
                                                 <?php
-                                                $user = getPerson(email: $_SESSION["userEmail"]);
-                                                if ($user[PERSON_ROLE] == ROLE_ADMIN) {
+                                                // only admin can delete person data
+                                                if ($currentUser[PERSON_ROLE] == ROLE_ADMIN) {
                                                     ?>
                                                     <!-- Button trigger modal -->
                                                     <button type="button"
@@ -217,4 +243,7 @@ $_SESSION["personId"] = $person[ID];
     <!-- footer -->
 <?php
 mainFooter("persons.php");
+// unset all session if user switch to other page
 unset($_SESSION["personData"]);
+unset($_SESSION["editSuccess"]);
+unset($_SESSION["personHasEdit"]);

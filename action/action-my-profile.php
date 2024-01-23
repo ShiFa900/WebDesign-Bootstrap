@@ -4,10 +4,9 @@ require_once __DIR__ . "/const.php";
 session_start();
 
 $currentUser = $_SESSION["userData"];
-//var_dump($currentUser);
-//die();
 
 $intDate = convertDateToTimestamp($_POST["birthDate"]);
+// get all person input or person previous data (if user not input new data)
 $userInputData = getUserInputData(
     firstName: $_POST["firstName"],
     lastName: $_POST["lastName"],
@@ -18,10 +17,8 @@ $userInputData = getUserInputData(
     sex: $_POST["sex"],
     note: $_POST["note"]
 );
-// user status menjadi string 1
-//var_dump($userInputData);
-//die();
 
+// validate person input data
 $validate = validate(
     nik: $_POST["nik"],
     email: $_POST["email"],
@@ -46,16 +43,16 @@ if (count($validate) == 0) {
         role: $currentUser[PERSON_ROLE],
         note:$userInputData["note"]);
 
-//    person status dengan status true, selalu berubah valuenya menjadi false
     $userData[PASSWORD] = $_POST["newPassword"] == null ? $currentUser[PASSWORD] : $_POST["newPassword"];
     $userData[PERSON_STATUS] = boolval($userInputData["status"]);
-    savePerson($userData, "persons.php");
+    // save person data if no error data
+    savePerson($userData, "my-profile.php");
 
 } else {
     $_SESSION["userInputData"] = $userInputData;
     $_SESSION["errorData"] = $validate;
-
-    redirect("../my-profile.php", "id=" . $currentUser[ID]);
+    // redirect user to form again if it has error data
+    redirect("../my-profile.php", "");
 }
 
 
