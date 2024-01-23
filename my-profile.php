@@ -63,7 +63,7 @@ foreach ($personRole as $role) {
                                                 value="<?php if (isset($_SESSION["userInputData"]["firstName"])) {
                                                     echo $_SESSION["userInputData"]["firstName"];
                                                 } else {
-                                                    echo $_SESSION["userData"][PERSON_FIRST_NAME];
+                                                    echo $person[PERSON_FIRST_NAME];
                                                 } ?>"
                                                 class="form-control"
                                                 name="firstName"
@@ -83,7 +83,7 @@ foreach ($personRole as $role) {
                                                     value="<?php if (isset($_SESSION["userInputData"]["lastName"])) {
                                                         echo $_SESSION["userInputData"]["lastName"];
                                                     } else {
-                                                        echo $_SESSION["userData"][PERSON_LAST_NAME];
+                                                        echo $person[PERSON_LAST_NAME];
                                                     } ?>"
                                                     class="form-control"
                                                     name="lastName"
@@ -101,7 +101,7 @@ foreach ($personRole as $role) {
                                                 value="<?php if (isset($_SESSION["userInputData"]["nik"])) {
                                                     echo $_SESSION["userInputData"]["nik"];
                                                 } else {
-                                                    echo $_SESSION["userData"][PERSON_NIK];
+                                                    echo $person[PERSON_NIK];
                                                 } ?>"
                                                 class="form-control"
                                                 name="nik"
@@ -128,7 +128,7 @@ foreach ($personRole as $role) {
                                                 value="<?php if (isset($_SESSION["userInputData"]["email"])) {
                                                     echo $_SESSION["userInputData"]["email"];
                                                 } else {
-                                                    echo $_SESSION["userData"][PERSON_EMAIL];
+                                                    echo $person[PERSON_EMAIL];
                                                 } ?>"
                                                 class="form-control"
                                                 name="email"
@@ -155,7 +155,7 @@ foreach ($personRole as $role) {
                                                 value="<?php if (isset($_SESSION["userInputData"]["birthDate"])) {
                                                     echo $_SESSION["userInputData"]["birthDate"];
                                                 } else {
-                                                    echo date("Y-m-d", $_SESSION["userData"][PERSON_BIRTH_DATE]);
+                                                    echo date("Y-m-d", $person[PERSON_BIRTH_DATE]);
                                                 } ?>"
                                                 name="birthDate"
                                         />
@@ -223,11 +223,14 @@ foreach ($personRole as $role) {
                                 <?php
                                 if ($person[PERSON_ROLE] == ROLE_ADMIN) {
                                     ?>
-                                    <div class="mb-3 form-input">
-                                        <label for="note" class="form-label"
-                                        >Internal notes</label
-                                        >
-                                        <div class="form-floating mb-4">
+                                    <?php
+                                    if ($person[PERSON_INTERNAL_NOTE] != null) {
+                                        ?>
+                                        <div class="mb-3 form-input">
+                                            <label for="note" class="form-label"
+                                            >Internal notes</label
+                                            >
+                                            <div class="form-floating mb-4">
                                               <textarea
                                                       class="form-control"
                                                       placeholder="Leave a comment here"
@@ -237,28 +240,36 @@ foreach ($personRole as $role) {
                                                   if (isset($_SESSION["userInputData"])) {
                                                       echo $_SESSION["userInputData"]["note"];
                                                   } else {
-                                                      echo $_SESSION["userData"][PERSON_INTERNAL_NOTE];
+                                                      echo $person[PERSON_INTERNAL_NOTE];
                                                   } ?>
                                                       </textarea>
+                                            </div>
+                                            <hr/>
                                         </div>
-                                        <hr/>
-                                    </div>
+                                        <?php
+                                    }
+                                    ?>
                                     <?php
                                 } else {
-                                    ?>
-                                    <div class="mb-3 form-input">
-                                        <label for="note" class="form-label"
-                                        >Internal notes</label
-                                        >
-                                        <div class="form-floating mb-4">
-                                            <p
-                                                    class="form-control"
-                                                    id="note"
-                                                    disabled
-                                            ><?= $_SESSION["userData"][PERSON_INTERNAL_NOTE] ?></p>
+                                    if ($person[PERSON_INTERNAL_NOTE] != null) {
+                                        ?>
+
+                                        <div class="mb-3 form-input">
+                                            <label for="note" class="form-label"
+                                            >Internal notes</label
+                                            >
+                                            <div class="form-floating mb-4">
+                                                <p
+                                                        class="form-control"
+                                                        id="note"
+                                                        disabled
+                                                ><?= $person[PERSON_INTERNAL_NOTE] ?></p>
+                                            </div>
+                                            <hr/>
                                         </div>
-                                        <hr/>
-                                    </div>
+                                        <?php
+                                    }
+                                    ?>
                                     <?php
                                 }
                                 ?>
@@ -269,7 +280,9 @@ foreach ($personRole as $role) {
                                             id="currentPass"
                                             type="password"
                                             class="form-control"
-                                            name="currentPassword"/>
+                                            name="currentPassword"
+                                            value="<?= $person[PASSWORD] ?>"
+                                    />
                                     <?php
                                     if (isset($_SESSION["errorData"]["errorCurrentPassword"])) {
                                         ?>

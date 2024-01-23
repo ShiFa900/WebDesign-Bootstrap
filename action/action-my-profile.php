@@ -25,7 +25,6 @@ $validate = validate(
     birthDate: $_POST["birthDate"],
     password: $_POST["newPassword"],
     confirmPassword: $_POST["confirmPassword"],
-    currentPassword: $currentUser[PASSWORD],
     id: $currentUser[ID]);
 
 if (count($validate) == 0) {
@@ -41,7 +40,7 @@ if (count($validate) == 0) {
         birthDate: $userInputData["birthDate"],
         sex: $userInputData["sex"],
         role: $currentUser[PERSON_ROLE],
-        note:$userInputData["note"]);
+        note:$userInputData["note"] == null ? $currentUser[PERSON_INTERNAL_NOTE] : $userInputData["note"]);
 
     $userData[PASSWORD] = $_POST["newPassword"] == null ? $currentUser[PASSWORD] : $_POST["newPassword"];
     $userData[PERSON_STATUS] = boolval($userInputData["status"]);

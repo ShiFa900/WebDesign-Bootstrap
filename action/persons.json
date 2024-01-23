@@ -7,9 +7,9 @@
         "email": "Ayayaki@gmail.com",
         "birthDate": 898473600,
         "sex": "SEX_MALE",
-        "internalNote": null,
+        "internalNote": "",
         "role": "ROLE_MEMBER",
-        "password": "ayam",
+        "password": "AyamY4ki",
         "status": true,
         "lastLoggedIn": 1705402152
     },
@@ -105,11 +105,11 @@
         "email": "parfume@gmail.com",
         "birthDate": -2314310400,
         "sex": "SEX_MALE",
-        "internalNote": "i feel so fucking GREAT!!                                                                                                                                                                  ",
+        "internalNote": "i feel so fucking GREAT!!                                                                                                                                                                                                                        ",
         "role": "ROLE_ADMIN",
         "password": "virginP4rfume",
         "status": true,
-        "lastLoggedIn": 1705983349
+        "lastLoggedIn": 1705996946
     },
     {
         "id": 10,
@@ -165,7 +165,7 @@
         "role": "ROLE_MEMBER",
         "password": "liaa",
         "status": true,
-        "lastLoggedIn": 1705983300
+        "lastLoggedIn": 1705997955
     },
     {
         "id": 15,
