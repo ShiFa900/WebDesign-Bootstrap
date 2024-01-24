@@ -74,11 +74,7 @@ body {
 .page-header {
   border-left: 3px solid #ffc436;
   padding-left: 1rem;
-}
-
-.page-header {
-  margin-bottom: 1.75rem;
-  font-family: "Montserrat";
+  font-family: "Montserrat", serif;
 }
 
 .header {
@@ -131,14 +127,8 @@ body {
 
 .avatar-md {
   width: 2.4rem;
-   /*font-size: 1rem;*/
 }
 
-.header-icon{
-  width: 2.4rem;
-  color: #ffffff;
-  background-color: #fafafa;
-}
 
 .avatar-img {
   border-radius: 50%;
@@ -147,7 +137,6 @@ body {
 
 .profile-text {
   color: #fff;
-  /* font-size: 1.6rem; */
 }
 
 .logo {
@@ -265,7 +254,6 @@ body {
 
 .modal-footer button:nth-child(2):hover {
   background: none;
-  /* border: 1px solid #015d98; */
   color: #015d98;
 }
 
@@ -276,12 +264,34 @@ body {
 
 /* ICON */
 .icon {
-  width: 1.6rem;
   height: 1.6rem;
+}
+
+.color {
+  color: #015d98;
+}
+
+.nav-link svg{
+  width: 2rem;
+}
+
+.nav-link path {
+  /*fill: #015d98 !important;*/
+  stroke: #015d98;
+  /*fill: #015d98;*/
+}
+
+.dropdown path{
+  fill: #ffffff;
 }
 
 .filter-icon {
   color: #333;
+}
+
+.header-icon{
+  width: 2.4rem;
+  color: #ffffff;
 }
 
 /* FORM */
@@ -299,7 +309,6 @@ body {
 }
 
 .form-control-sm {
-  /* font-size: 1.4rem; */
   padding: 0.55rem;
 }
 
@@ -358,7 +367,6 @@ body {
 }
 
 /* HIGHLIGHT WHEN ACTIVE */
-
 .nav-item.active {
   background-color: #e6f1f9;
 }
@@ -395,12 +403,6 @@ body {
   padding-top: 90px;
   width: 250px;
   height: 100%;
-}
-
-
-
-.color {
-  color: #015d98;
 }
 
 .offcanvas.offcanvas-start {
@@ -442,7 +444,6 @@ body {
 }
 
 /* NAVIGATION ON SIDEBAR*/
-
 ul {
   list-style-type: none;
   display: flex;
@@ -464,10 +465,6 @@ li ul .nav-link {
 
 }
 
-/* td,
-th {
-  font-size: 1.6rem;
-} */
 
 thead tr {
   background-color: #015d98;
@@ -506,55 +503,6 @@ thead tr {
   vertical-align: middle;
 }
 
-/*TABLE RESPONSIVE STACK*/
-.table-responsive-stack tr {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: row;
-  flex-direction: row;
-}
-
-
-.table-responsive-stack td,
-.table-responsive-stack th {
-  display:block;
-  /*
-     flex-grow | flex-shrink | flex-basis   */
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-}
-
-.table-responsive-stack .table-responsive-stack-thead {
-  font-weight: bold;
-}
-
-@media screen and (max-width: 768px) {
-  .table-responsive-stack tr {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    border-bottom: 3px solid #ccc;
-    display:block;
-
-  }
-  /*  IE9 FIX   */
-  .table-responsive-stack td {
-    float: left\9;
-    width:100%;
-  }
-}
-
-
-/* PAGINATION */
-/*.paginated {*/
-/*  margin-top: 2.4rem;*/
-/*}*/
-
-
 
 /*CARD*/
 .number {
@@ -573,7 +521,6 @@ thead tr {
 
 .card {
   background-color: #ebf4fa;
-  /* box-shadow: 0 0.5rem 1.75rem rgba(12, 12, 12, 0.119); */
 
   padding: 1.2rem;
 

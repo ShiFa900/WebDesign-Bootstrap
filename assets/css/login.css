@@ -31,14 +31,14 @@
 }
 
 .form-label {
-    margin: 1.2rem 0;
+    margin: 1rem 0;
     /* width: 50%; */
 }
 
 .btn-container {
     display: flex;
     column-gap: 3.6rem;
-    margin-top: 2.4rem;
+    margin-top: 1.5rem;
 }
 
 label {

@@ -25,9 +25,9 @@ if (isset($_POST['login'])) {
 }
 
 /**
+ * check user status, cannot login with account of Passed away status
  * @param string $userEmail
  * @return bool
- * check user status, cannot login with account of Passed away status
  */
 function checkPersonStatus(string $userEmail): bool
 {
@@ -40,10 +40,10 @@ function checkPersonStatus(string $userEmail): bool
 }
 
 /**
+ * search user data for login form, user data must be existed in json file
  * @param string $email
  * @param string $password
  * @return array
- * search user data for login form, user data must be existed in json file
  */
 function userExist(string $email, string $password): array
 {

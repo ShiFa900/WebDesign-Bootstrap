@@ -3,9 +3,7 @@ require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
 require_once __DIR__ . "/action/utils.php";
 require_once __DIR__ . "/index.php";
-?>
 
-<?php
 mainHeader(
     cssIdentifier: "page-dashboard",
     title: "Dashboard",
@@ -32,7 +30,6 @@ foreach ($persons as $person){
     }
 }
 ?>
-
     <div class="w-100">
         <div class="dashboard-content px-5 position-absolute">
             <div class="page-header">

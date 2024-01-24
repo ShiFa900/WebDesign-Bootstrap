@@ -6,9 +6,6 @@ require_once __DIR__ . "/index.php";
 
 checkRoleAdmin($_SESSION["userEmail"]);
 
-?>
-
-<?php
 mainHeader(cssIdentifier: "page-edit-person", title: "Edit Person", link: "edit-person.php", pageStyles: ["editPerson.css"]);
 
 // get person data to be edited
@@ -18,7 +15,6 @@ $_SESSION["personData"] = $person;
 $arraySex = sortSex($person[PERSON_SEX]);
 
 ?>
-
     <main>
         <section class="edit-section d-flex position-relative">
             <?php

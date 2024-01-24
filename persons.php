@@ -9,9 +9,6 @@ require_once __DIR__ . "/action/pagination.php";
 
 $persons = getAll();
 
-?>
-
-<?php
 mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.php", pageStyles: ['persons.css']);
 // get current user data
 $userRole = getPerson(email: $_SESSION["userEmail"]);
@@ -50,12 +47,12 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
                 class="content-wrapper d-xl-flex justify-content-between d-md-block"
         >
             <div class="left d-flex gap-4 page-header ">
-                <a class="first-heading nav-link" href="persons.php">
+                <a class="nav-link" href="persons.php">
                     <h1 class="first-heading">Persons</h1>
                 </a>
                 <div class="add-person d-flex justify-content-end mb-0">
                     <a href="add-person.php" class="nav-link btn-content">
-                        <ion-icon src="../assets/properties/icon/person-add-outline.svg" class="icon"></ion-icon>
+                        <img src="assets/properties/icon/person-add-outline.svg" class="icon" alt="person icon">
                     </a>
                 </div>
             </div>
@@ -65,7 +62,7 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
             >
                 <!--SEARCH-->
                 <form
-                        class="search-form d-xl-flex column gap-2"
+                        class="search-form d-xl-flex column-gap-2 mt-3"
                         name="search-form"
                         action="#table"
                         method="get"
@@ -126,7 +123,7 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
                             <button class="btn btn-outline-success d-flex align-items-center column-gap-1"
                                     type="submit">
                                 <span class="d-xl-none d-flex flex-column">Search</span>
-                                <ion-icon src="../assets/properties/icon/search-outline.svg" class="icon"></ion-icon>
+                                <img src="assets/properties/icon/search-outline.svg" class="icon" alt="search icon">
                             </button>
 
                             <!--btn ini hanya tampil saat filter atau keyword pencarian ada-->
@@ -134,8 +131,8 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
                             if (isset($_GET["keyword"]) || isset($_GET["category"])) {
                                 ?>
                                 <button class="btn btn-reset ms-2" name="reset">
-                                    <ion-icon src="../assets/properties/icon/refresh-outline.svg"
-                                              class="icon"></ion-icon>
+                                    <img src="assets/properties/icon/refresh-outline.svg"
+                                              class="icon" alt="refresh icon">
                                 </button>
                                 <?php
                             }
@@ -167,10 +164,6 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
             </div>
             <?php
         }
-        ?>
-
-
-        <?php
         // show this img if person data not found
         if ($persons == null) {
             ?>
@@ -277,26 +270,26 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
                         ?>
                         </tbody>
                     </table>
-                    <div class="wrapper pagination-btn d-flex justify-content-end">
-                        <?php
-                        // show pagination button
-                        if (isset($_GET["category"]) || isset($_GET["keyword"])) {
-                            showPaginationButton(
-                                displayingData: $displayingData,
-                                prev: $prev,
-                                next: $next,
-                                page: $page,
-                                keyword: $_GET["keyword"],
-                                category: $_GET["category"]);
-                        } else {
-                            showPaginationButton(
-                                displayingData: $displayingData,
-                                prev: $prev,
-                                next: $next,
-                                page: $page);
-                        }
-                        ?>
-                    </div>
+                </div>
+                <div class="wrapper pagination-btn d-flex justify-content-end">
+                    <?php
+                    // show pagination button
+                    if (isset($_GET["category"]) || isset($_GET["keyword"])) {
+                        showPaginationButton(
+                            displayingData: $displayingData,
+                            prev: $prev,
+                            next: $next,
+                            page: $page,
+                            keyword: $_GET["keyword"],
+                            category: $_GET["category"]);
+                    } else {
+                        showPaginationButton(
+                            displayingData: $displayingData,
+                            prev: $prev,
+                            next: $next,
+                            page: $page);
+                    }
+                    ?>
                 </div>
             </div>
 

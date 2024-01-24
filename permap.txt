@@ -14,6 +14,9 @@
 - jika user menginput new password tapi tidak confirm, maka tampilkan pesan error untuk editd data person atau my profile
 - bagian user profile
 - revisi
+- user yang sudah login, saat mengakses root atau bilanglah login page, harusnya dia tidak bisa login lagi, karena sessionnya masih berjalan
+- ganti warna pada icon
+- jika user memberikan id person (di view person) yang id-nya tidak ada, maka coba kembalikan person ke halaman persons.php
 ===================================
 ROLE ADMIN
 - bisa create, edit dan delete

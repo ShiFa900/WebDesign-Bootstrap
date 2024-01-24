@@ -1,12 +1,12 @@
 <?php
 
 /**
+ * get all people's data as much as the limit that will be shown in page 1 until last pages
  * @param array $array
  * @param string $page
  * @param int $limit
  * @param int $totalPage
  * @return array
- * get paginated data that will show in each page
  */
 function getPaginatedData(array $array, string $page, int $limit, int $totalPage): array
 {

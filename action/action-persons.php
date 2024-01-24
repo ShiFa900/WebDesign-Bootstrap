@@ -7,12 +7,12 @@ if (isset($_GET["reset"])) {
 }
 
 /**
+ * search person data by given category or keyword
  * @param array $persons
  * @param string $category
  * @param string|null $keyword
  * @return array
  * @throws Exception
- * search person data by given category or keyword
  */
 function search(array $persons, string $category, string|null $keyword = null): array
 {
@@ -53,9 +53,9 @@ function search(array $persons, string $category, string|null $keyword = null): 
 }
 
 /**
+ * sort category for category form
  * @param string $value
  * @return array
- * sort category for category form
  */
 function sortCategories(string $value): array
 {
