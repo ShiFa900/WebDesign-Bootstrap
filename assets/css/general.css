@@ -271,18 +271,34 @@ body {
   color: #015d98;
 }
 
-.nav-link svg{
+.nav-link svg, .dropdown-item .img-icon{
   width: 2rem;
 }
 
-.nav-link path {
-  /*fill: #015d98 !important;*/
+.nav-link .img-icon path{
   stroke: #015d98;
-  /*fill: #015d98;*/
+}
+
+.dropdown-item .img-icon path{
+  stroke: #015d98;
+}
+
+.dropdown-item:active{
+  color: #444444;
+  background-color: #e6f1f9 !important;
 }
 
 .dropdown path{
   fill: #ffffff;
+}
+
+.img-icon-white{
+  fill: #ffffff;
+  width: 1.95rem;
+}
+
+ .user{
+  width: 2.9rem;
 }
 
 .filter-icon {

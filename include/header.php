@@ -127,7 +127,7 @@ function mainHeader(string $cssIdentifier, string $title, string $link, array|nu
             <img src="../assets/properties/pma-border.png" alt="PerMap logo" class="logo"/>
         </a>
 
-        <div class="head-wrapper d-flex align-items-center gap-1">
+        <div class="head-wrapper d-flex align-items-center">
             <button
                     class="btn btn-primary d-xxl-none d-xl-none d-lg-none"
                     type="button"
@@ -135,12 +135,13 @@ function mainHeader(string $cssIdentifier, string $title, string $link, array|nu
                     data-bs-target="#offcanvasScrolling"
                     aria-controls="offcanvasScrolling"
             >
-                <div style="fill: #000000" class="img-icon-white">
+                <div style="fill: #000000" class="img-icon-white menu">
                     <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10"
                               stroke-width="32" d="M80 160h352M80 256h352M80 352h352"/>
                     </svg>
                 </div>
+
 
             </button>
             <a class="nav-link">
@@ -159,7 +160,8 @@ function mainHeader(string $cssIdentifier, string $title, string $link, array|nu
                             echo "</span>";
                             ?>
 
-                            <div style="fill: #000000" class="img-icon">
+                            <div style="fill: #000000" class="img-icon-white user"
+                                 title="<?= $_SESSION["userEmail"] ?>">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="ionicon img-icon" viewBox="0 0 512 512">
                                     <path d="M256 48C141.31 48 48 141.31 48 256s93.31 208 208 208 208-93.31 208-208S370.69 48 256 48zm-50.22 116.82C218.45 151.39 236.28 144 256 144s37.39 7.44 50.11 20.94c12.89 13.68 19.16 32.06 17.68 51.82C320.83 256 290.43 288 256 288s-64.89-32-67.79-71.25c-1.47-19.92 4.79-38.36 17.57-51.93zM256 432a175.49 175.49 0 01-126-53.22 122.91 122.91 0 0135.14-33.44C190.63 329 222.89 320 256 320s65.37 9 90.83 25.34A122.87 122.87 0 01382 378.78 175.45 175.45 0 01256 432z"/>
                                 </svg>
@@ -171,11 +173,16 @@ function mainHeader(string $cssIdentifier, string $title, string $link, array|nu
                         <li>
                             <a class="dropdown-item" href="../my-profile.php"
                             >
-                                <img
-                                        src="../assets/properties/icon/person-outline.svg"
-                                        class="icon color"
-                                        alt="dropdown my profile icon"
-                                >
+                                <div style="fill: #000000" class="img-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
+                                        <path d="M344 144c-3.92 52.87-44 96-88 96s-84.15-43.12-88-96c-4-55 35-96 88-96s92 42 88 96z"
+                                              fill="none" stroke="currentColor" stroke-linecap="round"
+                                              stroke-linejoin="round" stroke-width="32"/>
+                                        <path d="M256 304c-87 0-175.3 48-191.64 138.6C62.39 453.52 68.57 464 80 464h352c11.44 0 17.62-10.48 15.65-21.4C431.3 352 343 304 256 304z"
+                                              fill="none" stroke="currentColor" stroke-miterlimit="10"
+                                              stroke-width="32"/>
+                                    </svg>
+                                </div>
                                 Profile</a
                             >
                         </li>
@@ -185,9 +192,13 @@ function mainHeader(string $cssIdentifier, string $title, string $link, array|nu
                         <li>
                             <a class="dropdown-item" href="../action/action-logout.php"
                             >
-                                <img src="../assets/properties/icon/log-out-outline.svg"
-                                     class="icon color"
-                                     alt="dropdown my profile icon">
+                                <div style="fill: #000000" class="img-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
+                                        <path d="M304 336v40a40 40 0 01-40 40H104a40 40 0 01-40-40V136a40 40 0 0140-40h152c22.09 0 48 17.91 48 40v40M368 336l80-80-80-80M176 256h256"
+                                              fill="none" stroke="currentColor" stroke-linecap="round"
+                                              stroke-linejoin="round" stroke-width="32"/>
+                                    </svg>
+                                </div>
                                 Log
                                 out</a
                             >

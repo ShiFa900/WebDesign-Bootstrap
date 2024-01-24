@@ -30,6 +30,7 @@ $validate = validate(
     birthDate: $_POST["birthDate"],
     password: $_POST["newPassword"],
     confirmPassword: $_POST["confirmPassword"],
+    currentPassword: $_POST["currentPassword"],
     id: $currentUser[ID]);
 
 if (count($validate) == 0) {

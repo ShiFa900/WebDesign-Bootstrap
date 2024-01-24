@@ -5,15 +5,18 @@ require_once __DIR__ . "/include/footer.php";
 require_once __DIR__ . "/index.php";
 
 checkRoleAdmin($_SESSION["userEmail"]);
-
-mainHeader(cssIdentifier: "page-edit-person", title: "Edit Person", link: "edit-person.php", pageStyles: ["editPerson.css"]);
+$person = getPerson(id: $_GET["person"]);
+if ($person == null) {
+    $_SESSION["personNotFound"] = $person;
+    redirect("persons.php", "");
+} else {
+    mainHeader(cssIdentifier: "page-edit-person", title: "Edit Person", link: "edit-person.php", pageStyles: ["editPerson.css"]);
 
 // get person data to be edited
-$person = getPerson(id: $_GET["person"]);
-$_SESSION["personData"] = $person;
+    $_SESSION["personData"] = $person;
 // sort person role when edited
-$arraySex = sortSex($person[PERSON_SEX]);
-
+    $arraySex = sortSex($person[PERSON_SEX]);
+}
 ?>
     <main>
         <section class="edit-section d-flex position-relative">

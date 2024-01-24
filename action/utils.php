@@ -361,8 +361,7 @@ function validate(
                 " UPPERCASE, one LOWERCASE, and one NUMBER.";
         }
 
-
-        if ($confirmPassword != $password) {
+        if ($confirmPassword !== $password) {
             $validate["errorConfirm"] = "Sorry, your CONFIRMATION was wrong. Please check again.";
         }
     }
@@ -373,11 +372,13 @@ function validate(
 
 //        untuk di myProfile, user tidak bisa menganti password jika current password salah, namun tetap bisa diganti dengan bantuan admin
     if ($currentPassword != null) {
+
         if (getValidCurrentPassword($currentPassword, $persons) == -1) {
             $validate["errorCurrentPassword"] = "Sorry, your PASSWORD was wrong. Please check again.";
         }
     }
-
+//    var_dump($confirmPassword, $password);
+//    die();
     return $validate;
 }
 
@@ -467,10 +468,10 @@ function getValidPassword(string|null $password = null): string|int
 function getValidCurrentPassword(string $password, array $persons): int
 {
     $validPassword = findFirstFromArray(array: $persons, key: PASSWORD, value: $password);
-    if (count($validPassword) != 0) {
-        return 0;
+    if (count($validPassword) == 0) {
+        return -1;
     }
-    return -1;
+    return 0;
 }
 
 /**
