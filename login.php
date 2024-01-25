@@ -68,6 +68,7 @@ redirectIfUserAlreadyLogin();
                                     echo "<span>";
                                 }
                                 ?>
+                                </br>
                                 Welcome to <span>PerMap</span>
                             </h2>
                         </div>

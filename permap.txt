@@ -1,3 +1,6 @@
+Person Management App
+
+color palette: 0C356A, 0174BE, FFC436, FFF0CE
 
 =================================
 - saat edit my profile data, password harusnya tidak wajib untuk di edit, jadi ketika user menginput new password barulah confirm password required (sblum confirm password baru tidak akan disimpan ke database).
