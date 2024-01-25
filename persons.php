@@ -3,9 +3,10 @@ require_once __DIR__ . "/action/utils.php";
 require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
 require_once __DIR__ . "/include/showPaginationButton.php";
-require_once __DIR__ . "/index.php";
 require_once __DIR__ . "/action/action-persons.php";
 require_once __DIR__ . "/action/pagination.php";
+
+redirectIfNotAuthenticated();
 
 $persons = getAll();
 

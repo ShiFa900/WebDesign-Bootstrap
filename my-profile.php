@@ -2,10 +2,9 @@
 require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
 require_once __DIR__ . "/action/utils.php";
-require_once __DIR__ . "/index.php";
 
-?>
-<?php
+redirectIfNotAuthenticated();
+
 mainHeader(cssIdentifier: "page-my-profile", title: "My Profile", link: "my-profile.php", pageStyles: ["my-profile.css"]);
 
 // get user data by given email

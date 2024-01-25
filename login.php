@@ -1,10 +1,7 @@
 <?php
 require_once __DIR__ . "/action/utils.php";
-
 redirectIfUserAlreadyLogin();
-?>
-
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="en">
 
 <head>

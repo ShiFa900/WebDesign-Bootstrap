@@ -17,8 +17,17 @@ function redirect($url, $getParams): void
 }
 
 /**
- * check if user has login
- * @return void
+ * Redirect rules on index page or root directory:
+ * - to Login page when user is not logged in
+ * - to Dashboard page when user is logged in
+ */
+function redirectOnIndex(): void {
+    redirectIfUserAlreadyLogin();    
+    redirectIfNotAuthenticated();
+}
+
+/**
+ * Redirects the user to the login page when not signed in
  */
 function redirectIfNotAuthenticated(): void
 {
@@ -28,6 +37,9 @@ function redirectIfNotAuthenticated(): void
     }
 }
 
+/**
+ * Redirects the user to the dashboard page when already being signed in
+ */
 function redirectIfUserAlreadyLogin(): void
 {
     if (isset($_SESSION["userEmail"])) {
@@ -37,7 +49,8 @@ function redirectIfUserAlreadyLogin(): void
 }
 
 /**
- * check role of user, give userNotAuthenticate label if user role is member
+ * Checks the role of signed in user, 
+ * and then set 'userNotAuthenticate' label in session if the user's role is a MEMBER
  * @param string $userEmail
  * @return bool
  */

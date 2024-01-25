@@ -5,8 +5,7 @@ require_once __DIR__ . "/../action/const.php";
 session_start();
 function mainHeader(string $cssIdentifier, string $title, string $link, array|null $pageStyles = null): void
 {
-    ?>
-    <!DOCTYPE html>
+?><!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8"/>

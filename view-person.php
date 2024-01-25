@@ -1,8 +1,9 @@
 <?php
 require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
-require_once __DIR__ . "/index.php";
-//require_once __DIR__ . "/action/action-view-person.php";
+require_once __DIR__ . "/action/utils.php";
+
+redirectIfNotAuthenticated();
 
 // get person data by given person ID
 $person = getPerson(id: $_GET["person"]);
@@ -213,17 +214,14 @@ $currentUser = getPerson(email: $_SESSION["userEmail"]);
                                     </div>
                                 </div>
 
-                                <div
-                                        class="btn-container d-flex column-gap-5"
-                                >
-                                    <div class="btn-wrapper d-flex">
+                                <div class="btn-container d-flex ">
+                                    <div class="btn-wrapper d-flex column-gap-3">
                                         <a href="persons.php?page=1"
                                            class="btn btn-primary btn--form has-border"
                                            type="submit"
                                         >Back
                                         </a>
-                                    </div>
-                                    <div class="wrapper d-flex column-gap-3">
+
                                         <?php
                                         // only admin can delete person data
                                         if ($currentUser[PERSON_ROLE] == ROLE_ADMIN) {
