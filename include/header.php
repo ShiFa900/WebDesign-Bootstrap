@@ -146,7 +146,7 @@ function mainHeader(string $cssIdentifier, string $title, string $link, array|nu
             <a class="nav-link">
                 <div class="dropdown">
                     <a
-                            class="btn btn-secondary dropdown-toggle"
+                            class="btn btn-secondary dropdown-toggle dropdown-btn"
                             href="#"
                             role="button"
                             data-bs-toggle="dropdown"

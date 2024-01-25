@@ -1,5 +1,14 @@
 <?php
-
+/**
+ * show arrow as pagination button
+ * @param array $displayingData
+ * @param int $prev
+ * @param int $next
+ * @param int $page
+ * @param string|null $keyword
+ * @param string|null $category
+ *
+ */
 function showPaginationButton(
         array $displayingData,
         int $prev,

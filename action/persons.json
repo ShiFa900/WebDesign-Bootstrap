@@ -9,9 +9,9 @@
         "sex": "SEX_MALE",
         "internalNote": null,
         "role": "ROLE_MEMBER",
-        "password": "AyamY4ki",
+        "password": "$2y$10$JA8x4S\/KIq0a0iQ3rCD53OC9K6b0UYrnlWj5kio4QeY0YEZknMuba",
         "status": true,
-        "lastLoggedIn": 1705402152
+        "lastLoggedIn": 1706149163
     },
     {
         "id": 2,
@@ -23,7 +23,7 @@
         "sex": "SEX_MALE",
         "internalNote": null,
         "role": "ROLE_MEMBER",
-        "password": "ShikuM4y",
+        "password": "$2y$10$WETP6H2B\/RtPLny8xLUn1OQDvsFoxJrFQX6fvJ7Y4DOhpoXvxGblC",
         "status": true,
         "lastLoggedIn": 1704772323
     },
@@ -37,7 +37,7 @@
         "sex": "SEX_FEMALE",
         "internalNote": "I wish i was special, so fucking SPECIAL -RadioHead-",
         "role": "ROLE_ADMIN",
-        "password": "s4r4hEti",
+        "password": "$2y$10$CiWMOtXQtEzJDlYvzMApke773KgdcrScDP1OZIFffztSToyHOOuWO",
         "status": true,
         "lastLoggedIn": 1705982808
     },
@@ -51,7 +51,7 @@
         "sex": "SEX_FEMALE",
         "internalNote": null,
         "role": "ROLE_MEMBER",
-        "password": "KomiSan0",
+        "password": "$2y$10$f.UVdqyuqJ74jjiMSAFDHOV.tGkGBDt1EoJohr5tbpxnsKzg8MR4m",
         "status": true,
         "lastLoggedIn": 1704881133
     },
@@ -65,7 +65,7 @@
         "sex": "SEX_MALE",
         "internalNote": null,
         "role": "ROLE_MEMBER",
-        "password": "1niOcan3",
+        "password": "$2y$10$5\/2mJwRn7u5o4WFX6qXYG.vyr1VrG2PUX6Rdw1TwyIlsFsk7FEdU.",
         "status": false,
         "lastLoggedIn": null
     },
@@ -79,7 +79,7 @@
         "sex": "SEX_BETTER_NOT_SAY",
         "internalNote": null,
         "role": "ROLE_MEMBER",
-        "password": "M1loCoklat",
+        "password": "$2y$10$fOcCPSqbZdg9tX0k5ZpgLehQn0r9XG25RSQp9\/XZ\/ssplomIg2L0S",
         "status": false,
         "lastLoggedIn": 1704439823
     },
@@ -93,7 +93,7 @@
         "sex": "SEX_FEMALE",
         "internalNote": null,
         "role": "ROLE_MEMBER",
-        "password": "inigaby",
+        "password": "$2y$10$gCqEtv0OL5zzEnx02NxMJOylGxf6WoR4NE6xXUKKVnbHKKSl5yr9u",
         "status": true,
         "lastLoggedIn": null
     },
@@ -107,9 +107,9 @@
         "sex": "SEX_MALE",
         "internalNote": "i feel so fucking GREAT!!                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ",
         "role": "ROLE_ADMIN",
-        "password": "virginP4rfume",
+        "password": "$2y$10$EeJvFnPNvTFRCwodO9bC8OEkjlKt3MgjE3ey4BbeJfydVtWPNt.r2",
         "status": true,
-        "lastLoggedIn": 1706003120
+        "lastLoggedIn": 1706149702
     },
     {
         "id": 10,
@@ -121,7 +121,7 @@
         "sex": "SEX_MALE",
         "internalNote": null,
         "role": "ROLE_ADMIN",
-        "password": "gap",
+        "password": "$2y$10$hFxtfaf\/7gGK8E\/X.laWf.JVaiHI8.\/YIhWeqc0hm\/waQG.ufhG2S",
         "status": false,
         "lastLoggedIn": 1705399997
     },
@@ -320,5 +320,19 @@
         "password": "Jaya1234",
         "status": false,
         "lastLoggedIn": null
+    },
+    {
+        "id": 28,
+        "firstName": "Itadori",
+        "lastName": "Yuji",
+        "nik": "0182308827139127",
+        "email": "fingerBite@gmail.com",
+        "birthDate": 1471737600,
+        "sex": "SEX_MALE",
+        "internalNote": "Please be kind to Sukuna",
+        "role": "ROLE_ADMIN",
+        "password": "$2y$10$T1iMvkQqKQyeJxlYho0D1O8aIc4GS1XpPf1LWU4KpVKLdkhaMDoty",
+        "status": true,
+        "lastLoggedIn": 1706152444
     }
 ]

@@ -50,7 +50,7 @@ function userExist(string $email, string $password): array
     $data = getAll();
 
     for ($i = 0; $i < count($data); $i++) {
-        if ($email == $data[$i][PERSON_EMAIL] && $password == $data[$i][PASSWORD]) {
+        if ($email == $data[$i][PERSON_EMAIL] && password_verify($password, $data[$i][PASSWORD])) {
             return $data[$i];
         }
     }

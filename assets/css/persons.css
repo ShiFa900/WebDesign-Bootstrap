@@ -62,7 +62,8 @@
   margin: 1rem;
 }
 
-.page-persons .person-img-icon{
+.page-persons .search-icon,
+.page-persons .btn-reset .person-img-icon{
   width: 1.75rem;
   stroke: #444444;
 }

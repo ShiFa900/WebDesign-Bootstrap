@@ -40,7 +40,7 @@ if (count($validate) == 0) {
         PERSON_SEX => $userInputData["sex"],
         PERSON_INTERNAL_NOTE => $userInputData["note"] == "" ? null : $userInputData["note"],
         PERSON_ROLE => $userInputData["role"],
-        PASSWORD => $_POST["password"],
+        PASSWORD => password_hash($_POST["password"], PASSWORD_DEFAULT),
         PERSON_STATUS => translateSwitch($userInputData["status"]),
         PERSON_LAST_LOGGED_IN => null,
     ];

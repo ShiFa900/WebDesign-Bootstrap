@@ -283,6 +283,10 @@ body {
   stroke: #015d98;
 }
 
+.dropdown-btn{
+  color: #ffffff;
+}
+
 .dropdown-item:active{
   color: #444444;
   background-color: #e6f1f9 !important;

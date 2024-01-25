@@ -9,15 +9,15 @@ mainHeader(
     cssIdentifier: "page-dashboard",
     title: "Dashboard",
     link: "dashboard.php",
-    pageStyles: [ "dashboard.css" ]
+    pageStyles: ["dashboard.css"]
 );
 
 // set default timezone
-date_default_timezone_set( 'Asia/Singapore' );
+date_default_timezone_set('Asia/Singapore');
 
+$persons = getAll();
 // get user data by given email
 $user = getPerson(email: $_SESSION["userEmail"]);
-$persons = getAll();
 // get count of each category
 $personProductive = getProductiveCategory($persons);
 $personChild = getChildCategory($persons);
@@ -25,8 +25,8 @@ $personElderly = getElderlyCategory($persons);
 
 // get persons data with status passed away
 $personPassedAway = [];
-foreach ($persons as $person){
-    if(!$person[PERSON_STATUS]){
+foreach ($persons as $person) {
+    if (!$person[PERSON_STATUS]) {
         $personPassedAway[] = $person;
     }
 }
@@ -36,38 +36,39 @@ foreach ($persons as $person){
             <div class="page-header">
                 <div class="col-xxl-8">
                     <h1 class="first-heading">Hi,
-						<?php
-						echo $user[PERSON_FIRST_NAME] . "!";
-						?>
+                        <?php
+                        echo $user[PERSON_FIRST_NAME] . "!";
+                        ?>
                     </h1>
-					<?php
-					if ( $user[PERSON_LAST_LOGGED_IN] != null ) {
-						?>
+                    <?php
+                    if ($user[PERSON_LAST_LOGGED_IN] != null) {
+                        ?>
                         <p class="header-sm-title">
                             You were logged in previously in
-							<?php
-							echo "<strong>";
-							echo date( 'l, F d Y H:i', $user[PERSON_LAST_LOGGED_IN] );
-							echo "</strong>";
-							?>
+                            <?php
+                            echo "<strong>";
+                            echo date('l, F d Y H:i', $user[PERSON_LAST_LOGGED_IN]);
+                            echo "</strong>";
+                            ?>
                         </p>
-						<?php
-					} else {
-						?>
+                        <?php
+                    } else {
+                        ?>
                         <p class="header-sm-title">
                             Welcome to Dashboard of <strong>Person Management App</strong>
                         </p>
-						<?php
-					}
-					?>
+                        <?php
+                    }
+                    ?>
                 </div>
             </div>
 
             <div class="row dashboard">
                 <div class="dashboard-card col-12 col-xxl-4 col-xl-4 col-lg-5 col-md-6">
-                    <a class="card card-link" href="persons.php?category=<?=CATEGORIES_ALL?>">
+                    <a class="card card-link" href="persons.php?category=<?= CATEGORIES_ALL ?>"
+                       title="Total number of persons.">
                         <div class="card-body">
-                            <p class="number"><?=count($persons)?></p>
+                            <p class="number"><?= count($persons) ?></p>
                             <h4 class="card-subtitle third-heading mb-2 text-body-secondary">
                                 Number of persons
                             </h4>
@@ -79,9 +80,10 @@ foreach ($persons as $person){
                     </a>
                 </div>
                 <div class="dashboard-card col-12 col-xxl-4 col-xl-4 col-lg-5 col-md-6">
-                    <a class="card card-link" href="persons.php?category=<?=CATEGORIES_PRODUCTIVE_AGE?>">
+                    <a class="card card-link" href="persons.php?category=<?= CATEGORIES_PRODUCTIVE_AGE ?>"
+                       title="Total number of persons aged more than 15 years old, and less than 45 years old.">
                         <div class="card-body">
-                            <p class="number"><?= count($personProductive)?></p>
+                            <p class="number"><?= count($personProductive) ?></p>
                             <h4 class="card-subtitle third-heading mb-2 text-body-secondary">
                                 In productive ages
                             </h4>
@@ -92,9 +94,10 @@ foreach ($persons as $person){
                     </a>
                 </div>
                 <div class="dashboard-card col-12 col-xxl-4 col-xl-4 col-lg-5 col-md-6">
-                    <a class="card card-link" href="persons.php?category=<?=CATEGORIES_CHILD?>">
+                    <a class="card card-link" href="persons.php?category=<?= CATEGORIES_CHILD ?>"
+                       title="Total number of children, aged less than 15 years old.">
                         <div class="card-body">
-                            <p class="number"><?= count($personChild)?></p>
+                            <p class="number"><?= count($personChild) ?></p>
                             <h4 class="card-subtitle third-heading mb-2 text-body-secondary">
                                 Children
                             </h4>
@@ -105,9 +108,10 @@ foreach ($persons as $person){
                     </a>
                 </div>
                 <div class="dashboard-card col-12 col-xxl-4 col-xl-4 col-lg-5 col-md-6">
-                    <a class="card card-link" href="persons.php?category=<?=CATEGORIES_ELDERLY?>">
+                    <a class="card card-link" href="persons.php?category=<?= CATEGORIES_ELDERLY ?>"
+                       title="Total number of persons aged more than 50 years old.">
                         <div class="card-body">
-                            <p class="number"><?=count($personElderly)?></p>
+                            <p class="number"><?= count($personElderly) ?></p>
                             <h4 class="card-subtitle third-heading mb-2 text-body-secondary">
                                 Elderly
                             </h4>
@@ -119,9 +123,10 @@ foreach ($persons as $person){
                 </div>
 
                 <div class="dashboard-card col-12 col-xxl-4 col-xl-4 col-lg-5 col-md-6">
-                    <a class="card card-link" href="persons.php?category=<?=CATEGORIES_PASSED_AWAY?>">
+                    <a class="card card-link" href="persons.php?category=<?= CATEGORIES_PASSED_AWAY ?>"
+                       title="Total number of people who have died.">
                         <div class="card-body">
-                            <p class="number"><?= count($personPassedAway)?></p>
+                            <p class="number"><?= count($personPassedAway) ?></p>
                             <h4 class="card-subtitle third-heading mb-2 text-body-secondary">
                                 Passed away
                             </h4>
@@ -136,4 +141,4 @@ foreach ($persons as $person){
     </div>
 
 <?php
-mainFooter( "dashboard.php" );
+mainFooter("dashboard.php");

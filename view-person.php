@@ -35,8 +35,7 @@ if ($person == null) {
 // get current user
 $currentUser = getPerson(email: $_SESSION["userEmail"]);
 
-?>
-    <main>
+?><main>
         <section class="view-section d-flex position-relative">
             <?php
             desktopSidebar("persons.php");
@@ -150,8 +149,7 @@ $currentUser = getPerson(email: $_SESSION["userEmail"]);
                                         <div class="mb-3 form-input">
                                             <span class="required title">Sex</span>
                                             <p>
-                                                <?php
-                                                echo $userSex;
+                                                <?= $userSex;
                                                 ?>
                                             </p>
                                         </div>
@@ -160,8 +158,6 @@ $currentUser = getPerson(email: $_SESSION["userEmail"]);
                                     <div class="col-xxl-5 col-xl-2 col-lg-5">
                                         <?php
                                         if ($currentUser[PERSON_ROLE] == ROLE_ADMIN) {
-                                            ?>
-                                            <?php
                                             if (isset($_SESSION["personData"][PERSON_INTERNAL_NOTE])) {
                                                 ?>
                                                 <div class="mb-3 form-input">
@@ -186,18 +182,14 @@ $currentUser = getPerson(email: $_SESSION["userEmail"]);
                                             }
                                         }
                                         ?>
-
                                         <!-- ROLE -->
                                         <div class="mb-3 form-input">
                                             <span class="required title">Role</span>
                                             <p>
-                                                <?php
-                                                echo $userRole;
-                                                ?>
+                                                <?= $userRole; ?>
                                             </p>
 
                                         </div>
-
                                         <div class="mb-3 form-input">
                                             <span class="required title">Status</span>
                                             <p>
@@ -209,7 +201,6 @@ $currentUser = getPerson(email: $_SESSION["userEmail"]);
                                                 }
                                                 ?>
                                             </p>
-
                                         </div>
                                     </div>
                                 </div>
@@ -241,12 +232,10 @@ $currentUser = getPerson(email: $_SESSION["userEmail"]);
                                                     data-bs-target="#exampleModal"
                                             >Delete
                                             </button>
-
                                             <?php
                                         }
                                         ?>
                                     </div>
-
                                     <!-- Modal -->
                                     <div
                                             class="modal fade"
@@ -293,7 +282,6 @@ $currentUser = getPerson(email: $_SESSION["userEmail"]);
             </div>
         </section>
     </main>
-
     <!-- footer -->
 <?php
 mainFooter("persons.php");

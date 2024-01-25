@@ -21,8 +21,9 @@ function redirect($url, $getParams): void
  * - to Login page when user is not logged in
  * - to Dashboard page when user is logged in
  */
-function redirectOnIndex(): void {
-    redirectIfUserAlreadyLogin();    
+function redirectOnIndex(): void
+{
+    redirectIfUserAlreadyLogin();
     redirectIfNotAuthenticated();
 }
 
@@ -49,16 +50,16 @@ function redirectIfUserAlreadyLogin(): void
 }
 
 /**
- * Checks the role of signed in user, 
+ * Checks the role of signed-in user,
  * and then set 'userNotAuthenticate' label in session if the user's role is a MEMBER
  * @param string $userEmail
  * @return bool
  */
-function checkRoleAdmin(string $userEmail): bool
+function checkRole(string $userEmail, string $role): bool
 {
     $user = getPerson(email: $userEmail);
-    if ($user[PERSON_ROLE] != ROLE_ADMIN) {
-        $_SESSION["userNotAuthenticate"] = $user;
+    if ($user[PERSON_ROLE] != $role) {
+        $_SESSION["user"] = $user;
         redirect("persons.php", "");
 
     }
@@ -133,7 +134,7 @@ function savePerson(array $person, string $location): void
                     PERSON_SEX => $person[PERSON_SEX],
                     PERSON_INTERNAL_NOTE => $person[PERSON_INTERNAL_NOTE],
                     PERSON_ROLE => $person[PERSON_ROLE],
-                    PASSWORD => $person[PASSWORD],
+                    PASSWORD => password_hash($person[PASSWORD], PASSWORD_DEFAULT),
                     PERSON_STATUS => $person[PERSON_STATUS],
                     PERSON_LAST_LOGGED_IN => $persons[$i][PERSON_LAST_LOGGED_IN]
                 ];
@@ -390,8 +391,7 @@ function validate(
             $validate["errorCurrentPassword"] = "Sorry, your PASSWORD was wrong. Please check again.";
         }
     }
-//    var_dump($confirmPassword, $password);
-//    die();
+
     return $validate;
 }
 
@@ -480,9 +480,11 @@ function getValidPassword(string|null $password = null): string|int
  */
 function getValidCurrentPassword(string $password, array $persons): int
 {
-    $validPassword = findFirstFromArray(array: $persons, key: PASSWORD, value: $password);
-    if (count($validPassword) == 0) {
-        return -1;
+    foreach ($persons as $person) {
+        $password = password_verify($password, $person[PASSWORD]);
+        if(!$password){
+            return -1;
+        }
     }
     return 0;
 }
@@ -516,7 +518,7 @@ function getProductiveCategory(array $persons): array
     $productiveCategory = [];
     for ($i = 0; $i < count($persons); $i++) {
         $getAge = calculateAge($persons[$i][PERSON_BIRTH_DATE]);
-        if ($getAge <= 45) {
+        if ($getAge <= 45 && $getAge >= 15) {
             $productiveCategory[] = $persons[$i];
         }
     }
@@ -578,7 +580,7 @@ function getAgeCategory(array &$persons, string $category): array
 }
 
 /**
- * sort person sex for form select sex
+ * sort person sex value for form select sex
  * @param string $value
  * @return array
  */

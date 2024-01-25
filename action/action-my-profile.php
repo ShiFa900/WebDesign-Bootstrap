@@ -18,11 +18,6 @@ $userInputData = getUserInputData(
     note: $_POST["note"]
 );
 
-// jika new password ada tapi confirm password tidak ada, jadikan ini sbgai error
-if(isset($_POST["newPassword"])){
-    $noConfirmPass = $_POST["newPassword"];
-}
-
 // validate person input data
 $validate = validate(
     nik: $_POST["nik"],
@@ -34,6 +29,7 @@ $validate = validate(
     id: $currentUser[ID]);
 
 if (count($validate) == 0) {
+
     unset($_SESSION["errorData"]);
     unset($_SESSION["userInputData"]);
 
@@ -46,7 +42,7 @@ if (count($validate) == 0) {
         birthDate: $userInputData["birthDate"],
         sex: $userInputData["sex"],
         role: $currentUser[PERSON_ROLE],
-        note:$userInputData["note"] == null ? $currentUser[PERSON_INTERNAL_NOTE] : $userInputData["note"]);
+        note: $userInputData["note"] == null ? $currentUser[PERSON_INTERNAL_NOTE] : $userInputData["note"]);
 
     $userData[PASSWORD] = $_POST["newPassword"] == null ? $currentUser[PASSWORD] : $_POST["newPassword"];
     $userData[PERSON_STATUS] = boolval($userInputData["status"]);

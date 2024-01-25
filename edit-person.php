@@ -5,7 +5,7 @@ require_once __DIR__ . "/include/footer.php";
 
 redirectIfNotAuthenticated();
 
-checkRoleAdmin($_SESSION["userEmail"]);
+checkRole($_SESSION["userEmail"], "ROLE_ADMIN");
 $person = getPerson(id: $_GET["person"]);
 if ($person == null) {
     $_SESSION["personNotFound"] = $person;
@@ -18,8 +18,7 @@ if ($person == null) {
 // sort person role when edited
     $arraySex = sortSex($person[PERSON_SEX]);
 }
-?>
-    <main>
+?><main>
         <section class="edit-section d-flex position-relative">
             <?php
             desktopSidebar("persons.php");
@@ -178,8 +177,6 @@ if ($person == null) {
                                                         }
                                                         <?php
                                                     }
-                                                    ?>
-                                                    <?php
                                                 } else {
                                                     foreach ($arraySex as $sex) {
                                                         ?>
@@ -188,8 +185,6 @@ if ($person == null) {
                                                             <?= SEX_LABEL[$sex . "_LABEL"] ?></option>
                                                         <?php
                                                     }
-                                                    ?>
-                                                    <?php
                                                 }
                                                 ?>
 
@@ -267,11 +262,8 @@ if ($person == null) {
                                                             <?= ROLE_LABEL[$role . "_LABEL"] ?></option>
                                                         <?php
                                                     }
-                                                    ?>
-                                                    <?php
                                                 }
                                                 ?>
-
                                             </select>
                                         </div>
 
@@ -333,8 +325,6 @@ if ($person == null) {
                                     >
                                         Save
                                     </button>
-
-
                                 </div>
                             </form>
                         </div>
