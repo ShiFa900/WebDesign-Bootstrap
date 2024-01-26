@@ -15,7 +15,8 @@ color palette: 0C356A, 0174BE, FFC436, FFF0CE
 - jika user menginput new password tapi tidak confirm, maka tampilkan pesan error untuk editd data person atau my profile
 - revisi
 - user yang sudah login, saat mengakses root atau bilanglah login page, harusnya dia tidak bisa login lagi, karena sessionnya masih berjalan
--
+- connect data to database
+- bingung dikit, tapi nnti bisa lah ya
 ===================================
 ROLE ADMIN
 - bisa create, edit dan delete

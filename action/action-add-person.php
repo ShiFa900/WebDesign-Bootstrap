@@ -28,8 +28,6 @@ if (count($validate) == 0) {
     unset($_SESSION["errorData"]);
     unset($_SESSION["inputData"]);
 
-    $persons = getAll();
-
     $person = [
         ID => null,
         PERSON_FIRST_NAME => ucwords($userInputData["firstName"]),

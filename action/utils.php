@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/../assets/json/jsonLoadData.php";
+require_once __DIR__ . "/../include/db.php";
 require_once __DIR__ . "/const.php";
 
 //==============================
@@ -71,13 +71,87 @@ function checkRole(string $userEmail, string $role): bool
 //==============================
 
 /**
+ * @param int $limit
+ * @param int $offset
+ * @param string|null $search
+ * @param string|null $category
+ * @return array
+ * [
+ *   'totalPage' => 3,
+ *   'currentPage' => 1,
+ *   'data' => array()
+ * ]
+ *
+ */
+function getPersons(int $page = 1, int $limit, string|null $category = null, string|null $search = null): array
+{
+    global $PDO;
+    // query data to db:
+    // 'SELECT * FROM persons WHERE name like "%:search%" ORDER BY id DESC LIMIT :limit OFFSET :page'
+    try {
+        // 1. query untuk banyaknya data
+        $queryCount = 'SELECT COUNT(*) as `total` FROM `persons` WHERE firstName like :firstName or lastName like :lastName or email like :email';
+        $statement = $PDO->prepare($queryCount);
+        $statement->execute(
+            array(
+                'firstName' => "%$search%",
+                'lastName' => "%$search%",
+                'email' => "%$search%",
+            )
+        );
+        $count = $statement->fetch();
+//         ['total'] => 19
+
+//        todo:
+//        $page bisa berubah sesuai kondisi validasi
+
+        $queryData = 'SELECT * FROM persons WHERE firstName like :firstName OR lastName like :lastName OR email like :email ORDER BY id DESC';
+        // 2. query untuk data
+        $statement = $PDO->prepare($queryData);
+        $statement->execute(
+            array(
+                'firstName' => "%$search%",
+                'lastName' => "%$search%",
+                'email' => "%$search%",
+                //'limit' => $limit,
+                //'offset' => ($page - 1) * $limit,
+            )
+        );
+        //$statement->debugDumpParams();
+        $data = $statement->fetchAll();
+
+
+        if ($count && $count['total'] > 0) {
+            return array(
+                'totalPage' => ceil($count['total'] / $limit),
+                'currentPage' => $page,
+                'data' => $data
+            );
+        }
+
+    } catch (PDOException $e) {
+        $_SESSION['error'] = 'Query error: ' . $e->getMessage();
+        var_dump($e->getMessage());
+        print_r($e->getTrace());
+        die();
+    }
+
+    return array(
+        'totalPage' => 1,
+        'currentPage' => 1,
+        'data' => []
+    );
+}
+
+/**
  * load json data into an array
  * @return array
  */
 function getAll(): array
 {
     // we need to convert it into array of Person
-    $persons = loadDataFromJson("persons.json");
+//    $persons = loadDataFromJson("persons.json");
+    $persons = [];
     $result = [];
     for ($i = 0; $i < count($persons); $i++) {
         $person = [
@@ -87,6 +161,7 @@ function getAll(): array
             PERSON_NIK => $persons[$i][PERSON_NIK],
             PERSON_EMAIL => $persons[$i][PERSON_EMAIL],
             PERSON_BIRTH_DATE => $persons[$i][PERSON_BIRTH_DATE],
+            // semestinya pakai adapter function: transformSexFromDb(...)
             PERSON_SEX => $persons[$i][PERSON_SEX],
             PERSON_INTERNAL_NOTE => $persons[$i][PERSON_INTERNAL_NOTE],
             PERSON_ROLE => $persons[$i][PERSON_ROLE],
@@ -101,6 +176,20 @@ function getAll(): array
 }
 
 /**
+ * Converts given sex value from database into the value that the app understands (SEX constants)
+ * @param string $value
+ * @return string
+ */
+function transformSexFromDb(string $value): string
+{
+    return match ($value) {
+        'F' => SEX_FEMALE,
+        'M' => SEX_MALE,
+        default => SEX_BETTER_NOT_SAY,
+    };
+}
+
+/**
  * saving person data when user do create or edit
  * @param array $person
  * @param string $location
@@ -108,49 +197,68 @@ function getAll(): array
  */
 function savePerson(array $person, string $location): void
 {
-    $persons = getAll();
-//    CREATE MODE
+    global $PDO;
+
     if ($person[ID] == null) {
-        $id = generateId($persons);
-        // generate ID for new person
-        $person[ID] = $id;
-        $persons[] = $person;
-        saveDataIntoJson($persons, "persons.json");
-        $_SESSION["addSuccess"] = $persons;
-        redirect("../" . $location, "person=" . $id);
-
-    } else {
-//        EDIT MODE
-        for ($i = 0; $i < count($persons); $i++) {
-            if ($person[ID] == $persons[$i][ID]) {
-
-                $persons[$i] = [
-                    ID => $person[ID],
-                    PERSON_FIRST_NAME => ucwords($person[PERSON_FIRST_NAME]),
-                    PERSON_LAST_NAME => ucwords($person[PERSON_LAST_NAME]),
-                    PERSON_NIK => $person[PERSON_NIK],
-                    PERSON_EMAIL => $person[PERSON_EMAIL],
-                    PERSON_BIRTH_DATE => convertDateToTimestamp($person[PERSON_BIRTH_DATE]),
-                    PERSON_SEX => $person[PERSON_SEX],
-                    PERSON_INTERNAL_NOTE => $person[PERSON_INTERNAL_NOTE],
-                    PERSON_ROLE => $person[PERSON_ROLE],
-                    PASSWORD => password_hash($person[PASSWORD], PASSWORD_DEFAULT),
-                    PERSON_STATUS => $person[PERSON_STATUS],
-                    PERSON_LAST_LOGGED_IN => $persons[$i][PERSON_LAST_LOGGED_IN]
-                ];
-                saveDataIntoJson($persons, "persons.json");
-                $_SESSION["editSuccess"] = $persons;
-                if ($person[PERSON_EMAIL] == $_SESSION["userEmail"]) {
-                    $_SESSION["userEmail"] = $person[PERSON_EMAIL];
-
-                }
-                $_SESSION["personHasEdit"] = $persons[$i];
-                redirect("../" . $location, "person=" . $persons[$i][ID]);
-
-            }
+        try {
+            $query = 'INSERT INTO persons(
+                    firstName,
+                    lastName,
+                    ) VALUES ($person[PERSON_FIRST_NAME], $person[PERSON_LAST_NAME], )';
+            $statement = $PDO->prepare($query);
+            $statement->execute(array($person));
+            $_SESSION["info"] = "Successfully add person data of " . $person[PERSON_FIRST_NAME];
+//            redirect("../" . $location, "person=" . 3);
+        } catch (PDOException $e) {
+            $_SESSION['error'] = 'Query error: ' . $e->getMessage();
+            die();
         }
     }
 }
+
+//    $persons = getAll();
+////    CREATE MODE
+//    if ($person[ID] == null) {
+//        $id = generateId($persons);
+//        // generate ID for new person
+//        $person[ID] = $id;
+//        $persons[] = $person;
+//        saveDataIntoJson($persons, "persons.json");
+//        $_SESSION["addSuccess"] = $persons;
+//        redirect("../" . $location, "person=" . $id);
+//
+//    } else {
+////        EDIT MODE
+//        for ($i = 0; $i < count($persons); $i++) {
+//            if ($person[ID] == $persons[$i][ID]) {
+//
+//                $persons[$i] = [
+//                    ID => $person[ID],
+//                    PERSON_FIRST_NAME => ucwords($person[PERSON_FIRST_NAME]),
+//                    PERSON_LAST_NAME => ucwords($person[PERSON_LAST_NAME]),
+//                    PERSON_NIK => $person[PERSON_NIK],
+//                    PERSON_EMAIL => $person[PERSON_EMAIL],
+//                    PERSON_BIRTH_DATE => convertDateToTimestamp($person[PERSON_BIRTH_DATE]),
+//                    PERSON_SEX => $person[PERSON_SEX],
+//                    PERSON_INTERNAL_NOTE => $person[PERSON_INTERNAL_NOTE],
+//                    PERSON_ROLE => $person[PERSON_ROLE],
+//                    PASSWORD => password_hash($person[PASSWORD], PASSWORD_DEFAULT),
+//                    PERSON_STATUS => $person[PERSON_STATUS],
+//                    PERSON_LAST_LOGGED_IN => $persons[$i][PERSON_LAST_LOGGED_IN]
+//                ];
+//                saveDataIntoJson($persons, "persons.json");
+//                $_SESSION["editSuccess"] = $persons;
+//                if ($person[PERSON_EMAIL] == $_SESSION["userEmail"]) {
+//                    $_SESSION["userEmail"] = $person[PERSON_EMAIL];
+//
+//                }
+//                $_SESSION["personHasEdit"] = $persons[$i];
+//                redirect("../" . $location, "person=" . $persons[$i][ID]);
+//
+//            }
+//        }
+//    }
+
 
 /**
  * generate ID person, key ID is auto increment
@@ -482,7 +590,7 @@ function getValidCurrentPassword(string $password, array $persons): int
 {
     foreach ($persons as $person) {
         $password = password_verify($password, $person[PASSWORD]);
-        if(!$password){
+        if (!$password) {
             return -1;
         }
     }
