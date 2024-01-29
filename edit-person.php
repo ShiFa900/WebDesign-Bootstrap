@@ -6,9 +6,10 @@ require_once __DIR__ . "/include/footer.php";
 redirectIfNotAuthenticated();
 
 checkRole($_SESSION["userEmail"], "ROLE_ADMIN");
-$person = getPerson(id: $_GET["person"]);
+$persons = getAll();
+$person = findFirstFromArray(array: $persons,key: ID, value: $_GET['person']);
 if ($person == null) {
-    $_SESSION["personNotFound"] = $person;
+    $_SESSION["personNotFound"] = "Sorry, no person found.";
     redirect("persons.php", "");
 } else {
     mainHeader(cssIdentifier: "page-edit-person", title: "Edit Person", link: "edit-person.php", pageStyles: ["editPerson.css"]);

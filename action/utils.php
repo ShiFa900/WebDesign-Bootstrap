@@ -57,11 +57,11 @@ function redirectIfUserAlreadyLogin(): void
  */
 function checkRole(string $userEmail, string $role): bool
 {
-    $user = getPerson(email: $userEmail);
+    $persons = getAll();
+    $user = getPerson(persons: $persons,email: $userEmail);
     if ($user[PERSON_ROLE] != $role) {
-        $_SESSION["user"] = $user;
+        $_SESSION["user"] = "Sorry, your role is MEMBER. Only ADMIN can create, edit and delete person data.";
         redirect("persons.php", "");
-
     }
     return true;
 }
@@ -83,7 +83,7 @@ function checkRole(string $userEmail, string $role): bool
  * ]
  *
  */
-function getPersons(int $page = 1, int $limit, string|null $category = null, string|null $search = null): array
+function getPersons(int $limit, int $page = 1, string|null $category = null, string|null $search = null): array
 {
     global $PDO;
     // query data to db:
@@ -100,10 +100,10 @@ function getPersons(int $page = 1, int $limit, string|null $category = null, str
             )
         );
         $count = $statement->fetch();
-//         ['total'] => 19
+        //         ['total'] => 19
 
-//        todo:
-//        $page bisa berubah sesuai kondisi validasi
+        //        todo:
+        //        $page bisa berubah sesuai kondisi validasi
 
         $queryData = 'SELECT * FROM persons WHERE firstName like :firstName OR lastName like :lastName OR email like :email ORDER BY id DESC';
         // 2. query untuk data
@@ -128,7 +128,6 @@ function getPersons(int $page = 1, int $limit, string|null $category = null, str
                 'data' => $data
             );
         }
-
     } catch (PDOException $e) {
         $_SESSION['error'] = 'Query error: ' . $e->getMessage();
         var_dump($e->getMessage());
@@ -149,26 +148,39 @@ function getPersons(int $page = 1, int $limit, string|null $category = null, str
  */
 function getAll(): array
 {
+    global $PDO;
     // we need to convert it into array of Person
-//    $persons = loadDataFromJson("persons.json");
-    $persons = [];
+
+    try {
+        $query = "SELECT * FROM `persons`";
+        $statement = $PDO->query($query);
+        // get only associative value from query
+        $persons = $statement->fetchAll();
+    } catch (PDOException $e) {
+        $_SESSION["error"] = "Query error: " . $e->getMessage();
+        var_dump($e->getMessage());
+        die();
+    }
+
+    //    $persons = loadDataFromJson("persons.json");
     $result = [];
     for ($i = 0; $i < count($persons); $i++) {
-        $person = [
-            ID => $persons[$i][ID],
-            PERSON_FIRST_NAME => $persons[$i][PERSON_FIRST_NAME],
-            PERSON_LAST_NAME => $persons[$i][PERSON_LAST_NAME],
-            PERSON_NIK => $persons[$i][PERSON_NIK],
-            PERSON_EMAIL => $persons[$i][PERSON_EMAIL],
-            PERSON_BIRTH_DATE => $persons[$i][PERSON_BIRTH_DATE],
-            // semestinya pakai adapter function: transformSexFromDb(...)
-            PERSON_SEX => $persons[$i][PERSON_SEX],
-            PERSON_INTERNAL_NOTE => $persons[$i][PERSON_INTERNAL_NOTE],
-            PERSON_ROLE => $persons[$i][PERSON_ROLE],
-            PASSWORD => $persons[$i][PASSWORD],
-            PERSON_STATUS => $persons[$i][PERSON_STATUS],
-            PERSON_LAST_LOGGED_IN => $persons[$i][PERSON_LAST_LOGGED_IN]
-        ];
+
+            $person = [
+                ID => $persons[$i][ID],
+                PERSON_FIRST_NAME => $persons[$i][PERSON_FIRST_NAME],
+                PERSON_LAST_NAME => $persons[$i][PERSON_LAST_NAME],
+                PERSON_NIK => $persons[$i][PERSON_NIK],
+                PERSON_EMAIL => $persons[$i][PERSON_EMAIL],
+                PERSON_BIRTH_DATE => convertDateToTimestamp($persons[$i][PERSON_BIRTH_DATE]),
+                // semestinya pakai adapter function: transformSexFromDb(...)
+                PERSON_SEX => transformSexFromDb($persons[$i][PERSON_SEX]),
+                PERSON_INTERNAL_NOTE => $persons[$i][PERSON_INTERNAL_NOTE],
+                PERSON_ROLE => transformRoleFromDb($persons[$i][PERSON_ROLE]),
+                PASSWORD => $persons[$i][PASSWORD],
+                PERSON_STATUS => translateIntToString($persons[$i][PERSON_STATUS]),
+                PERSON_LAST_LOGGED_IN => convertDateToTimestamp($persons[$i][PERSON_LAST_LOGGED_IN])
+            ];
 
         $result[] = $person;
     }
@@ -189,6 +201,14 @@ function transformSexFromDb(string $value): string
     };
 }
 
+function transformRoleFromDb(string $value): string
+{
+    return match ($value) {
+        'A' => ROLE_ADMIN,
+        default => ROLE_MEMBER
+    };
+}
+
 /**
  * saving person data when user do create or edit
  * @param array $person
@@ -201,14 +221,32 @@ function savePerson(array $person, string $location): void
 
     if ($person[ID] == null) {
         try {
-            $query = 'INSERT INTO persons(
-                    firstName,
-                    lastName,
-                    ) VALUES ($person[PERSON_FIRST_NAME], $person[PERSON_LAST_NAME], )';
+            $query = "INSERT INTO `personsManagementApps` `persons`(
+                    `firstName`,
+                    `lastName`,
+                    `nik`,
+                    `email`, 
+                    `birthDate`,
+                    `sex`,
+                    `internalNote`,
+                    `role`,
+                    `password`,
+                    `status`,
+                    `lastLoggedIn`
+                    ) VALUES (
+                          '$person[PERSON_FIRST_NAME]',
+                           '$person[PERSON_LAST_NAME]', '$person[PERSON_NIK]',
+                            '$person[PERSON_EMAIL]',
+                             '$person[PERSON_BIRTH_DATE]', 
+                             '$person[PERSON_SEX]',
+                              '$person[PERSON_INTERNAL_NOTE]',
+                               '$person[PERSON_ROLE]',
+                                '$person[PASSWORD]',
+                                 '$person[PERSON_STATUS]',
+                                  '$person[PERSON_LAST_LOGGED_IN]')";
             $statement = $PDO->prepare($query);
-            $statement->execute(array($person));
             $_SESSION["info"] = "Successfully add person data of " . $person[PERSON_FIRST_NAME];
-//            redirect("../" . $location, "person=" . 3);
+            //            redirect("../" . $location, "person=" . 3);
         } catch (PDOException $e) {
             $_SESSION['error'] = 'Query error: ' . $e->getMessage();
             die();
@@ -284,26 +322,32 @@ function convertDateToTimestamp(string $date): int
 
 /**
  * get person data by given ID or EMAIl if isn't null
- * @param string|null $id
- * @param string|null $email
+ * @param string $email
  * @return array
  */
-function getPerson(string|null $id = null, string|null $email = null): array
+function getPerson(array $persons, string $email, string|null $id = null): array
 {
-    $persons = getAll();
-    if ($id != null) {
-        foreach ($persons as $person) {
-            if ($person[ID] == $id) {
-                return $person;
-            }
-        }
-    } else {
-        foreach ($persons as $person) {
-            if ($person[PERSON_EMAIL] == $email) {
-                return $person;
-            }
+    global $PDO;
+
+    try {
+        $query = "SELECT * FROM `persons` WHERE email = :email LIMIT 1";
+        $statement = $PDO->prepare($query);
+        $statement->execute(array(
+            "email" => $email
+        ));
+    } catch (PDOException $e) {
+        $_SESSION['error'] = 'Query error: ' . $e->getMessage();
+        var_dump($e->getMessage());
+        die();
+    }
+
+    $person = $statement->fetch(PDO::FETCH_ASSOC);
+    foreach ($persons as $p) {
+        if ($person[PERSON_EMAIL] == $p[PERSON_EMAIL]) {
+            return $p;
         }
     }
+
     return [];
 }
 
@@ -331,17 +375,16 @@ function &findFirstFromArray(array &$array, string $key, string $value, int|null
         }
     }
     return $default;
-
 }
 
 /**
  * translate person status, alive for true and passed away otherwise
- * @param string $status
+ * @param int $status
  * @return string
  */
-function translateBooleanToString(string $status): string
+function translateIntToString(int $status): string
 {
-    return $status ? "Alive" : "Passed Away";
+    return $status == 0 ? "Alive" : "Passed Away";
 }
 
 /**
@@ -393,7 +436,8 @@ function setPersonData(
     string|null $sex = null,
     string|null $role = null,
     string|null $status = null,
-    string|null $note = null): array
+    string|null $note = null
+): array
 {
     $person[PERSON_FIRST_NAME] = $firstName == null ? $person[PERSON_FIRST_NAME] : $firstName;
     $person[PERSON_LAST_NAME] = $lastName == null ? $person[PERSON_LAST_NAME] : $lastName;
@@ -429,7 +473,8 @@ function getUserInputData(
     string|null $status = null,
     string|null $birthDate = null,
     string|null $sex = null,
-    string|null $note = null): array
+    string|null $note = null
+): array
 {
 
     return [
@@ -464,7 +509,8 @@ function validate(
     string|null $password = null,
     string|null $confirmPassword = null,
     string|null $currentPassword = null,
-    int|null    $id = null): array
+    int|null    $id = null
+): array
 {
 
     $persons = getAll();
@@ -492,7 +538,7 @@ function validate(
         $validate["errorBirthDate"] = "Sorry, this BIRTH DATE is not valid. Please check again.";
     }
 
-//        untuk di myProfile, user tidak bisa menganti password jika current password salah, namun tetap bisa diganti dengan bantuan admin
+    //        untuk di myProfile, user tidak bisa menganti password jika current password salah, namun tetap bisa diganti dengan bantuan admin
     if ($currentPassword != null) {
 
         if (getValidCurrentPassword($currentPassword, $persons) == -1) {
@@ -536,7 +582,6 @@ function getValidBirthDate(string $birthDate): int
         return -1;
     }
     return 0;
-
 }
 
 /**
@@ -577,7 +622,6 @@ function getValidPassword(string|null $password = null): string|int
         }
     }
     return $password;
-
 }
 
 /**
@@ -731,10 +775,4 @@ function sortRole(string $value): array
         $role[] = ROLE_ADMIN;
     }
     return $role;
-
 }
-
-
-
-
-

@@ -5,10 +5,11 @@ require_once __DIR__ . "/action/utils.php";
 
 redirectIfNotAuthenticated();
 
+$persons = getAll();
 // get person data by given person ID
-$person = getPerson(id: $_GET["person"]);
+$person = findFirstFromArray(array: $persons,key: ID, value: $_GET['person']);
 if ($person == null) {
-    $_SESSION["personNotFound"] = $person;
+    $_SESSION["personNotFound"] = "Sorry, no person found.";
     redirect("persons.php", "");
 
 } else {
@@ -195,9 +196,9 @@ $currentUser = getPerson(email: $_SESSION["userEmail"]);
                                             <p>
                                                 <?php
                                                 if (isset($_SESSION["personData"][PERSON_STATUS])) {
-                                                    echo translateBooleanToString($_SESSION["personData"][PERSON_STATUS]);
+                                                    echo translateIntToString($_SESSION["personData"][PERSON_STATUS]);
                                                 } else {
-                                                    echo translateBooleanToString($person[PERSON_STATUS]);
+                                                    echo translateIntToString($person[PERSON_STATUS]);
                                                 }
                                                 ?>
                                             </p>

@@ -15,13 +15,21 @@ mainHeader(
 // set default timezone
 date_default_timezone_set('Asia/Singapore');
 
-$persons = getAll();
+
 // get user data by given email
-$user = getPerson(email: $_SESSION["userEmail"]);
+$persons = getAll();
+$user = getPerson(persons: $persons,email: $_SESSION["userEmail"]);
+// mencari user yang dengan email yang sama dengan yang ada di database
+
 // get count of each category
-$personProductive = getProductiveCategory($persons);
-$personChild = getChildCategory($persons);
-$personElderly = getElderlyCategory($persons);
+try {
+    $personProductive = getProductiveCategory($persons);
+    $personChild = getChildCategory($persons);
+    $personElderly = getElderlyCategory($persons);
+} catch (Exception $e) {
+    echo "Query error: " . $e->getMessage();
+    die();
+}
 
 // get persons data with status passed away
 $personPassedAway = [];

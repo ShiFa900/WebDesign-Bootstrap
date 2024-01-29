@@ -230,7 +230,7 @@ $persons = $result['data'];
                                     <td class="text-center"><?= calculateAge($person[PERSON_BIRTH_DATE]) ?></td>
                                     <td class="text-center"><?= $personRole ?></td>
                                     <?php
-                                    $personStatus = translateBooleanToString($person[PERSON_STATUS]);
+                                    $personStatus = translateIntToString($person[PERSON_STATUS]);
                                     ?>
                                     <td class="text-center"><?= $personStatus ?>
                                     </td>

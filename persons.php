@@ -8,38 +8,40 @@ require_once __DIR__ . "/action/pagination.php";
 
 redirectIfNotAuthenticated();
 
-$persons = getAll();
 
 mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.php", pageStyles: ['persons.css']);
+$persons = getAll();
 // get current user data
-$userRole = getPerson(email: $_SESSION["userEmail"]);
+$userRole = getPerson(persons: $persons,email: $_SESSION["userEmail"]);
 
 // showing all person data if category | keyword is null or showing person data with specific category or keyword otherwise
-$persons = getAll();
-if (isset($_GET["keyword"]) || isset($_GET["category"])) {
-    $result = search(persons: $persons, category: $_GET["category"], keyword: $_GET["keyword"]);
-    // is result is null or data not found, will show img no data found
-    if (!is_null($result)) {
-        $persons = $result;
-    }
-}
+
+//if (isset($_GET["keyword"]) || isset($_GET["category"])) {
+//    $result = search(persons: $persons, category: $_GET["category"], keyword: $_GET["keyword"]);
+//    // is result is null or data not found, will show img no data found
+//    if (!is_null($result)) {
+//        $persons = $result;
+//    }
+//}
 
 // get total page for showing person data
-$totalPage = ceil((float)count($persons) / (float)PAGE_LIMIT);
+//$totalPage = ceil((float)count($persons) / (float)PAGE_LIMIT);
 
 // set page for paginated data, page cannot less than 1, bigger than total page and not a numeric
 $page = $_GET["page"] ?? 1;
-if ($page <= 0 || !is_numeric($page) || $page > $totalPage) {
-    $page = 1;
-}
+//if ($page <= 0 || !is_numeric($page) || $page > $totalPage) {
+//    $page = 1;
+//}
 
 // get the data that will be displayed on each page
-$displayingData = getPaginatedData(array: $persons, page: $page, limit: PAGE_LIMIT, totalPage: $totalPage);
-$persons = $displayingData[PAGING_DATA];
-// previous page
-$prev = $displayingData[PAGING_CURRENT_PAGE] - 1;
-// next page
-$next = $displayingData[PAGING_CURRENT_PAGE] + 1;
+//$displayingData = getPaginatedData(array: $persons, page: $page, limit: PAGE_LIMIT, totalPage: $totalPage);
+//$persons = $displayingData[PAGING_DATA];
+//// previous page
+//$prev = $displayingData[PAGING_CURRENT_PAGE] - 1;
+//// next page
+//$next = $displayingData[PAGING_CURRENT_PAGE] + 1;
+//$result = getPersons($page, PAGE_LIMIT, null);
+//$persons = $result['data'];
 
 
 ?>
@@ -169,19 +171,19 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
     if (isset($_SESSION["user"])) {
         ?>
         <div class="alert alert-danger alert-popup" role="alert">
-            Sorry, your role is MEMBER. Only ADMIN can create, edit and delete person data.
+            <?=$_SESSION['user']?>
         </div>
         <?php
     } elseif (isset($_SESSION["deleteSuccess"])) {
         ?>
         <div class="alert alert-success" role="alert">
-            Successfuly delete person data!
+            <?=$_SESSION["deleteSuccess"]?>
         </div>
         <?php
     } elseif (isset($_SESSION["personNotFound"])) {
         ?>
         <div class="alert alert-danger" role="alert">
-            Sorry, no person found.
+            <?=$_SESSION["personNotFound"]?>
         </div>
         <?php
     }
@@ -229,10 +231,7 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
                                     <td><?= $person[PERSON_FIRST_NAME] . " " . $person[PERSON_LAST_NAME] ?></td>
                                     <td class="text-center"><?= calculateAge($person[PERSON_BIRTH_DATE]) ?></td>
                                     <td class="text-center"><?= $personRole ?></td>
-                                    <?php
-                                    $personStatus = translateBooleanToString($person[PERSON_STATUS]);
-                                    ?>
-                                    <td class="text-center"><?= $personStatus ?>
+                                    <td class="text-center"><?= $person[PERSON_STATUS] ?>
                                     </td>
 
                                     <td>
@@ -288,24 +287,24 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
                 </table>
             </div>
             <div class="wrapper pagination-btn d-flex justify-content-end">
-                <?php
-                // show pagination button
-                if (isset($_GET["category"]) || isset($_GET["keyword"])) {
-                    showPaginationButton(
-                        displayingData: $displayingData,
-                        prev: $prev,
-                        next: $next,
-                        page: $page,
-                        keyword: $_GET["keyword"],
-                        category: $_GET["category"]);
-                } else {
-                    showPaginationButton(
-                        displayingData: $displayingData,
-                        prev: $prev,
-                        next: $next,
-                        page: $page);
-                }
-                ?>
+<!--                --><?php
+//                // show pagination button
+//                if (isset($_GET["category"]) || isset($_GET["keyword"])) {
+//                    showPaginationButton(
+//                        displayingData: $displayingData,
+//                        prev: $prev,
+//                        next: $next,
+//                        page: $page,
+//                        keyword: $_GET["keyword"],
+//                        category: $_GET["category"]);
+//                } else {
+//                    showPaginationButton(
+//                        displayingData: $displayingData,
+//                        prev: $prev,
+//                        next: $next,
+//                        page: $page);
+//                }
+//                ?>
             </div>
         </div>
 
