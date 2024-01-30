@@ -3,7 +3,7 @@ require_once __DIR__ . "/utils.php";
 require_once __DIR__ . "/const.php";
 session_start();
 
-$currentUser = $_SESSION["userData"];
+$currentUser = $_SESSION["personData"];
 
 $intDate = convertDateToTimestamp($_POST["birthDate"]);
 // get all person input or person previous data (if user not input new data)
@@ -33,21 +33,22 @@ if (count($validate) == 0) {
     unset($_SESSION["errorData"]);
     unset($_SESSION["userInputData"]);
 
-    $userData = setPersonData(
+    $currentUser = setPersonData(
         $currentUser,
         firstName: $userInputData["firstName"],
         lastName: $userInputData["lastName"],
         nik: $userInputData["nik"],
         email: $userInputData["email"],
-        birthDate: $userInputData["birthDate"],
-        sex: $userInputData["sex"],
-        role: $currentUser[PERSON_ROLE],
+        birthDate: $intDate,
+        sex: transformSexFromInput($userInputData["sex"]),
+        role: transformRoleFromInput($currentUser[PERSON_ROLE]),
         note: $userInputData["note"] == null ? $currentUser[PERSON_INTERNAL_NOTE] : $userInputData["note"]);
 
-    $userData[PASSWORD] = $_POST["newPassword"] == null ? $currentUser[PASSWORD] : $_POST["newPassword"];
-    $userData[PERSON_STATUS] = boolval($userInputData["status"]);
+    $currentUser[PASSWORD] = $_POST["newPassword"] == null ? $currentUser[PASSWORD] : $_POST["newPassword"];
+//    nnti ini perlu diganti menjadi int
+
     // save person data if no error data
-    savePerson($userData, "my-profile.php");
+    savePerson($currentUser, "my-profile.php");
 
 } else {
     $_SESSION["userInputData"] = $userInputData;

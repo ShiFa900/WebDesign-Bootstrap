@@ -7,9 +7,10 @@ redirectIfNotAuthenticated();
 
 mainHeader(cssIdentifier: "page-my-profile", title: "My Profile", link: "my-profile.php", pageStyles: ["my-profile.css"]);
 
+$persons = getAll();
 // get user data by given email
-$person = getPerson(email: $_SESSION["userEmail"]);
-$_SESSION["userData"] = $person;
+$person = getPerson(persons: $persons, email: $_SESSION["userEmail"]);
+$_SESSION["personData"] = $person;
 
 $arraySex = sortSex($person[PERSON_SEX]);
 
@@ -33,10 +34,10 @@ foreach ($personRole as $role) {
                     <h1 class="first-heading">My profile</h1>
                 </div>
                 <?php
-                if ($_SESSION["personHasEdit"][PERSON_EMAIL] == $_SESSION["userEmail"]) {
+                if ($_SESSION["editMyProfile"]) {
                     ?>
                     <div class="alert alert-success" role="alert">
-                        Your edit data was successfully saved!
+                        <?=$_SESSION["editMyProfile"]?>
                     </div>
                     <?php
                 }
@@ -208,8 +209,6 @@ foreach ($personRole as $role) {
                         <div class="col-xxl-5 col-xl-5 col-lg-5">
                             <?php
                             if ($person[PERSON_ROLE] == ROLE_ADMIN) {
-                                ?>
-                                <?php
                                 if ($person[PERSON_INTERNAL_NOTE] != null) {
                                     ?>
                                     <div class="mb-3 form-input">
@@ -229,25 +228,6 @@ foreach ($personRole as $role) {
                                                       echo $person[PERSON_INTERNAL_NOTE];
                                                   } ?>
                                               </textarea>
-                                        </div>
-                                        <hr/>
-                                    </div>
-                                    <?php
-                                }
-                            } else {
-                                if ($person[PERSON_INTERNAL_NOTE] != null) {
-                                    ?>
-
-                                    <div class="mb-3 form-input">
-                                        <label for="note" class="form-label"
-                                        >Internal notes</label
-                                        >
-                                        <div class="form-floating mb-4">
-                                            <p
-                                                    class="form-control"
-                                                    id="note"
-                                                    disabled
-                                            ><?= $person[PERSON_INTERNAL_NOTE] ?></p>
                                         </div>
                                         <hr/>
                                     </div>

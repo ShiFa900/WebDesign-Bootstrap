@@ -25,7 +25,11 @@ color palette: 0C356A, 0174BE, FFC436, FFF0CE
 - persons
     🔴 pagination
     🔴 search
-- save person data (add)
+- edit person data
+- my profile
+    🔴 status berubah
+    🔴 last logged jadikan string saja mungkin
+
 ===================================
 ROLE ADMIN
 - bisa create, edit dan delete

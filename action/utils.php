@@ -58,7 +58,7 @@ function redirectIfUserAlreadyLogin(): void
 function checkRole(string $userEmail, string $role): bool
 {
     $persons = getAll();
-    $user = getPerson(persons: $persons,email: $userEmail);
+    $user = getPerson(persons: $persons, email: $userEmail);
     if ($user[PERSON_ROLE] != $role) {
         $_SESSION["user"] = "Sorry, your role is MEMBER. Only ADMIN can create, edit and delete person data.";
         redirect("persons.php", "");
@@ -162,25 +162,24 @@ function getAll(): array
         die();
     }
 
-    //    $persons = loadDataFromJson("persons.json");
     $result = [];
     for ($i = 0; $i < count($persons); $i++) {
 
-            $person = [
-                ID => $persons[$i][ID],
-                PERSON_FIRST_NAME => $persons[$i][PERSON_FIRST_NAME],
-                PERSON_LAST_NAME => $persons[$i][PERSON_LAST_NAME],
-                PERSON_NIK => $persons[$i][PERSON_NIK],
-                PERSON_EMAIL => $persons[$i][PERSON_EMAIL],
-                PERSON_BIRTH_DATE => convertDateToTimestamp($persons[$i][PERSON_BIRTH_DATE]),
-                // semestinya pakai adapter function: transformSexFromDb(...)
-                PERSON_SEX => transformSexFromDb($persons[$i][PERSON_SEX]),
-                PERSON_INTERNAL_NOTE => $persons[$i][PERSON_INTERNAL_NOTE],
-                PERSON_ROLE => transformRoleFromDb($persons[$i][PERSON_ROLE]),
-                PASSWORD => $persons[$i][PASSWORD],
-                PERSON_STATUS => translateIntToString($persons[$i][PERSON_STATUS]),
-                PERSON_LAST_LOGGED_IN => convertDateToTimestamp($persons[$i][PERSON_LAST_LOGGED_IN])
-            ];
+        $person = [
+            ID => $persons[$i][ID],
+            PERSON_FIRST_NAME => $persons[$i][PERSON_FIRST_NAME],
+            PERSON_LAST_NAME => $persons[$i][PERSON_LAST_NAME],
+            PERSON_NIK => $persons[$i][PERSON_NIK],
+            PERSON_EMAIL => $persons[$i][PERSON_EMAIL],
+            PERSON_BIRTH_DATE => convertDateToTimestamp($persons[$i][PERSON_BIRTH_DATE]),
+            // semestinya pakai adapter function: transformSexFromDb(...)
+            PERSON_SEX => transformSexFromDb($persons[$i][PERSON_SEX]),
+            PERSON_INTERNAL_NOTE => $persons[$i][PERSON_INTERNAL_NOTE],
+            PERSON_ROLE => transformRoleFromDb($persons[$i][PERSON_ROLE]),
+            PASSWORD => $persons[$i][PASSWORD],
+            PERSON_STATUS => translateIntToString($persons[$i][PERSON_STATUS]),
+            PERSON_LAST_LOGGED_IN => convertDateToTimestamp($persons[$i][PERSON_LAST_LOGGED_IN])
+        ];
 
         $result[] = $person;
     }
@@ -201,11 +200,28 @@ function transformSexFromDb(string $value): string
     };
 }
 
+function transformSexFromInput(string $value): string
+{
+    return match ($value) {
+        SEX_FEMALE => 'F',
+        SEX_MALE => 'M',
+        default => 'B',
+    };
+}
+
 function transformRoleFromDb(string $value): string
 {
     return match ($value) {
         'A' => ROLE_ADMIN,
         default => ROLE_MEMBER
+    };
+}
+
+function transformRoleFromInput(string $value): string
+{
+    return match ($value) {
+        ROLE_ADMIN => 'A',
+        default => 'M'
     };
 }
 
@@ -221,35 +237,62 @@ function savePerson(array $person, string $location): void
 
     if ($person[ID] == null) {
         try {
-            $query = "INSERT INTO `personsManagementApps` `persons`(
-                    `firstName`,
-                    `lastName`,
-                    `nik`,
-                    `email`, 
-                    `birthDate`,
-                    `sex`,
-                    `internalNote`,
-                    `role`,
-                    `password`,
-                    `status`,
-                    `lastLoggedIn`
-                    ) VALUES (
-                          '$person[PERSON_FIRST_NAME]',
-                           '$person[PERSON_LAST_NAME]', '$person[PERSON_NIK]',
-                            '$person[PERSON_EMAIL]',
-                             '$person[PERSON_BIRTH_DATE]', 
-                             '$person[PERSON_SEX]',
-                              '$person[PERSON_INTERNAL_NOTE]',
-                               '$person[PERSON_ROLE]',
-                                '$person[PASSWORD]',
-                                 '$person[PERSON_STATUS]',
-                                  '$person[PERSON_LAST_LOGGED_IN]')";
+            $query = "INSERT INTO `persons`(firstName,lastName,nik,email, birthDate,sex,internalNote,role,password,status,lastLoggedIn
+                    ) VALUES (:firstName, :lastName, :nik, :email, :birthDate, :sex, :internalNote, :role, :password, :status, :lastLoggedIn)";
             $statement = $PDO->prepare($query);
+            $statement->execute(array(
+                "firstName" => $person[PERSON_FIRST_NAME],
+                "lastName" => $person[PERSON_LAST_NAME],
+                "nik" => $person[PERSON_NIK],
+                "email" => $person[PERSON_EMAIL],
+                "birthDate" => $person[PERSON_BIRTH_DATE],
+                "sex" => $person[PERSON_SEX],
+                "internalNote" => $person[PERSON_INTERNAL_NOTE],
+                "role" => $person[PERSON_ROLE],
+                "password" => $person[PASSWORD],
+                "status" => $person[PERSON_STATUS],
+                "lastLoggedIn" => $person[PERSON_LAST_LOGGED_IN]));
+            //set global PDO and statement null, to close the connection
+            $PDO = null;
+            $statement = null;
+
             $_SESSION["info"] = "Successfully add person data of " . $person[PERSON_FIRST_NAME];
-            //            redirect("../" . $location, "person=" . 3);
+            redirect("../" . $location, "person=" . $person[PERSON_EMAIL]);
+
         } catch (PDOException $e) {
-            $_SESSION['error'] = 'Query error: ' . $e->getMessage();
-            die();
+            die('Query error: ' . $e->getMessage());
+        }
+    } else {
+        $birthDate = date('Y-m-d H:i:s', $person[PERSON_BIRTH_DATE]);
+
+        try {
+            $personQuery = "UPDATE `persons` SET firstName= :firstName,lastName=:lastName,nik=:nik,email=:email,birthDate=:birthDate,sex=:sex,internalNote=:internalNote,role=:role,password=:password,status=:status,lastLoggedIn=:lastLoggedIn WHERE id =:id";
+            $stmt = $PDO->prepare($personQuery);
+            $stmt->execute(array(
+                "id" => $person[ID],
+                "firstName" => $person[PERSON_FIRST_NAME],
+                "lastName" => $person[PERSON_LAST_NAME],
+                "nik" => $person[PERSON_NIK],
+                "email" => $person[PERSON_EMAIL],
+                "birthDate" => $birthDate,
+                "sex" => $person[PERSON_SEX],
+                "internalNote" => $person[PERSON_INTERNAL_NOTE],
+                "role" => $person[PERSON_ROLE],
+                "password" => $person[PASSWORD],
+                "status" => $person[PERSON_STATUS],
+                "lastLoggedIn" => $person[PERSON_LAST_LOGGED_IN]));
+
+            if ($person[PERSON_EMAIL] == $_SESSION["userEmail"]) {
+                $_SESSION["userEmail"] = $person[PERSON_EMAIL];
+                $_SESSION["editMyProfile"] = "Successfully edit your data";
+            }
+            $PDO = null;
+            $stmt = null;
+
+            $_SESSION["info"] = "Successfully edit person data of " . $person[PERSON_FIRST_NAME];
+            redirect("../" . $location, "person=" . $person[PERSON_EMAIL]);
+        } catch (PDOException $e) {
+            die('Query error: ' . $e->getMessage());
         }
     }
 }
@@ -313,10 +356,13 @@ function generateId(array|null $persons = null): int
  * @param string $date given data from a form
  * @return int
  */
-function convertDateToTimestamp(string $date): int
+function convertDateToTimestamp(string|null $date = null): int|null
 {
-    $date = str_replace('-', '/', $date);
-    return strtotime($date);
+    if ($date != null) {
+        $date = str_replace('-', '/', $date);
+        return strtotime($date);
+    }
+    return null;
 }
 
 
@@ -325,7 +371,7 @@ function convertDateToTimestamp(string $date): int
  * @param string $email
  * @return array
  */
-function getPerson(array $persons, string $email, string|null $id = null): array
+function getPerson(array $persons, string $email): array
 {
     global $PDO;
 
@@ -384,7 +430,7 @@ function &findFirstFromArray(array &$array, string $key, string $value, int|null
  */
 function translateIntToString(int $status): string
 {
-    return $status == 0 ? "Alive" : "Passed Away";
+    return $status == 1 ? "Alive" : "Passed Away";
 }
 
 /**
@@ -432,7 +478,7 @@ function setPersonData(
     string|null $lastName = null,
     string|null $nik = null,
     string|null $email = null,
-    string|null $birthDate = null,
+    int|null    $birthDate = null,
     string|null $sex = null,
     string|null $role = null,
     string|null $status = null,
@@ -446,7 +492,7 @@ function setPersonData(
     $person[PERSON_BIRTH_DATE] = $birthDate == null ? $person[PERSON_BIRTH_DATE] : $birthDate;
     $person[PERSON_SEX] = $sex == null ? $person[PERSON_SEX] : $sex;
     $person[PERSON_ROLE] = $role == null ? $person[PERSON_ROLE] : $role;
-    $person[PERSON_STATUS] = translateSwitch($status);
+    $person[PERSON_STATUS] = (int)translateSwitch($status);
     $person[PERSON_INTERNAL_NOTE] = $note;
     return $person;
 }

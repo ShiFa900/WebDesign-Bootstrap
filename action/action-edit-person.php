@@ -32,6 +32,7 @@ if (count($validate) == 0) {
     unset($_SESSION["errorData"]);
     unset($_SESSION["userInputData"]);
 
+
     // set person data before saving
     $currentUser = setPersonData(
         person: $currentUser,
@@ -39,9 +40,9 @@ if (count($validate) == 0) {
         lastName: $userInputData["lastName"],
         nik: $userInputData["nik"],
         email: $userInputData["email"],
-        birthDate: $userInputData["birthDate"],
-        sex: $userInputData["sex"],
-        role: $userInputData["role"],
+        birthDate: $intDate,
+        sex: transformSexFromInput($userInputData["sex"]),
+        role: transformRoleFromInput($userInputData["role"]),
         status: $userInputData["status"],
         note: $userInputData["note"] == "" ? null : $userInputData["note"]);
     $currentUser[PASSWORD] = $_POST["newPassword"] == null ? $currentUser[PASSWORD] : $_POST["newPassword"];

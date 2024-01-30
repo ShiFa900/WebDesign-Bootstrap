@@ -28,18 +28,20 @@ $userInputData = getUserInputData(
      unset($_SESSION["errorData"]);
      unset($_SESSION["inputData"]);
 
+     $timeStamp = convertDateToTimestamp($userInputData["birthDate"]);
+
 $person = [
     ID => null,
     PERSON_FIRST_NAME => ucwords($userInputData["firstName"]),
     PERSON_LAST_NAME => ucwords($userInputData["lastName"]),
     PERSON_NIK => $userInputData["nik"],
     PERSON_EMAIL => $userInputData["email"],
-    PERSON_BIRTH_DATE => convertDateToTimestamp($userInputData["birthDate"]),
-    PERSON_SEX => $userInputData["sex"],
+    PERSON_BIRTH_DATE => $date = date('Y-m-d H:i:s', $timeStamp),
+    PERSON_SEX => transformSexFromInput($userInputData["sex"]),
     PERSON_INTERNAL_NOTE => $userInputData["note"] == "" ? null : $userInputData["note"],
-    PERSON_ROLE => $userInputData["role"],
+    PERSON_ROLE => transformRoleFromInput($userInputData["role"]),
     PASSWORD => password_hash($_POST["password"], PASSWORD_DEFAULT),
-    PERSON_STATUS => translateSwitch($userInputData["status"]),
+    PERSON_STATUS => (int)translateSwitch($userInputData["status"]),
     PERSON_LAST_LOGGED_IN => null,
 ];
 

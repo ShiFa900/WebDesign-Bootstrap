@@ -7,7 +7,7 @@ redirectIfNotAuthenticated();
 
 $persons = getAll();
 // get person data by given person ID
-$person = findFirstFromArray(array: $persons,key: ID, value: $_GET['person']);
+$person = getPerson($persons, $_GET['person']);
 if ($person == null) {
     $_SESSION["personNotFound"] = "Sorry, no person found.";
     redirect("persons.php", "");
@@ -34,7 +34,7 @@ if ($person == null) {
 
 }
 // get current user
-$currentUser = getPerson(email: $_SESSION["userEmail"]);
+$currentUser = getPerson(persons: $persons,email: $_SESSION["userEmail"]);
 
 ?><main>
         <section class="view-section d-flex position-relative">
@@ -48,23 +48,15 @@ $currentUser = getPerson(email: $_SESSION["userEmail"]);
                         <h1 class="first-heading">View person</h1>
                     </div>
                     <?php
-                    // this alert will show if person edit data was succeeded save
-                    if (isset($_SESSION["editSuccess"])) {
+                    // this alert will show if person edit or add new data was succeeded save
+                    if (isset($_SESSION["info"])) {
                         ?>
                         <div class="alert alert-success" role="alert">
-                            Successfully edit person data of <?= $_SESSION["personHasEdit"][PERSON_FIRST_NAME] ?>!
-                        </div>
-                        <?php
-                    } elseif (isset($_SESSION["addSuccess"])) {
-                        ?>
-                        <div class="alert alert-success" role="alert">
-                            <?= $person[PERSON_FIRST_NAME] ?> was successfully added to Person Management App!
+                             <?= $_SESSION["info"] ?>!
                         </div>
                         <?php
                     }
                     ?>
-
-
                     <div class="row">
                         <div class="col-xxl-12">
                             <form class="new-person-form" action="#" method="post">
@@ -196,9 +188,9 @@ $currentUser = getPerson(email: $_SESSION["userEmail"]);
                                             <p>
                                                 <?php
                                                 if (isset($_SESSION["personData"][PERSON_STATUS])) {
-                                                    echo translateIntToString($_SESSION["personData"][PERSON_STATUS]);
+                                                    echo $_SESSION["personData"][PERSON_STATUS];
                                                 } else {
-                                                    echo translateIntToString($person[PERSON_STATUS]);
+                                                    echo $person[PERSON_STATUS];
                                                 }
                                                 ?>
                                             </p>
