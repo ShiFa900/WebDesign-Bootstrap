@@ -4,16 +4,21 @@ session_start();
 
 // get person data to be deleted
 $persons = getAll();
-$personWillBeDeleted = getPerson($persons, $_SESSION["personId"]);
-for ($i = 0; $i < count($persons); $i++) {
-    if ($persons[$i][ID] == $personWillBeDeleted[ID]) {
-        unset($persons[$i]);
-        $persons = array_values($persons);
-        // save array persons into json
-        saveDataIntoJson($persons, "persons.json");
-        $_SESSION["deleteSuccess"] = "Successfully delete person data!";
-
-    }
+global $PDO;
+$personWillBeDeleted = findFirstFromArray(array: $persons,key: ID,value: $_SESSION["personId"]);
+if ($personWillBeDeleted == null){
+    $_SESSION["personNotFound"] = "Sorry, no person found";
+    redirect("../persons.php", "");
+}
+try {
+    $query = "DELETE FROM `persons` WHERE id = :id";
+    $stmt = $PDO->prepare($query);
+    $stmt->execute(array(
+        "id" => $personWillBeDeleted[ID]
+    ));
+    $_SESSION["deleteSuccess"] = "Successfully delete person data of '" . $personWillBeDeleted[PERSON_FIRST_NAME] . "' !";
+} catch (PDOException $e){
+    die("Query error: " . $e->getMessage());
 }
 
 redirect("../persons.php", "page=1");

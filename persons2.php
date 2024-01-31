@@ -8,14 +8,14 @@ require_once __DIR__ . "/action/pagination.php";
 
 redirectIfNotAuthenticated();
 
-//$persons = getAll();
 
 mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.php", pageStyles: ['persons.css']);
+$persons = getAll();
 // get current user data
-$userRole = getPerson(email: $_SESSION["userEmail"]);
+$userRole = findFirstFromArray(array: $persons,key: PERSON_EMAIL,value: $_SESSION["userEmail"]);
 
 // showing all person data if category | keyword is null or showing person data with specific category or keyword otherwise
-//$persons = getAll();
+
 //if (isset($_GET["keyword"]) || isset($_GET["category"])) {
 //    $result = search(persons: $persons, category: $_GET["category"], keyword: $_GET["keyword"]);
 //    // is result is null or data not found, will show img no data found
@@ -35,13 +35,17 @@ $page = $_GET["page"] ?? 1;
 
 // get the data that will be displayed on each page
 //$displayingData = getPaginatedData(array: $persons, page: $page, limit: PAGE_LIMIT, totalPage: $totalPage);
-
-$result = getPersons($page, PAGE_LIMIT, null);
-$persons = $result['data'];
+//$persons = $displayingData[PAGING_DATA];
 //// previous page
-//$prev = $result['currentPage'] - 1;
+//$prev = $displayingData[PAGING_CURRENT_PAGE] - 1;
 //// next page
-//$next = $result['currentPage'] + 1;
+//$next = $displayingData[PAGING_CURRENT_PAGE] + 1;
+//$result = getPersons($page, PAGE_LIMIT, null);
+//$persons = $result['data'];
+
+$personPaginated = getPersons(PAGE_LIMIT, $page,$_GET["category"], $_GET["keyword"]);
+$pagingData = $personPaginated["data"];
+
 ?>
     <div class="person-content position-absolute px-5">
     <div
@@ -169,21 +173,26 @@ $persons = $result['data'];
     if (isset($_SESSION["user"])) {
         ?>
         <div class="alert alert-danger alert-popup" role="alert">
-            Sorry, your role is MEMBER. Only ADMIN can create, edit and delete person data.
+            <?=$_SESSION['user']?>
         </div>
         <?php
     } elseif (isset($_SESSION["deleteSuccess"])) {
         ?>
         <div class="alert alert-success" role="alert">
-            Successfuly delete person data!
+            <?=$_SESSION["deleteSuccess"]?>
         </div>
         <?php
     } elseif (isset($_SESSION["personNotFound"])) {
         ?>
         <div class="alert alert-danger" role="alert">
-            Sorry, no person found.
+            <?=$_SESSION["personNotFound"]?>
         </div>
         <?php
+    } elseif ((isset($_SESSION["info"]))){?>
+        <div class="alert alert-success" role="alert">
+            <?=$_SESSION["info"]?>
+        </div>
+    <?php
     }
     // show this img if person data not found
     if ($persons == null) {
@@ -218,21 +227,19 @@ $persons = $result['data'];
                     // number is total data in database
                     $number = ($page - 1) * PAGE_LIMIT + 1;
                     foreach ($persons as $person) {
-                        $personsRole = sortRole($person[PERSON_ROLE]);
+                        $personsRole = sortRole(transformRoleFromDb($person[PERSON_ROLE]));
+                        try{$personAge = calculateAge($person[PERSON_BIRTH_DATE]);}catch(Exception $e){die("Query error: " . $e->getMessage());}
                         foreach ($personsRole as $role) {
-                            if ($role == $person[PERSON_ROLE]) {
+                            if ($role == transformRoleFromDb($person[PERSON_ROLE])) {
                                 $personRole = ROLE_LABEL[$role . "_LABEL"];
                                 ?>
                                 <tr>
                                     <td class="text-center"><?= $number ?></td>
                                     <td><?= $person[PERSON_EMAIL] ?></td>
                                     <td><?= $person[PERSON_FIRST_NAME] . " " . $person[PERSON_LAST_NAME] ?></td>
-                                    <td class="text-center"><?= calculateAge($person[PERSON_BIRTH_DATE]) ?></td>
+                                    <td class="text-center"><?= $personAge ?></td>
                                     <td class="text-center"><?= $personRole ?></td>
-                                    <?php
-                                    $personStatus = translateIntToString($person[PERSON_STATUS]);
-                                    ?>
-                                    <td class="text-center"><?= $personStatus ?>
+                                    <td class="text-center"><?= translateIntToString($person[PERSON_STATUS]) ?>
                                     </td>
 
                                     <td>
@@ -260,9 +267,7 @@ $persons = $result['data'];
                                                     <a
                                                         <?php
                                                         if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
-                                                            $_SESSION["personToBeEdit"] = $person[ID];
                                                             ?>
-
                                                             href="edit-person.php?person=<?php echo $person[ID] ?>"
                                                             <?php
                                                         }
@@ -288,8 +293,8 @@ $persons = $result['data'];
                 </table>
             </div>
             <div class="wrapper pagination-btn d-flex justify-content-end">
-                <?php
-                // show pagination button
+<!--                --><?php
+//                // show pagination button
 //                if (isset($_GET["category"]) || isset($_GET["keyword"])) {
 //                    showPaginationButton(
 //                        displayingData: $displayingData,
@@ -305,7 +310,7 @@ $persons = $result['data'];
 //                        next: $next,
 //                        page: $page);
 //                }
-                ?>
+//                ?>
             </div>
         </div>
 
@@ -313,7 +318,7 @@ $persons = $result['data'];
     }
 
 mainFooter("persons.php");
-unset($_SESSION["addSuccess"]);
 unset($_SESSION["deleteSuccess"]);
 unset($_SESSION["user"]);
 unset($_SESSION["personNotFound"]);
+unset($_SESSION["info"]);

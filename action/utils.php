@@ -58,7 +58,8 @@ function redirectIfUserAlreadyLogin(): void
 function checkRole(string $userEmail, string $role): bool
 {
     $persons = getAll();
-    $user = getPerson(persons: $persons, email: $userEmail);
+    $user = findFirstFromArray(array: $persons,key: PERSON_EMAIL,value: $userEmail);
+//    $user = getPerson(persons: $persons, email: $userEmail);
     if ($user[PERSON_ROLE] != $role) {
         $_SESSION["user"] = "Sorry, your role is MEMBER. Only ADMIN can create, edit and delete person data.";
         redirect("persons.php", "");
@@ -162,9 +163,10 @@ function getAll(): array
         die();
     }
 
+//    return datanya adalah data yang berasal dari database, tanpa convert
+    // convert data terlebih dahulu ketika akan ditampilkan atau sebelum dieksekusi
     $result = [];
     for ($i = 0; $i < count($persons); $i++) {
-
         $person = [
             ID => $persons[$i][ID],
             PERSON_FIRST_NAME => $persons[$i][PERSON_FIRST_NAME],
@@ -177,10 +179,9 @@ function getAll(): array
             PERSON_INTERNAL_NOTE => $persons[$i][PERSON_INTERNAL_NOTE],
             PERSON_ROLE => transformRoleFromDb($persons[$i][PERSON_ROLE]),
             PASSWORD => $persons[$i][PASSWORD],
-            PERSON_STATUS => translateIntToString($persons[$i][PERSON_STATUS]),
+            PERSON_STATUS => $persons[$i][PERSON_STATUS],
             PERSON_LAST_LOGGED_IN => convertDateToTimestamp($persons[$i][PERSON_LAST_LOGGED_IN])
         ];
-
         $result[] = $person;
     }
     return $result;
@@ -263,8 +264,6 @@ function savePerson(array $person, string $location): void
             die('Query error: ' . $e->getMessage());
         }
     } else {
-        $birthDate = date('Y-m-d H:i:s', $person[PERSON_BIRTH_DATE]);
-
         try {
             $personQuery = "UPDATE `persons` SET firstName= :firstName,lastName=:lastName,nik=:nik,email=:email,birthDate=:birthDate,sex=:sex,internalNote=:internalNote,role=:role,password=:password,status=:status,lastLoggedIn=:lastLoggedIn WHERE id =:id";
             $stmt = $PDO->prepare($personQuery);
@@ -274,7 +273,7 @@ function savePerson(array $person, string $location): void
                 "lastName" => $person[PERSON_LAST_NAME],
                 "nik" => $person[PERSON_NIK],
                 "email" => $person[PERSON_EMAIL],
-                "birthDate" => $birthDate,
+                "birthDate" => $person[PERSON_BIRTH_DATE],
                 "sex" => $person[PERSON_SEX],
                 "internalNote" => $person[PERSON_INTERNAL_NOTE],
                 "role" => $person[PERSON_ROLE],
@@ -284,61 +283,20 @@ function savePerson(array $person, string $location): void
 
             if ($person[PERSON_EMAIL] == $_SESSION["userEmail"]) {
                 $_SESSION["userEmail"] = $person[PERSON_EMAIL];
-                $_SESSION["editMyProfile"] = "Successfully edit your data";
+                $_SESSION["editMyProfile"] = "Successfully edit your data!";
+                redirect("../" . $location, "");
+
             }
             $PDO = null;
             $stmt = null;
 
-            $_SESSION["info"] = "Successfully edit person data of " . $person[PERSON_FIRST_NAME];
-            redirect("../" . $location, "person=" . $person[PERSON_EMAIL]);
+            $_SESSION["info"] = "Successfully edit person data of " . $person[PERSON_FIRST_NAME] . "!";
+            redirect("../" . $location, "person=" . $person[ID]);
         } catch (PDOException $e) {
             die('Query error: ' . $e->getMessage());
         }
     }
 }
-
-//    $persons = getAll();
-////    CREATE MODE
-//    if ($person[ID] == null) {
-//        $id = generateId($persons);
-//        // generate ID for new person
-//        $person[ID] = $id;
-//        $persons[] = $person;
-//        saveDataIntoJson($persons, "persons.json");
-//        $_SESSION["addSuccess"] = $persons;
-//        redirect("../" . $location, "person=" . $id);
-//
-//    } else {
-////        EDIT MODE
-//        for ($i = 0; $i < count($persons); $i++) {
-//            if ($person[ID] == $persons[$i][ID]) {
-//
-//                $persons[$i] = [
-//                    ID => $person[ID],
-//                    PERSON_FIRST_NAME => ucwords($person[PERSON_FIRST_NAME]),
-//                    PERSON_LAST_NAME => ucwords($person[PERSON_LAST_NAME]),
-//                    PERSON_NIK => $person[PERSON_NIK],
-//                    PERSON_EMAIL => $person[PERSON_EMAIL],
-//                    PERSON_BIRTH_DATE => convertDateToTimestamp($person[PERSON_BIRTH_DATE]),
-//                    PERSON_SEX => $person[PERSON_SEX],
-//                    PERSON_INTERNAL_NOTE => $person[PERSON_INTERNAL_NOTE],
-//                    PERSON_ROLE => $person[PERSON_ROLE],
-//                    PASSWORD => password_hash($person[PASSWORD], PASSWORD_DEFAULT),
-//                    PERSON_STATUS => $person[PERSON_STATUS],
-//                    PERSON_LAST_LOGGED_IN => $persons[$i][PERSON_LAST_LOGGED_IN]
-//                ];
-//                saveDataIntoJson($persons, "persons.json");
-//                $_SESSION["editSuccess"] = $persons;
-//                if ($person[PERSON_EMAIL] == $_SESSION["userEmail"]) {
-//                    $_SESSION["userEmail"] = $person[PERSON_EMAIL];
-//
-//                }
-//                $_SESSION["personHasEdit"] = $persons[$i];
-//                redirect("../" . $location, "person=" . $persons[$i][ID]);
-//
-//            }
-//        }
-//    }
 
 
 /**
@@ -371,10 +329,10 @@ function convertDateToTimestamp(string|null $date = null): int|null
  * @param string $email
  * @return array
  */
-function getPerson(array $persons, string $email): array
+function getPerson(array $persons, string|null $email = null): array
 {
     global $PDO;
-
+//    mencari person dengan menggunakan email
     try {
         $query = "SELECT * FROM `persons` WHERE email = :email LIMIT 1";
         $statement = $PDO->prepare($query);
@@ -485,16 +443,17 @@ function setPersonData(
     string|null $note = null
 ): array
 {
-    $person[PERSON_FIRST_NAME] = $firstName == null ? $person[PERSON_FIRST_NAME] : $firstName;
-    $person[PERSON_LAST_NAME] = $lastName == null ? $person[PERSON_LAST_NAME] : $lastName;
-    $person[PERSON_NIK] = $nik == null ? $person[PERSON_NIK] : $nik;
-    $person[PERSON_EMAIL] = $email == null ? $person[PERSON_EMAIL] : $email;
-    $person[PERSON_BIRTH_DATE] = $birthDate == null ? $person[PERSON_BIRTH_DATE] : $birthDate;
-    $person[PERSON_SEX] = $sex == null ? $person[PERSON_SEX] : $sex;
-    $person[PERSON_ROLE] = $role == null ? $person[PERSON_ROLE] : $role;
-    $person[PERSON_STATUS] = (int)translateSwitch($status);
-    $person[PERSON_INTERNAL_NOTE] = $note;
-    return $person;
+    $arrayPerson[PERSON_FIRST_NAME] = $firstName == null ? $person[PERSON_FIRST_NAME] : $firstName;
+    $arrayPerson[PERSON_LAST_NAME] = $lastName == null ? $person[PERSON_LAST_NAME] : $lastName;
+    $arrayPerson[PERSON_NIK] = $nik == null ? $person[PERSON_NIK] : $nik;
+    $arrayPerson[PERSON_EMAIL] = $email == null ? $person[PERSON_EMAIL] : $email;
+    $arrayPerson[PERSON_BIRTH_DATE] = $birthDate == null ? $person[PERSON_BIRTH_DATE] : $birthDate;
+    $arrayPerson[PERSON_SEX] = $sex == null ? $person[PERSON_SEX] : $sex;
+    $arrayPerson[PERSON_ROLE] = $role == null ? $person[PERSON_ROLE] : $role;
+    $arrayPerson[PERSON_STATUS] = (int)translateSwitch($status);
+    $arrayPerson[PERSON_INTERNAL_NOTE] = $note;
+
+    return $arrayPerson;
 }
 
 /**

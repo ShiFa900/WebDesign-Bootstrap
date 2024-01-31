@@ -20,15 +20,12 @@ color palette: 0C356A, 0174BE, FFC436, FFF0CE
 
 - function" yang mengandung getAll diganti dengan data yang berasal dari database
 
+- di beberapa page, icon dan teksnya menjadi bold
+
 ===================================
-- dashboard
 - persons
     🔴 pagination
     🔴 search
-- edit person data
-- my profile
-    🔴 status berubah
-    🔴 last logged jadikan string saja mungkin
 
 ===================================
 ROLE ADMIN

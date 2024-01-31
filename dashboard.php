@@ -4,6 +4,8 @@ require_once __DIR__ . "/include/footer.php";
 require_once __DIR__ . "/action/utils.php";
 
 redirectIfNotAuthenticated();
+// set default timezone
+date_default_timezone_set('Asia/Singapore');
 
 mainHeader(
     cssIdentifier: "page-dashboard",
@@ -12,13 +14,10 @@ mainHeader(
     pageStyles: ["dashboard.css"]
 );
 
-// set default timezone
-date_default_timezone_set('Asia/Singapore');
-
-
 // get user data by given email
 $persons = getAll();
-$user = getPerson(persons: $persons,email: $_SESSION["userEmail"]);
+//$user = getPerson(persons: $persons,email: $_SESSION["userEmail"]);
+$user = findFirstFromArray(array: $persons,key: PERSON_EMAIL,value: $_SESSION["userEmail"]);
 // mencari user yang dengan email yang sama dengan yang ada di database
 
 // get count of each category
@@ -27,8 +26,7 @@ try {
     $personChild = getChildCategory($persons);
     $personElderly = getElderlyCategory($persons);
 } catch (Exception $e) {
-    echo "Query error: " . $e->getMessage();
-    die();
+    die("Query error: " . $e->getMessage());
 }
 
 // get persons data with status passed away
@@ -55,7 +53,7 @@ foreach ($persons as $person) {
                             You were logged in previously in
                             <?php
                             echo "<strong>";
-                            echo date('l, F d Y H:i', $user[PERSON_LAST_LOGGED_IN]);
+                            echo date('l, F d Y H:i:s', $user[PERSON_LAST_LOGGED_IN]);
                             echo "</strong>";
                             ?>
                         </p>

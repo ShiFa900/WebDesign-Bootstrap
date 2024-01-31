@@ -16,7 +16,6 @@ $userInputData = getUserInputData(
     note: $_POST["note"]
 );
 
-
 // validate for input data
  $validate = validate(
      nik: $_POST["nik"],
@@ -28,15 +27,13 @@ $userInputData = getUserInputData(
      unset($_SESSION["errorData"]);
      unset($_SESSION["inputData"]);
 
-     $timeStamp = convertDateToTimestamp($userInputData["birthDate"]);
-
 $person = [
     ID => null,
     PERSON_FIRST_NAME => ucwords($userInputData["firstName"]),
     PERSON_LAST_NAME => ucwords($userInputData["lastName"]),
     PERSON_NIK => $userInputData["nik"],
     PERSON_EMAIL => $userInputData["email"],
-    PERSON_BIRTH_DATE => $date = date('Y-m-d H:i:s', $timeStamp),
+    PERSON_BIRTH_DATE =>$userInputData["birthDate"],
     PERSON_SEX => transformSexFromInput($userInputData["sex"]),
     PERSON_INTERNAL_NOTE => $userInputData["note"] == "" ? null : $userInputData["note"],
     PERSON_ROLE => transformRoleFromInput($userInputData["role"]),

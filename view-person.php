@@ -4,39 +4,35 @@ require_once __DIR__ . "/include/footer.php";
 require_once __DIR__ . "/action/utils.php";
 
 redirectIfNotAuthenticated();
+//unset($_SESSION["personData"]);
 
 $persons = getAll();
 // get person data by given person ID
-$person = getPerson($persons, $_GET['person']);
+//$person = getPerson($persons, id: $_GET['person']);
+$person = findFirstFromArray(array: $persons, key: ID, value: $_GET["person"]);
+
 if ($person == null) {
-    $_SESSION["personNotFound"] = "Sorry, no person found.";
-    redirect("persons.php", "");
-
-} else {
-    mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-person.php", pageStyles: ["view-person.css"]);
-
-    //get person sex label for showing it
-    $personSex = sortSex($person[PERSON_SEX]);
-    foreach ($personSex as $sex) {
-        if ($sex == $person[PERSON_SEX]) {
-            $userSex = SEX_LABEL[$sex . "_LABEL"];
-        }
+    $person = getPerson($persons, $_GET["person"]);
+    if ($person == null) {
+        $_SESSION["personNotFound"] = "Sorry, no person found.";
+        redirect("persons.php", "");
     }
-
-    $personRole = sortRole($person[PERSON_ROLE]);
-    foreach ($personRole as $role) {
-        if ($role == $person[PERSON_ROLE]) {
-            $userRole = ROLE_LABEL[$role . "_LABEL"];
-        }
-    }
-// get person ID when user want to delete person data
-    $_SESSION["personId"] = $person[ID];
-
 }
-// get current user
-$currentUser = getPerson(persons: $persons,email: $_SESSION["userEmail"]);
+mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-person.php", pageStyles: ["view-person.css"]);
 
-?><main>
+//get person sex label for showing it
+$arraySex = sortSex($person[PERSON_SEX]);
+$arrayRole = sortRole($person[PERSON_ROLE]);
+
+// get person ID when user want to delete person data
+$_SESSION["personId"] = $person[ID];
+
+// get current user
+$currentUser = findFirstFromArray(array: $persons,key: PERSON_EMAIL,value: $_SESSION["userEmail"]);
+
+
+?>
+    <main>
         <section class="view-section d-flex position-relative">
             <?php
             desktopSidebar("persons.php");
@@ -52,7 +48,7 @@ $currentUser = getPerson(persons: $persons,email: $_SESSION["userEmail"]);
                     if (isset($_SESSION["info"])) {
                         ?>
                         <div class="alert alert-success" role="alert">
-                             <?= $_SESSION["info"] ?>!
+                            <?= $_SESSION["info"] ?>!
                         </div>
                         <?php
                     }
@@ -142,7 +138,12 @@ $currentUser = getPerson(persons: $persons,email: $_SESSION["userEmail"]);
                                         <div class="mb-3 form-input">
                                             <span class="required title">Sex</span>
                                             <p>
-                                                <?= $userSex;
+                                                <?php
+                                                foreach ($arraySex as $sex) {
+                                                    if ($sex == $person[PERSON_SEX]) {
+                                                        echo SEX_LABEL[$person[PERSON_SEX] . "_LABEL"];
+                                                    }
+                                                }
                                                 ?>
                                             </p>
                                         </div>
@@ -179,7 +180,13 @@ $currentUser = getPerson(persons: $persons,email: $_SESSION["userEmail"]);
                                         <div class="mb-3 form-input">
                                             <span class="required title">Role</span>
                                             <p>
-                                                <?= $userRole; ?>
+                                                <?php
+                                                foreach ($arrayRole as $role) {
+                                                    if ($role == $person[PERSON_ROLE]) {
+                                                        echo ROLE_LABEL[$person[PERSON_ROLE] . "_LABEL"];
+                                                    }
+                                                }
+                                                ?>
                                             </p>
 
                                         </div>
@@ -188,9 +195,9 @@ $currentUser = getPerson(persons: $persons,email: $_SESSION["userEmail"]);
                                             <p>
                                                 <?php
                                                 if (isset($_SESSION["personData"][PERSON_STATUS])) {
-                                                    echo $_SESSION["personData"][PERSON_STATUS];
+                                                    echo translateIntToString($_SESSION["personData"][PERSON_STATUS]);
                                                 } else {
-                                                    echo $person[PERSON_STATUS];
+                                                    echo translateIntToString($person[PERSON_STATUS]);
                                                 }
                                                 ?>
                                             </p>
@@ -280,6 +287,4 @@ $currentUser = getPerson(persons: $persons,email: $_SESSION["userEmail"]);
 mainFooter("persons.php");
 // unset all session if user switch to other page
 unset($_SESSION["personData"]);
-unset($_SESSION["editSuccess"]);
-unset($_SESSION["personHasEdit"]);
-unset($_SESSION["personNotFound"]);
+unset($_SESSION["info"]);

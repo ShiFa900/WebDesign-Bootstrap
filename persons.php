@@ -12,20 +12,21 @@ redirectIfNotAuthenticated();
 mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.php", pageStyles: ['persons.css']);
 $persons = getAll();
 // get current user data
-$userRole = getPerson(persons: $persons,email: $_SESSION["userEmail"]);
+//$userRole = getPerson(persons: $persons,email: $_SESSION["userEmail"]);
+$userRole = findFirstFromArray(array: $persons,key: PERSON_EMAIL,value: $_SESSION["userEmail"]);
 
 // showing all person data if category | keyword is null or showing person data with specific category or keyword otherwise
 
-//if (isset($_GET["keyword"]) || isset($_GET["category"])) {
-//    $result = search(persons: $persons, category: $_GET["category"], keyword: $_GET["keyword"]);
-//    // is result is null or data not found, will show img no data found
-//    if (!is_null($result)) {
-//        $persons = $result;
-//    }
-//}
+if (isset($_GET["keyword"]) || isset($_GET["category"])) {
+    $result = search(persons: $persons, category: $_GET["category"], keyword: $_GET["keyword"]);
+    // is result is null or data not found, will show img no data found
+    if (!is_null($result)) {
+        $persons = $result;
+    }
+}
 
 // get total page for showing person data
-//$totalPage = ceil((float)count($persons) / (float)PAGE_LIMIT);
+$totalPage = ceil((float)count($persons) / (float)PAGE_LIMIT);
 
 // set page for paginated data, page cannot less than 1, bigger than total page and not a numeric
 $page = $_GET["page"] ?? 1;
@@ -34,12 +35,12 @@ $page = $_GET["page"] ?? 1;
 //}
 
 // get the data that will be displayed on each page
-//$displayingData = getPaginatedData(array: $persons, page: $page, limit: PAGE_LIMIT, totalPage: $totalPage);
-//$persons = $displayingData[PAGING_DATA];
-//// previous page
-//$prev = $displayingData[PAGING_CURRENT_PAGE] - 1;
-//// next page
-//$next = $displayingData[PAGING_CURRENT_PAGE] + 1;
+$displayingData = getPaginatedData(array: $persons, page: $page, limit: PAGE_LIMIT, totalPage: $totalPage);
+$persons = $displayingData[PAGING_DATA];
+// previous page
+$prev = $displayingData[PAGING_CURRENT_PAGE] - 1;
+// next page
+$next = $displayingData[PAGING_CURRENT_PAGE] + 1;
 //$result = getPersons($page, PAGE_LIMIT, null);
 //$persons = $result['data'];
 
@@ -186,6 +187,11 @@ $page = $_GET["page"] ?? 1;
             <?=$_SESSION["personNotFound"]?>
         </div>
         <?php
+    } elseif ((isset($_SESSION["info"]))){?>
+        <div class="alert alert-success" role="alert">
+            <?=$_SESSION["info"]?>
+        </div>
+    <?php
     }
     // show this img if person data not found
     if ($persons == null) {
@@ -220,18 +226,19 @@ $page = $_GET["page"] ?? 1;
                     // number is total data in database
                     $number = ($page - 1) * PAGE_LIMIT + 1;
                     foreach ($persons as $person) {
-                        $personsRole = sortRole($person[PERSON_ROLE]);
+                        $personsRole = sortRole(transformRoleFromDb($person[PERSON_ROLE]));
+                        try{$personAge = calculateAge($person[PERSON_BIRTH_DATE]);}catch(Exception $e){die("Query error: " . $e->getMessage());}
                         foreach ($personsRole as $role) {
-                            if ($role == $person[PERSON_ROLE]) {
+                            if ($role == transformRoleFromDb($person[PERSON_ROLE])) {
                                 $personRole = ROLE_LABEL[$role . "_LABEL"];
                                 ?>
                                 <tr>
                                     <td class="text-center"><?= $number ?></td>
                                     <td><?= $person[PERSON_EMAIL] ?></td>
                                     <td><?= $person[PERSON_FIRST_NAME] . " " . $person[PERSON_LAST_NAME] ?></td>
-                                    <td class="text-center"><?= calculateAge($person[PERSON_BIRTH_DATE]) ?></td>
+                                    <td class="text-center"><?= $personAge ?></td>
                                     <td class="text-center"><?= $personRole ?></td>
-                                    <td class="text-center"><?= $person[PERSON_STATUS] ?>
+                                    <td class="text-center"><?= translateIntToString($person[PERSON_STATUS]) ?>
                                     </td>
 
                                     <td>
@@ -259,9 +266,7 @@ $page = $_GET["page"] ?? 1;
                                                     <a
                                                         <?php
                                                         if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
-                                                            $_SESSION["personToBeEdit"] = $person[ID];
                                                             ?>
-
                                                             href="edit-person.php?person=<?php echo $person[ID] ?>"
                                                             <?php
                                                         }
@@ -287,24 +292,24 @@ $page = $_GET["page"] ?? 1;
                 </table>
             </div>
             <div class="wrapper pagination-btn d-flex justify-content-end">
-<!--                --><?php
-//                // show pagination button
-//                if (isset($_GET["category"]) || isset($_GET["keyword"])) {
-//                    showPaginationButton(
-//                        displayingData: $displayingData,
-//                        prev: $prev,
-//                        next: $next,
-//                        page: $page,
-//                        keyword: $_GET["keyword"],
-//                        category: $_GET["category"]);
-//                } else {
-//                    showPaginationButton(
-//                        displayingData: $displayingData,
-//                        prev: $prev,
-//                        next: $next,
-//                        page: $page);
-//                }
-//                ?>
+                <?php
+                // show pagination button
+                if (isset($_GET["category"]) || isset($_GET["keyword"])) {
+                    showPaginationButton(
+                        displayingData: $displayingData,
+                        prev: $prev,
+                        next: $next,
+                        page: $page,
+                        keyword: $_GET["keyword"],
+                        category: $_GET["category"]);
+                } else {
+                    showPaginationButton(
+                        displayingData: $displayingData,
+                        prev: $prev,
+                        next: $next,
+                        page: $page);
+                }
+                ?>
             </div>
         </div>
 
@@ -312,7 +317,7 @@ $page = $_GET["page"] ?? 1;
     }
 
 mainFooter("persons.php");
-unset($_SESSION["addSuccess"]);
 unset($_SESSION["deleteSuccess"]);
 unset($_SESSION["user"]);
 unset($_SESSION["personNotFound"]);
+unset($_SESSION["info"]);

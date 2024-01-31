@@ -95,4 +95,25 @@ function sortCategories(string $value): array
     return $categories;
 }
 
+function searchPersonFromDb(array $persons, string|null $category = null, string|null $keyword = null){
+    global $PDO;
+    $temp = [];
+
+    $keyword = preg_quote($keyword);
+
+    // it's an array person with their category
+    $personCategory = getAgeCategory($persons, $category);
+    if($keyword != null){
+        try {
+            $query = "SELECT firstName, lastName, email FROM `persons` WHERE firstName LIKE :keyword, lastName LIKE :keyword, email LIKE :keyword";
+            $stmt = $PDO->prepare($query);
+            $stmt->execute(array(
+                "keyword" => $keyword
+            ));
+        } catch (PDOException $e){
+            die("Query error: " . $e->getMessage());
+        }
+    }
+}
+
 

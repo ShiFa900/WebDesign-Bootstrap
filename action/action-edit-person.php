@@ -34,7 +34,7 @@ if (count($validate) == 0) {
 
 
     // set person data before saving
-    $currentUser = setPersonData(
+    $person = setPersonData(
         person: $currentUser,
         firstName: $userInputData["firstName"],
         lastName: $userInputData["lastName"],
@@ -45,9 +45,13 @@ if (count($validate) == 0) {
         role: transformRoleFromInput($userInputData["role"]),
         status: $userInputData["status"],
         note: $userInputData["note"] == "" ? null : $userInputData["note"]);
-    $currentUser[PASSWORD] = $_POST["newPassword"] == null ? $currentUser[PASSWORD] : $_POST["newPassword"];
 
-    savePerson($currentUser, "view-person.php");
+    $person[ID] = $currentUser[ID];
+    $person[PASSWORD] = $_POST["newPassword"] == null ? $currentUser[PASSWORD] : $_POST["newPassword"];
+    $person[PERSON_BIRTH_DATE] = date('Y-m-d H:i:s', $person[PERSON_BIRTH_DATE]);
+    $person[PERSON_LAST_LOGGED_IN] = $currentUser[PERSON_LAST_LOGGED_IN] == null ? null : date('Y-m-d H:i:s', $currentUser[PERSON_LAST_LOGGED_IN]);
+    unset($_SESSION["personData"]);
+    savePerson($person, "view-person.php");
 
 
 } else {
