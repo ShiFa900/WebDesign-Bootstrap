@@ -95,7 +95,7 @@ function sortCategories(string $value): array
     return $categories;
 }
 
-function searchPersonFromDb(array $persons, string|null $category = null, string|null $keyword = null){
+function searchPersonFromDb(array $persons, string $category = null, string|null $keyword = null){
     global $PDO;
     $temp = [];
 
@@ -105,7 +105,7 @@ function searchPersonFromDb(array $persons, string|null $category = null, string
     $personCategory = getAgeCategory($persons, $category);
     if($keyword != null){
         try {
-            $query = "SELECT firstName, lastName, email FROM `persons` WHERE firstName LIKE :keyword, lastName LIKE :keyword, email LIKE :keyword";
+            $query = "SELECT firstName, lastName, email FROM `persons` WHERE firstName LIKE :keyword lastName LIKE :keyword email LIKE :keyword";
             $stmt = $PDO->prepare($query);
             $stmt->execute(array(
                 "keyword" => $keyword
@@ -114,6 +114,8 @@ function searchPersonFromDb(array $persons, string|null $category = null, string
             die("Query error: " . $e->getMessage());
         }
     }
+
+
 }
 
 

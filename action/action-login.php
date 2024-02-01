@@ -26,14 +26,14 @@ if (isset($_POST['login'])) { //ini
  * check user status, cannot login with account of Passed away status
  * @param array $person
  */
-function checkPersonStatus(array $person): void
+function checkPersonStatus(array $person): bool
 {
-    //$user = getPerson(email: $userEmail);
     if ($person[PERSON_STATUS] == STATUS_PASSED_AWAY) {
         $_SESSION["userPassedAway"] = "Sorry, this person status is PASSED AWAY. Ask ADMIN for more information.";
         redirect("../login.php", "");
         die();
     }
+    return true;
 }
 
 /**
@@ -74,8 +74,10 @@ function userExist(string $email, string $password): array|null
 
     // asumsinya kalau msk sini, query aman tapi datanya ada atau tidak blm tentu..
     $person = $statement->fetch(PDO::FETCH_ASSOC);
-    if ($person && password_verify($password, $person[PASSWORD])) {
-        return $person;
+    if(checkPersonStatus($person)) {
+        if ($person && password_verify($password, $person[PASSWORD])) {
+            return $person;
+        }
     }
     return null;
 }

@@ -8,8 +8,9 @@
  * @param int $totalPage
  * @return array
  */
-function getPaginatedData(array $array, string $page, int $limit, int $totalPage): array
+function getPaginatedData(array $array, string $page, int $limit): array
 {
+    $totalPage = ceil((float)count($array) / (float)$limit);
     $indexStart = ($page - 1) * $limit;
     $length = $limit;
     if (($indexStart + $limit) > count($array)) {

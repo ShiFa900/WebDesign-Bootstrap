@@ -84,13 +84,15 @@ function checkRole(string $userEmail, string $role): bool
  * ]
  *
  */
-function getPersons(int $limit, int $page = 1, string|null $category = null, string|null $search = null): array
+function getPersons(int $limit, int|string $page, string|null $category = null, string|null $search = null): array
 {
     global $PDO;
     // query data to db:
     // 'SELECT * FROM persons WHERE name like "%:search%" ORDER BY id DESC LIMIT :limit OFFSET :page'
     try {
         // 1. query untuk banyaknya data
+        // mendapatkan banyak data dari database
+        // apakah ini sudah total dari data yang sesuai dengan keyword pencarian?
         $queryCount = 'SELECT COUNT(*) as `total` FROM `persons` WHERE firstName like :firstName or lastName like :lastName or email like :email';
         $statement = $PDO->prepare($queryCount);
         $statement->execute(
@@ -106,23 +108,25 @@ function getPersons(int $limit, int $page = 1, string|null $category = null, str
         //        todo:
         //        $page bisa berubah sesuai kondisi validasi
 
-        $queryData = 'SELECT * FROM persons WHERE firstName like :firstName OR lastName like :lastName OR email like :email ORDER BY id DESC';
+        $queryData = 'SELECT * FROM persons WHERE firstName like :firstName OR lastName like :lastName OR email like :email LIMIT = :limit OFFSET = :offset ORDER BY id DESC';
         // 2. query untuk data
+        // mencari data yang sesuai dengan keyword ataupun category
         $statement = $PDO->prepare($queryData);
         $statement->execute(
             array(
                 'firstName' => "%$search%",
                 'lastName' => "%$search%",
                 'email' => "%$search%",
-                //'limit' => $limit,
-                //'offset' => ($page - 1) * $limit,
+                'limit' => $limit,
+                'offset' => ($page - 1) * $limit,
             )
         );
         //$statement->debugDumpParams();
         $data = $statement->fetchAll();
+//        $getPersonCategory = getAgeCategory($data,$category);
 
 
-        if ($count && $count['total'] > 0) {
+        if ($count && $count['total'] > 0 && is_numeric($page)) {
             return array(
                 'totalPage' => ceil($count['total'] / $limit),
                 'currentPage' => $page,
@@ -130,10 +134,9 @@ function getPersons(int $limit, int $page = 1, string|null $category = null, str
             );
         }
     } catch (PDOException $e) {
-        $_SESSION['error'] = 'Query error: ' . $e->getMessage();
-        var_dump($e->getMessage());
-        print_r($e->getTrace());
-        die();
+        die('Query error: ' . $e->getMessage());
+    } catch (Exception $e) {
+        die("Query error: " . $e->getMessage());
     }
 
     return array(
@@ -381,6 +384,17 @@ function &findFirstFromArray(array &$array, string $key, string $value, int|null
     return $default;
 }
 
+function &findAllFromArray(array &$array, string $key, string $value): array
+{
+    $default = [];
+    for ($i = 0; $i < count($array); $i++){
+        if($array[$i][$key] == $value){
+            $default[] = $array[$i];
+        }
+    }
+    return $default;
+}
+
 /**
  * translate person status, alive for true and passed away otherwise
  * @param int $status
@@ -400,7 +414,6 @@ function translateSwitch(string|null $on): bool
 {
     return $on === "on";
 }
-
 
 /**
  * @param $birth_date_ts
@@ -726,11 +739,7 @@ function getAgeCategory(array &$persons, string $category): array
 
     // find all person with status passed away
     if ($category == CATEGORIES_PASSED_AWAY) {
-        for ($i = 0; $i < count($persons); $i++) {
-            if ($persons[$i][PERSON_STATUS] == STATUS_PASSED_AWAY) {
-                $personCategory[] = $persons[$i];
-            }
-        }
+        $personCategory = findAllFromArray(array: $persons,key: PERSON_STATUS,value: STATUS_PASSED_AWAY);
     }
 
     return $personCategory;

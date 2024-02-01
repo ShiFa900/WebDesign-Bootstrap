@@ -9,8 +9,8 @@ const ROLE_LABEL = [
     "ROLE_MEMBER_LABEL" => "Member"
 ];
 
-const STATUS_ALIVE = true;
-const STATUS_PASSED_AWAY = false;
+const STATUS_ALIVE = 1;
+const STATUS_PASSED_AWAY = 0;
 const PASSWORD = "password";
 const PAGING_TOTAL_PAGE = "PAGING_TOTAL_PAGE";
 const PAGING_DATA = "PAGING_DATA";

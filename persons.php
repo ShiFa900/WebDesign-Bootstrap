@@ -35,7 +35,7 @@ $page = $_GET["page"] ?? 1;
 //}
 
 // get the data that will be displayed on each page
-$displayingData = getPaginatedData(array: $persons, page: $page, limit: PAGE_LIMIT, totalPage: $totalPage);
+$displayingData = getPaginatedData(array: $persons, page: $page, limit: PAGE_LIMIT);
 $persons = $displayingData[PAGING_DATA];
 // previous page
 $prev = $displayingData[PAGING_CURRENT_PAGE] - 1;

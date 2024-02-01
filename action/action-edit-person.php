@@ -36,8 +36,8 @@ if (count($validate) == 0) {
     // set person data before saving
     $person = setPersonData(
         person: $currentUser,
-        firstName: $userInputData["firstName"],
-        lastName: $userInputData["lastName"],
+        firstName: ucwords($userInputData["firstName"]),
+        lastName: ucwords($userInputData["lastName"]),
         nik: $userInputData["nik"],
         email: $userInputData["email"],
         birthDate: $intDate,

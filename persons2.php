@@ -8,7 +8,6 @@ require_once __DIR__ . "/action/pagination.php";
 
 redirectIfNotAuthenticated();
 
-
 mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.php", pageStyles: ['persons.css']);
 $persons = getAll();
 // get current user data
@@ -43,8 +42,19 @@ $page = $_GET["page"] ?? 1;
 //$result = getPersons($page, PAGE_LIMIT, null);
 //$persons = $result['data'];
 
+if(isset($_GET["category"]) || isset($_GET["keyword"])){
 $personPaginated = getPersons(PAGE_LIMIT, $page,$_GET["category"], $_GET["keyword"]);
-$pagingData = $personPaginated["data"];
+$persons = $personPaginated["data"];
+$prev = $personPaginated["currentPage"] - 1;
+$next = $personPaginated["currentPage"] + 1;
+}
+//else {
+//$personPaginated = getPaginatedData($persons,$page,PAGE_LIMIT);
+//$personPaginated = getPersons(PAGE_LIMIT, $page, CATEGORIES_ALL);
+//$persons = $personPaginated[PAGING_DATA];
+//$prev = $personPaginated[PAGING_CURRENT_PAGE] - 1;
+//$next = $personPaginated[PAGING_CURRENT_PAGE] + 1;
+//}
 
 ?>
     <div class="person-content position-absolute px-5">
@@ -293,24 +303,24 @@ $pagingData = $personPaginated["data"];
                 </table>
             </div>
             <div class="wrapper pagination-btn d-flex justify-content-end">
-<!--                --><?php
-//                // show pagination button
-//                if (isset($_GET["category"]) || isset($_GET["keyword"])) {
-//                    showPaginationButton(
-//                        displayingData: $displayingData,
-//                        prev: $prev,
-//                        next: $next,
-//                        page: $page,
-//                        keyword: $_GET["keyword"],
-//                        category: $_GET["category"]);
-//                } else {
-//                    showPaginationButton(
-//                        displayingData: $displayingData,
-//                        prev: $prev,
-//                        next: $next,
-//                        page: $page);
-//                }
-//                ?>
+                <?php
+                // show pagination button
+                if (isset($_GET["category"]) || isset($_GET["keyword"])) {
+                    showPaginationButton(
+                        displayingData: $personPaginated["data"],
+                        prev: $prev,
+                        next: $next,
+                        page: $page,
+                        keyword: $_GET["keyword"],
+                        category: $_GET["category"]);
+                } else {
+                    showPaginationButton(
+                        displayingData: $persons,
+                        prev: $prev,
+                        next: $next,
+                        page: $page);
+                }
+                ?>
             </div>
         </div>
 
