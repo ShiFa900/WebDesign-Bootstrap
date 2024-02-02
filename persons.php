@@ -7,44 +7,30 @@ require_once __DIR__ . "/action/action-persons.php";
 require_once __DIR__ . "/action/pagination.php";
 
 redirectIfNotAuthenticated();
-
-
 mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.php", pageStyles: ['persons.css']);
+
 $persons = getAll();
 // get current user data
-//$userRole = getPerson(persons: $persons,email: $_SESSION["userEmail"]);
 $userRole = findFirstFromArray(array: $persons,key: PERSON_EMAIL,value: $_SESSION["userEmail"]);
 
-// showing all person data if category | keyword is null or showing person data with specific category or keyword otherwise
-
-if (isset($_GET["keyword"]) || isset($_GET["category"])) {
-    $result = search(persons: $persons, category: $_GET["category"], keyword: $_GET["keyword"]);
-    // is result is null or data not found, will show img no data found
-    if (!is_null($result)) {
-        $persons = $result;
-    }
+$page = $_GET["page"] ?? 1;
+// set page for paginated data, page cannot less than 1, bigger than total page and not a numeric
+$totalPage = ceil((float)count($persons) / PAGE_LIMIT);
+if($page < 1 || $page > $totalPage || !is_numeric($page)){
+    $page = 1;
 }
 
-// get total page for showing person data
-$totalPage = ceil((float)count($persons) / (float)PAGE_LIMIT);
-
-// set page for paginated data, page cannot less than 1, bigger than total page and not a numeric
-$page = $_GET["page"] ?? 1;
-//if ($page <= 0 || !is_numeric($page) || $page > $totalPage) {
-//    $page = 1;
-//}
-
-// get the data that will be displayed on each page
-$displayingData = getPaginatedData(array: $persons, page: $page, limit: PAGE_LIMIT);
-$persons = $displayingData[PAGING_DATA];
-// previous page
-$prev = $displayingData[PAGING_CURRENT_PAGE] - 1;
-// next page
-$next = $displayingData[PAGING_CURRENT_PAGE] + 1;
-//$result = getPersons($page, PAGE_LIMIT, null);
-//$persons = $result['data'];
-
-
+if(isset($_GET["keyword"]) || isset($_GET["category"])){
+    // get person data if keyword OR category is not null
+$personPaginated = getPersons(PAGE_LIMIT, $page,$_GET["category"], $_GET["keyword"]);
+}
+else {
+    // get default data person
+$personPaginated = getPersons(PAGE_LIMIT, $page, CATEGORIES_ALL);
+}
+$persons = $personPaginated[PAGING_DATA];
+$prev = $personPaginated[PAGING_CURRENT_PAGE] - 1;
+$next = $personPaginated[PAGING_CURRENT_PAGE] + 1;
 ?>
     <div class="person-content position-absolute px-5">
     <div
@@ -127,6 +113,7 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
                                 } else {
                                     $_GET["keyword"] = null;
                                 } ?>"
+                                minlength="3"
                         />
                     </div>
                     <div class="btn-wrapper d-flex justify-content-end">
@@ -227,7 +214,7 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
                     $number = ($page - 1) * PAGE_LIMIT + 1;
                     foreach ($persons as $person) {
                         $personsRole = sortRole(transformRoleFromDb($person[PERSON_ROLE]));
-                        try{$personAge = calculateAge($person[PERSON_BIRTH_DATE]);}catch(Exception $e){die("Query error: " . $e->getMessage());}
+                        try{$personAge = calculateAge(convertDateToTimestamp($person[PERSON_BIRTH_DATE]));}catch(Exception $e){die("Query error: " . $e->getMessage());}
                         foreach ($personsRole as $role) {
                             if ($role == transformRoleFromDb($person[PERSON_ROLE])) {
                                 $personRole = ROLE_LABEL[$role . "_LABEL"];
@@ -296,7 +283,7 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
                 // show pagination button
                 if (isset($_GET["category"]) || isset($_GET["keyword"])) {
                     showPaginationButton(
-                        displayingData: $displayingData,
+                        displayingData: $personPaginated,
                         prev: $prev,
                         next: $next,
                         page: $page,
@@ -304,7 +291,7 @@ $next = $displayingData[PAGING_CURRENT_PAGE] + 1;
                         category: $_GET["category"]);
                 } else {
                     showPaginationButton(
-                        displayingData: $displayingData,
+                        displayingData: $personPaginated,
                         prev: $prev,
                         next: $next,
                         page: $page);

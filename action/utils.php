@@ -1,5 +1,7 @@
 <?php
 
+use JetBrains\PhpStorm\NoReturn;
+
 require_once __DIR__ . "/../include/db.php";
 require_once __DIR__ . "/const.php";
 
@@ -7,10 +9,10 @@ require_once __DIR__ . "/const.php";
 //****** CHECK AUTHORISED ******
 //==============================
 /**
- * @param url go to login page if it unsucces
- * @param string error message on the header
+ * @param string $url go to login page if it unsucces
+ * @param string $getParams error message on the header
  */
-function redirect($url, $getParams): void
+#[NoReturn] function redirect(string $url, string $getParams): void
 {
     header('Location: ' . $url . '?' . $getParams);
     die();
@@ -53,12 +55,13 @@ function redirectIfUserAlreadyLogin(): void
  * Checks the role of signed-in user,
  * and then set 'userNotAuthenticate' label in session if the user's role is a MEMBER
  * @param string $userEmail
+ * @param string $role
  * @return bool
  */
 function checkRole(string $userEmail, string $role): bool
 {
     $persons = getAll();
-    $user = findFirstFromArray(array: $persons,key: PERSON_EMAIL,value: $userEmail);
+    $user = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $userEmail);
 //    $user = getPerson(persons: $persons, email: $userEmail);
     if ($user[PERSON_ROLE] != $role) {
         $_SESSION["user"] = "Sorry, your role is MEMBER. Only ADMIN can create, edit and delete person data.";
@@ -73,16 +76,15 @@ function checkRole(string $userEmail, string $role): bool
 
 /**
  * @param int $limit
- * @param int $offset
- * @param string|null $search
+ * @param int|string $page
  * @param string|null $category
+ * @param string|null $search
  * @return array
  * [
  *   'totalPage' => 3,
  *   'currentPage' => 1,
  *   'data' => array()
  * ]
- *
  */
 function getPersons(int $limit, int|string $page, string|null $category = null, string|null $search = null): array
 {
@@ -90,47 +92,48 @@ function getPersons(int $limit, int|string $page, string|null $category = null, 
     // query data to db:
     // 'SELECT * FROM persons WHERE name like "%:search%" ORDER BY id DESC LIMIT :limit OFFSET :page'
     try {
+        $str = "%$search%";
         // 1. query untuk banyaknya data
         // mendapatkan banyak data dari database
-        // apakah ini sudah total dari data yang sesuai dengan keyword pencarian?
         $queryCount = 'SELECT COUNT(*) as `total` FROM `persons` WHERE firstName like :firstName or lastName like :lastName or email like :email';
         $statement = $PDO->prepare($queryCount);
         $statement->execute(
             array(
-                'firstName' => "%$search%",
-                'lastName' => "%$search%",
-                'email' => "%$search%",
+                'firstName' => $str,
+                'lastName' => $str,
+                'email' => $str,
             )
         );
-        $count = $statement->fetch();
-        //         ['total'] => 19
+        $count = $statement->fetch(PDO::FETCH_ASSOC);
 
-        //        todo:
-        //        $page bisa berubah sesuai kondisi validasi
-
-        $queryData = 'SELECT * FROM persons WHERE firstName like :firstName OR lastName like :lastName OR email like :email LIMIT = :limit OFFSET = :offset ORDER BY id DESC';
+        $queryData = "SELECT * FROM persons WHERE firstName like :firstName OR lastName like :lastName OR email like :email ORDER BY id DESC";
         // 2. query untuk data
-        // mencari data yang sesuai dengan keyword ataupun category
+        // get person data by given keyword
         $statement = $PDO->prepare($queryData);
         $statement->execute(
             array(
-                'firstName' => "%$search%",
-                'lastName' => "%$search%",
-                'email' => "%$search%",
-                'limit' => $limit,
-                'offset' => ($page - 1) * $limit,
+                'firstName' => $str,
+                'lastName' => $str,
+                'email' => $str,
             )
         );
-        //$statement->debugDumpParams();
-        $data = $statement->fetchAll();
-//        $getPersonCategory = getAgeCategory($data,$category);
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+        // get person's category for person that related to given keyword
+        $getPersonCategory = getAgeCategory($data, $category);
 
+        // sorting array person that will be shown for pagination
+        $indexStart = ($page - 1) * $limit;
+        $length = $limit;
+        if (($indexStart + $limit) > count($getPersonCategory)) {
+            $length = count($getPersonCategory) - $indexStart;
+        }
 
+        // return information for persons page
         if ($count && $count['total'] > 0 && is_numeric($page)) {
             return array(
-                'totalPage' => ceil($count['total'] / $limit),
-                'currentPage' => $page,
-                'data' => $data
+                PAGING_TOTAL_PAGE => ceil(count($getPersonCategory) / $limit),
+                PAGING_CURRENT_PAGE => $page,
+                PAGING_DATA => array_slice($getPersonCategory, $indexStart, $length)
             );
         }
     } catch (PDOException $e) {
@@ -140,9 +143,9 @@ function getPersons(int $limit, int|string $page, string|null $category = null, 
     }
 
     return array(
-        'totalPage' => 1,
-        'currentPage' => 1,
-        'data' => []
+        PAGING_TOTAL_PAGE => 1,
+        PAGING_CURRENT_PAGE => 1,
+        PAGING_DATA => []
     );
 }
 
@@ -159,7 +162,7 @@ function getAll(): array
         $query = "SELECT * FROM `persons`";
         $statement = $PDO->query($query);
         // get only associative value from query
-        $persons = $statement->fetchAll();
+        $persons = $statement->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
         $_SESSION["error"] = "Query error: " . $e->getMessage();
         var_dump($e->getMessage());
@@ -303,23 +306,13 @@ function savePerson(array $person, string $location): void
 
 
 /**
- * generate ID person, key ID is auto increment
- * @param array|null $persons
- * @return int
- */
-function generateId(array|null $persons = null): int
-{
-    return is_array($persons) == null ? 1 : (end($persons)[ID]) + 1;
-}
-
-/**
  * convert given date into timestamp
- * @param string $date given data from a form
+ * @param mixed $date given data from a form
  * @return int
  */
-function convertDateToTimestamp(string|null $date = null): int|null
+function convertDateToTimestamp(mixed $date): int|null
 {
-    if ($date != null) {
+    if (!is_numeric($date)) {
         $date = str_replace('-', '/', $date);
         return strtotime($date);
     }
@@ -329,7 +322,8 @@ function convertDateToTimestamp(string|null $date = null): int|null
 
 /**
  * get person data by given ID or EMAIl if isn't null
- * @param string $email
+ * @param array $persons
+ * @param string|null $email
  * @return array
  */
 function getPerson(array $persons, string|null $email = null): array
@@ -387,8 +381,8 @@ function &findFirstFromArray(array &$array, string $key, string $value, int|null
 function &findAllFromArray(array &$array, string $key, string $value): array
 {
     $default = [];
-    for ($i = 0; $i < count($array); $i++){
-        if($array[$i][$key] == $value){
+    for ($i = 0; $i < count($array); $i++) {
+        if ($array[$i][$key] == $value) {
             $default[] = $array[$i];
         }
     }
@@ -436,7 +430,7 @@ function calculateAge($birth_date_ts): int
  * @param string|null $lastName
  * @param string|null $nik
  * @param string|null $email
- * @param string|null $birthDate
+ * @param int|null $birthDate
  * @param string|null $sex
  * @param string|null $role
  * @param string|null $status
@@ -669,7 +663,7 @@ function getChildCategory(array $persons): array
 {
     $childCategory = [];
     for ($i = 0; $i < count($persons); $i++) {
-        $getAge = calculateAge($persons[$i][PERSON_BIRTH_DATE]);
+        $getAge = calculateAge(convertDateToTimestamp($persons[$i][PERSON_BIRTH_DATE]));
         if ($getAge <= 14) {
             $childCategory[] = $persons[$i];
         }
@@ -687,7 +681,7 @@ function getProductiveCategory(array $persons): array
 {
     $productiveCategory = [];
     for ($i = 0; $i < count($persons); $i++) {
-        $getAge = calculateAge($persons[$i][PERSON_BIRTH_DATE]);
+        $getAge = calculateAge(convertDateToTimestamp($persons[$i][PERSON_BIRTH_DATE]));
         if ($getAge <= 45 && $getAge >= 15) {
             $productiveCategory[] = $persons[$i];
         }
@@ -705,7 +699,7 @@ function getElderlyCategory(array $persons): array
 {
     $elderlyCategory = [];
     for ($i = 0; $i < count($persons); $i++) {
-        $getAge = calculateAge($persons[$i][PERSON_BIRTH_DATE]);
+        $getAge = calculateAge(convertDateToTimestamp($persons[$i][PERSON_BIRTH_DATE]));
         if ($getAge > 50) {
             $elderlyCategory[] = $persons[$i];
         }
@@ -739,7 +733,7 @@ function getAgeCategory(array &$persons, string $category): array
 
     // find all person with status passed away
     if ($category == CATEGORIES_PASSED_AWAY) {
-        $personCategory = findAllFromArray(array: $persons,key: PERSON_STATUS,value: STATUS_PASSED_AWAY);
+        $personCategory = findAllFromArray(array: $persons, key: PERSON_STATUS, value: STATUS_PASSED_AWAY);
     }
 
     return $personCategory;

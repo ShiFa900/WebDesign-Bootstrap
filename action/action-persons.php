@@ -95,27 +95,46 @@ function sortCategories(string $value): array
     return $categories;
 }
 
-function searchPersonFromDb(array $persons, string $category = null, string|null $keyword = null){
+function searchPersonFromDb(string $category, string|null $keyword = null){
     global $PDO;
     $temp = [];
+    // cek dulu semua data dari database yang sesuai dengan category yang diberikan
 
     $keyword = preg_quote($keyword);
-
-    // it's an array person with their category
-    $personCategory = getAgeCategory($persons, $category);
+    // jika keyword tidak null, cari persons yang sesuai dengan keyword dari database
     if($keyword != null){
         try {
-            $query = "SELECT firstName, lastName, email FROM `persons` WHERE firstName LIKE :keyword lastName LIKE :keyword email LIKE :keyword";
+            // dapatkan dulu semua data dari database
+            $query = "SELECT firstName, lastName, email FROM `persons` WHERE firstName LIKE :keyword OR lastName LIKE :keyword OR email LIKE :keyword";
             $stmt = $PDO->prepare($query);
+            $keyword = "%$keyword%";
             $stmt->execute(array(
-                "keyword" => $keyword
+                "firstName" => $keyword,
+                "lastName" => $keyword,
+                "email" => $keyword
             ));
-        } catch (PDOException $e){
+
+            $persons = $stmt->fetchAll();
+            if(count($persons) != 0){
+                return getAgeCategory($persons, $category);
+            }
+
+        } catch (PDOException|Exception $e){
+            die("Query error: " . $e->getMessage());
+        }
+    } else {
+        try {
+            $query = "SELECT * FROM `persons`";
+            $stmt = $PDO->prepare($query);
+            $persons = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return getAgeCategory($persons, $category);
+        } catch (Exception $e) {
             die("Query error: " . $e->getMessage());
         }
     }
-
-
 }
+
+
 
 
