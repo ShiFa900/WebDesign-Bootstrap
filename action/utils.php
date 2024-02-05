@@ -194,6 +194,39 @@ function getAll(): array
 }
 
 /**
+ * get Person hobbies from database
+ * @param string $id
+ * @return array
+ */
+function getPersonHobbiesFromDb(string $id): array
+{
+    global $PDO;
+
+    try {
+        $query = "SELECT * FROM `hobbies` WHERE `person_id` = :id";
+        $stmt = $PDO->prepare($query);
+        $stmt->execute(array(
+            "id" => $id
+        ));
+        $personHobbies = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        die("Query error: " . $e->getMessage());
+    }
+
+    $result = [];
+    for ($i = 0; $i < count($personHobbies); $i++) {
+        $hobby = [
+            ID => $personHobbies[$i][ID],
+            HOBBIES_NAME => $personHobbies[$i][HOBBIES_NAME],
+            HOBBIES_PERSON_ID => $personHobbies[$i][HOBBIES_PERSON_ID]
+        ];
+        $result[] = $hobby;
+    }
+    return $result;
+
+}
+
+/**
  * Converts given sex value from database into the value that the app understands (SEX constants)
  * @param string $value
  * @return string
@@ -663,7 +696,7 @@ function getChildCategory(array $persons): array
 {
     $childCategory = [];
     for ($i = 0; $i < count($persons); $i++) {
-        $getAge = calculateAge(convertDateToTimestamp($persons[$i][PERSON_BIRTH_DATE]));
+        $getAge = calculateAge($persons[$i][PERSON_BIRTH_DATE]);
         if ($getAge <= 14) {
             $childCategory[] = $persons[$i];
         }
@@ -681,7 +714,7 @@ function getProductiveCategory(array $persons): array
 {
     $productiveCategory = [];
     for ($i = 0; $i < count($persons); $i++) {
-        $getAge = calculateAge(convertDateToTimestamp($persons[$i][PERSON_BIRTH_DATE]));
+        $getAge = calculateAge($persons[$i][PERSON_BIRTH_DATE]);
         if ($getAge <= 45 && $getAge >= 15) {
             $productiveCategory[] = $persons[$i];
         }
@@ -699,7 +732,7 @@ function getElderlyCategory(array $persons): array
 {
     $elderlyCategory = [];
     for ($i = 0; $i < count($persons); $i++) {
-        $getAge = calculateAge(convertDateToTimestamp($persons[$i][PERSON_BIRTH_DATE]));
+        $getAge = calculateAge($persons[$i][PERSON_BIRTH_DATE]);
         if ($getAge > 50) {
             $elderlyCategory[] = $persons[$i];
         }
@@ -717,6 +750,11 @@ function getElderlyCategory(array $persons): array
 function getAgeCategory(array &$persons, string $category): array
 {
     $personCategory = [];
+    $convertingPersons = [];
+    // convert person's birthdate to timestamp before sorting persons by their category
+    for ($i = 0; $i < count($persons); $i++) {
+        $persons[$i][PERSON_BIRTH_DATE] = convertDateToTimestamp($persons[$i][PERSON_BIRTH_DATE]);
+    }
 
     // return all person if category = CATEGORIES_ALL
     if ($category == CATEGORIES_ALL) {

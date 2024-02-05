@@ -95,6 +95,12 @@ redirectIfUserAlreadyLogin();
                                     Sorry, your email or password was wrong. Please check again.
                                 </div>
                                 <?php
+                            } elseif (isset($_GET["userPassedAway"])) {
+                                ?>
+                                <div class="alert alert-danger errorText" role="alert">
+                                    Sorry, this email has PASSED AWAY status. Please inform ADMIN for more information.
+                                </div>
+                                <?php
                             }
                             ?>
 

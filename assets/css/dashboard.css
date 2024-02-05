@@ -1,5 +1,4 @@
 /* DASHBOARD CONTENT */
-
 .page-dashboard .header-sm-title {
   font-size: 1.2rem;
   margin-bottom: 0;
@@ -17,6 +16,15 @@
   margin-top: 3.6rem;
 }
 
-.page-dashboard .dashboard-card:last-child{
-  margin-bottom: 3.6rem;
+.page-dashboard .dashboard-card{
+  transition: all 0.4s;
 }
+
+.page-dashboard .dashboard-card:hover{
+  box-shadow: 0 2.2rem 1.4rem rgba(215, 215, 215, 21%);
+  transform: translateY(-0.9rem);
+}
+
+/*.page-dashboard .card-body{*/
+/*  box-shadow: 0 3.2rem 6.4rem rgba(215, 215, 215, 0.32);*/
+/*}*/

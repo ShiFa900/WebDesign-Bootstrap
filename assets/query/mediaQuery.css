@@ -4,7 +4,8 @@
     .page-add-person .add-person-content,
     .page-view-person .view-person-content,
     .page-edit-person .edit-person-content,
-    .page-my-profile .my-profile-content {
+    .page-my-profile .my-profile-content,
+    .page-hobbies .hobbies-content{
         left: 250px;
     }
 }
@@ -12,6 +13,10 @@
 @media (max-width: 1200px) {
     .page-dashboard .dashboard-card {
         width: 50%;
+    }
+
+    .page-dashboard .dashboard-card:last-child{
+        margin-bottom: 3.6rem;
     }
 
     .page-persons .search-form .wrapper,
@@ -35,7 +40,8 @@
     .page-add-person .add-person-content,
     .page-view-person .view-person-content,
     .page-edit-person .edit-person-content,
-    .page-my-profile .my-profile-content {
+    .page-my-profile .my-profile-content,
+    .page-hobbies .hobbies-content{
         left: 0;
         right: 0;
     }
@@ -48,7 +54,8 @@
     .page-add-person .add-person-content,
     .page-view-person .view-person-content,
     .page-edit-person .edit-person-content,
-    .page-my-profile .my-profile-content {
+    .page-my-profile .my-profile-content,
+    .page-hobbies .hobbies-content{
         left: 250px;
     }
 

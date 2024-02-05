@@ -2,7 +2,7 @@
 require_once __DIR__ . "/utils.php";
 session_start();
 // set default timezone
-//date_default_timezone_set('Asia/Singapore');
+date_default_timezone_set('Asia/Singapore');
 
 // user logout
 if (isset($_SESSION["userEmail"])) {

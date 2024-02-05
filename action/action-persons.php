@@ -115,6 +115,11 @@ function searchPersonFromDb(string $category, string|null $keyword = null){
             ));
 
             $persons = $stmt->fetchAll();
+            foreach ($persons as &$person){
+                $person[PERSON_BIRTH_DATE] = convertDateToTimestamp($person[PERSON_BIRTH_DATE]);
+                $persons[] = $person;
+            }
+
             if(count($persons) != 0){
                 return getAgeCategory($persons, $category);
             }

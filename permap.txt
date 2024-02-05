@@ -18,16 +18,70 @@ color palette: 0C356A, 0174BE, FFC436, FFF0CE
 - connect data to database
 - bingung dikit, tapi nnti bisa lah ya
 
-- function" yang mengandung getAll diganti dengan data yang berasal dari database
-
 - di beberapa page, icon dan teksnya menjadi bold
 - last logged in hanya akan terisi dengan waktu saat si user log out, bagaimana ketika session user berakhir?
 ===================================
-- persons
-    🔴 pagination
-    🔴 search
-- function convert date to timestamp
+UPDATE PERMAP FEATURES:
+<one-to-many>
+A. Fitur Hobbies
+- Tambahkan row menu baru di Persons, namakan Hobbies / Hobi
+- Saat diklik -> landing page Hobbies of <person>, ini adalah halaman index atau list untuk hobi si person yg dipilih. Gunakan model halaman yg sama seperti persons page dengan SEARCH hanya menggunakan nama hobi.
+- Tambahkan tombol BACK/KEMBALI di halaman Hobbies of <person> ini
+- Di halaman Hobbies ini, user jg bisa menambahkan/mengedit/menghapus hobi dari si selected person
+- Di halaman add hobby, form berisi
+  - Hobi / Hobby (input text)
 
+- Data model untuk hobbies
+  - id
+  - person_id
+  - name (nama hobi)
+
+id | person_id | name
+1  | 1         | memasak
+2  | 1         | tidur
+3  | 2         | masak
+
+
+<many-to-many>
+B. Fitur Jobs
+- Tambahkan menu Jobs / Pekerjaan di sidenav
+- Jika diklik, tampilkan halaman index untuk mengelola/manage data master Jobs.
+- Form di Halaman tambah Job untuk <person>
+  - Job (dropdown)
+
+- Struktur data model untuk Jobs
+  - id
+  - name
+  - count -> jumlah brp orang yg memiliki jobs ini, by default 0 saat create. Value ini hidden di user, hanya dimengerti app. Nilai ini di-increment saat ada person yg diassign job ini, atau di-decrement saat ada person yang berubah job nya (tidak menggunakan job ini lagi) DAN jika si person dihapus, DAN jika si person meninggal.
+
+- struktur data untuk tabel tengah/pivot (person_jobs)
+  - id
+  - person_id
+  - job_id
+
+JOBS
+id | name  | count
+1  | Clerk | 0
+2  | Staf  | 2
+
+PERSON_JOBS (ada 2 orang dengan pekerjaan staf)
+id | person_id | job_id
+1  | 1         | 2
+2  | 3         | 2
+
+C. Update Create/Edit Person Page
+- Tambahkan form input Job/Pekerjaan - dropdown. Mandatory
+- Optional, karena seseorang bisa jadi pengangguran
+
+D. Update view Person page
+- Tambahkan info Job/Pekerjaan person ybs
+
+E. Update Dashboard Widgets
+- Buat widget baru Jobs Statistic dengan style baru (tabular)
+- Dengan datatable
+   | Jobs  | #Persons |
+   | Staf  | 2        |
+   | Clerk | 1        |
 ===================================
 ROLE ADMIN
 - bisa create, edit dan delete
@@ -36,7 +90,7 @@ ROLE ADMIN
 
 ROLE MEMBER
 - tidak bisa melakukan create, edit dan delete person data
-- role admin hanya bisa view person data
+- role member hanya bisa view person data
 - saat edit profile, user dengan role member diberikan akses untuk mengedit data personal dan passwordnya
 - di page person, menu untuk edit person data yang lain tidak ditampilkan
 - jangan tampilkan internal note untuk member

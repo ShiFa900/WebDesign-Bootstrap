@@ -17,7 +17,7 @@ mainHeader(
 // get user data by given email
 $persons = getAll();
 //$user = getPerson(persons: $persons,email: $_SESSION["userEmail"]);
-$user = findFirstFromArray(array: $persons,key: PERSON_EMAIL,value: $_SESSION["userEmail"]);
+$user = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
 // mencari user yang dengan email yang sama dengan yang ada di database
 
 // get count of each category
@@ -85,6 +85,7 @@ foreach ($persons as $person) {
                         </div>
                     </a>
                 </div>
+
                 <div class="dashboard-card col-12 col-xxl-4 col-xl-4 col-lg-5 col-md-6">
                     <a class="card card-link" href="persons.php?category=<?= CATEGORIES_PRODUCTIVE_AGE ?>"
                        title="Total number of persons aged more than 15 years old, and less than 45 years old.">
@@ -127,7 +128,6 @@ foreach ($persons as $person) {
                         </div>
                     </a>
                 </div>
-
                 <div class="dashboard-card col-12 col-xxl-4 col-xl-4 col-lg-5 col-md-6">
                     <a class="card card-link" href="persons.php?category=<?= CATEGORIES_PASSED_AWAY ?>"
                        title="Total number of people who have died.">

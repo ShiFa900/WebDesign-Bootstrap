@@ -14,8 +14,11 @@ if (isset($_POST['login'])) { //ini
     if ($person != null) {
         $_SESSION['userEmail'] = $_POST['email'];
         $_SESSION['startTime'] = time();
-//        checkPersonStatus($person);
-        header("Location: ../dashboard.php");
+        if (checkPersonStatus($person)) {
+           redirect("../login.php","userPassedAway");
+        } else {
+            header("Location: ../dashboard.php");
+        }
         exit();
     } else {
         redirect("../login.php", "error=1");
@@ -26,35 +29,13 @@ if (isset($_POST['login'])) { //ini
  * check user status, cannot login with account of Passed away status
  * @param array $person
  */
-function checkPersonStatus(array $person): bool
+function checkPersonStatus(array $person)
 {
-    if ($person[PERSON_STATUS] == STATUS_PASSED_AWAY) {
-        $_SESSION["userPassedAway"] = "Sorry, this person status is PASSED AWAY. Ask ADMIN for more information.";
-        redirect("../login.php", "");
-        die();
-    }
-    return true;
+    if ($person[PERSON_STATUS] == STATUS_PASSED_AWAY) return true;
 }
 
-/**
- * search user data for login form, user data must be existed in json file
- * @param string $email
- * @param string $password
- * @return array
- */
-//function userExist(string $email, string $password): array
-//{
-//    $data = getAll();
-//
-//    for ($i = 0; $i < count($data); $i++) {
-//        if ($email == $data[$i][PERSON_EMAIL] && password_verify($password, $data[$i][PASSWORD])) {
-//            return $data[$i];
-//        }
-//    }
-//    return [];
-//}
 
-function userExist(string $email, string $password): array|null
+function userExist(string $email, string $password): array
 {
     // global variable for database connection
     global $PDO;
@@ -74,10 +55,9 @@ function userExist(string $email, string $password): array|null
 
     // asumsinya kalau msk sini, query aman tapi datanya ada atau tidak blm tentu..
     $person = $statement->fetch(PDO::FETCH_ASSOC);
-    if(checkPersonStatus($person)) {
-        if ($person && password_verify($password, $person[PASSWORD])) {
-            return $person;
-        }
+
+    if ($person && password_verify($password, $person[PASSWORD])) {
+        return $person;
     }
-    return null;
+    return [];
 }

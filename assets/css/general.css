@@ -143,6 +143,21 @@ body {
   height: 3rem;
 }
 
+.page-persons .no-data-img,
+.page-hobbies .no-data-img{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  opacity: 65%;
+}
+
+.page-persons .search-icon,
+.page-hobbies .search-icon,
+.page-persons .btn-reset .person-img-icon{
+  width: 1.75rem;
+  stroke: #444444;
+}
+
 /* BUTTON */
 .btn {
   border: none;
@@ -541,15 +556,18 @@ thead tr {
 
 .card {
   background-color: #ebf4fa;
-
-  padding: 1.2rem;
-
   border-radius: 5px;
   border: none;
 }
 
 .card-body .number, .card-body .card-subtitle{
   border-bottom: none;
+
+}
+
+.card-body{
+  padding: 1.2rem;
+
 }
 
 .card-text {

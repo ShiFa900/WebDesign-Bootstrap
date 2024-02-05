@@ -181,7 +181,7 @@ $next = $personPaginated[PAGING_CURRENT_PAGE] + 1;
     <?php
     }
     // show this img if person data not found
-    if ($persons == null) {
+    if (count($persons) == 0) {
         ?>
         <div class="row">
             <div class="col-xl-12 d-flex flex-column justify-content-center align-items-center mt-5">
@@ -205,7 +205,7 @@ $next = $personPaginated[PAGING_CURRENT_PAGE] + 1;
                         <th scope="col" class="text-center p-3">Age</th>
                         <th scope="col" class="text-center p-3">Role</th>
                         <th scope="col" class="text-center p-3">Status</th>
-                        <th scope="col" class="text-center p-3"></th>
+                        <th scope="col" class="text-center p-3">Action</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -214,7 +214,7 @@ $next = $personPaginated[PAGING_CURRENT_PAGE] + 1;
                     $number = ($page - 1) * PAGE_LIMIT + 1;
                     foreach ($persons as $person) {
                         $personsRole = sortRole(transformRoleFromDb($person[PERSON_ROLE]));
-                        try{$personAge = calculateAge(convertDateToTimestamp($person[PERSON_BIRTH_DATE]));}catch(Exception $e){die("Query error: " . $e->getMessage());}
+                        try{$personAge = calculateAge($person[PERSON_BIRTH_DATE]);}catch(Exception $e){die("Calculate error: " . $e->getMessage());}
                         foreach ($personsRole as $role) {
                             if ($role == transformRoleFromDb($person[PERSON_ROLE])) {
                                 $personRole = ROLE_LABEL[$role . "_LABEL"];
@@ -261,6 +261,26 @@ $next = $personPaginated[PAGING_CURRENT_PAGE] + 1;
                                                             href="my-profile.php"
                                                             class="nav-link table-nav edit-btn"
                                                     >Edit</a
+                                                    >
+                                                    <?php
+                                                }
+                                                ?>
+                                            </button>
+                                            <button class="btn">
+                                                <?php
+                                                if ($userRole[PERSON_ROLE] == ROLE_ADMIN) {
+                                                    ?>
+                                                    <a
+                                                        <?php
+                                                        if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
+                                                            ?>
+                                                            href="hobbies.php?person=<?php echo $person[ID] ?>"
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                            href="my-profile.php"
+                                                            class="nav-link table-nav edit-btn"
+                                                    >Hobby</a
                                                     >
                                                     <?php
                                                 }
