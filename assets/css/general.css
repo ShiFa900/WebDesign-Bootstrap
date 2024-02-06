@@ -1,9 +1,9 @@
-/* COLOR */
-/* 
+ /*COLOR */
+/*
 #0d3c59
 #003172
 #0174be
-#015d98 
+#015d98
 #1a82c5
 #FFC436
 #e6f1f9
@@ -151,12 +151,41 @@ body {
   opacity: 65%;
 }
 
-.page-persons .search-icon,
-.page-hobbies .search-icon,
-.page-persons .btn-reset .person-img-icon{
+.page-persons .header-page-icon,
+.page-hobbies .header-page-icon{
   width: 1.75rem;
   stroke: #444444;
 }
+
+ .page-add-hobby .hobby-card,
+ .page-edit-hobby .hobby-card{
+   background-color: #da56;
+
+ }
+
+ .page-add-hobby .hobby-img,
+ .page-edit-hobby .hobby-img{
+   width: 100%;
+   height: 40vh;
+ }
+
+ .page-add-hobby .card-img,
+ .page-edit-hobby .card-img{
+   background-color: #fafafa;
+ }
+
+ .page-add-hobby .card-field,
+ .page-edit-hobby .card-field{
+   padding: 1rem 0.75rem;
+ }
+
+ .page-add-hobby .card-wrapper,
+ .page-edit-hobby .card-wrapper{
+   height: 70vh;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+ }
 
 /* BUTTON */
 .btn {
@@ -239,14 +268,13 @@ body {
   color: #333;
 }
 
-
 .modal-footer .btn-primary {
   color: #333;
 }
 
 .delete-btn {
   padding: 0.75rem 1.4rem;
-  letter-spacing: 1.75px;
+  letter-spacing: 2px;
 
   color: #ffffff;
   transition: all 0.3s ease;
@@ -274,6 +302,43 @@ body {
 .btn-block {
   background-color: #ffc436;
 }
+
+.btn-link{
+  text-decoration: none;
+  color: #444444;
+}
+
+.page-persons .block-color-btn,
+.page-hobbies .block-color-btn{
+  background-color: #015d98;
+  color: #fff;
+}
+
+.page-persons .border-btn {
+  border: 1px solid #015d98;
+  color: #444;
+}
+
+.page-persons .block-color-btn:hover,
+.page-hobbies .block-color-btn:hover,
+.page-persons .block-color-btn:active
+.page-hobbies .block-color-btn:active{
+  color: #fff !important;
+  background-color: #1a82c5;
+}
+
+ .page-hobbies .wrapper .btn .nav-link{
+   column-gap: 0;
+   padding: 0.2rem 0.75rem;
+   border-radius: 2rem;
+   border: 0.5px solid;
+
+ }
+
+ .page-hobbies .wrapper .btn .nav-link:hover{
+   border: 1px solid #347dad;
+   transition: ease-in-out 0.4s;
+ }
 
 
 /* ICON */
@@ -347,7 +412,6 @@ body {
   padding: 0.55rem;
 }
 
-
 .form-input .form-floating textarea {
   height: 100px;
 }
@@ -357,7 +421,6 @@ body {
   border: none;
   background-color: #fafafa;
 }
-
 
 .form-select-lg {
   font-size: 1rem;
@@ -497,9 +560,7 @@ li ul .nav-link {
   height: 100%;
   min-width: 800px;
   --bs-table-color: none;
-
 }
-
 
 thead tr {
   background-color: #015d98;
@@ -538,6 +599,23 @@ thead tr {
   vertical-align: middle;
 }
 
+.page-persons table,
+.page-hobbies table{
+  border-left: 1px solid #dddddd;
+  border-right: 1px solid #dddddd;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.09);
+
+}
+
+.page-persons table tr td,
+.page-hobbies table tr td{
+  line-height: 1.5rem;
+}
+
+.page-persons .material-symbols-outlined,
+.page-hobbies .material-symbols-outlined{
+  font-size: 2.4rem;
+}
 
 /*CARD*/
 .number {

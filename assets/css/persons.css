@@ -4,22 +4,6 @@
   right: 0;
 }
 
-.page-persons .view-btn {
-  background-color: #015d98;
-  color: #fff;
-}
-
-.page-persons .edit-btn {
-  border: 1px solid #015d98;
-  color: #444;
-}
-
-.page-persons .view-btn:hover,
-.page-persons .view-btn:active {
-  color: #fff !important;
-  background-color: #1a82c5;
-}
-
 .page-persons form .wrapper{
   row-gap: 1rem;
 }
@@ -29,24 +13,9 @@
   align-items: center;
 }
 
-.page-persons table{
-  border-left: 1px solid #dddddd;
-  border-right: 1px solid #dddddd;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.09);
-
-}
-
 .page-persons .btn-reset:hover,
 .page-persons .btn-reset:active{
   color: #015d98;
-}
-
-.page-persons table tr td{
-  line-height: 1.5rem;
-}
-
-.page-persons .material-symbols-outlined {
-  font-size: 2.4rem;
 }
 
 .page-persons .pagination-btn{

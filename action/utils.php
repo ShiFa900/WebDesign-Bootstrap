@@ -56,18 +56,15 @@ function redirectIfUserAlreadyLogin(): void
  * and then set 'userNotAuthenticate' label in session if the user's role is a MEMBER
  * @param string $userEmail
  * @param string $role
- * @return bool
  */
-function checkRole(string $userEmail, string $role): bool
+function checkRole(string $userEmail, string $role): void
 {
     $persons = getAll();
-    $user = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $userEmail);
-//    $user = getPerson(persons: $persons, email: $userEmail);
-    if ($user[PERSON_ROLE] != $role) {
-        $_SESSION["user"] = "Sorry, your role is MEMBER. Only ADMIN can create, edit and delete person data.";
-        redirect("persons.php", "");
-    }
-    return true;
+        $user = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $userEmail);
+        if ($user[PERSON_ROLE] != $role) {
+            $_SESSION["user"] = "Sorry, your role is MEMBER. Only ADMIN can create, edit and delete person data.";
+            redirect("persons.php", "");
+        }
 }
 
 //==============================
@@ -196,7 +193,7 @@ function getAll(): array
 /**
  * get Person hobbies from database
  * @param string $id
- * @return array
+ * @return array of hobbies
  */
 function getPersonHobbiesFromDb(string $id): array
 {
@@ -223,7 +220,27 @@ function getPersonHobbiesFromDb(string $id): array
         $result[] = $hobby;
     }
     return $result;
+}
 
+/**
+ * return all hobbies that valid by given id
+ * @param string $hobbyId
+ * @return array|false
+ */
+function getHobby(string $hobbyId): array|false
+{
+    global $PDO;
+
+    try {
+        $query = "SELECT * FROM `hobbies` WHERE id = :id";
+        $stmt = $PDO->prepare($query);
+        $stmt->execute(array(
+            "id" => $hobbyId
+        ));
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e){
+        die("Query error: " . $e->getMessage());
+    }
 }
 
 /**
@@ -333,6 +350,45 @@ function savePerson(array $person, string $location): void
             redirect("../" . $location, "person=" . $person[ID]);
         } catch (PDOException $e) {
             die('Query error: ' . $e->getMessage());
+        }
+    }
+}
+
+function saveHobby(array $hobby, string $location)
+{
+    global $PDO;
+    if ($hobby[ID] == null) {
+        try {
+            $query = "INSERT INTO `hobbies` (name, person_id) VALUES (:name, :person_id)";
+            $stmt = $PDO->prepare($query);
+            $stmt->execute(array(
+                "name" => $hobby[HOBBIES_NAME],
+                "person_id" => $hobby[HOBBIES_PERSON_ID]
+            ));
+
+            $PDO = null;
+            $stmt = null;
+
+            $_SESSION["info"] = "Successfully save new hobby " . $hobby[HOBBIES_NAME] . "!";
+            redirect("../" . $location, "person=" . $hobby[HOBBIES_PERSON_ID]);
+        } catch (PDOException $e) {
+            die("Query error: " . $e->getMessage());
+        }
+    } else {
+        try {
+            $query = "UPDATE `hobbies` SET name= :name, person_id= :person_id";
+            $stmt = $PDO->prepare($query);
+            $stmt->execute(array(
+                "name" => $hobby[HOBBIES_NAME],
+                "person_id" => $hobby[HOBBIES_PERSON_ID]
+            ));
+
+            $PDO = null;
+            $stmt = null;
+            $_SESSION["info"] = "Successfully edit hobby of " . $hobby[HOBBIES_NAME] . "!";
+            redirect("../" . $location, "person=" . $hobby[HOBBIES_PERSON_ID]);
+        } catch (PDOException $e) {
+            die("Query error: " . $e->getMessage());
         }
     }
 }

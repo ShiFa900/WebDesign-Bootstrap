@@ -109,13 +109,6 @@ function mainHeader(string $cssIdentifier, string $title, string $link, array|nu
         endif;
         ?>
 
-        <!--    <link rel="stylesheet" href="/assets/css/persons.css"/>-->
-        <!--    <link rel="stylesheet" href="/assets/css/addPerson.css"/>-->
-        <!--    <link rel="stylesheet" href="/assets/css/myProfile.css"/>-->
-        <!--    <link rel="stylesheet" href="/assets/css/editPerson.css"/>-->
-        <!--    <link rel="stylesheet" href="/assets/css/viewPerson.css"/>-->
-        <!--    <link rel="stylesheet" href="/assets/css/dashboard.css"/>-->
-
         <title>PerMap &mdash; <?= $title ?></title>
     </head>
 <body class="<?= $cssIdentifier ?>">

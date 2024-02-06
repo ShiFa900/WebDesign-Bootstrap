@@ -3,7 +3,6 @@ require_once __DIR__ . "/action/utils.php";
 require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
 require_once __DIR__ . "/include/showPaginationButton.php";
-require_once __DIR__ . "/action/action-persons.php";
 require_once __DIR__ . "/action/pagination.php";
 
 redirectIfNotAuthenticated();
@@ -11,29 +10,33 @@ mainHeader(cssIdentifier: "page-hobbies", title: "Person Hobbies", link: "person
 $persons = getAll();
 $hobbies = getPersonHobbiesFromDb($_GET["person"]);
 $person = findFirstFromArray(array: $persons, key: ID, value: $_GET["person"]);
+$_SESSION["personId"] = $person[ID];
 ?>
     <div class="hobbies-content position-absolute px-5">
-        <div class="content-wrapper d-flex justify-content-between">
-            <div class="left d-flex gap-4 page-header ">
-                <a class="nav-link" href="persons.php">
-                    <!--tampilkan singular dan plural-->
-                    <h1 class="first-heading">Hobby</h1>
-                </a>
-                <div class="add-person d-flex justify-content-end mb-0">
-                    <a href="add-person.php" class="nav-link btn-content">
-                        <div style="fill: #000000" class="person-img-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
-                                <path d="M376 144c-3.92 52.87-44 96-88 96s-84.15-43.12-88-96c-4-55 35-96 88-96s92 42 88 96z"
-                                      fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                      stroke-width="32"/>
-                                <path d="M288 304c-87 0-175.3 48-191.64 138.6-2 10.92 4.21 21.4 15.65 21.4H464c11.44 0 17.62-10.48 15.65-21.4C463.3 352 375 304 288 304z"
-                                      fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/>
-                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                      stroke-width="32" d="M88 176v112M144 232H32"/>
-                            </svg>
-                        </div>
+        <div class="content-wrapper d-xl-flex justify-content-between d-md-block">
+            <div class="left d-flex">
+                <div class="page-header d-flex gap-4">
+                    <a class="nav-link" href="persons.php">
+                        <!--tampilkan singular dan plural-->
+                        <h1 class="first-heading"><?php if (count($hobbies) > 1) {
+                                echo "Hobbies";
+                            } else {
+                                echo "Hobby";
+                            } ?></h1>
                     </a>
+                    <div class="added d-flex justify-content-end mb-0">
+                        <a href="add-hobby.php" class="nav-link btn-content">
+                            <div style="fill: #000000" class="header-page-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
+                                    <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="32" d="M256 112v288M400 256H112"/>
+                                </svg>
+                            </div>
+                        </a>
+                    </div>
                 </div>
+
             </div>
             <div class="right">
                 <!--SEARCH-->
@@ -64,7 +67,7 @@ $person = findFirstFromArray(array: $persons, key: ID, value: $_GET["person"]);
                             <button class="btn btn-outline-success d-flex align-items-center column-gap-1"
                                     type="submit">
                                 <span class="d-xl-none d-flex flex-column">Search</span>
-                                <div style="fill: #000000" class="person-img-icon search-icon">
+                                <div style="fill: #000000" class="header-page-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
                                         <path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
                                               fill="none" stroke="currentColor" stroke-miterlimit="10"
@@ -77,10 +80,10 @@ $person = findFirstFromArray(array: $persons, key: ID, value: $_GET["person"]);
 
                             <!--btn ini hanya tampil saat filter atau keyword pencarian ada-->
                             <?php
-                            if (isset($_GET["keyword"]) || isset($_GET["category"])) {
+                            if (isset($_GET["keyword"])) {
                                 ?>
                                 <button class="btn btn-reset ms-2" name="reset">
-                                    <div style="fill: #000000" class="person-img-icon">
+                                    <div style="fill: #000000" class="header-page-icon">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
                                             <path d="M320 146s24.36-12-64-12a160 160 0 10160 160" fill="none"
                                                   stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10"
@@ -98,6 +101,15 @@ $person = findFirstFromArray(array: $persons, key: ID, value: $_GET["person"]);
                 </form>
             </div>
         </div>
+        <div class="wrapper">
+            <button class="btn mt-2">
+                <a class="nav-link d-flex justify-content-end" href="persons.php">
+                    <ion-icon src="/assets/properties/icon/chevron-back-outline.svg"
+                              class="material-symbols-outlined"></ion-icon>
+                    Back
+                </a>
+            </button>
+        </div>
         <?php
         if (count($hobbies) == 0) {
             ?>
@@ -112,54 +124,111 @@ $person = findFirstFromArray(array: $persons, key: ID, value: $_GET["person"]);
             <?php
         } else {
             ?>
-            <div class="table-container">
-                <div class="table-responsive">
-                    <table class="table" id="table">
-                        <thead>
-                        <tr>
-                            <th scope="col" class="text-center p-3">No</th>
-                            <th scope="col" class="p-3">Name</th>
-                            <th scope="col" class="text-center p-3">Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <?php
-                            $number = 1;
-                            foreach ($hobbies as $hobby) {
-                                ?>
-                                <td class="text-center"><?= $number++ ?></td>
-                                <td><?= $hobby[HOBBIES_NAME] ?></td>
-                                <td>
-                                    <div class="person-btn d-flex justify-content-center">
-                                        <button class="btn">
+            <div class="row">
+                <div class="col-xxl-12">
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-6 col-md-6 d-flex justify-content-center">
+                            <div class="table-container">
+                                <div class="table-responsive">
+                                    <table class="table" id="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col" class="text-center p-3">No</th>
+                                            <th scope="col" class="p-3">Name</th>
+                                            <th scope="col" class="text-center p-3">Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <?php
+                                            $number = 1;
+                                            foreach ($hobbies
 
-                                            <a
-                                                    href="#"
-                                                    class="nav-link table-nav edit-btn"
-                                            >Edit</a
-                                            >
-                                        </button>
-                                        <button class="btn">
-                                            <a
-                                                    href="#"
-                                                    class="nav-link table-nav edit-btn"
-                                            >Delete</a
-                                            >
-                                        </button>
-                                    </div>
-                                </td>
-                                <?php
-                            }
-                            ?>
-                        </tr>
-                        </tbody>
-                    </table>
+                                            as $hobby) {
+                                            ?>
+                                            <td class="text-center"><?= $number++ ?></td>
+                                            <td><?= $hobby[HOBBIES_NAME] ?></td>
+                                            <td>
+                                                <div class="person-btn d-flex justify-content-center">
+                                                    <button class="btn">
+
+                                                        <a
+                                                                href="edit-hobby.php?hobby=<?=$hobby[ID]?>"
+                                                                class="nav-link table-nav block-color-btn"
+                                                        >Edit</a
+                                                        >
+                                                    </button>
+                                                    <button class="btn">
+                                                        <a
+                                                                href="#"
+                                                                class="nav-link table-nav delete-btn"
+                                                        >Delete</a
+                                                        >
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                        }
+                                        ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <?php
         }
         ?>
+        <!-- Modal -->
+        <div
+                class="modal fade"
+                id="exampleModal"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+        >
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title" id="exampleModalLabel">
+                            Add new hobby:
+                        </h1>
+                        <div class="wrapper d-flex align-items-center ms-3">
+                            <form method="post" class="new-hobby-form" name="addHobby">
+                                <label for="hobbyName"></label>
+                                <input id="hobbyName" type="text" placeholder="example"
+                                       class="form-control" maxlength="30" minlength="3">
+
+                                <div class="modal-footer">
+                                    <a href="action/action-add-hobby.php">
+                                        <button type="submit" class="btn btn-secondary btn-block"
+                                                name="btnSave">
+                                            Save
+                                        </button>
+                                    </a>
+                                    <button
+                                            type="button"
+                                            class="btn btn-primary"
+                                            data-bs-dismiss="modal"
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                        ></button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 

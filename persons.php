@@ -42,7 +42,7 @@ $next = $personPaginated[PAGING_CURRENT_PAGE] + 1;
             </a>
             <div class="add-person d-flex justify-content-end mb-0">
                 <a href="add-person.php" class="nav-link btn-content">
-                    <div style="fill: #000000" class="person-img-icon">
+                    <div style="fill: #000000" class="header-page-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
                             <path d="M376 144c-3.92 52.87-44 96-88 96s-84.15-43.12-88-96c-4-55 35-96 88-96s92 42 88 96z"
                                   fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -120,7 +120,7 @@ $next = $personPaginated[PAGING_CURRENT_PAGE] + 1;
                         <button class="btn btn-outline-success d-flex align-items-center column-gap-1"
                                 type="submit">
                             <span class="d-xl-none d-flex flex-column">Search</span>
-                            <div style="fill: #000000" class="person-img-icon search-icon">
+                            <div style="fill: #000000" class="header-page-icon search-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
                                     <path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
                                           fill="none" stroke="currentColor" stroke-miterlimit="10"
@@ -136,7 +136,7 @@ $next = $personPaginated[PAGING_CURRENT_PAGE] + 1;
                         if (isset($_GET["keyword"]) || isset($_GET["category"])) {
                             ?>
                             <button class="btn btn-reset ms-2" name="reset">
-                                <div style="fill: #000000" class="person-img-icon">
+                                <div style="fill: #000000" class="header-page-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
                                         <path d="M320 146s24.36-12-64-12a160 160 0 10160 160" fill="none"
                                               stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10"
@@ -241,7 +241,7 @@ $next = $personPaginated[PAGING_CURRENT_PAGE] + 1;
                                                     }
                                                     ?>
                                                         href="my-profile.php"
-                                                        class="nav-link table-nav view-btn"
+                                                            class="nav-link table-nav block-color-btn"
                                                 >View</a
                                                 >
                                             </button>
@@ -259,7 +259,7 @@ $next = $personPaginated[PAGING_CURRENT_PAGE] + 1;
                                                         }
                                                         ?>
                                                             href="my-profile.php"
-                                                            class="nav-link table-nav edit-btn"
+                                                            class="nav-link table-nav border-btn"
                                                     >Edit</a
                                                     >
                                                     <?php
@@ -279,7 +279,7 @@ $next = $personPaginated[PAGING_CURRENT_PAGE] + 1;
                                                         }
                                                         ?>
                                                             href="my-profile.php"
-                                                            class="nav-link table-nav edit-btn"
+                                                            class="nav-link table-nav block-color-btn"
                                                     >Hobby</a
                                                     >
                                                     <?php

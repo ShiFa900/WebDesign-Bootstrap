@@ -5,7 +5,9 @@
     .page-view-person .view-person-content,
     .page-edit-person .edit-person-content,
     .page-my-profile .my-profile-content,
-    .page-hobbies .hobbies-content{
+    .page-hobbies .hobbies-content,
+    .page-add-hobby .add-hobby-content,
+    .page-edit-hobby .edit-hobby-content{
         left: 250px;
     }
 }
@@ -20,7 +22,8 @@
     }
 
     .page-persons .search-form .wrapper,
-    .page-persons .search-form .wrapper .form-search {
+    .page-persons .search-form .wrapper .form-search,
+    .page-hobbies .form-search{
         padding-bottom: 0.75rem;
     }
 }
@@ -41,7 +44,9 @@
     .page-view-person .view-person-content,
     .page-edit-person .edit-person-content,
     .page-my-profile .my-profile-content,
-    .page-hobbies .hobbies-content{
+    .page-hobbies .hobbies-content,
+    .page-add-hobby .add-hobby-content,
+    .page-edit-hobby .edit-hobby-content{
         left: 0;
         right: 0;
     }
@@ -55,7 +60,9 @@
     .page-view-person .view-person-content,
     .page-edit-person .edit-person-content,
     .page-my-profile .my-profile-content,
-    .page-hobbies .hobbies-content{
+    .page-hobbies .hobbies-content,
+    .page-add-hobby .add-hobby-content,
+    .page-edit-hobby .edit-hobby-content{
         left: 250px;
     }
 

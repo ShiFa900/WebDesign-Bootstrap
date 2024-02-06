@@ -49,7 +49,7 @@ redirectIfUserAlreadyLogin();
             <div class="row">
                 <!-- image -->
                 <div class="col-lg-6 d-none d-lg-flex">
-                    <img class="login-img" alt="person login into aplication"
+                    <img class="login-img" alt="person login into application"
                          src="assets/properties/Creative team-cuate.svg"/>
                 </div>
                 <!-- the form -->

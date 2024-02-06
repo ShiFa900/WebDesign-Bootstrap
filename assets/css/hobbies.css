@@ -1,4 +1,47 @@
+/*
+==========================
+       PAGE HOBBY
+==========================
+*/
 .page-hobbies .hobbies-content{
+    top: 100px;
+    right: 0;
+}
+
+.page-hobbies .header-page-icon{
+    width: 2rem;
+    display: flex;
+    align-items: center;
+}
+
+.page-hobbies .delete-btn{
+    padding: 0.3rem 0.75rem;
+    letter-spacing: 1px;
+    color: #ffffff;
+}
+
+.page-hobbies .content-wrapper{
+    margin-bottom: 0;
+}
+
+/*
+==========================
+       PAGE ADD HOBBY
+==========================
+*/
+.page-add-hobby .add-hobby-content{
+    top: 100px;
+    right: 0;
+}
+
+
+/*
+==========================
+       PAGE EDIT HOBBY
+==========================
+*/
+
+.page-edit-hobby .edit-hobby-content{
     top: 100px;
     right: 0;
 }

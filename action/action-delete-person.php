@@ -16,6 +16,13 @@ try {
     $stmt->execute(array(
         "id" => $personWillBeDeleted[ID]
     ));
+
+    $queryHobby = "DELETE FROM `hobbies` WHERE person_id = :person_id";
+    $stmt = $PDO->prepare($queryHobby);
+    $stmt->execute(array(
+        "person_id" => $personWillBeDeleted[ID]
+    ));
+
     $_SESSION["deleteSuccess"] = "Successfully delete person data of '" . $personWillBeDeleted[PERSON_FIRST_NAME] . "' !";
 } catch (PDOException $e){
     die("Query error: " . $e->getMessage());

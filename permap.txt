@@ -20,6 +20,10 @@ color palette: 0C356A, 0174BE, FFC436, FFF0CE
 
 - di beberapa page, icon dan teksnya menjadi bold
 - last logged in hanya akan terisi dengan waktu saat si user log out, bagaimana ketika session user berakhir?
+- apakah admin bisa mengedit hobby dari person?
+- edit hobby
+- tampilan untuk tiap page hobby
+- berikan id untuk page edit/add ssblum kembali ke page hobbies
 ===================================
 UPDATE PERMAP FEATURES:
 <one-to-many>
