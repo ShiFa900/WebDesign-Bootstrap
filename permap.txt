@@ -24,6 +24,10 @@ color palette: 0C356A, 0174BE, FFC436, FFF0CE
 - edit hobby
 - tampilan untuk tiap page hobby
 - berikan id untuk page edit/add ssblum kembali ke page hobbies
+- delete hobby
+- error pada SESSION["personId"] di beberapa waktu
+- mencari data (hobby)
+-
 ===================================
 UPDATE PERMAP FEATURES:
 <one-to-many>

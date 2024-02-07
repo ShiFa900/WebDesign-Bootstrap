@@ -16,6 +16,7 @@ const PAGING_TOTAL_PAGE = "PAGING_TOTAL_PAGE";
 const PAGING_DATA = "PAGING_DATA";
 const PAGING_CURRENT_PAGE = "PAGING_CURRENT_PAGE";
 const PAGE_LIMIT = 7;
+const PAGE_HOBBIES_LIMIT = 3;
 
 
 // Const for person personal data

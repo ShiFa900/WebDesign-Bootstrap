@@ -119,18 +119,14 @@ function getPersons(int $limit, int|string $page, string|null $category = null, 
         $getPersonCategory = getAgeCategory($data, $category);
 
         // sorting array person that will be shown for pagination
-        $indexStart = ($page - 1) * $limit;
-        $length = $limit;
-        if (($indexStart + $limit) > count($getPersonCategory)) {
-            $length = count($getPersonCategory) - $indexStart;
-        }
+       $sort = sortingDataForPagination(page: $page,limit: $limit,array: $getPersonCategory);
 
         // return information for persons page
         if ($count && $count['total'] > 0 && is_numeric($page)) {
             return array(
                 PAGING_TOTAL_PAGE => ceil(count($getPersonCategory) / $limit),
                 PAGING_CURRENT_PAGE => $page,
-                PAGING_DATA => array_slice($getPersonCategory, $indexStart, $length)
+                PAGING_DATA => array_slice($getPersonCategory, $sort["indexStart"], $sort["length"])
             );
         }
     } catch (PDOException $e) {
@@ -144,6 +140,73 @@ function getPersons(int $limit, int|string $page, string|null $category = null, 
         PAGING_CURRENT_PAGE => 1,
         PAGING_DATA => []
     );
+}
+
+function getHobbies(int $limit, int $page, int $personId, string|null $keyword = null){
+    global $PDO;
+    $keyword = "%$keyword%";
+    // mencari query untuk count
+    try {
+        $queryCount = "SELECT COUNT(*) as total FROM `hobbies` WHERE name LIKE :name AND person_id = :person_id";
+        $stmt = $PDO->prepare($queryCount);
+        $stmt->execute(array(
+            "name" => $keyword,
+            "person_id" => $personId
+        ));
+
+        $count = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $queryData = "SELECT * FROM `hobbies` WHERE name LIKE :name AND person_id = :person_id";
+        $stmt = $PDO->prepare($queryData);
+        $stmt->execute(array(
+            "name" => $keyword,
+            "person_id" => $personId
+        ));
+
+        $hobbyData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // sorting array person that will be shown for pagination
+        $sort = sortingDataForPagination(page: $page,limit: $limit,array: $hobbyData);
+
+        // return information for persons page
+        if ($count && $count["total"] > 0) {
+            return array(
+                PAGING_TOTAL_PAGE => ceil(count($hobbyData) / $limit),
+                PAGING_CURRENT_PAGE => $page,
+                PAGING_DATA => array_slice($hobbyData, $sort["indexStart"], $sort["length"])
+            );
+        }
+    }catch (PDOException $e){
+        die("Query error: " . $e->getMessage());
+    }
+
+    return array(
+        PAGING_TOTAL_PAGE => 1,
+        PAGING_CURRENT_PAGE => 1,
+        PAGING_DATA => []
+    );
+
+}
+
+function sortingDataForPagination(int $page, int $limit, array $array): array
+{
+    // sorting array person that will be shown for pagination
+    $indexStart = ($page - 1) * $limit;
+    $length = $limit;
+    if (($indexStart + $limit) > count($array)) {
+        $length = count($array) - $indexStart;
+    }
+    return array(
+        "length" => $length,
+        "indexStart" => $indexStart
+        );
+
+    // sorting array person that will be shown for pagination
+//    $indexStart = ($page - 1) * $limit;
+//    $length = $limit;
+//    if (($indexStart + $limit) > count($hobbyData)) {
+//        $length = count($hobbyData) - $indexStart;
+//    }
 }
 
 /**
@@ -200,7 +263,7 @@ function getPersonHobbiesFromDb(string $id): array
     global $PDO;
 
     try {
-        $query = "SELECT * FROM `hobbies` WHERE `person_id` = :id";
+        $query = "SELECT * FROM `hobbies` WHERE `person_id` = :id ORDER BY id DESC ";
         $stmt = $PDO->prepare($query);
         $stmt->execute(array(
             "id" => $id
@@ -223,7 +286,7 @@ function getPersonHobbiesFromDb(string $id): array
 }
 
 /**
- * return all hobbies that valid by given id
+ * return hobby that valid by given id
  * @param string $hobbyId
  * @return array|false
  */
@@ -237,10 +300,15 @@ function getHobby(string $hobbyId): array|false
         $stmt->execute(array(
             "id" => $hobbyId
         ));
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $hobby =  $stmt->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e){
         die("Query error: " . $e->getMessage());
     }
+
+    if(count($hobby) != 0){
+        return $hobby;
+    }
+    return [];
 }
 
 /**
@@ -354,7 +422,7 @@ function savePerson(array $person, string $location): void
     }
 }
 
-function saveHobby(array $hobby, string $location)
+function saveHobby(array $hobby, string $location): void
 {
     global $PDO;
     if ($hobby[ID] == null) {
@@ -362,7 +430,7 @@ function saveHobby(array $hobby, string $location)
             $query = "INSERT INTO `hobbies` (name, person_id) VALUES (:name, :person_id)";
             $stmt = $PDO->prepare($query);
             $stmt->execute(array(
-                "name" => $hobby[HOBBIES_NAME],
+                "name" => ucfirst($hobby[HOBBIES_NAME]),
                 "person_id" => $hobby[HOBBIES_PERSON_ID]
             ));
 
@@ -376,10 +444,11 @@ function saveHobby(array $hobby, string $location)
         }
     } else {
         try {
-            $query = "UPDATE `hobbies` SET name= :name, person_id= :person_id";
+            $query = "UPDATE `hobbies` SET id = :id, name= :name, person_id= :person_id WHERE id = :id";
             $stmt = $PDO->prepare($query);
             $stmt->execute(array(
-                "name" => $hobby[HOBBIES_NAME],
+                "id" => $hobby[ID],
+                "name" => ucfirst($hobby[HOBBIES_NAME]),
                 "person_id" => $hobby[HOBBIES_PERSON_ID]
             ));
 
@@ -397,7 +466,7 @@ function saveHobby(array $hobby, string $location)
 /**
  * convert given date into timestamp
  * @param mixed $date given data from a form
- * @return int
+ * @return int|null
  */
 function convertDateToTimestamp(mixed $date): int|null
 {

@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . "/utils.php";
 require_once __DIR__ . "/const.php";
-// jika person dihapus, maka hobby juga terhapus (agar tidak menimbulkan error nantinya
+// jika person dihapus, maka hobby juga terhapus (agar tidak menimbulkan error nantinya)
 session_start();
 
 $hobby = [

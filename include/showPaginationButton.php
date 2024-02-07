@@ -10,20 +10,23 @@
  *
  */
 function showPaginationButton(
-        array $displayingData,
-        int $prev,
-        int $next,
-        int $page,
-        string|null $keyword = null,
-        string|null $category = null): void
+    array       $displayingData,
+    int         $prev,
+    int         $next,
+    int         $page,
+    string|null $personId = null,
+    string|null $keyword = null,
+    string|null $category = null): void
 {
 
     if ($page <= 1) {
         ?>
         <button class="btn" disabled>
             <a class="nav-link d-flex justify-content-end">
-                <ion-icon src="/assets/properties/icon/chevron-back-outline.svg"
-                          class="material-symbols-outlined"></ion-icon>
+                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon material-symbols-outlined" viewBox="0 0 512 512">
+                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                          stroke-width="48" d="M328 112L184 256l144 144"/>
+                </svg>
             </a>
         </button>
 
@@ -34,9 +37,13 @@ function showPaginationButton(
 
             <button class="btn">
                 <a class="nav-link d-flex justify-content-end"
-                   href="?page=<?= $prev ?>&category=<?= $category ?>&keyword=<?= $keyword ?>">
-                    <ion-icon src="/assets/properties/icon/chevron-back-outline.svg"
-                              class="material-symbols-outlined"></ion-icon>
+                   href="?page=<?= $prev ?>&category=<?= $category ?>&keyword=<?= $keyword ?>&person=<?=$personId?>">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon material-symbols-outlined"
+                         viewBox="0 0 512 512">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="48" d="M328 112L184 256l144 144"/>
+                    </svg>
+
                 </a>
             </button>
             <?php
@@ -44,9 +51,13 @@ function showPaginationButton(
             ?>
             <button class="btn">
                 <a class="nav-link d-flex justify-content-end"
-                   href="?page=<?= $prev ?>">
-                    <ion-icon src="/assets/properties/icon/chevron-back-outline.svg"
-                              class="material-symbols-outlined"></ion-icon>
+                   href="?page=<?= $prev ?>&person=<?=$personId?>">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon material-symbols-outlined"
+                         viewBox="0 0 512 512">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="48" d="M328 112L184 256l144 144"/>
+                    </svg>
+
                 </a>
             </button>
             <?php
@@ -65,8 +76,10 @@ function showPaginationButton(
         ?>
         <button class="btn" disabled>
             <a class="nav-link d-flex justify-content-end">
-                <ion-icon src="/assets/properties/icon/chevron-forward-outline.svg"
-                          class="material-symbols-outlined"></ion-icon>
+                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon material-symbols-outlined" viewBox="0 0 512 512">
+                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                          stroke-width="48" d="M184 112l144 144-144 144"/>
+                </svg>
             </a>
         </button>
         <?php
@@ -75,10 +88,13 @@ function showPaginationButton(
             ?>
             <button class="btn">
                 <a class="nav-link d-flex justify-content-end"
-                   href="?page=<?= $next ?>&category=<?= $category ?>&keyword=<?= $keyword ?>">
+                   href="?page=<?= $next ?>&category=<?= $category ?>&keyword=<?= $keyword ?>&person=<?=$personId?>">
 
-                    <ion-icon src="/assets/properties/icon/chevron-forward-outline.svg"
-                              class="material-symbols-outlined"></ion-icon>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon material-symbols-outlined"
+                         viewBox="0 0 512 512">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="48" d="M184 112l144 144-144 144"/>
+                    </svg>
                 </a>
             </button>
             <?php
@@ -86,9 +102,11 @@ function showPaginationButton(
             ?>
             <button class="btn">
                 <a class="nav-link d-flex justify-content-end"
-                   href="?page=<?= $next ?>">
-                    <ion-icon src="/assets/properties/icon/chevron-forward-outline.svg"
-                              class="material-symbols-outlined"></ion-icon>
+                   href="?page=<?= $next ?>&person=<?=$personId?>">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon material-symbols-outlined" viewBox="0 0 512 512">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="48" d="M184 112l144 144-144 144"/>
+                    </svg>
                 </a>
             </button>
             <?php
