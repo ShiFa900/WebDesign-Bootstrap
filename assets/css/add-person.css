@@ -1,24 +1,24 @@
 .add-person-content {
-  top: 100px;
-  right: 0;
-  left: 255px;
+    top: 100px;
+    right: 0;
+    left: 255px;
 }
 
 .form-input .form-floating textarea {
-  height: 145px;
+    height: 145px;
 }
 
 .form-input-add-person {
-  margin: 1.6rem 0;
+    margin: 1.6rem 0;
 }
 
 .form-input-add-person input,
 .form-input-add-person select,
 .form-input-add-person textarea {
-  border: 1px solid #ddd !important;
+    border: 1px solid #ddd !important;
 }
 
 .form-input-add-person .smallText {
-  font-size: 0.85rem !important;
-  color: #015d98;
+    font-size: 0.85rem !important;
+    color: #015d98;
 }

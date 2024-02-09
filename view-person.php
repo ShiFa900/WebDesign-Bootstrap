@@ -28,7 +28,7 @@ $arrayRole = sortRole($person[PERSON_ROLE]);
 $_SESSION["personId"] = $person[ID];
 
 // get current user
-$currentUser = findFirstFromArray(array: $persons,key: PERSON_EMAIL,value: $_SESSION["userEmail"]);
+$currentUser = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
 
 
 ?>

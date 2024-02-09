@@ -14,4 +14,4 @@ $hobby = [
     HOBBIES_NAME => $userInput["hobbyName"] == null ? $currentHobby[HOBBIES_NAME] : $userInput["hobbyName"],
     HOBBIES_PERSON_ID => $currentHobby[HOBBIES_PERSON_ID]
 ];
-saveHobby(hobby: $hobby,location: "hobbies.php");
+saveHobby(hobby: $hobby, location: "hobbies.php");

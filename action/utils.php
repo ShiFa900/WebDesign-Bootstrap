@@ -60,11 +60,11 @@ function redirectIfUserAlreadyLogin(): void
 function checkRole(string $userEmail, string $role): void
 {
     $persons = getAll();
-        $user = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $userEmail);
-        if ($user[PERSON_ROLE] != $role) {
-            $_SESSION["user"] = "Sorry, your role is MEMBER. Only ADMIN can create, edit and delete person data.";
-            redirect("persons.php", "");
-        }
+    $user = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $userEmail);
+    if ($user[PERSON_ROLE] != $role) {
+        $_SESSION["user"] = "Sorry, your role is MEMBER. Only ADMIN can create, edit and delete person data.";
+        redirect("persons.php", "");
+    }
 }
 
 //==============================
@@ -119,7 +119,7 @@ function getPersons(int $limit, int|string $page, string|null $category = null, 
         $getPersonCategory = getAgeCategory($data, $category);
 
         // sorting array person that will be shown for pagination
-       $sort = sortingDataForPagination(page: $page,limit: $limit,array: $getPersonCategory);
+        $sort = sortingDataForPagination(page: $page, limit: $limit, array: $getPersonCategory);
 
         // return information for persons page
         if ($count && $count['total'] > 0 && is_numeric($page)) {
@@ -142,7 +142,8 @@ function getPersons(int $limit, int|string $page, string|null $category = null, 
     );
 }
 
-function getHobbies(int $limit, int $page, int $personId, string|null $keyword = null){
+function getHobbies(int $limit, int $page, int $personId, string|null $keyword = null)
+{
     global $PDO;
     $keyword = "%$keyword%";
     // mencari query untuk count
@@ -156,7 +157,7 @@ function getHobbies(int $limit, int $page, int $personId, string|null $keyword =
 
         $count = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $queryData = "SELECT * FROM `hobbies` WHERE name LIKE :name AND person_id = :person_id";
+        $queryData = "SELECT * FROM `hobbies` WHERE name LIKE :name AND person_id = :person_id ORDER BY id DESC ";
         $stmt = $PDO->prepare($queryData);
         $stmt->execute(array(
             "name" => $keyword,
@@ -166,7 +167,7 @@ function getHobbies(int $limit, int $page, int $personId, string|null $keyword =
         $hobbyData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // sorting array person that will be shown for pagination
-        $sort = sortingDataForPagination(page: $page,limit: $limit,array: $hobbyData);
+        $sort = sortingDataForPagination(page: $page, limit: $limit, array: $hobbyData);
 
         // return information for persons page
         if ($count && $count["total"] > 0) {
@@ -176,7 +177,7 @@ function getHobbies(int $limit, int $page, int $personId, string|null $keyword =
                 PAGING_DATA => array_slice($hobbyData, $sort["indexStart"], $sort["length"])
             );
         }
-    }catch (PDOException $e){
+    } catch (PDOException $e) {
         die("Query error: " . $e->getMessage());
     }
 
@@ -199,7 +200,7 @@ function sortingDataForPagination(int $page, int $limit, array $array): array
     return array(
         "length" => $length,
         "indexStart" => $indexStart
-        );
+    );
 
     // sorting array person that will be shown for pagination
 //    $indexStart = ($page - 1) * $limit;
@@ -258,15 +259,15 @@ function getAll(): array
  * @param string $id
  * @return array of hobbies
  */
-function getPersonHobbiesFromDb(string $id): array
+function getPersonHobbiesFromDb(string $personId): array
 {
     global $PDO;
 
     try {
-        $query = "SELECT * FROM `hobbies` WHERE `person_id` = :id ORDER BY id DESC ";
+        $query = "SELECT * FROM `hobbies` WHERE `person_id` = :person_id";
         $stmt = $PDO->prepare($query);
         $stmt->execute(array(
-            "id" => $id
+            "person_id" => $personId
         ));
         $personHobbies = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -300,12 +301,12 @@ function getHobby(string $hobbyId): array|false
         $stmt->execute(array(
             "id" => $hobbyId
         ));
-        $hobby =  $stmt->fetch(PDO::FETCH_ASSOC);
-    } catch (PDOException $e){
+        $hobby = $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
         die("Query error: " . $e->getMessage());
     }
 
-    if(count($hobby) != 0){
+    if (count($hobby) != 0) {
         return $hobby;
     }
     return [];
@@ -381,7 +382,7 @@ function savePerson(array $person, string $location): void
             $PDO = null;
             $statement = null;
 
-            $_SESSION["info"] = "Successfully add person data of " . $person[PERSON_FIRST_NAME];
+            $_SESSION["info"] = "Successfully add person data of '" . $person[PERSON_FIRST_NAME] . "'!";
             redirect("../" . $location, "person=" . $person[PERSON_EMAIL]);
 
         } catch (PDOException $e) {
@@ -414,7 +415,7 @@ function savePerson(array $person, string $location): void
             $PDO = null;
             $stmt = null;
 
-            $_SESSION["info"] = "Successfully edit person data of " . $person[PERSON_FIRST_NAME] . "!";
+            $_SESSION["info"] = "Successfully edit person data of '" . $person[PERSON_FIRST_NAME] . "'!";
             redirect("../" . $location, "person=" . $person[ID]);
         } catch (PDOException $e) {
             die('Query error: ' . $e->getMessage());
@@ -437,7 +438,7 @@ function saveHobby(array $hobby, string $location): void
             $PDO = null;
             $stmt = null;
 
-            $_SESSION["info"] = "Successfully save new hobby " . $hobby[HOBBIES_NAME] . "!";
+            $_SESSION["info"] = "Successfully save new hobby '" . $hobby[HOBBIES_NAME] . "'!";
             redirect("../" . $location, "person=" . $hobby[HOBBIES_PERSON_ID]);
         } catch (PDOException $e) {
             die("Query error: " . $e->getMessage());
@@ -454,7 +455,7 @@ function saveHobby(array $hobby, string $location): void
 
             $PDO = null;
             $stmt = null;
-            $_SESSION["info"] = "Successfully edit hobby of " . $hobby[HOBBIES_NAME] . "!";
+            $_SESSION["info"] = "Successfully edit hobby of '" . $hobby[HOBBIES_NAME] . "'!";
             redirect("../" . $location, "person=" . $hobby[HOBBIES_PERSON_ID]);
         } catch (PDOException $e) {
             die("Query error: " . $e->getMessage());

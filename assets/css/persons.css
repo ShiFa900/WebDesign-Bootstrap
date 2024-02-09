@@ -1,29 +1,29 @@
 
 .page-persons .person-content {
-  top: 100px;
-  right: 0;
+    top: 100px;
+    right: 0;
 }
 
-.page-persons form .wrapper{
-  row-gap: 1rem;
+.page-persons form .wrapper {
+    row-gap: 1rem;
 }
 
-.page-persons .first-heading{
-  display: flex;
-  align-items: center;
+.page-persons .first-heading {
+    display: flex;
+    align-items: center;
 }
 
 .page-persons .btn-reset:hover,
-.page-persons .btn-reset:active{
-  color: #015d98;
+.page-persons .btn-reset:active {
+    color: #015d98;
 }
 
-.page-persons .pagination-btn{
-  margin: 1rem;
+.page-persons .pagination-btn {
+    margin: 1rem;
 }
 
-.page-persons .add-person .nav-link svg{
-  width: 1.75rem!important;
-  stroke: #444444 !important;
+.page-persons .add-person .nav-link svg {
+    width: 1.75rem !important;
+    stroke: #444444 !important;
 }
 

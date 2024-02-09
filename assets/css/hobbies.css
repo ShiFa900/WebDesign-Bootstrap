@@ -3,53 +3,67 @@
        PAGE HOBBY
 ==========================
 */
-.page-hobbies .hobbies-content{
+.page-hobbies .hobbies-content {
     top: 100px;
     right: 0;
 }
 
-.page-hobbies .header-page-icon{
+.page-hobbies .header-page-icon {
     width: 2rem;
     display: flex;
     align-items: center;
 }
 
-.page-hobbies .delete-btn{
+.page-hobbies .delete-btn {
     padding: 0.3rem 0.75rem;
     letter-spacing: 1px;
     color: #ffffff;
 }
 
-.page-hobbies .header-sm-title{
+.page-hobbies .header-sm-title {
     font-size: 1.2rem;
     font-family: "Montserrat", serif;
 }
 
-.page-hobbies .wrapper .btn .btn-back svg{
+.page-hobbies .wrapper button .btn-back svg {
     width: 1.75rem;
 }
 
-.page-hobbies .wrapper .btn .btn-back{
+.page-hobbies .wrapper button .btn-back {
     column-gap: 0;
     padding: 0.2rem 0.75rem;
     border-radius: 2rem;
     border: 1px solid #444444;
 }
 
-.page-hobbies .wrapper .btn .btn-back:hover {
+.page-hobbies .wrapper button .btn-back:hover{
     border: 1px solid #347dad;
-    transition: ease-in-out 0.4s;
+    transition: ease-in-out 0.2s;
+    max-width: 100%;
+}
+
+.page-hobbies .wrapper button .btn-back span.long{
+    display: none;
+}
+
+.page-hobbies .wrapper button:hover span.short
+{
+    display: none;
+}
+
+.page-hobbies .wrapper button:hover span.long
+{
+    display: block;
 }
 /*
 ==========================
        PAGE ADD HOBBY
 ==========================
 */
-.page-add-hobby .add-hobby-content{
+.page-add-hobby .add-hobby-content {
     top: 100px;
     right: 0;
 }
-
 
 /*
 ==========================
@@ -57,7 +71,7 @@
 ==========================
 */
 
-.page-edit-hobby .edit-hobby-content{
+.page-edit-hobby .edit-hobby-content {
     top: 100px;
     right: 0;
 }

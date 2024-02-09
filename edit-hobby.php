@@ -36,12 +36,12 @@ mainHeader(cssIdentifier: "page-edit-hobby", title: "Edit Hobby", link: "edit-ho
                                                         <label for="hobbyName" class="form-label">Hobby name</label>
                                                         <input type="text" id="hobbyName" class="form-control"
                                                                name="hobbyName" maxlength="30" minlength="3"
-                                                               value="<?=$currentHobby[HOBBIES_NAME];?>">
+                                                               value="<?= $currentHobby[HOBBIES_NAME]; ?>">
                                                     </div>
 
                                                     <div class="btn-container d-flex column-gap-3">
                                                         <a class="btn btn-primary btn--form has-border" type="submit"
-                                                           href="hobbies.php?person=<?=$_SESSION["personId"];?>">
+                                                           href="hobbies.php?person=<?= $_SESSION["personId"]; ?>">
                                                             Cancel
                                                         </a>
                                                         <button class="btn btn-primary btn--form" type="submit"

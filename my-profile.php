@@ -10,7 +10,7 @@ mainHeader(cssIdentifier: "page-my-profile", title: "My Profile", link: "my-prof
 $persons = getAll();
 // get user data by given email
 //$person = getPerson(persons: $persons, email: $_SESSION["userEmail"]);
-$person = findFirstFromArray(array: $persons,key: PERSON_EMAIL,value: $_SESSION["userEmail"]);
+$person = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
 $_SESSION["userData"] = $person;
 
 $arraySex = sortSex($person[PERSON_SEX]);

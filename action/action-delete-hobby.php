@@ -5,9 +5,9 @@ global $PDO;
 
 $hobby = getHobby($_GET["hobby"]);
 $persons = getAll();
-$personWithHobby = findFirstFromArray(array: $persons,key: ID,value: $hobby[HOBBIES_PERSON_ID]);
+$personWithHobby = findFirstFromArray(array: $persons, key: ID, value: $hobby[HOBBIES_PERSON_ID]);
 
-if($hobby == null){
+if ($hobby == null) {
     $_SESSION["noHobbyFound"] = "Sorry, no hobby found";
     redirect("../hobbies.php", "person=" . $personWithHobby[ID]);
 }
@@ -18,7 +18,7 @@ try {
         "id" => $hobby[ID]
     ));
     $_SESSION["deleteSuccess"] = "Successfully delete hobby of '" . $hobby[HOBBIES_NAME] . "' !";
-} catch (PDOException $e){
+} catch (PDOException $e) {
     die("Query error: " . $e->getMessage());
 }
 

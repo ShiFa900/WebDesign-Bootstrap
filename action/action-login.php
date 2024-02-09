@@ -15,7 +15,7 @@ if (isset($_POST['login'])) { //ini
         $_SESSION['userEmail'] = $_POST['email'];
         $_SESSION['startTime'] = time();
         if (checkPersonStatus($person)) {
-           redirect("../login.php","userPassedAway");
+            redirect("../login.php", "userPassedAway");
         } else {
             header("Location: ../dashboard.php");
         }

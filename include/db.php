@@ -20,7 +20,7 @@ $dsn = 'mysql:host=' . $host . ';dbname=' . $schema;
 // Try to connect to the db:
 try {
     /* PDO object creation */
-    $PDO = new PDO($dsn, $user,  $passwd);
+    $PDO = new PDO($dsn, $user, $passwd);
 
     /* Enable exceptions on errors */
     $PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

@@ -229,60 +229,38 @@ $next = $personPaginated[PAGING_CURRENT_PAGE] + 1;
                                     </td>
 
                                     <td>
-                                        <div class="person-btn d-flex justify-content-center">
-                                            <button class="btn" name="btn-view">
-                                                <a
-
-                                                    <?php
-                                                    if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
-                                                        ?>
-                                                        href="view-person.php?person=<?php echo $person[ID] ?>"
+                                        <div class="person-btn d-flex justify-content-center align-items-center">
+                                            <div class="dropdown">
+                                                <button class="btn main-nav-link dropdown-btn block-color-btn" name="btn-view">
+                                                    View
+                                                </button>
+                                                <div class="dropdown-content">
+                                                    <a <?php
+                                                        if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
+                                                        ?> href="view-person.php?person=<?php echo $person[ID] ?>"
                                                         <?php
-                                                    }
-                                                    ?>
-                                                        href="my-profile.php"
-                                                            class="nav-link table-nav block-color-btn"
-                                                >View</a
-                                                >
-                                            </button>
+                                                        }
+                                                        ?> class="dropdown-item" href="my-profile.php">View person
+                                                    </a>
+                                                        <a <?php
+                                                            if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
+                                                            ?> href="hobbies.php?person=<?php echo $person[ID] ?>"
+                                                            <?php
+                                                            }
+                                                            ?> class="dropdown-item">View hobby</a>
+                                                </div>
+                                            </div>
 
                                             <button class="btn">
                                                 <?php
                                                 if ($userRole[PERSON_ROLE] == ROLE_ADMIN) {
-                                                    ?>
-                                                    <a
-                                                        <?php
-                                                        if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
-                                                            ?>
-                                                            href="edit-person.php?person=<?php echo $person[ID] ?>"
-                                                            <?php
-                                                        }
-                                                        ?>
-                                                            href="my-profile.php"
-                                                            class="nav-link table-nav border-btn"
-                                                    >Edit</a
-                                                    >
-                                                    <?php
-                                                }
                                                 ?>
-                                            </button>
-                                            <button class="btn">
-                                                <?php
-                                                if ($userRole[PERSON_ROLE] == ROLE_ADMIN) {
-                                                    ?>
-                                                    <a
-                                                        <?php
+                                                    <a <?php
                                                         if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
-                                                            ?>
-                                                            href="hobbies.php?person=<?php echo $person[ID] ?>"
-                                                            <?php
-                                                        }
-                                                        ?>
-                                                            href="my-profile.php"
-                                                            class="nav-link table-nav block-color-btn"
-                                                    >Hobby</a
-                                                    >
-                                                    <?php
+                                                        ?> href="edit-person.php?person=<?php echo $person[ID] ?>" <?php
+                                                                                                                }
+                                                                                                                    ?> href="my-profile.php" class="nav-link table-nav border-btn">Edit</a>
+                                                <?php
                                                 }
                                                 ?>
                                             </button>

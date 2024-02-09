@@ -1,83 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 
     <!-- Favicon -->
     <link
+            href="../assets/properties/favicon/apple-icon-57x57.png"
             rel="apple-touch-icon"
             sizes="57x57"
-            href="../assets/properties/favicon/apple-icon-57x57.png"
     />
     <link
+            href="../assets/properties/favicon/apple-icon-60x60.png"
             rel="apple-touch-icon"
             sizes="60x60"
-            href="../assets/properties/favicon/apple-icon-60x60.png"
     />
     <link
+            href="../assets/properties/favicon/apple-icon-72x72.png"
             rel="apple-touch-icon"
             sizes="72x72"
-            href="../assets/properties/favicon/apple-icon-72x72.png"
     />
     <link
+            href="../assets/properties/favicon/apple-icon-76x76.png"
             rel="apple-touch-icon"
             sizes="76x76"
-            href="../assets/properties/favicon/apple-icon-76x76.png"
     />
     <link
+            href="../assets/properties/favicon/apple-icon-114x114.png"
             rel="apple-touch-icon"
             sizes="114x114"
-            href="../assets/properties/favicon/apple-icon-114x114.png"
     />
     <link
+            href="../assets/properties/favicon/apple-icon-120x120.png"
             rel="apple-touch-icon"
             sizes="120x120"
-            href="../assets/properties/favicon/apple-icon-120x120.png"
     />
     <link
+            href="../assets/properties/favicon/apple-icon-144x144.png"
             rel="apple-touch-icon"
             sizes="144x144"
-            href="../assets/properties/favicon/apple-icon-144x144.png"
     />
     <link
+            href="../assets/properties/favicon/apple-icon-152x152.png"
             rel="apple-touch-icon"
             sizes="152x152"
-            href="../assets/properties/favicon/apple-icon-152x152.png"
     />
     <link
+            href="../assets/properties/favicon/apple-icon-180x180.png"
             rel="apple-touch-icon"
             sizes="180x180"
-            href="../assets/properties/favicon/apple-icon-180x180.png"
     />
     <link
-            rel="icon"
-            type="image/png"
-            sizes="192x192"
             href="../assets/properties/favicon/android-icon-192x192.png"
+            rel="icon"
+            sizes="192x192"
+            type="image/png"
     />
     <link
-            rel="icon"
-            type="image/png"
-            sizes="32x32"
             href="../assets/properties/favicon/favicon-32x32.png"
+            rel="icon"
+            sizes="32x32"
+            type="image/png"
     />
     <link
-            rel="icon"
-            type="image/png"
-            sizes="96x96"
             href="../assets/properties/favicon/favicon-96x96.png"
+            rel="icon"
+            sizes="96x96"
+            type="image/png"
     />
     <link
-            rel="icon"
-            type="image/png"
-            sizes="16x16"
             href="../assets/properties/favicon/favicon-16x16.png"
+            rel="icon"
+            sizes="16x16"
+            type="image/png"
     />
-    <link rel="manifest" href="../assets/properties/favicon/manifest.json" />
-    <meta name="msapplication-TileColor" content="#ffffff" />
-    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
-    <meta name="theme-color" content="#ffffff" />
+    <link href="../assets/properties/favicon/manifest.json" rel="manifest"/>
+    <meta content="#ffffff" name="msapplication-TileColor"/>
+    <meta content="/ms-icon-144x144.png" name="msapplication-TileImage"/>
+    <meta content="#ffffff" name="theme-color"/>
 
     <!-- Link Bootstrap -->
     <link
@@ -94,8 +94,8 @@
 
     <!-- link icon -->
     <script
-            type="module"
             src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+            type="module"
     ></script>
     <script
             nomodule
@@ -103,19 +103,19 @@
     ></script>
 
     <!-- link font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
     <link
             href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Open+Sans:wght@400;500;600;700&family=Rubik:wght@400;500;600;700&display=swap"
             rel="stylesheet"
     />
 
     <!-- link styling -->
-    <link rel="stylesheet" href="../assets/css/general.css" />
-    <link rel="stylesheet" href="../assets/css/persons.css" />
-    <link rel="stylesheet" href="../assets/css/view-person.css" />
+    <link href="../assets/css/general.css" rel="stylesheet"/>
+    <link href="../assets/css/persons.css" rel="stylesheet"/>
+    <link href="../assets/css/view-person.css" rel="stylesheet"/>
 
-    <link rel="stylesheet" href="../assets/query/mediaQuery.css" />
+    <link href="../assets/query/mediaQuery.css" rel="stylesheet"/>
 
     <title>PerMap &mdash; View person</title>
 </head>
@@ -124,34 +124,34 @@
         class="header sticky-top d-flex align-items-center justify-content-between"
 >
     <a href="#">
-        <img src="../assets/properties/pma-border.png" alt="PerMap logo" class="logo" />
+        <img alt="PerMap logo" class="logo" src="../assets/properties/pma-border.png"/>
     </a>
 
     <div class="head-wrapper d-flex align-items-center gap-3">
         <!-- menu sidebar belum tersedia -->
         <button
-                class="btn btn-primary d-xxl-none d-xl-none d-lg-none"
-                type="button"
-                data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasScrolling"
                 aria-controls="offcanvasScrolling"
+                class="btn btn-primary d-xxl-none d-xl-none d-lg-none"
+                data-bs-target="#offcanvasScrolling"
+                data-bs-toggle="offcanvas"
+                type="button"
         >
-            <ion-icon name="menu-outline" class="icon"></ion-icon>
+            <ion-icon class="icon" name="menu-outline"></ion-icon>
         </button>
         <a class="nav-link">
             <div class="dropdown">
                 <a
+                        aria-expanded="false"
                         class="btn btn-secondary dropdown-toggle"
+                        data-bs-toggle="dropdown"
                         href="#"
                         role="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
                 >
                     <div class="avatar">
                         <img
-                                src="../assets/properties/image.png"
-                                class="avatar-md avatar-img"
                                 alt="User profile"
+                                class="avatar-md avatar-img"
+                                src="../assets/properties/image.png"
                         />
                         <span class="profile-text d-none d-xl-block"
                         >komi.san@gmail.com</span
@@ -162,26 +162,34 @@
                 <ul class="dropdown-menu">
                     <li>
                         <a class="dropdown-item" href="myProfile.html"
-                        ><ion-icon
-                                name="person-circle-outline"
-                                class="icon"
-                        ></ion-icon
-                        >Profile</a
+                        >
+                            <ion-icon
+                                    class="icon"
+                                    name="person-circle-outline"
+                            ></ion-icon
+                            >
+                            Profile</a
                         >
                     </li>
                     <li>
                         <a class="dropdown-item" href="#"
-                        ><ion-icon
-                                name="notifications-outline"
-                                class="icon"
-                        ></ion-icon
-                        >Notifications</a
+                        >
+                            <ion-icon
+                                    class="icon"
+                                    name="notifications-outline"
+                            ></ion-icon
+                            >
+                            Notifications</a
                         >
                     </li>
-                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                        <hr class="dropdown-divider"/>
+                    </li>
                     <li>
                         <a class="dropdown-item" href="#"
-                        ><ion-icon name="log-out-outline" class="icon"></ion-icon>Log
+                        >
+                            <ion-icon class="icon" name="log-out-outline"></ion-icon>
+                            Log
                             out</a
                         >
                     </li>
@@ -197,42 +205,44 @@
             <nav class="header-nav d-flex flex-column justify-content-between">
                 <ul>
                     <li class="nav-item">
-                        <a href="dashboard.html" class="nav-link active">
+                        <a class="nav-link active" href="dashboard.html">
                             <ion-icon
-                                    name="speedometer-outline"
                                     class="icon sidebar-icon"
+                                    name="speedometer-outline"
                             ></ion-icon
-                            >Dashboard
+                            >
+                            Dashboard
                         </a>
                     </li>
 
                     <li class="nav-item" id="person-active">
-                        <a href="persons.html" class="nav-link active">
+                        <a class="nav-link active" href="persons.html">
                             <ion-icon
-                                    name="person-outline"
                                     class="icon sidebar-icon"
+                                    name="person-outline"
                             ></ion-icon
-                            >Persons
+                            >
+                            Persons
                         </a>
                     </li>
                     <li class="nav-title fourth-heading">My account</li>
                     <li>
                         <ul>
                             <li class="nav-item">
-                                <a href="myProfile.html" class="nav-link active">
+                                <a class="nav-link active" href="myProfile.html">
                                     <ion-icon
-                                            name="create-outline"
                                             class="icon sidebar-icon"
+                                            name="create-outline"
                                     ></ion-icon>
                                     Edit profile
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <div class="wrappe">
-                                    <a href="#" class="nav-link active">
+                                    <a class="nav-link active" href="#">
                                         <ion-icon
-                                                name="log-out-outline"
                                                 class="icon sidebar-icon"
+                                                name="log-out-outline"
                                         ></ion-icon>
                                         Log out
                                     </a>
@@ -242,15 +252,17 @@
                     </li>
                 </ul>
                 <div class="sidebar-footer">
-                    <hr />
+                    <hr/>
                     <ul>
                         <li class="nav-item">
                             <a class="nav-link active" href="#"
-                            ><ion-icon
-                                    name="settings-outline"
-                                    class="icon sidebar-icon"
-                            ></ion-icon
-                            >Settings
+                            >
+                                <ion-icon
+                                        class="icon sidebar-icon"
+                                        name="settings-outline"
+                                ></ion-icon
+                                >
+                                Settings
                             </a>
                         </li>
                     </ul>
@@ -266,72 +278,72 @@
 
                 <div class="row">
                     <div class="col-xxl-12">
-                        <form class="new-person-form" action="#">
+                        <form action="#" class="new-person-form">
                             <div class="row">
                                 <div class="col-xxl-8 col-xl-8 col-lg-10 col-12">
                                     <div class="mb-3 form-input">
-                                        <label for="f-name" class="form-label required"
+                                        <label class="form-label required" for="f-name"
                                         >First name</label
                                         >
 
                                         <input
+                                                class="form-control"
                                                 id="f-name"
                                                 type="text"
                                                 value="Rui"
-                                                class="form-control"
                                         />
                                     </div>
                                     <div class="mb-3 form-input">
-                                        <label for="l-name" class="form-label">Last name</label>
+                                        <label class="form-label" for="l-name">Last name</label>
                                         <input
+                                                class="form-control"
                                                 id="l-name"
                                                 type="text"
                                                 value="Ayaki"
-                                                class="form-control"
                                         />
                                     </div>
                                     <div class="mb-3 form-input">
-                                        <label for="nik" class="form-label required">NIK</label>
+                                        <label class="form-label required" for="nik">NIK</label>
                                         <input
+                                                class="form-control"
                                                 id="nik"
                                                 type="text"
                                                 value="0051893241002134"
-                                                class="form-control"
                                         />
                                     </div>
                                     <div class="mb-3 form-input">
-                                        <label for="staticEmail" class="form-label required"
+                                        <label class="form-label required" for="staticEmail"
                                         >Email</label
                                         >
                                         <input
+                                                class="form-control"
                                                 id="staticEmail"
                                                 type="email"
                                                 value="Ayayaki@gmail.com"
-                                                class="form-control"
                                         />
                                     </div>
 
                                     <div class="mb-3 form-input">
-                                        <label for="datePicker" class="form-label required"
+                                        <label class="form-label required" for="datePicker"
                                         >Date of birth</label
                                         >
                                         <input
+                                                class="form-control"
                                                 id="datePicker"
                                                 type="date"
-                                                class="form-control"
                                                 value="2001-05-25"
                                         />
                                     </div>
 
                                     <div class="mb-3 form-input">
-                                        <label for="sex-dropdown" class="form-label required"
+                                        <label class="form-label required" for="sex-dropdown"
                                         >Sex</label
                                         >
                                         <select
-                                                id="sex-dropdown"
-                                                class="form-select form-control"
-                                                required
                                                 aria-label="Small select example"
+                                                class="form-select form-control"
+                                                id="sex-dropdown"
+                                                required
                                         >
                                             <option selected>Male</option>
                                             <option value="1">Female</option>
@@ -360,7 +372,7 @@
                                     </div> -->
 
                                     <div class="mb-3 form-input">
-                                        <label for="note" class="form-label"
+                                        <label class="form-label" for="note"
                                         >Internal notes</label
                                         >
                                         <div class="form-floating">
@@ -414,12 +426,12 @@
 <!-- sidebar -->
 <nav class="header-nav d-flex align-items-center">
     <div
-            class="offcanvas offcanvas-start"
-            data-bs-scroll="true"
-            data-bs-backdrop="false"
-            tabindex="-1"
-            id="offcanvasScrolling"
             aria-labelledby="offcanvasScrollingLabel"
+            class="offcanvas offcanvas-start"
+            data-bs-backdrop="false"
+            data-bs-scroll="true"
+            id="offcanvasScrolling"
+            tabindex="-1"
     >
         <div class="offcanvas-header">
             <h3
@@ -428,18 +440,18 @@
             >
                 <a href="#" id="logo">
                     <img
-                            src="../assets/properties/pma-color.png"
                             alt="PerMap logo"
                             class="logo"
+                            src="../assets/properties/pma-color.png"
                     />
                 </a>
             </h3>
 
             <button
-                    type="button"
+                    aria-label="Close"
                     class="btn-close"
                     data-bs-dismiss="offcanvas"
-                    aria-label="Close"
+                    type="button"
             ></button>
         </div>
         <div
@@ -448,41 +460,43 @@
             <div class="offcanvas-body">
                 <ul>
                     <li class="nav-item">
-                        <a href="dashboard.html" class="nav-link active">
+                        <a class="nav-link active" href="dashboard.html">
                             <ion-icon
-                                    name="speedometer-outline"
                                     class="icon sidebar-icon"
+                                    name="speedometer-outline"
                             ></ion-icon
-                            >Dashboard
+                            >
+                            Dashboard
                         </a>
                     </li>
 
                     <li class="nav-item nav-item-highlight" id="person-active">
-                        <a href="persons.html" class="nav-link">
+                        <a class="nav-link" href="persons.html">
                             <ion-icon
-                                    name="person-outline"
                                     class="icon sidebar-icon"
+                                    name="person-outline"
                             ></ion-icon
-                            >Persons
+                            >
+                            Persons
                         </a>
                     </li>
                     <li class="nav-title fourth-heading">My account</li>
                     <li>
                         <ul>
                             <li class="nav-item">
-                                <a href="myProfile.html" class="nav-link active">
+                                <a class="nav-link active" href="myProfile.html">
                                     <ion-icon
-                                            name="create-outline"
                                             class="icon sidebar-icon"
+                                            name="create-outline"
                                     ></ion-icon>
                                     Edit profile
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link active">
+                                <a class="nav-link active" href="#">
                                     <ion-icon
-                                            name="log-out-outline"
                                             class="icon sidebar-icon"
+                                            name="log-out-outline"
                                     ></ion-icon>
                                     Log out
                                 </a>
@@ -492,15 +506,17 @@
                 </ul>
             </div>
             <div class="sidebar-footer">
-                <hr />
+                <hr/>
                 <ul>
                     <li class="nav-item">
                         <a class="nav-link" href="#"
-                        ><ion-icon
-                                name="settings-outline"
-                                class="icon sidebar-icon"
-                        ></ion-icon
-                        >Settings
+                        >
+                            <ion-icon
+                                    class="icon sidebar-icon"
+                                    name="settings-outline"
+                            ></ion-icon
+                            >
+                            Settings
                         </a>
                     </li>
                 </ul>

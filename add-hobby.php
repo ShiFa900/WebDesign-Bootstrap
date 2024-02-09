@@ -5,7 +5,7 @@ require_once __DIR__ . "/action/utils.php";
 
 redirectIfNotAuthenticated();
 $persons = getAll();
-$person = findFirstFromArray(array: $persons,key: ID,value: $_GET["person"]);
+$person = findFirstFromArray(array: $persons, key: ID, value: $_GET["person"]);
 $_SESSION["personId"] = $person[ID];
 checkRole($_SESSION["userEmail"], "ROLE_ADMIN");
 
@@ -26,7 +26,7 @@ mainHeader(cssIdentifier: "page-add-hobby", title: "Add Hobby", link: "add-hobby
                             <form class="new-person-form" action="action/action-add-hobby.php" method="post"
                                   name="addHobby">
                                 <div class="row">
-                                    <div class="col-xl-12">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-12">
                                         <div class="card-wrapper">
                                             <div class="hobby-card">
                                                 <div class="card-img">
@@ -41,7 +41,7 @@ mainHeader(cssIdentifier: "page-add-hobby", title: "Add Hobby", link: "add-hobby
 
                                                     <div class="btn-container d-flex column-gap-3">
                                                         <a class="btn btn-primary btn--form has-border" type="submit"
-                                                           href="hobbies.php?person=<?=$person[ID]?>">
+                                                           href="hobbies.php?person=<?= $person[ID] ?>">
                                                             Cancel
                                                         </a>
                                                         <button class="btn btn-primary btn--form" type="submit"

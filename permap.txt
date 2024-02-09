@@ -10,24 +10,20 @@ color palette: 0C356A, 0174BE, FFC436, FFF0CE
 - buat file 'cleaner', daripada menaruh tiap session di file utils, gunakan parameter untuk variablenya
 
 - editPerson -> bisakah tamppilan GET dihilangkan??
-- require di tiap page, spertinya bisa dijadikan function saja(?)
 - clean up dan cek error
 - jika user menginput new password tapi tidak confirm, maka tampilkan pesan error untuk editd data person atau my profile
 - revisi
 
-- connect data to database
-- bingung dikit, tapi nnti bisa lah ya
-
 - di beberapa page, icon dan teksnya menjadi bold
 - last logged in hanya akan terisi dengan waktu saat si user log out, bagaimana ketika session user berakhir?
-- apakah admin bisa mengedit hobby dari person?
-- edit hobby
-- tampilan untuk tiap page hobby
-- berikan id untuk page edit/add ssblum kembali ke page hobbies
-- delete hobby
-- error pada SESSION["personId"] di beberapa waktu
-- mencari data (hobby)
--
+- tampilan untuk data tabular josb (dashboard)
+- tampilan page add jobs, edit jobs
+- buat relasi antara person dan jobsnya
+
+
+- saat akan menghapus column dari table parent, column anakan yang terkait harus dihapus terlebih dahulu.
+- saat akan menghapus jobs, berikan alert dulu jika job yang akan dihapus sudah digunakan oleh persons, dan jobs yang sudah di gunakan bisa dihapus ketika person yang menggunakan job tersebut di set menjadi pengangguran dulu.
+- job itu optional
 ===================================
 UPDATE PERMAP FEATURES:
 <one-to-many>
