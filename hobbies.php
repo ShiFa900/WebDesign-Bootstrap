@@ -96,7 +96,7 @@ if (count($hobbies) > 1) {
                                     type="submit">
                                 <span class="d-xl-none d-flex flex-column">Search</span>
                                 <div style="fill: #000000" class="header-page-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon search-icon" viewBox="0 0 512 512">
                                         <path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
                                               fill="none" stroke="currentColor" stroke-miterlimit="10"
                                               stroke-width="32"/>
@@ -148,7 +148,7 @@ if (count($hobbies) > 1) {
             <div class="row">
                 <div class="col-xxl-12">
                     <div class="row">
-                        <div class="col-xl-12 col-lg-6 col-md-6">
+                        <div class="col-xl-12 col-lg-12 col-md-12">
                             <div class="table-wrapper d-xl-flex justify-content-center">
                                 <div class="table-container">
                                     <div class="table-responsive">

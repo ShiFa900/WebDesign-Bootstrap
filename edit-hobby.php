@@ -26,7 +26,7 @@ mainHeader(cssIdentifier: "page-edit-hobby", title: "Edit Hobby", link: "edit-ho
                                 <div class="row">
                                     <div class="col-xl-12">
                                         <div class="card-wrapper">
-                                            <div class="hobby-card">
+                                            <div class="form-card">
                                                 <div class="card-img">
                                                     <img src="assets/properties/About%20me-amico.svg"
                                                          alt="Person has hobbies" class="hobby-img">

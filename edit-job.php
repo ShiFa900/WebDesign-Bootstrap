@@ -4,44 +4,44 @@ require_once __DIR__ . "/include/footer.php";
 require_once __DIR__ . "/action/utils.php";
 
 redirectIfNotAuthenticated();
-$persons = getAll();
-$person = findFirstFromArray(array: $persons, key: ID, value: $_GET["person"]);
-$_SESSION["personId"] = $person[ID];
 checkRole($_SESSION["userEmail"], "ROLE_ADMIN");
 
-mainHeader(cssIdentifier: "page-add-hobby", title: "Add Hobby", link: "add-hobby.php", pageStyles: ["hobbies.css"]);
+$persons = getAll();
+$person = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
+
+mainHeader(cssIdentifier: "page-edit-job", title: "Add Job", link: "edit-job.php", pageStyles: ["jobs.css"]);
 ?>
     <main>
-        <section class="add-hobby-section d-flex position-relative">
+        <section class="edit-job-section d-flex position-relative">
             <!-- desktop sidebar -->
-            <?php desktopSidebar("persons.php"); ?>
+            <?php desktopSidebar("jobs.php"); ?>
 
             <div class="w-100">
-                <div class="add-hobby-content position-absolute px-5">
+                <div class="edit-job-content position-absolute px-5">
                     <div class="page-header">
-                        <h1 class="first-heading">Add Hobby</h1>
+                        <h1 class="first-heading">Edit Job</h1>
                     </div>
                     <div class="row">
                         <div class="col-xxl-12">
-                            <form class="new-person-form" action="action/action-add-hobby.php" method="post"
-                                  name="addHobby">
+                            <form class="new-person-form" action="#" method="post"
+                                  name="addJob">
                                 <div class="row">
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-12">
                                         <div class="card-wrapper">
                                             <div class="form-card">
                                                 <div class="card-img">
-                                                    <img src="assets/properties/About%20me-amico.svg"
-                                                         alt="Person has hobbies" class="hobby-img">
+                                                    <img src="assets/properties/Work%20time-amico.svg"
+                                                         alt="Person while work" class="job-img">
                                                 </div>
                                                 <div class="card-field">
-                                                    <label for="hobbyName" class="form-label required">Add new hobby</label>
-                                                    <input type="text" id="hobbyName" class="form-control"
-                                                           name="hobbyName" maxlength="30" minlength="3"
-                                                           placeholder="Your hobby" required>
+                                                    <label for="jobName" class="form-label">Edit new job</label>
+                                                    <input type="text" id="jobName" class="form-control"
+                                                           name="jobName" maxlength="30" minlength="3"
+                                                           placeholder="New job">
 
                                                     <div class="btn-container d-flex column-gap-3">
                                                         <a class="btn btn-primary btn--form has-border" type="submit"
-                                                           href="hobbies.php?person=<?= $person[ID] ?>">
+                                                           href="jobs.php">
                                                             Cancel
                                                         </a>
                                                         <button class="btn btn-primary btn--form" type="submit"
@@ -62,4 +62,4 @@ mainHeader(cssIdentifier: "page-add-hobby", title: "Add Hobby", link: "add-hobby
         </section>
     </main>
 
-<?php mainFooter("persons.php");
+<?php mainFooter("jobs.php");

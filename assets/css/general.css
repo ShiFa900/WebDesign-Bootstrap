@@ -145,46 +145,113 @@ body {
 }
 
 .page-persons .no-data-img,
-.page-hobbies .no-data-img {
+.page-hobbies .no-data-img,
+.page-jobs .no-data-img{
     width: 100%;
     display: flex;
     align-items: center;
     opacity: 65%;
 }
 
-.page-persons .header-page-icon,
-.page-hobbies .header-page-icon {
-    width: 1.75rem;
-    stroke: #444444;
+.page-add-person .form-input-add-person svg{
+    width: 1.6rem;
+    color: #666666;
 }
 
-.page-add-hobby .hobby-card,
-.page-edit-hobby .hobby-card {
-    background-color: #e6eef9;
+.page-persons .header-page-icon,
+.page-hobbies .header-page-icon .search-icon,
+.page-jobs .header-page-icon .search-icon{
+    width: 1.75rem;
+    stroke: #444444;
+    display: flex;
+    align-items: center;
+}
+
+.page-add-hobby .form-card,
+.page-edit-hobby .form-card,
+.page-add-job .form-card,
+.page-edit-job .form-card{
+    background-color: #f0f4ff;
 }
 
 .page-add-hobby .hobby-img,
-.page-edit-hobby .hobby-img {
+.page-edit-hobby .hobby-img,
+.page-add-job .job-img,
+.page-edit-job .job-img{
     width: 100%;
     height: 40vh;
+    opacity: 86%;
+}
+
+.page-add-job .job-img,
+.page-edit-job .job-img{
+    opacity: 83%;
 }
 
 .page-add-hobby .card-img,
-.page-edit-hobby .card-img {
+.page-edit-hobby .card-img,
+.page-add-job .card-img,
+.page-edit-job .card-img{
     background-color: #fafafa;
 }
 
 .page-add-hobby .card-field,
-.page-edit-hobby .card-field {
+.page-edit-hobby .card-field,
+.page-add-job .card-field,
+.page-edit-job .card-field{
     padding: 1rem 0.75rem;
 }
 
 .page-add-hobby .card-wrapper,
-.page-edit-hobby .card-wrapper {
+.page-edit-hobby .card-wrapper,
+.page-add-job .card-wrapper,
+.page-edit-job .card-wrapper{
     height: 70vh;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.page-hobbies .header-sm-title {
+    font-size: 1.2rem;
+    font-family: "Montserrat", serif;
+}
+
+.page-hobbies .wrapper button .btn-back svg,
+.page-jobs .wrapper button .btn-back svg{
+    width: 1.75rem;
+}
+
+.page-hobbies .wrapper button .btn-back,
+.page-jobs .wrapper button .btn-back {
+    column-gap: 0;
+    padding: 0.2rem 0.75rem;
+    border-radius: 2rem;
+    border: 1px solid #444444;
+}
+
+.page-hobbies .wrapper button .btn-back:hover,
+.page-jobs .wrapper button .btn-back:hover{
+    border: 1px solid #347dad;
+    transition: ease-in-out 0.2s;
+    max-width: 100%;
+}
+
+.page-hobbies .wrapper button .btn-back span.long,
+.page-jobs .wrapper button .btn-back span.long{
+    display: none;
+}
+
+.page-hobbies .wrapper button:hover span.short,
+.page-jobs .wrapper button:hover span.short
+{
+    display: none;
+}
+
+.page-hobbies .wrapper button:hover span.long,
+.page-jobs .wrapper button:hover span.long
+{
+    display: block;
 }
 
 /* BUTTON */
@@ -217,7 +284,7 @@ body {
 
 .btn--form {
     padding: 0.75rem 1.4rem;
-    letter-spacing: 1.75px;
+    letter-spacing: 2px;
 
     background-color: #015d98;
     color: #ffffff;
@@ -255,6 +322,12 @@ body {
     border-radius: 50%;
 }
 
+.page-hobbies .btn-content,
+.page-jobs .btn-content{
+    background-color: #ffc436;
+    padding: 0.75rem 0.75rem;
+    border-radius: 50%;
+}
 .btn-outline-success {
     background-color: #ffc436;
     color: #333;
@@ -283,6 +356,13 @@ body {
     border: none !important;
 }
 
+.page-hobbies .delete-btn,
+.page-jobs .delete-btn{
+    padding: 0.3rem 0.75rem;
+    letter-spacing: 1px;
+    color: #ffffff;
+}
+
 
 .delete-btn:hover,
 .delete-btn:active {
@@ -309,7 +389,8 @@ body {
 }
 
 .page-persons .block-color-btn,
-.page-hobbies .block-color-btn {
+.page-hobbies .block-color-btn,
+.page-jobs .block-color-btn{
     background-color: #015d98;
     color: #fff;
     letter-spacing: 1px;
@@ -322,7 +403,9 @@ body {
 
 .page-persons .block-color-btn:hover,
 .page-hobbies .block-color-btn:hover,
-.page-persons .block-color-btn:active
+.page-jobs .block-color-btn:hover,
+.page-persons .block-color-btn:active,
+.page-jobs .block-color-btn:active,
 .page-hobbies .block-color-btn:active {
     color: #fff !important;
     background-color: #1a82c5;
@@ -518,6 +601,9 @@ DROPDOWN FOR VIEW BUTTON (PERSONS PAGE)
     height: 100%;
     box-shadow: 0 0.1rem 0.75rem rgba(0, 0, 0, 0.122);
     border-right: 1px solid #ddd;
+
+    letter-spacing: 1px;
+    color: #444444;
 }
 
 .header-nav {
@@ -532,10 +618,12 @@ DROPDOWN FOR VIEW BUTTON (PERSONS PAGE)
 
 .offcanvas-body {
     padding: 0;
+    letter-spacing: 1px;
+    color: #444444;
 }
 
 .nav-title {
-    letter-spacing: 1.75px;
+    letter-spacing: 2px;
 
     text-transform: uppercase;
     font-weight: 600;
@@ -623,7 +711,8 @@ thead tr {
 }
 
 .page-persons table,
-.page-hobbies table {
+.page-hobbies table,
+.page-jobs table{
     border-left: 1px solid #dddddd;
     border-right: 1px solid #dddddd;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.09);
@@ -631,7 +720,8 @@ thead tr {
 }
 
 .page-persons table tr td,
-.page-hobbies table tr td {
+.page-hobbies table tr td,
+.page-jobs table tr td {
     line-height: 2.6rem;
 }
 

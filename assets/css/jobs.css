@@ -1,0 +1,24 @@
+.page-jobs .jobs-content{
+    top: 100px;
+    right: 0;
+}
+/*
+==========================
+       PAGE ADD JOB
+==========================
+*/
+.page-add-job .add-job-content {
+    top: 100px;
+    right: 0;
+}
+
+/*
+==========================
+       PAGE EDIT JOB
+==========================
+*/
+
+.page-edit-job .edit-job-content {
+    top: 100px;
+    right: 0;
+}

@@ -17,6 +17,7 @@ const PAGING_DATA = "PAGING_DATA";
 const PAGING_CURRENT_PAGE = "PAGING_CURRENT_PAGE";
 const PAGE_LIMIT = 7;
 const PAGE_HOBBIES_LIMIT = 3;
+const JOBS_DEFAULT_NAME = "Tidak bekerja";
 
 
 // Const for person personal data
@@ -60,3 +61,10 @@ const CATEGORIES_PASSED_AWAY = "CATEGORIES_PASSED_AWAY";
 // cons for hobby
 const HOBBIES_PERSON_ID = "person_id";
 const HOBBIES_NAME = "name";
+
+// const for jobs
+const JOBS_NAME = "job_name";
+const JOBS_COUNT = "count";
+const PERSON_JOBS = "person_jobs";
+
+

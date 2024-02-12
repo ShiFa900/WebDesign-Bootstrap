@@ -6,6 +6,7 @@ require_once __DIR__ . "/action/utils.php";
 redirectIfNotAuthenticated();
 
 checkRole($_SESSION["userEmail"], "ROLE_ADMIN");
+$jobs = getJobs();
 
 mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-person.php", pageStyles: ["add-person.css"]);
 ?>
@@ -145,11 +146,26 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
                                             <select id="role-dropdown" class="form-select form-control" required
                                                     aria-label="Small select example" name="role">
                                                 <!-- dropdwon bekerjaan nanti value-nya akan diisi dari database jobs, dan data dari database akan increment jika jobs di create new-->
-                                                <option selected
-                                                        value="Pengangguran">Tidak bekerja
-                                                </option>
-                                                <option value="Bekerja">Bekerja</option>
+                                                <?php
+                                                foreach ($jobs as $job) {
+                                                    ?>
+                                                    <option value="<?= $job[ID] ?>" <?php if($job[JOBS_NAME] === JOBS_DEFAULT_NAME) echo "selected" ?>>
+                                                        <?=$job[JOBS_NAME]?>
+                                                    </option>
+                                                    <?php
+                                                }
+                                                ?>
                                             </select>
+                                            <a href="add-job.php" class="nav-link mt-1">
+                                                <div style="fill: #000000">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon"
+                                                         viewBox="0 0 512 512">
+                                                        <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                                              stroke-linejoin="round" stroke-width="32"
+                                                              d="M256 112v288M400 256H112"/>
+                                                    </svg>
+                                                    Create new option
+                                            </a>
                                         </div>
                                         <div class="mb-3 form-input-add-person">
                                             <label for="note" class="form-label">Internal notes</label>

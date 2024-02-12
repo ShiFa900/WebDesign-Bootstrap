@@ -189,6 +189,32 @@ function getHobbies(int $limit, int $page, int $personId, string|null $keyword =
 
 }
 
+
+function getJobs()
+{
+    global $PDO;
+    $result = [];
+    try {
+        $query = "SELECT * FROM `jobs` ORDER BY id DESC";
+        $stmt = $PDO->prepare($query);
+        $stmt->execute();
+        $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+//        die($stmt->debugDumpParams());
+
+        foreach ($jobs as $j) {
+            $job = [
+                ID => $j["id"],
+                JOBS_NAME => $j["name"],
+                JOBS_COUNT => $j["count"]
+            ];
+            $result[] = $job;
+        }
+        return $result;
+    } catch (PDOException $e){
+        die("Query error: " . $e->getMessage());
+    }
+}
+
 function sortingDataForPagination(int $page, int $limit, array $array): array
 {
     // sorting array person that will be shown for pagination
@@ -222,6 +248,7 @@ function getAll(): array
     try {
         $query = "SELECT * FROM `persons`";
         $statement = $PDO->query($query);
+        $statement->execute();
         // get only associative value from query
         $persons = $statement->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -312,6 +339,22 @@ function getHobby(string $hobbyId): array|false
     return [];
 }
 
+function getPersonJobsFromDb(string $personId){
+    // case: edit person
+    global $PDO;
+    try {
+        $query = "SELECT * FROM `person_job` WHERE person_id = :id";
+        $stmt = $PDO->prepare($query);
+        $stmt->execute(array(
+            "person_id" => $personId
+        ));
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e){
+        die("Query error: " . $e->getMessage());
+    }
+}
+
 /**
  * Converts given sex value from database into the value that the app understands (SEX constants)
  * @param string $value
@@ -378,7 +421,14 @@ function savePerson(array $person, string $location): void
                 "password" => $person[PASSWORD],
                 "status" => $person[PERSON_STATUS],
                 "lastLoggedIn" => $person[PERSON_LAST_LOGGED_IN]));
+            $person = $statement->fetchAll(PDO::FETCH_ASSOC);
             //set global PDO and statement null, to close the connection
+
+            $queryJob = "INSERT INTO `person_job` (person_id,job_id) VALUE (:person_id, :job_id)";
+            $stmt = $PDO->prepare($queryJob);
+            $stmt->execute(array(
+                "person_id" => $person[ID],
+            ));
             $PDO = null;
             $statement = null;
 
@@ -463,6 +513,47 @@ function saveHobby(array $hobby, string $location): void
     }
 }
 
+function saveJob(array $job, string $location): void
+{
+    global $PDO;
+    if($job[ID] == null){
+        try {
+            $query = "INSERT INTO `jobs` (name, count) VALUES (:name, :count)";
+            $stmt = $PDO->prepare($query);
+            $stmt->execute(array(
+                "name" => ucfirst($job[JOBS_NAME]),
+                "count" => $job[JOBS_COUNT]
+            ));
+            $PDO = null;
+            $stmt = null;
+
+            $_SESSION["info"] = "Successfully add new job '" . $job[JOBS_NAME] . "'!";
+            redirect("../" . $location, "");
+        } catch (PDOException $e){
+            die("Query error: " . $e->getMessage());
+        }
+    } else {
+        try {
+            $query = "UPDATE `jobs` SET id = :id, name = :name, count = :count WHERE id = :id";
+            $stmt = $PDO->prepare($query);
+            $stmt->execute(array(
+                "id" => $job[ID],
+                "name" => ucfirst($job[JOBS_NAME]),
+                "count" => $job[JOBS_COUNT]
+
+            ));
+
+            $PDO = null;
+            $stmt = null;
+
+            $_SESSION["info"] = "Successfully edit job of '" . $job[JOBS_NAME] . "'!";
+            redirect("../" . $location, "");
+        } catch (PDOException){
+            die();
+        }
+    }
+
+}
 
 /**
  * convert given date into timestamp
