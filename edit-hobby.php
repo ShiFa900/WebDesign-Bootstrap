@@ -6,6 +6,12 @@ require_once __DIR__ . "/action/utils.php";
 redirectIfNotAuthenticated();
 // dapatkan hobi mana yang akan di edit
 $currentHobby = getHobby($_GET["hobby"]);
+
+if($currentHobby == null){
+    $_SESSION["error"] = "Sorry, no data found";
+    redirect("hobbies.php", "person=" . $_SESSION["personId"]);
+}
+
 $_SESSION["currentHobby"] = $currentHobby;
 mainHeader(cssIdentifier: "page-edit-hobby", title: "Edit Hobby", link: "edit-hobby.php", pageStyles: ["hobbies.css"]);
 ?>

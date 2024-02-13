@@ -14,11 +14,10 @@ $person = findFirstFromArray(array: $persons, key: ID, value: $_GET["person"]);
 if ($person == null) {
     $person = getPerson($persons, $_GET["person"]);
     if ($person == null) {
-        $_SESSION["personNotFound"] = "Sorry, no person found.";
+        $_SESSION["error"] = "Sorry, no person found.";
         redirect("persons.php", "");
     }
 }
-mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-person.php", pageStyles: ["view-person.css"]);
 
 //get person sex label for showing it
 $arraySex = sortSex($person[PERSON_SEX]);
@@ -27,9 +26,12 @@ $arrayRole = sortRole($person[PERSON_ROLE]);
 // get person ID when user want to delete person data
 $_SESSION["personId"] = $person[ID];
 
+// get person job by given ID
+$job = getPersonJob($person[ID]);
+
 // get current user
 $currentUser = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
-
+mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-person.php", pageStyles: ["view-person.css"]);
 
 ?>
     <main>
@@ -150,6 +152,12 @@ $currentUser = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $_S
                                     </div>
 
                                     <div class="col-xxl-5 col-xl-2 col-lg-5">
+                                        <div class="mb-3 form-input">
+                                            <span class="required title">Job</span>
+                                            <p>
+                                                <?= $job[JOBS_NAME] ?>
+                                            </p>
+                                        </div>
                                         <?php
                                         if ($currentUser[PERSON_ROLE] == ROLE_ADMIN) {
                                             if (isset($_SESSION["personData"][PERSON_INTERNAL_NOTE])) {
@@ -268,7 +276,7 @@ $currentUser = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $_S
                                                     <button type="button" class="btn btn-primary"
                                                             name="btnDelete">
                                                         <a href="action/action-delete-person.php"
-                                                           class="btn">Yes</a>
+                                                           class="btn pop-up-btn-hover">Yes</a>
                                                     </button>
                                                 </div>
                                             </div>

@@ -195,11 +195,10 @@ function getJobs()
     global $PDO;
     $result = [];
     try {
-        $query = "SELECT * FROM `jobs` ORDER BY id DESC";
+        $query = "SELECT * FROM `jobs`";
         $stmt = $PDO->prepare($query);
         $stmt->execute();
         $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
-//        die($stmt->debugDumpParams());
 
         foreach ($jobs as $j) {
             $job = [
@@ -210,9 +209,49 @@ function getJobs()
             $result[] = $job;
         }
         return $result;
-    } catch (PDOException $e){
+    } catch (PDOException $e) {
         die("Query error: " . $e->getMessage());
     }
+}
+
+function getJobsData(int $limit, int $page, string|null $keyword = null)
+{
+    global $PDO;
+    $keyword = "%$keyword%";
+
+    try {
+        $queryCount = "SELECT COUNT(*) as total FROM `jobs` WHERE name LIKE :name";
+        $stmt = $PDO->prepare($queryCount);
+        $stmt->execute(array(
+            "name" => $keyword
+        ));
+        $count = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $query = "SELECT * FROM `jobs` WHERE name LIKE :name ORDER BY id DESC";
+        $stmt = $PDO->prepare($query);
+        $stmt->execute(array(
+            "name" => $keyword
+        ));
+        $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $sort = sortingDataForPagination(page: $page, limit: $limit, array: $jobs);
+
+        if ($count["total"] > 0 && $count) {
+            return [
+                PAGING_TOTAL_PAGE => ceil(count($jobs) / $limit),
+                PAGING_CURRENT_PAGE => $page,
+                PAGING_DATA => array_slice($jobs, $sort["indexStart"], $sort["length"])
+            ];
+        }
+
+    } catch (PDOException $e) {
+        die("Query error: " . $e->getMessage());
+    }
+
+    return array(
+        PAGING_TOTAL_PAGE => 1,
+        PAGING_CURRENT_PAGE => 1,
+        PAGING_DATA => []
+    );
 }
 
 function sortingDataForPagination(int $page, int $limit, array $array): array
@@ -228,12 +267,6 @@ function sortingDataForPagination(int $page, int $limit, array $array): array
         "indexStart" => $indexStart
     );
 
-    // sorting array person that will be shown for pagination
-//    $indexStart = ($page - 1) * $limit;
-//    $length = $limit;
-//    if (($indexStart + $limit) > count($hobbyData)) {
-//        $length = count($hobbyData) - $indexStart;
-//    }
 }
 
 /**
@@ -316,9 +349,9 @@ function getPersonHobbiesFromDb(string $personId): array
 /**
  * return hobby that valid by given id
  * @param string $hobbyId
- * @return array|false
+ * @return array
  */
-function getHobby(string $hobbyId): array|false
+function getHobby(string $hobbyId): array
 {
     global $PDO;
 
@@ -333,26 +366,29 @@ function getHobby(string $hobbyId): array|false
         die("Query error: " . $e->getMessage());
     }
 
-    if (count($hobby) != 0) {
-        return $hobby;
-    }
-    return [];
+    return $hobby;
 }
 
-function getPersonJobsFromDb(string $personId){
-    // case: edit person
+function getPersonJob(string $personId)
+{
     global $PDO;
     try {
-        $query = "SELECT * FROM `person_job` WHERE person_id = :id";
-        $stmt = $PDO->prepare($query);
-        $stmt->execute(array(
-            "person_id" => $personId
-        ));
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e){
+            $query = "SELECT * FROM `person_job` WHERE person_id = :person_id";
+            $stmt = $PDO->prepare($query);
+            $stmt->execute(array(
+                "person_id" => $personId
+            ));
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    } catch (PDOException $e) {
         die("Query error: " . $e->getMessage());
     }
+}
+
+function getThePerson(string $jobId)
+{
+
 }
 
 /**
@@ -516,7 +552,7 @@ function saveHobby(array $hobby, string $location): void
 function saveJob(array $job, string $location): void
 {
     global $PDO;
-    if($job[ID] == null){
+    if ($job[ID] == null) {
         try {
             $query = "INSERT INTO `jobs` (name, count) VALUES (:name, :count)";
             $stmt = $PDO->prepare($query);
@@ -529,7 +565,7 @@ function saveJob(array $job, string $location): void
 
             $_SESSION["info"] = "Successfully add new job '" . $job[JOBS_NAME] . "'!";
             redirect("../" . $location, "");
-        } catch (PDOException $e){
+        } catch (PDOException $e) {
             die("Query error: " . $e->getMessage());
         }
     } else {
@@ -548,7 +584,7 @@ function saveJob(array $job, string $location): void
 
             $_SESSION["info"] = "Successfully edit job of '" . $job[JOBS_NAME] . "'!";
             redirect("../" . $location, "");
-        } catch (PDOException){
+        } catch (PDOException) {
             die();
         }
     }
@@ -647,6 +683,19 @@ function &findAllFromArray(array &$array, string $key, string $value): array
 function translateIntToString(int $status): string
 {
     return $status == 1 ? "Alive" : "Passed Away";
+}
+
+function setNoun(array $array, string $text): string
+{
+    $noun = $text;
+    if (count($array) > 1) {
+        if (mb_substr($text, -1) == "y") {
+            $noun = str_replace("y", "ies", $text);
+        } else {
+            $noun = $text . "s";
+        }
+    }
+    return $noun;
 }
 
 /**

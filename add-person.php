@@ -6,7 +6,6 @@ require_once __DIR__ . "/action/utils.php";
 redirectIfNotAuthenticated();
 
 checkRole($_SESSION["userEmail"], "ROLE_ADMIN");
-$jobs = getJobs();
 
 mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-person.php", pageStyles: ["add-person.css"]);
 ?>

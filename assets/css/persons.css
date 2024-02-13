@@ -13,11 +13,6 @@
     align-items: center;
 }
 
-.page-persons .btn-reset:hover,
-.page-persons .btn-reset:active {
-    color: #015d98;
-}
-
 .page-persons .pagination-btn {
     margin: 1rem;
 }

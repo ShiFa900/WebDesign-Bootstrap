@@ -12,7 +12,7 @@ $person = findFirstFromArray(array: $persons, key: ID, value: $_GET['person']);
 $_SESSION["personData"] = $person;
 
 if ($person == null) {
-    $_SESSION["personNotFound"] = "Sorry, no person found.";
+    $_SESSION["error"] = "Sorry, no person found.";
     redirect("persons.php", "");
 }
 mainHeader(cssIdentifier: "page-edit-person", title: "Edit Person", link: "edit-person.php", pageStyles: ["editPerson.css"]);

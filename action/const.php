@@ -63,7 +63,7 @@ const HOBBIES_PERSON_ID = "person_id";
 const HOBBIES_NAME = "name";
 
 // const for jobs
-const JOBS_NAME = "job_name";
+const JOBS_NAME = "name";
 const JOBS_COUNT = "count";
 const PERSON_JOBS = "person_jobs";
 

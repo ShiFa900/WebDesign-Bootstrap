@@ -4,7 +4,7 @@ require_once __DIR__ . "/const.php";
 
 $job = [
     ID => null,
-    JOBS_NAME => $_POST["name"],
+    JOBS_NAME => htmlspecialchars($_POST["name"]),
     JOBS_COUNT => 0
 ];
 saveJob($job,"jobs.php");

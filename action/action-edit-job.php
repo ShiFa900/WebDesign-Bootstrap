@@ -1,7 +1,17 @@
 <?php
+require_once __DIR__ . "/utils.php";
+require_once __DIR__ . "/const.php";
+session_start();
 
-// dapatkan nama pekerjaan yang akan di edit
-// buat validasi sesaat sebelum hasil edit di simpan,
-// dimana jika pekerjaan ini telah digunakan oleh seseorang di database, maka pengeditan atau penghapus harus diberikan pop up alert
-// pengeditan akan dilanjutkan jika admin menyetujui validasi pengeditan
+$currentJob = $_SESSION["job"];
+
+$jobInput = $_POST["jobName"];
+$job = [
+    ID => $currentJob[ID],
+    JOBS_NAME => $jobInput == null ? $currentJob[JOBS_NAME] : htmlspecialchars($jobInput),
+    JOBS_COUNT => $currentJob[JOBS_COUNT]
+];
+
+saveJob(job: $job, location: "jobs.php");
+
 

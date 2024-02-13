@@ -7,7 +7,7 @@ $persons = getAll();
 global $PDO;
 $personWillBeDeleted = findFirstFromArray(array: $persons, key: ID, value: $_SESSION["personId"]);
 if ($personWillBeDeleted == null) {
-    $_SESSION["personNotFound"] = "Sorry, no person found";
+    $_SESSION["error"] = "Sorry, no person found";
     redirect("../persons.php", "");
 }
 try {

@@ -31,6 +31,7 @@ $personPaginated = getPersons(PAGE_LIMIT, $page, CATEGORIES_ALL);
 $persons = $personPaginated[PAGING_DATA];
 $prev = $personPaginated[PAGING_CURRENT_PAGE] - 1;
 $next = $personPaginated[PAGING_CURRENT_PAGE] + 1;
+$noun = setNoun($persons, "Person")
 ?>
     <div class="person-content position-absolute px-5">
     <div
@@ -38,7 +39,7 @@ $next = $personPaginated[PAGING_CURRENT_PAGE] + 1;
     >
         <div class="left d-flex gap-4 page-header ">
             <a class="nav-link" href="persons.php">
-                <h1 class="first-heading">Persons</h1>
+                <h1 class="first-heading"><?=$noun?></h1>
             </a>
             <div class="add-person d-flex justify-content-end mb-0">
                 <a href="add-person.php" class="nav-link btn-content">
@@ -168,10 +169,10 @@ $next = $personPaginated[PAGING_CURRENT_PAGE] + 1;
             <?=$_SESSION["deleteSuccess"]?>
         </div>
         <?php
-    } elseif (isset($_SESSION["personNotFound"])) {
+    } elseif (isset($_SESSION["error"])) {
         ?>
         <div class="alert alert-danger" role="alert">
-            <?=$_SESSION["personNotFound"]?>
+            <?=$_SESSION["error"]?>
         </div>
         <?php
     } elseif ((isset($_SESSION["info"]))){?>
@@ -200,8 +201,8 @@ $next = $personPaginated[PAGING_CURRENT_PAGE] + 1;
                     <thead>
                     <tr>
                         <th scope="col" class="text-center p-3">No</th>
-                        <th scope="col" class="p-3">Email</th>
-                        <th scope="col" class="p-3">Name</th>
+                        <th scope="col" class="p-3 text-center">Email</th>
+                        <th scope="col" class="p-3 text-center">Name</th>
                         <th scope="col" class="text-center p-3">Age</th>
                         <th scope="col" class="text-center p-3">Role</th>
                         <th scope="col" class="text-center p-3">Status</th>
@@ -210,8 +211,7 @@ $next = $personPaginated[PAGING_CURRENT_PAGE] + 1;
                     </thead>
                     <tbody>
                     <?php
-                    // number is total data in database
-                    $number = ($page - 1) * PAGE_LIMIT + 1;
+                        $number = ($page - 1) * PAGE_LIMIT + 1;
                     foreach ($persons as $person) {
                         $personsRole = sortRole(transformRoleFromDb($person[PERSON_ROLE]));
                         try{$personAge = calculateAge($person[PERSON_BIRTH_DATE]);}catch(Exception $e){die("Calculate error: " . $e->getMessage());}
@@ -304,5 +304,5 @@ $next = $personPaginated[PAGING_CURRENT_PAGE] + 1;
 mainFooter("persons.php");
 unset($_SESSION["deleteSuccess"]);
 unset($_SESSION["user"]);
-unset($_SESSION["personNotFound"]);
+unset($_SESSION["error"]);
 unset($_SESSION["info"]);

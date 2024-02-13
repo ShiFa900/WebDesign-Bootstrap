@@ -12,11 +12,15 @@ $user = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $_SESSION[
 if (isset($_GET["reset"])) {
     redirect("hobbies.php", "person=" . $_SESSION["personId"]);
 }
-mainHeader(cssIdentifier: "page-hobbies", title: "Person Hobbies", link: "persons.php", pageStyles: ['hobbies.css']);
 if (isset($_GET["person"])) {
     $hobbies = getPersonHobbiesFromDb($_GET["person"]);
     $person = findFirstFromArray(array: $persons, key: ID, value: $_GET["person"]);
+    if ($hobbies == null && $person == null) {
+        $_SESSION["error"] = "Sorry, no data found";
+      redirect("persons.php", "");
+    }
     $_SESSION["personId"] = $person[ID];
+    $_SESSION["currentHobby"] = $hobbies;
 } else {
     $hobbies = getPersonHobbiesFromDb($_SESSION["personId"]);
 }
@@ -39,11 +43,9 @@ if (isset($_GET["keyword"])) {
 $hobbies = $hobbyPaginated[PAGING_DATA];
 $prev = $hobbyPaginated[PAGING_CURRENT_PAGE] - 1;
 $next = $hobbyPaginated[PAGING_CURRENT_PAGE] + 1;
-if (count($hobbies) > 1) {
-    $noun = "Hobbies";
-} else {
-    $noun = "Hobby";
-}
+
+$noun = setNoun(array: $hobbies, text: "Hobby");
+mainHeader(cssIdentifier: "page-hobbies", title: "Person Hobbies", link: "persons.php", pageStyles: ['hobbies.css']);
 ?>
     <div class="hobbies-content position-absolute px-5">
         <div class="content-wrapper d-xl-flex justify-content-between d-md-block">
@@ -96,7 +98,8 @@ if (count($hobbies) > 1) {
                                     type="submit">
                                 <span class="d-xl-none d-flex flex-column">Search</span>
                                 <div style="fill: #000000" class="header-page-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon search-icon" viewBox="0 0 512 512">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon search-icon"
+                                         viewBox="0 0 512 512">
                                         <path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
                                               fill="none" stroke="currentColor" stroke-miterlimit="10"
                                               stroke-width="32"/>
@@ -142,6 +145,11 @@ if (count($hobbies) > 1) {
                 <?= $_SESSION["info"] ?>
             </div>
             <?php
+        } elseif (isset($_SESSION["error"])) { ?>
+            <div class="alert alert-danger" role="alert">
+                <?= $_SESSION["error"] ?>
+            </div>
+            <?php
         }
         if (count($hobbies) != 0) {
             ?>
@@ -156,7 +164,7 @@ if (count($hobbies) > 1) {
                                             <thead>
                                             <tr>
                                                 <th scope="col" class="text-center p-3">No</th>
-                                                <th scope="col" class="p-3">Name</th>
+                                                <th scope="col" class="p-3 text-center">Name</th>
                                                 <?php
                                                 if ($user[PERSON_ROLE] == ROLE_ADMIN) {
                                                     ?>
@@ -327,4 +335,5 @@ mainFooter("persons.php");
 unset($_SESSION["deleteSuccess"]);
 unset($_SESSION["info"]);
 unset($_SESSION["currentHobby"]);
+unset($_SESSION["error"]);
 

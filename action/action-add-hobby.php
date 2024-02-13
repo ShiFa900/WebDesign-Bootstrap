@@ -5,7 +5,7 @@ require_once __DIR__ . "/const.php";
 
 $hobby = [
     ID => null,
-    HOBBIES_NAME => $_POST["hobbyName"],
+    HOBBIES_NAME => htmlspecialchars($_POST["hobbyName"]),
     HOBBIES_PERSON_ID => $_SESSION["personId"]
 ];
 saveHobby($hobby, "hobbies.php");

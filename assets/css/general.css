@@ -159,8 +159,8 @@ body {
 }
 
 .page-persons .header-page-icon,
-.page-hobbies .header-page-icon .search-icon,
-.page-jobs .header-page-icon .search-icon{
+.page-hobbies .header-page-icon,
+.page-jobs .header-page-icon{
     width: 1.75rem;
     stroke: #444444;
     display: flex;
@@ -266,8 +266,28 @@ body {
     --bs-btn-border-radius: none;
 }
 
-.page.persons form .btn-reset {
+.pop-up-btn-hover:hover{
+    background: #1a82c5;
+    color: #ffffff;
+}
+
+.pop-up-btn-hover:active{
+    background-color: #347dad !important;
+    color: #ffffff !important;
+}
+/*.btn:hover{*/
+/*    background-color: #1a82c5;*/
+/*    color: #ffff;*/
+/*}*/
+
+.page-persons form .btn-reset{
     padding: 0 !important;
+    color: #015d98;
+}
+
+.page-persons .btn-reset:hover,
+.page-persons .btn-reset:active {
+    color: #015d98;
 }
 
 .btn-secondary:hover {
@@ -699,6 +719,7 @@ tbody tr:nth-child(even) {
 
 .table > :not(caption) > * > * {
     background: none;
+    /*padding: 0.5rem 2.5rem;*/
 }
 
 .table > tbody {
