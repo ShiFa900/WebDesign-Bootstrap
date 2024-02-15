@@ -6,8 +6,11 @@ require_once __DIR__ . "/action/utils.php";
 redirectIfNotAuthenticated();
 $persons = getAll();
 $person = findFirstFromArray(array: $persons, key: ID, value: $_GET["person"]);
+$user = findFirstFromArray(array: $persons,key: PERSON_EMAIL,value: $_SESSION["userEmail"]);
 $_SESSION["personId"] = $person[ID];
-checkRole($_SESSION["userEmail"], "ROLE_ADMIN");
+if ($user[PERSON_EMAIL] != $person[PERSON_EMAIL] && $user[PERSON_ROLE] != ROLE_ADMIN) {
+    checkRole($_SESSION["userEmail"], "ROLE_ADMIN");
+}
 
 mainHeader(cssIdentifier: "page-add-hobby", title: "Add Hobby", link: "add-hobby.php", pageStyles: ["hobbies.css"]);
 ?>
@@ -34,7 +37,8 @@ mainHeader(cssIdentifier: "page-add-hobby", title: "Add Hobby", link: "add-hobby
                                                          alt="Person has hobbies" class="hobby-img">
                                                 </div>
                                                 <div class="card-field">
-                                                    <label for="hobbyName" class="form-label required">Add new hobby</label>
+                                                    <label for="hobbyName" class="form-label required">Add new
+                                                        hobby</label>
                                                     <input type="text" id="hobbyName" class="form-control"
                                                            name="hobbyName" maxlength="30" minlength="3"
                                                            placeholder="Your hobby" required>

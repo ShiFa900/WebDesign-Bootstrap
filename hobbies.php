@@ -164,7 +164,7 @@ mainHeader(cssIdentifier: "page-hobbies", title: "Person Hobbies", link: "person
                                             <thead>
                                             <tr>
                                                 <th scope="col" class="text-center p-3">No</th>
-                                                <th scope="col" class="p-3 text-center">Name</th>
+                                                <th scope="col" class="p-3">Name</th>
                                                 <?php
                                                 if ($user[PERSON_ROLE] == ROLE_ADMIN) {
                                                     ?>

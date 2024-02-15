@@ -6,6 +6,7 @@ require_once __DIR__ . "/action/utils.php";
 redirectIfNotAuthenticated();
 
 checkRole($_SESSION["userEmail"], "ROLE_ADMIN");
+$jobs = getJobs();
 
 mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-person.php", pageStyles: ["add-person.css"]);
 ?>
@@ -60,7 +61,7 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
                                                 <?php
                                             } else {
                                                 ?>
-                                                <span class="smallText"><em>NIK must be at least 16 characters</em></span>
+                                                <span class="smallText"><em>NIK must be at least 16 characters.</em></span>
                                                 <?php
                                             }
                                             ?>
@@ -132,23 +133,32 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
                                                 <input class="form-check-input" type="checkbox" role="switch"
                                                        id="flexSwitchCheckDefault" name="status" checked/>
                                                 <label class="form-check-label" for="flexSwitchCheckDefault">This person
-                                                    is
-                                                    alive</label>
+                                                    is alive</label>
                                             </div>
                                         </div>
-
                                     </div>
 
                                     <div class="col-xxl-5 col-xl-6 col-lg-6 new-person-form">
                                         <div class="mb-3 form-input-add-person">
-                                            <label class="form-label required" for="role-dropdown">Job</label>
-                                            <select id="role-dropdown" class="form-select form-control" required
-                                                    aria-label="Small select example" name="role">
-                                                <!-- dropdwon bekerjaan nanti value-nya akan diisi dari database jobs, dan data dari database akan increment jika jobs di create new-->
+                                            <label class="form-label required" for="hobby">Hobby</label>
+                                           <input class="form-control" id="hobby"
+                                                  type="text"
+                                                  placeholder="Hobby"
+                                                  value="<?php if(isset($_SESSION["inputData"])){
+                                               echo $_SESSION["inputData"]["hobby"];
+                                           } ?>"
+                                           />
+                                            <span class="smallText"><em>Sorry, only one hobby can be added. Hobby can be manage at View Hobby page for users.</em></span>
+                                        </div>
+                                        <div class="mb-3 form-input-add-person">
+                                            <label class="form-label required" for="job-dropdown">Job</label>
+                                            <select id="job-dropdown" class="form-select form-control"
+                                                    aria-label="Small select example" name="job">
+                                                <!-- dropdwon pekerjaan nanti value-nya akan diisi dari database jobs, dan data dari database akan increment jika jobs di create new-->
                                                 <?php
                                                 foreach ($jobs as $job) {
                                                     ?>
-                                                    <option value="<?= $job[ID] ?>" <?php if($job[JOBS_NAME] === JOBS_DEFAULT_NAME) echo "selected" ?>>
+                                                    <option value="<?= $job[JOBS_NAME] ?>" <?php if($job[JOBS_NAME] === JOBS_DEFAULT_NAME) echo "selected" ?>>
                                                         <?=$job[JOBS_NAME]?>
                                                     </option>
                                                     <?php
@@ -166,17 +176,32 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
                                                     Create new option
                                             </a>
                                         </div>
-                                        <div class="mb-3 form-input-add-person">
-                                            <label for="note" class="form-label">Internal notes</label>
-                                            <div class="form-floating mb-4">
-                                            <textarea class="form-control" placeholder="Leave a comment here" id="note"
-                                                      name="note"><?php if (isset($_SESSION["inputData"])) {
-                                                    echo $_SESSION["inputData"]["note"];
-                                                } ?></textarea>
-                                            </div>
-                                            <hr/>
-                                        </div>
 
+                                        <div class="mb-3 form-input-add-person">
+                                            <label class="form-label required" for="role-dropdown">Role</label>
+                                            <select id="role-dropdown" class="form-select form-control" required
+                                                    aria-label="Small select example" name="role">
+                                                <?php
+                                                if (isset($_SESSION["inputData"]["role"])) {
+                                                    $arrayRole = sortRole($_SESSION["inputData"]["role"]);
+                                                    foreach ($arrayRole as $role) {
+                                                        ?>
+                                                        <option value="<?= $role ?>" <?php if ($role === $_SESSION["inputData"]["role"]) echo "selected" ?>>
+                                                            <?= ROLE_LABEL[$role . "_LABEL"] ?></option>
+                                                        <?php
+                                                    }
+                                                } else {
+                                                    ?>
+                                                    <option selected
+                                                            value="<?= ROLE_MEMBER ?>"><?= ROLE_LABEL["ROLE_MEMBER_LABEL"] ?></option>
+                                                    <option value="<?= ROLE_MEMBER ?>"><?= ROLE_LABEL["ROLE_ADMIN_LABEL"] ?></option>
+
+                                                    <?php
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <hr/>
                                         <!--password-->
                                         <div class="mb-3 form-input-add-person">
                                             <label for="pass" class="form-label required">Password</label>
@@ -211,28 +236,13 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
                                         </div>
 
                                         <div class="mb-3 form-input-add-person">
-                                            <label class="form-label required" for="role-dropdown">Role</label>
-                                            <select id="role-dropdown" class="form-select form-control" required
-                                                    aria-label="Small select example" name="role">
-                                                <?php
-                                                if (isset($_SESSION["inputData"]["role"])) {
-                                                    $arrayRole = sortRole($_SESSION["inputData"]["role"]);
-                                                    foreach ($arrayRole as $role) {
-                                                        ?>
-                                                        <option value="<?= $role ?>" <?php if ($role === $_SESSION["inputData"]["role"]) echo "selected" ?>>
-                                                            <?= ROLE_LABEL[$role . "_LABEL"] ?></option>
-                                                        <?php
-                                                    }
-                                                } else {
-                                                    ?>
-                                                    <option selected
-                                                            value="<?= ROLE_MEMBER ?>"><?= ROLE_LABEL["ROLE_MEMBER_LABEL"] ?></option>
-                                                    <option value="<?= ROLE_MEMBER ?>"><?= ROLE_LABEL["ROLE_ADMIN_LABEL"] ?></option>
-
-                                                    <?php
-                                                }
-                                                ?>
-                                            </select>
+                                            <label for="note" class="form-label">Internal notes</label>
+                                            <div class="form-floating mb-4">
+                                            <textarea class="form-control" placeholder="Leave a comment here" id="note"
+                                                      name="note"><?php if (isset($_SESSION["inputData"])) {
+                                                    echo $_SESSION["inputData"]["note"];
+                                                } ?></textarea>
+                                            </div>
                                         </div>
                                     </div>
 

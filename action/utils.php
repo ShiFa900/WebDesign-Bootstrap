@@ -62,7 +62,7 @@ function checkRole(string $userEmail, string $role): void
     $persons = getAll();
     $user = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $userEmail);
     if ($user[PERSON_ROLE] != $role) {
-        $_SESSION["user"] = "Sorry, your role is MEMBER. Only ADMIN can create, edit and delete person data.";
+        $_SESSION["user"] = "Sorry, your role is MEMBER. Only ADMIN can create, edit and delete data.";
         redirect("persons.php", "");
     }
 }
@@ -374,12 +374,12 @@ function getPersonJob(string $personId)
     global $PDO;
     try {
 
-            $query = "SELECT * FROM `person_job` WHERE person_id = :person_id";
-            $stmt = $PDO->prepare($query);
-            $stmt->execute(array(
-                "person_id" => $personId
-            ));
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $query = "SELECT * FROM `person_job` WHERE person_id = :person_id";
+        $stmt = $PDO->prepare($query);
+        $stmt->execute(array(
+            "person_id" => $personId
+        ));
+        return $stmt->fetch(PDO::FETCH_ASSOC);
 
     } catch (PDOException $e) {
         die("Query error: " . $e->getMessage());
@@ -432,44 +432,64 @@ function transformRoleFromInput(string $value): string
 
 /**
  * saving person data when user do create or edit
- * @param array $person
+ * @param array $array
  * @param string $location
  * @return void
  */
-function savePerson(array $person, string $location): void
+function savePerson(array $array, string $location): void
 {
     global $PDO;
 
-    if ($person[ID] == null) {
+    if ($array[ID] == null) {
         try {
             $query = "INSERT INTO `persons`(firstName,lastName,nik,email, birthDate,sex,internalNote,role,password,status,lastLoggedIn
                     ) VALUES (:firstName, :lastName, :nik, :email, :birthDate, :sex, :internalNote, :role, :password, :status, :lastLoggedIn)";
             $statement = $PDO->prepare($query);
             $statement->execute(array(
-                "firstName" => $person[PERSON_FIRST_NAME],
-                "lastName" => $person[PERSON_LAST_NAME],
-                "nik" => $person[PERSON_NIK],
-                "email" => $person[PERSON_EMAIL],
-                "birthDate" => $person[PERSON_BIRTH_DATE],
-                "sex" => $person[PERSON_SEX],
-                "internalNote" => $person[PERSON_INTERNAL_NOTE],
-                "role" => $person[PERSON_ROLE],
-                "password" => $person[PASSWORD],
-                "status" => $person[PERSON_STATUS],
-                "lastLoggedIn" => $person[PERSON_LAST_LOGGED_IN]));
+                "firstName" => $array[PERSON_FIRST_NAME],
+                "lastName" => $array[PERSON_LAST_NAME],
+                "nik" => $array[PERSON_NIK],
+                "email" => $array[PERSON_EMAIL],
+                "birthDate" => $array[PERSON_BIRTH_DATE],
+                "sex" => $array[PERSON_SEX],
+                "internalNote" => $array[PERSON_INTERNAL_NOTE],
+                "role" => $array[PERSON_ROLE],
+                "password" => $array[PASSWORD],
+                "status" => $array[PERSON_STATUS],
+                "lastLoggedIn" => $array[PERSON_LAST_LOGGED_IN]));
             $person = $statement->fetchAll(PDO::FETCH_ASSOC);
-            //set global PDO and statement null, to close the connection
+
+            $person[HOBBIES_NAME] = $array[HOBBIES_NAME];
+            saveHobby(array: $person);
+
+            $queryHobby = "INSERT INTO `hobbies` (hobbies_name, person_id) VALUES (:hobbies_name,:person_id)";
+            $stmt = $PDO->prepare($queryHobby);
+            $stmt->execute(array(
+                "hobbies_name" => $array[HOBBIES_NAME],
+                "person_id" => $array[ID]
+            ));
+
+
+            $queryTheJob = "SELECT * FROM `jobs` WHERE jobs_name LIKE :jobs_name";
+            $stmt = $PDO->prepare($queryTheJob);
+            $stmt->execute(array(
+                "jobs_name" => $array[JOBS_NAME]
+            ));
+
+            $queryCountJob = "SELECT COUNT(*) FROM `person_job` WHERE ";
 
             $queryJob = "INSERT INTO `person_job` (person_id,job_id) VALUE (:person_id, :job_id)";
             $stmt = $PDO->prepare($queryJob);
             $stmt->execute(array(
-                "person_id" => $person[ID],
+                "person_id" => $array[ID],
             ));
+            //set global PDO and statement null, to close the connection
+
             $PDO = null;
             $statement = null;
 
-            $_SESSION["info"] = "Successfully add person data of '" . $person[PERSON_FIRST_NAME] . "'!";
-            redirect("../" . $location, "person=" . $person[PERSON_EMAIL]);
+            $_SESSION["info"] = "Successfully add person data of '" . $array[PERSON_FIRST_NAME] . "'!";
+            redirect("../" . $location, "person=" . $array[PERSON_EMAIL]);
 
         } catch (PDOException $e) {
             die('Query error: ' . $e->getMessage());
@@ -479,21 +499,21 @@ function savePerson(array $person, string $location): void
             $personQuery = "UPDATE `persons` SET firstName= :firstName,lastName=:lastName,nik=:nik,email=:email,birthDate=:birthDate,sex=:sex,internalNote=:internalNote,role=:role,password=:password,status=:status,lastLoggedIn=:lastLoggedIn WHERE id =:id";
             $stmt = $PDO->prepare($personQuery);
             $stmt->execute(array(
-                "id" => $person[ID],
-                "firstName" => $person[PERSON_FIRST_NAME],
-                "lastName" => $person[PERSON_LAST_NAME],
-                "nik" => $person[PERSON_NIK],
-                "email" => $person[PERSON_EMAIL],
-                "birthDate" => $person[PERSON_BIRTH_DATE],
-                "sex" => $person[PERSON_SEX],
-                "internalNote" => $person[PERSON_INTERNAL_NOTE],
-                "role" => $person[PERSON_ROLE],
-                "password" => $person[PASSWORD],
-                "status" => $person[PERSON_STATUS],
-                "lastLoggedIn" => $person[PERSON_LAST_LOGGED_IN]));
+                "id" => $array[ID],
+                "firstName" => $array[PERSON_FIRST_NAME],
+                "lastName" => $array[PERSON_LAST_NAME],
+                "nik" => $array[PERSON_NIK],
+                "email" => $array[PERSON_EMAIL],
+                "birthDate" => $array[PERSON_BIRTH_DATE],
+                "sex" => $array[PERSON_SEX],
+                "internalNote" => $array[PERSON_INTERNAL_NOTE],
+                "role" => $array[PERSON_ROLE],
+                "password" => $array[PASSWORD],
+                "status" => $array[PERSON_STATUS],
+                "lastLoggedIn" => $array[PERSON_LAST_LOGGED_IN]));
 
-            if ($person[PERSON_EMAIL] == $_SESSION["userEmail"]) {
-                $_SESSION["userEmail"] = $person[PERSON_EMAIL];
+            if ($array[PERSON_EMAIL] == $_SESSION["userEmail"]) {
+                $_SESSION["userEmail"] = $array[PERSON_EMAIL];
                 $_SESSION["editMyProfile"] = "Successfully edit your data!";
                 redirect("../" . $location, "");
 
@@ -501,31 +521,31 @@ function savePerson(array $person, string $location): void
             $PDO = null;
             $stmt = null;
 
-            $_SESSION["info"] = "Successfully edit person data of '" . $person[PERSON_FIRST_NAME] . "'!";
-            redirect("../" . $location, "person=" . $person[ID]);
+            $_SESSION["info"] = "Successfully edit person data of '" . $array[PERSON_FIRST_NAME] . "'!";
+            redirect("../" . $location, "person=" . $array[ID]);
         } catch (PDOException $e) {
             die('Query error: ' . $e->getMessage());
         }
     }
 }
 
-function saveHobby(array $hobby, string $location): void
+function saveHobby(array $array, string|null $location = null): void
 {
     global $PDO;
-    if ($hobby[ID] == null) {
+    if ($array[ID] == null) {
         try {
             $query = "INSERT INTO `hobbies` (name, person_id) VALUES (:name, :person_id)";
             $stmt = $PDO->prepare($query);
             $stmt->execute(array(
-                "name" => ucfirst($hobby[HOBBIES_NAME]),
-                "person_id" => $hobby[HOBBIES_PERSON_ID]
+                "hobbies_name" => ucfirst($array[HOBBIES_NAME]),
+                "person_id" => $array[HOBBIES_PERSON_ID]
             ));
 
             $PDO = null;
             $stmt = null;
 
-            $_SESSION["info"] = "Successfully save new hobby '" . $hobby[HOBBIES_NAME] . "'!";
-            redirect("../" . $location, "person=" . $hobby[HOBBIES_PERSON_ID]);
+            $_SESSION["info"] = "Successfully save new hobby '" . $array[HOBBIES_NAME] . "'!";
+            redirect("../" . $location, "person=" . $array[HOBBIES_PERSON_ID]);
         } catch (PDOException $e) {
             die("Query error: " . $e->getMessage());
         }
@@ -534,36 +554,36 @@ function saveHobby(array $hobby, string $location): void
             $query = "UPDATE `hobbies` SET id = :id, name= :name, person_id= :person_id WHERE id = :id";
             $stmt = $PDO->prepare($query);
             $stmt->execute(array(
-                "id" => $hobby[ID],
-                "name" => ucfirst($hobby[HOBBIES_NAME]),
-                "person_id" => $hobby[HOBBIES_PERSON_ID]
+                "id" => $array[ID],
+                "hobbies_name" => ucfirst($array[HOBBIES_NAME]),
+                "person_id" => $array[HOBBIES_PERSON_ID]
             ));
 
             $PDO = null;
             $stmt = null;
-            $_SESSION["info"] = "Successfully edit hobby of '" . $hobby[HOBBIES_NAME] . "'!";
-            redirect("../" . $location, "person=" . $hobby[HOBBIES_PERSON_ID]);
+            $_SESSION["info"] = "Successfully edit hobby of '" . $array[HOBBIES_NAME] . "'!";
+            redirect("../" . $location, "person=" . $array[HOBBIES_PERSON_ID]);
         } catch (PDOException $e) {
             die("Query error: " . $e->getMessage());
         }
     }
 }
 
-function saveJob(array $job, string $location): void
+function saveJob(array $array, string|null $location = null): void
 {
     global $PDO;
-    if ($job[ID] == null) {
+    if ($array[ID] == null) {
         try {
             $query = "INSERT INTO `jobs` (name, count) VALUES (:name, :count)";
             $stmt = $PDO->prepare($query);
             $stmt->execute(array(
-                "name" => ucfirst($job[JOBS_NAME]),
-                "count" => $job[JOBS_COUNT]
+                "jobs_name" => ucfirst($array[JOBS_NAME]),
+                "count" => $array[JOBS_COUNT]
             ));
             $PDO = null;
             $stmt = null;
 
-            $_SESSION["info"] = "Successfully add new job '" . $job[JOBS_NAME] . "'!";
+            $_SESSION["info"] = "Successfully add new job '" . $array[JOBS_NAME] . "'!";
             redirect("../" . $location, "");
         } catch (PDOException $e) {
             die("Query error: " . $e->getMessage());
@@ -573,16 +593,16 @@ function saveJob(array $job, string $location): void
             $query = "UPDATE `jobs` SET id = :id, name = :name, count = :count WHERE id = :id";
             $stmt = $PDO->prepare($query);
             $stmt->execute(array(
-                "id" => $job[ID],
-                "name" => ucfirst($job[JOBS_NAME]),
-                "count" => $job[JOBS_COUNT]
+                "id" => $array[ID],
+                "jobs_name" => ucfirst($array[JOBS_NAME]),
+                "count" => $array[JOBS_COUNT]
 
             ));
 
             $PDO = null;
             $stmt = null;
 
-            $_SESSION["info"] = "Successfully edit job of '" . $job[JOBS_NAME] . "'!";
+            $_SESSION["info"] = "Successfully edit job of '" . $array[JOBS_NAME] . "'!";
             redirect("../" . $location, "");
         } catch (PDOException) {
             die();
@@ -784,7 +804,9 @@ function getUserInputData(
     string|null $status = null,
     string|null $birthDate = null,
     string|null $sex = null,
-    string|null $note = null
+    string|null $note = null,
+    string|null $hobbyName = null,
+    string|null $jobName = null
 ): array
 {
 
@@ -797,7 +819,9 @@ function getUserInputData(
         'role' => $role,
         'sex' => $sex,
         'status' => $status,
-        'note' => htmlspecialchars($note)
+        'note' => htmlspecialchars($note),
+        'hobbyName' => htmlspecialchars($hobbyName),
+        'jobName' => $jobName
     ];
 }
 

@@ -8,6 +8,7 @@ redirectIfNotAuthenticated();
 mainHeader(cssIdentifier: "page-my-profile", title: "My Profile", link: "my-profile.php", pageStyles: ["my-profile.css"]);
 
 $persons = getAll();
+$jobs = getJobs();
 // get user data by given email
 //$person = getPerson(persons: $persons, email: $_SESSION["userEmail"]);
 $person = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
@@ -16,6 +17,7 @@ $_SESSION["userData"] = $person;
 $arraySex = sortSex($person[PERSON_SEX]);
 // get user role label for role form
 $arrayRole = sortRole($person[PERSON_ROLE]);
+$personHobbies = getPersonHobbiesFromDb(personId: $person[ID]);
 
 ?>
     <main>
@@ -43,172 +45,204 @@ $arrayRole = sortRole($person[PERSON_ROLE]);
                     <form class="new-person-form" action="action/action-my-profile.php" method="post">
                         <div class="row">
                             <div class="col-xxl-6 col-xl-6 col-lg-6 me-4">
-                                <div class="row">
+                                <div class="mb-3 form-input">
+                                    <label for="f-name" class="form-label required"
+                                    >First name</label>
+                                    <input
+                                            id="f-name"
+                                            type="text"
+                                            value="<?php if (isset($_SESSION["userInputData"]["firstName"])) {
+                                                echo $_SESSION["userInputData"]["firstName"];
+                                            } else {
+                                                echo $person[PERSON_FIRST_NAME];
+                                            } ?>"
+                                            class="form-control"
+                                            name="firstName"
+                                            maxlength="30"
+                                    />
+                                </div>
+                                <?php
+                                if (isset($person["lastName"])) {
+                                    ?>
+
                                     <div class="mb-3 form-input">
-                                        <label for="f-name" class="form-label required"
-                                        >First name</label>
+
+                                        <label for="l-name" class="form-label">Last name</label>
                                         <input
-                                                id="f-name"
+                                                id="l-name"
                                                 type="text"
-                                                value="<?php if (isset($_SESSION["userInputData"]["firstName"])) {
-                                                    echo $_SESSION["userInputData"]["firstName"];
+                                                value="<?php if (isset($_SESSION["userInputData"]["lastName"])) {
+                                                    echo $_SESSION["userInputData"]["lastName"];
                                                 } else {
-                                                    echo $person[PERSON_FIRST_NAME];
+                                                    echo $person[PERSON_LAST_NAME];
                                                 } ?>"
                                                 class="form-control"
-                                                name="firstName"
-                                                maxlength="30"
+                                                name="lastName"
+                                                maxlength="15"
                                         />
                                     </div>
                                     <?php
-                                    if (isset($person["lastName"])) {
+                                }
+                                ?>
+                                <div class="mb-3 form-input">
+                                    <label for="nik" class="form-label required">NIK</label>
+                                    <input
+                                            id="nik"
+                                            type="text"
+                                            value="<?php if (isset($_SESSION["userInputData"]["nik"])) {
+                                                echo $_SESSION["userInputData"]["nik"];
+                                            } else {
+                                                echo $person[PERSON_NIK];
+                                            } ?>"
+                                            class="form-control"
+                                            name="nik"
+                                            maxlength="16"
+                                            minlength="16"
+                                    />
+                                    <?php
+                                    if (isset($_SESSION["errorData"]["errorNik"])) {
                                         ?>
-
-                                        <div class="mb-3 form-input">
-
-                                            <label for="l-name" class="form-label">Last name</label>
-                                            <input
-                                                    id="l-name"
-                                                    type="text"
-                                                    value="<?php if (isset($_SESSION["userInputData"]["lastName"])) {
-                                                        echo $_SESSION["userInputData"]["lastName"];
-                                                    } else {
-                                                        echo $person[PERSON_LAST_NAME];
-                                                    } ?>"
-                                                    class="form-control"
-                                                    name="lastName"
-                                                    maxlength="15"
-                                            />
+                                        <div class="alert alert-danger errorText" role="alert">
+                                            <?= $_SESSION["errorData"]["errorNik"] ?>
                                         </div>
                                         <?php
                                     }
                                     ?>
-                                    <div class="mb-3 form-input">
-                                        <label for="nik" class="form-label required">NIK</label>
-                                        <input
-                                                id="nik"
-                                                type="text"
-                                                value="<?php if (isset($_SESSION["userInputData"]["nik"])) {
-                                                    echo $_SESSION["userInputData"]["nik"];
-                                                } else {
-                                                    echo $person[PERSON_NIK];
-                                                } ?>"
-                                                class="form-control"
-                                                name="nik"
-                                                maxlength="16"
-                                                minlength="16"
-                                        />
-                                        <?php
-                                        if (isset($_SESSION["errorData"]["errorNik"])) {
-                                            ?>
-                                            <div class="alert alert-danger errorText" role="alert">
-                                                <?= $_SESSION["errorData"]["errorNik"] ?>
-                                            </div>
-                                            <?php
-                                        }
-                                        ?>
-                                    </div>
-                                    <div class="mb-3 form-input">
-                                        <label for="staticEmail" class="form-label required"
-                                        >Email</label
-                                        >
-                                        <input
-                                                id="staticEmail"
-                                                type="email"
-                                                value="<?php if (isset($_SESSION["userInputData"]["email"])) {
-                                                    echo $_SESSION["userInputData"]["email"];
-                                                } else {
-                                                    echo $person[PERSON_EMAIL];
-                                                } ?>"
-                                                class="form-control"
-                                                name="email"
-                                        />
-                                        <?php
-                                        if (isset($_SESSION["errorData"]["errorEmail"])) {
-                                            ?>
-                                            <div class="alert alert-danger errorText" role="alert">
-                                                <?= $_SESSION["errorData"]["errorEmail"] ?>
-                                            </div>
-                                            <?php
-                                        }
-                                        ?>
-                                    </div>
-
-                                    <div class="mb-3 form-input">
-                                        <label for="datePicker" class="form-label required"
-                                        >Date of birth</label
-                                        >
-                                        <input
-                                                id="datePicker"
-                                                type="date"
-                                                class="form-control"
-                                                value="<?php if (isset($_SESSION["userInputData"]["birthDate"])) {
-                                                    echo $_SESSION["userInputData"]["birthDate"];
-                                                } else {
-                                                    echo date("Y-m-d", $person[PERSON_BIRTH_DATE]);
-                                                } ?>"
-                                                name="birthDate"
-                                        />
-                                        <?php
-                                        if (isset($_SESSION["errorData"]["errorBirthDate"])) {
-                                            ?>
-                                            <div class="alert alert-danger errorText" role="alert">
-                                                <?= $_SESSION["errorData"]["errorBirthDate"] ?>
-                                            </div>
-                                            <?php
-                                        }
-                                        ?>
-                                    </div>
-
-                                    <div class="mb-3 form-input">
-                                        <label for="sex-dropdown" class="form-label required"
-                                        >Sex</label>
-                                        <select
-                                                id="sex-dropdown"
-                                                class="form-select form-control"
-                                                required
-                                                aria-label="Small select example"
-                                                name="sex"
-
-                                        >
-                                            <?php
-                                            if (isset($_SESSION["userInputData"])) {
-                                                $arraySex = sortSex($_SESSION["userInputData"]["sex"]);
-                                                foreach ($arraySex as $sex) { ?>
-                                                    <option
-                                                            value="<?= $sex ?>"<?php if ($sex == $_SESSION["userInputData"]["sex"]) echo "selected" ?>
-                                                    ><?= SEX_LABEL[$sex . "_LABEL"] ?></option>
-                                                    }
-                                                    <?php
-                                                }
+                                </div>
+                                <div class="mb-3 form-input">
+                                    <label for="staticEmail" class="form-label required"
+                                    >Email</label
+                                    >
+                                    <input
+                                            id="staticEmail"
+                                            type="email"
+                                            value="<?php if (isset($_SESSION["userInputData"]["email"])) {
+                                                echo $_SESSION["userInputData"]["email"];
                                             } else {
-                                                foreach ($arraySex as $sex) {
-                                                    ?>
-                                                    <option
-                                                            value="<?= $sex ?>"<?php if ($sex == $person[PERSON_SEX]) echo "selected" ?>
-                                                    ><?= SEX_LABEL[$sex . "_LABEL"] ?></option>
-                                                    <?php
+                                                echo $person[PERSON_EMAIL];
+                                            } ?>"
+                                            class="form-control"
+                                            name="email"
+                                    />
+                                    <?php
+                                    if (isset($_SESSION["errorData"]["errorEmail"])) {
+                                        ?>
+                                        <div class="alert alert-danger errorText" role="alert">
+                                            <?= $_SESSION["errorData"]["errorEmail"] ?>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
+                                </div>
+
+                                <div class="mb-3 form-input">
+                                    <label for="datePicker" class="form-label required"
+                                    >Date of birth</label
+                                    >
+                                    <input
+                                            id="datePicker"
+                                            type="date"
+                                            class="form-control"
+                                            value="<?php if (isset($_SESSION["userInputData"]["birthDate"])) {
+                                                echo $_SESSION["userInputData"]["birthDate"];
+                                            } else {
+                                                echo date("Y-m-d", $person[PERSON_BIRTH_DATE]);
+                                            } ?>"
+                                            name="birthDate"
+                                    />
+                                    <?php
+                                    if (isset($_SESSION["errorData"]["errorBirthDate"])) {
+                                        ?>
+                                        <div class="alert alert-danger errorText" role="alert">
+                                            <?= $_SESSION["errorData"]["errorBirthDate"] ?>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
+                                </div>
+
+                                <div class="mb-3 form-input">
+                                    <label for="sex-dropdown" class="form-label required"
+                                    >Sex</label>
+                                    <select
+                                            id="sex-dropdown"
+                                            class="form-select form-control"
+                                            required
+                                            aria-label="Small select example"
+                                            name="sex"
+
+                                    >
+                                        <?php
+                                        if (isset($_SESSION["userInputData"])) {
+                                            $arraySex = sortSex($_SESSION["userInputData"]["sex"]);
+                                            foreach ($arraySex as $sex) { ?>
+                                                <option
+                                                        value="<?= $sex ?>"<?php if ($sex == $_SESSION["userInputData"]["sex"]) echo "selected" ?>
+                                                ><?= SEX_LABEL[$sex . "_LABEL"] ?></option>
                                                 }
+                                                <?php
                                             }
+                                        } else {
+                                            foreach ($arraySex as $sex) {
+                                                ?>
+                                                <option
+                                                        value="<?= $sex ?>"<?php if ($sex == $person[PERSON_SEX]) echo "selected" ?>
+                                                ><?= SEX_LABEL[$sex . "_LABEL"] ?></option>
+                                                <?php
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="mb-3 form-input">
+                                    <label class="form-label required" for="job-dropdown">Job</label>
+                                    <select id="job-dropdown" class="form-select form-control"
+                                            aria-label="Small select example" name="job">
+                                        <!-- dropdwon pekerjaan nanti value-nya akan diisi dari database jobs, dan data dari database akan increment jika jobs di create new-->
+                                        <?php
+                                        foreach ($jobs as $job) {
                                             ?>
-                                        </select>
-                                    </div>
+                                            <option value="<?= $job[ID] ?>" <?php if ($job[JOBS_NAME] === JOBS_DEFAULT_NAME) echo "selected" ?>>
+                                                <?= $job[JOBS_NAME] ?>
+                                            </option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="col-xxl-5 col-xl-5 col-lg-5">
+                                <?php
+                                if ($personHobbies != null) {
+                                    ?>
                                     <div class="mb-3 form-input">
-                                        <span class="required title">Role</span>
+                                        <span class="required title">Hobby</span>
                                         <p>
                                             <?php
-                                            foreach ($arrayRole as $role) {
-                                                if ($role == $person[PERSON_ROLE]) {
-                                                    echo ROLE_LABEL[$person[PERSON_ROLE] . "_LABEL"];
+                                            foreach ($personHobbies as $hobby) {
+                                                if ($hobby[HOBBIES_PERSON_ID] == $person[ID]) {
+                                                    echo $hobby[HOBBIES_NAME] . ", ";
                                                 }
                                             }
                                             ?>
                                         </p>
                                     </div>
-
+                                    <?php
+                                }
+                                ?>
+                                <div class="mb-3 form-input">
+                                    <span class="required title">Role</span>
+                                    <p>
+                                        <?php
+                                        foreach ($arrayRole as $role) {
+                                            if ($role == $person[PERSON_ROLE]) {
+                                                echo ROLE_LABEL[$person[PERSON_ROLE] . "_LABEL"];
+                                            }
+                                        }
+                                        ?>
+                                    </p>
                                 </div>
-                            </div>
-                            <div class="col-xxl-5 col-xl-5 col-lg-5">
                                 <?php
                                 if ($person[PERSON_ROLE] == ROLE_ADMIN) {
                                     if ($person[PERSON_INTERNAL_NOTE] != null) {
@@ -229,14 +263,13 @@ $arrayRole = sortRole($person[PERSON_ROLE]);
                                                       echo $person[PERSON_INTERNAL_NOTE];
                                                   } ?></textarea>
                                             </div>
-                                            <hr/>
                                         </div>
                                         <?php
                                     }
                                 }
                                 ?>
-
                                 <div class="mb-3 form-input mt-4">
+                                    <hr/>
                                     <label for="currentPass" class="form-label">Current Password</label>
                                     <input
                                             id="currentPass"

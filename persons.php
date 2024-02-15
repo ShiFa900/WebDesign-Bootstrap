@@ -242,12 +242,7 @@ $noun = setNoun($persons, "Person")
                                                         }
                                                         ?> class="dropdown-item" href="my-profile.php">View person
                                                     </a>
-                                                        <a <?php
-                                                            if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
-                                                            ?> href="hobbies.php?person=<?php echo $person[ID] ?>"
-                                                            <?php
-                                                            }
-                                                            ?> class="dropdown-item">View hobby</a>
+                                                        <a class="dropdown-item" href="hobbies.php?person=<?php echo $person[ID] ?>">View hobby</a>
                                                 </div>
                                             </div>
 

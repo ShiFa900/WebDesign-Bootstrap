@@ -12,6 +12,6 @@ $job = [
     JOBS_COUNT => $currentJob[JOBS_COUNT]
 ];
 
-saveJob(job: $job, location: "jobs.php");
+saveJob(array: $job, location: "jobs.php");
 
 

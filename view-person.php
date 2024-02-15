@@ -7,6 +7,7 @@ redirectIfNotAuthenticated();
 //unset($_SESSION["personData"]);
 
 $persons = getAll();
+$jobs = getJobs();
 // get person data by given person ID
 //$person = getPerson($persons, id: $_GET['person']);
 $person = findFirstFromArray(array: $persons, key: ID, value: $_GET["person"]);
@@ -18,6 +19,17 @@ if ($person == null) {
         redirect("persons.php", "");
     }
 }
+if (isset($_SESSION["personData"])) {
+    $personJob = getPersonJob($_SESSION["personData"][ID]);
+} else {
+    $personJob = getPersonJob($person[ID]);
+}
+
+if (is_array($personJob)) {
+    $theJob = findFirstFromArray(array: $jobs, key: ID, value: $personJob["job_id"]);
+} else {
+    $theJob = null;
+}
 
 //get person sex label for showing it
 $arraySex = sortSex($person[PERSON_SEX]);
@@ -26,15 +38,12 @@ $arrayRole = sortRole($person[PERSON_ROLE]);
 // get person ID when user want to delete person data
 $_SESSION["personId"] = $person[ID];
 
-// get person job by given ID
-$job = getPersonJob($person[ID]);
-
 // get current user
 $currentUser = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
 mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-person.php", pageStyles: ["view-person.css"]);
 
 ?>
-    <main>
+    <main xmlns="http://www.w3.org/1999/html">
         <section class="view-section d-flex position-relative">
             <?php
             desktopSidebar("persons.php");
@@ -153,12 +162,34 @@ mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-
 
                                     <div class="col-xxl-5 col-xl-2 col-lg-5">
                                         <div class="mb-3 form-input">
+
                                             <span class="required title">Job</span>
                                             <p>
-                                                <?= $job[JOBS_NAME] ?>
+                                                <?= JOBS_DEFAULT_NAME ?>
                                             </p>
                                         </div>
                                         <?php
+                                        if (isset($_SESSION["personData"])) {
+                                            $personHobbies = getPersonHobbiesFromDb($_SESSION["personData"][ID]);
+                                        } else {
+                                            $personHobbies = getPersonHobbiesFromDb($person[ID]);
+                                        }
+                                        if ($personHobbies != null) {
+                                            ?>
+                                            <div class="mb-3 form-input">
+                                                <span class="title">Hobby</span>
+
+                                                <p class="text-value">
+                                                    <?php
+                                                    foreach ($personHobbies as $hobby) {
+                                                        echo $hobby[HOBBIES_NAME] . ", ";
+                                                    }
+                                                    ?>
+                                                    <br>
+                                                </p>
+                                            </div>
+                                            <?php
+                                        }
                                         if ($currentUser[PERSON_ROLE] == ROLE_ADMIN) {
                                             if (isset($_SESSION["personData"][PERSON_INTERNAL_NOTE])) {
                                                 ?>

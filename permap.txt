@@ -7,10 +7,6 @@ color palette: 0C356A, 0174BE, FFC436, FFF0CE
 
 - minor" sih banyaknya, dicoba ya :)
 
-- buat file 'cleaner', daripada menaruh tiap session di file utils, gunakan parameter untuk variablenya
-
-- editPerson -> bisakah tamppilan GET dihilangkan??
-- clean up dan cek error
 - jika user menginput new password tapi tidak confirm, maka tampilkan pesan error untuk editd data person atau my profile
 - revisi
 
@@ -22,7 +18,6 @@ color palette: 0C356A, 0174BE, FFC436, FFF0CE
 - saat akan menghapus person, cek pekerjaannya lalu kurangi 'count' dengan jumlah orang yang dihapus denghan pekerjaan tersebut
 - delete jobs dan alert sebelum delete
 - add jobs dan hobby saat penambahan data person
-
 
 - saat akan menghapus column dari table parent, column anakan yang terkait harus dihapus terlebih dahulu.
 - saat akan menghapus jobs, berikan alert dulu jika job yang akan dihapus sudah digunakan oleh persons, dan jobs yang sudah di gunakan bisa dihapus ketika person yang menggunakan job tersebut di set menjadi pengangguran dulu.
