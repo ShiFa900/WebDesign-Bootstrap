@@ -4,6 +4,7 @@ require_once __DIR__ . "/const.php";
 session_start();
 
 $currentUser = $_SESSION["personData"];
+$currentJob = getPersonJob($currentUser[ID]);
 $intDate = convertDateToTimestamp($_POST["birthDate"]);
 
 // get user input data, data still there if page is reload when showing error input data
@@ -50,7 +51,7 @@ if (count($validate) == 0) {
     $person[PASSWORD] = $_POST["newPassword"] == null ? $currentUser[PASSWORD] : $_POST["newPassword"];
     $person[PERSON_BIRTH_DATE] = date('Y-m-d H:i:s', $person[PERSON_BIRTH_DATE]);
     $person[PERSON_LAST_LOGGED_IN] = $currentUser[PERSON_LAST_LOGGED_IN] == null ? null : date('Y-m-d H:i:s', $currentUser[PERSON_LAST_LOGGED_IN]);
-
+    $person[JOBS_NAME] = isset($_POST["jobName"]) ?? $currentJob[JOBS_NAME];
     unset($_SESSION["personData"]);
     savePerson($person, "view-person.php");
 

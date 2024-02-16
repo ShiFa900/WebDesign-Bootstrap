@@ -40,8 +40,8 @@ if (count($validate) == 0) {
         PASSWORD => password_hash($_POST["password"], PASSWORD_DEFAULT),
         PERSON_STATUS => (int)translateSwitch($userInputData["status"]),
         PERSON_LAST_LOGGED_IN => null,
-        HOBBIES_NAME => $userInputData["hobbyName"],
-        JOBS_NAME => $userInputData["jobName"]
+        HOBBIES_NAME => $_POST["hobbyName"],
+        JOBS_NAME => $_POST["jobName"]
     ];
 
     savePerson($person, "view-person.php");

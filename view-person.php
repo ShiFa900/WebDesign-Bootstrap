@@ -4,7 +4,6 @@ require_once __DIR__ . "/include/footer.php";
 require_once __DIR__ . "/action/utils.php";
 
 redirectIfNotAuthenticated();
-//unset($_SESSION["personData"]);
 
 $persons = getAll();
 $jobs = getJobs();
@@ -23,12 +22,6 @@ if (isset($_SESSION["personData"])) {
     $personJob = getPersonJob($_SESSION["personData"][ID]);
 } else {
     $personJob = getPersonJob($person[ID]);
-}
-
-if (is_array($personJob)) {
-    $theJob = findFirstFromArray(array: $jobs, key: ID, value: $personJob["job_id"]);
-} else {
-    $theJob = null;
 }
 
 //get person sex label for showing it
@@ -158,14 +151,25 @@ mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-
                                                 ?>
                                             </p>
                                         </div>
+                                        <div class="mb-3 form-input">
+                                            <span class="required title">Status</span>
+                                            <p>
+                                                <?php
+                                                if (isset($_SESSION["personData"][PERSON_STATUS])) {
+                                                    echo translateIntToString($_SESSION["personData"][PERSON_STATUS]);
+                                                } else {
+                                                    echo translateIntToString($person[PERSON_STATUS]);
+                                                }
+                                                ?>
+                                            </p>
+                                        </div>
                                     </div>
 
                                     <div class="col-xxl-5 col-xl-2 col-lg-5">
                                         <div class="mb-3 form-input">
-
                                             <span class="required title">Job</span>
                                             <p>
-                                                <?= JOBS_DEFAULT_NAME ?>
+                                                <?= $personJob[JOBS_NAME] ?>
                                             </p>
                                         </div>
                                         <?php
@@ -224,19 +228,6 @@ mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-
                                                     if ($role == $person[PERSON_ROLE]) {
                                                         echo ROLE_LABEL[$person[PERSON_ROLE] . "_LABEL"];
                                                     }
-                                                }
-                                                ?>
-                                            </p>
-
-                                        </div>
-                                        <div class="mb-3 form-input">
-                                            <span class="required title">Status</span>
-                                            <p>
-                                                <?php
-                                                if (isset($_SESSION["personData"][PERSON_STATUS])) {
-                                                    echo translateIntToString($_SESSION["personData"][PERSON_STATUS]);
-                                                } else {
-                                                    echo translateIntToString($person[PERSON_STATUS]);
                                                 }
                                                 ?>
                                             </p>

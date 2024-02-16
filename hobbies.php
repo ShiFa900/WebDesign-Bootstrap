@@ -17,7 +17,7 @@ if (isset($_GET["person"])) {
     $person = findFirstFromArray(array: $persons, key: ID, value: $_GET["person"]);
     if ($hobbies == null && $person == null) {
         $_SESSION["error"] = "Sorry, no data found";
-      redirect("persons.php", "");
+        redirect("persons.php", "");
     }
     $_SESSION["personId"] = $person[ID];
     $_SESSION["currentHobby"] = $hobbies;
@@ -166,7 +166,7 @@ mainHeader(cssIdentifier: "page-hobbies", title: "Person Hobbies", link: "person
                                                 <th scope="col" class="text-center p-3">No</th>
                                                 <th scope="col" class="p-3">Name</th>
                                                 <?php
-                                                if ($user[PERSON_ROLE] == ROLE_ADMIN) {
+                                                if ($user[PERSON_ROLE] == ROLE_ADMIN ||$user[ID] == $personData[ID]) {
                                                     ?>
                                                     <th scope="col" class="text-center p-3">Action</th>
                                                     <?php
@@ -185,7 +185,7 @@ mainHeader(cssIdentifier: "page-hobbies", title: "Person Hobbies", link: "person
                                                 <td class="text-center"><?= $number ?></td>
                                                 <td><?= $hobby[HOBBIES_NAME] ?></td>
                                                 <?php
-                                                if ($user[PERSON_ROLE] == ROLE_ADMIN) {
+                                                if ($user[PERSON_ROLE] == ROLE_ADMIN || $user[ID] == $personData[ID]) {
                                                     ?>
                                                     <td>
                                                         <div class="person-btn d-flex justify-content-center">

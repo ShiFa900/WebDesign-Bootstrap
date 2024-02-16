@@ -148,19 +148,19 @@ function getHobbies(int $limit, int $page, int $personId, string|null $keyword =
     $keyword = "%$keyword%";
     // mencari query untuk count
     try {
-        $queryCount = "SELECT COUNT(*) as total FROM `hobbies` WHERE name LIKE :name AND person_id = :person_id";
+        $queryCount = "SELECT COUNT(*) as total FROM `hobbies` WHERE hobbies_name LIKE :hobbies_name AND person_id = :person_id";
         $stmt = $PDO->prepare($queryCount);
         $stmt->execute(array(
-            "name" => $keyword,
+            "hobbies_name" => $keyword,
             "person_id" => $personId
         ));
 
         $count = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $queryData = "SELECT * FROM `hobbies` WHERE name LIKE :name AND person_id = :person_id ORDER BY id DESC ";
+        $queryData = "SELECT * FROM `hobbies` WHERE hobbies_name LIKE :hobbies_name AND person_id = :person_id ORDER BY id DESC ";
         $stmt = $PDO->prepare($queryData);
         $stmt->execute(array(
-            "name" => $keyword,
+            "hobbies_name" => $keyword,
             "person_id" => $personId
         ));
 
@@ -186,7 +186,6 @@ function getHobbies(int $limit, int $page, int $personId, string|null $keyword =
         PAGING_CURRENT_PAGE => 1,
         PAGING_DATA => []
     );
-
 }
 
 
@@ -200,11 +199,19 @@ function getJobs()
         $stmt->execute();
         $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+
         foreach ($jobs as $j) {
+            $queryJob = "SELECT COUNT(*) as total FROM `person_job` WHERE job_id = :job_id";
+            $stmt = $PDO->prepare($queryJob);
+            $stmt->execute(array(
+                "job_id" => $j[ID]
+            ));
+            $count = $stmt->fetch(PDO::FETCH_ASSOC);
+
             $job = [
                 ID => $j["id"],
-                JOBS_NAME => $j["name"],
-                JOBS_COUNT => $j["count"]
+                JOBS_NAME => $j["jobs_name"],
+                JOBS_COUNT => $count
             ];
             $result[] = $job;
         }
@@ -220,17 +227,17 @@ function getJobsData(int $limit, int $page, string|null $keyword = null)
     $keyword = "%$keyword%";
 
     try {
-        $queryCount = "SELECT COUNT(*) as total FROM `jobs` WHERE name LIKE :name";
+        $queryCount = "SELECT COUNT(*) as total FROM `jobs` WHERE jobs_name LIKE :jobs_name";
         $stmt = $PDO->prepare($queryCount);
         $stmt->execute(array(
-            "name" => $keyword
+            "jobs_name" => $keyword
         ));
         $count = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $query = "SELECT * FROM `jobs` WHERE name LIKE :name ORDER BY id DESC";
+        $query = "SELECT * FROM `jobs` WHERE jobs_name LIKE :jobs_name ORDER BY id DESC ";
         $stmt = $PDO->prepare($query);
         $stmt->execute(array(
-            "name" => $keyword
+            "jobs_name" => $keyword
         ));
         $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $sort = sortingDataForPagination(page: $page, limit: $limit, array: $jobs);
@@ -379,16 +386,20 @@ function getPersonJob(string $personId)
         $stmt->execute(array(
             "person_id" => $personId
         ));
+        $personJob = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // pekerjaan tidak boleh kosong
+        $queryJob = "SELECT * FROM `jobs` WHERE id = :job_id";
+        $stmt = $PDO->prepare($queryJob);
+        $stmt->execute(array(
+            "job_id" => $personJob[PERSON_JOBS_JOB_ID]
+        ));
+
         return $stmt->fetch(PDO::FETCH_ASSOC);
 
     } catch (PDOException $e) {
         die("Query error: " . $e->getMessage());
     }
-}
-
-function getThePerson(string $jobId)
-{
-
 }
 
 /**
@@ -457,36 +468,67 @@ function savePerson(array $array, string $location): void
                 "password" => $array[PASSWORD],
                 "status" => $array[PERSON_STATUS],
                 "lastLoggedIn" => $array[PERSON_LAST_LOGGED_IN]));
-            $person = $statement->fetchAll(PDO::FETCH_ASSOC);
+            $queryId = "SELECT LAST_INSERT_ID() as id FROM `persons`";
+            $stmt = $PDO->prepare($queryId);
+            $stmt->execute();
+            $personId = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $person[HOBBIES_NAME] = $array[HOBBIES_NAME];
-            saveHobby(array: $person);
+            // lakukan pengecekan jika from hobby diisi, maka simpan datanya ke table hobby
+            if (isset($array[HOBBIES_NAME])) {
+                $hobby = [
+                    ID => null,
+                    HOBBIES_NAME => $array[HOBBIES_NAME],
+                    HOBBIES_PERSON_ID => $personId["id"]
+                ];
+                saveHobby(array: $hobby);
+            }
 
-            $queryHobby = "INSERT INTO `hobbies` (hobbies_name, person_id) VALUES (:hobbies_name,:person_id)";
-            $stmt = $PDO->prepare($queryHobby);
-            $stmt->execute(array(
-                "hobbies_name" => $array[HOBBIES_NAME],
-                "person_id" => $array[ID]
-            ));
+//            $queryHobby = "INSERT INTO `hobbies` (hobbies_name, person_id) VALUES (:hobbies_name,:person_id)";
+//            $stmt = $PDO->prepare($queryHobby);
+//            $stmt->execute(array(
+//                "hobbies_name" => $array[HOBBIES_NAME],
+//                "person_id" => $array[ID]
+//            ));
 
+            if (isset($array[JOBS_NAME])) {
+                // cari data job yang dipilih user
+                $queryTheJob = "SELECT * FROM `jobs` WHERE jobs_name = :jobs_name";
+                $stmt = $PDO->prepare($queryTheJob); // disini errornya
+                $stmt->execute(array(
+                    "jobs_name" => $array[JOBS_NAME]
+                ));
+                $theJob = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $queryTheJob = "SELECT * FROM `jobs` WHERE jobs_name LIKE :jobs_name";
-            $stmt = $PDO->prepare($queryTheJob);
-            $stmt->execute(array(
-                "jobs_name" => $array[JOBS_NAME]
-            ));
+                // dapatkann countnya
+                $queryCountJob = "SELECT COUNT(*) as total FROM `person_job` WHERE job_id = :job_id";
+                $stmt = $PDO->prepare($queryCountJob);
+                $stmt->execute(array(
+                    "job_id" => $theJob[ID]
+                ));
 
-            $queryCountJob = "SELECT COUNT(*) FROM `person_job` WHERE ";
+                // nilai count akan ditambah jika ada person yang memiliki job tersebut (orang yang berbeda)
+                // nilai count akan dikurangi jika person mengganti pekerjaannya atau person meninggal atau person dihapus
+                $countJob = $stmt->fetch(PDO::FETCH_ASSOC);
+                if ($array[JOBS_NAME] == $theJob[JOBS_NAME]) {
+                    $countJob = $countJob["total"] + 1;
+                }
 
-            $queryJob = "INSERT INTO `person_job` (person_id,job_id) VALUE (:person_id, :job_id)";
-            $stmt = $PDO->prepare($queryJob);
-            $stmt->execute(array(
-                "person_id" => $array[ID],
-            ));
-            //set global PDO and statement null, to close the connection
+                $job = [
+                    ID => $theJob[ID],
+                    JOBS_NAME => $theJob[JOBS_NAME],
+                    JOBS_COUNT => $countJob
+                ];
+                saveJob($job);
 
-            $PDO = null;
-            $statement = null;
+                // save id person dan id job ke table person_job
+                $personJob = [
+                    ID => null,
+                    PERSON_JOBS_PERSON_ID => $personId["id"],
+                    PERSON_JOBS_JOB_ID => $theJob[ID]
+                ];
+                savePersonJob($personJob);
+
+            }
 
             $_SESSION["info"] = "Successfully add person data of '" . $array[PERSON_FIRST_NAME] . "'!";
             redirect("../" . $location, "person=" . $array[PERSON_EMAIL]);
@@ -512,6 +554,55 @@ function savePerson(array $array, string $location): void
                 "status" => $array[PERSON_STATUS],
                 "lastLoggedIn" => $array[PERSON_LAST_LOGGED_IN]));
 
+            // cari dulu pekerjaan sebelumnya dari si person
+            $getCurrentJob = getPersonJob($array[ID]);
+            if($getCurrentJob[JOBS_NAME] != $array[HOBBIES_NAME]){
+                // cari nama pekerjaan baru yang diinput user
+                $newJob = "SELECT * FROM `jobs` WHERE jobs_name = :jobs_name";
+                $stmt = $PDO->prepare($newJob);
+                $stmt->execute(array(
+                    "jobs_name" => $array[HOBBIES_NAME]
+                ));
+                // saat user mengganti pekerjaannya
+                $theJob = $stmt->fetch(PDO::FETCH_ASSOC);
+                $job = [
+                    ID => $theJob[ID],
+                    JOBS_NAME => $theJob[JOBS_NAME],
+                    JOBS_COUNT => $theJob[JOBS_COUNT] + 1
+                ];
+                saveJob($job);
+                $personJob = [
+                    ID => null,
+                    PERSON_JOBS_PERSON_ID => $array[ID],
+                    PERSON_JOBS_JOB_ID => $theJob[ID]
+                ];
+                savePersonJob($personJob);
+
+                // update data job yang lama
+                $oldJob = "UPDATE `jobs` SET count = :count WHERE id = :id";
+                $stmt = $PDO->prepare($oldJob);
+                $stmt->execute(array(
+                    "id" => $getCurrentJob[ID],
+                    "count" => $getCurrentJob[JOBS_COUNT] - 1
+                ));
+                $personOldJob = "SELECT * FROM `person_job` WHERE person_id = :person_id AND job_id = :job_id";
+                $stmt = $PDO->prepare($personOldJob);
+                $stmt->execute(array(
+                    "person_id" => $array[ID],
+                    "job_id" => $getCurrentJob[ID]
+                ));
+                $prevJob = $stmt->fetch(PDO::FETCH_ASSOC);
+                $personJob = "UPDATE `person_job` SET id = :id, job_id = :job_id WHERE person_id = :person_id AND job_id = :old_job_id";
+                $stmt = $PDO->prepare($personJob);
+                $stmt->execute(array(
+                    // ini nnti di set nilainya
+
+                ));
+
+            }
+            // simpan langsung data dari jobs yang diinput, jika jobsnya sama
+
+
             if ($array[PERSON_EMAIL] == $_SESSION["userEmail"]) {
                 $_SESSION["userEmail"] = $array[PERSON_EMAIL];
                 $_SESSION["editMyProfile"] = "Successfully edit your data!";
@@ -534,24 +625,23 @@ function saveHobby(array $array, string|null $location = null): void
     global $PDO;
     if ($array[ID] == null) {
         try {
-            $query = "INSERT INTO `hobbies` (name, person_id) VALUES (:name, :person_id)";
+            $query = "INSERT INTO `hobbies` (hobbies_name, person_id) VALUES (:hobbies_name, :person_id)";
             $stmt = $PDO->prepare($query);
             $stmt->execute(array(
                 "hobbies_name" => ucfirst($array[HOBBIES_NAME]),
                 "person_id" => $array[HOBBIES_PERSON_ID]
             ));
 
-            $PDO = null;
-            $stmt = null;
-
             $_SESSION["info"] = "Successfully save new hobby '" . $array[HOBBIES_NAME] . "'!";
-            redirect("../" . $location, "person=" . $array[HOBBIES_PERSON_ID]);
+            if ($location != null) {
+                redirect("../" . $location, "person=" . $array[HOBBIES_PERSON_ID]);
+            }
         } catch (PDOException $e) {
             die("Query error: " . $e->getMessage());
         }
     } else {
         try {
-            $query = "UPDATE `hobbies` SET id = :id, name= :name, person_id= :person_id WHERE id = :id";
+            $query = "UPDATE `hobbies` SET id = :id, hobbies_name= :hobbies_name, person_id= :person_id WHERE id = :id";
             $stmt = $PDO->prepare($query);
             $stmt->execute(array(
                 "id" => $array[ID],
@@ -559,10 +649,10 @@ function saveHobby(array $array, string|null $location = null): void
                 "person_id" => $array[HOBBIES_PERSON_ID]
             ));
 
-            $PDO = null;
-            $stmt = null;
-            $_SESSION["info"] = "Successfully edit hobby of '" . $array[HOBBIES_NAME] . "'!";
-            redirect("../" . $location, "person=" . $array[HOBBIES_PERSON_ID]);
+            if ($location != null) {
+                $_SESSION["info"] = "Successfully edit hobby of '" . $array[HOBBIES_NAME] . "'!";
+                redirect("../" . $location, "person=" . $array[HOBBIES_PERSON_ID]);
+            }
         } catch (PDOException $e) {
             die("Query error: " . $e->getMessage());
         }
@@ -574,23 +664,23 @@ function saveJob(array $array, string|null $location = null): void
     global $PDO;
     if ($array[ID] == null) {
         try {
-            $query = "INSERT INTO `jobs` (name, count) VALUES (:name, :count)";
+            $query = "INSERT INTO `jobs` (jobs_name, count) VALUES (:jobs_name, :count)";
             $stmt = $PDO->prepare($query);
             $stmt->execute(array(
                 "jobs_name" => ucfirst($array[JOBS_NAME]),
                 "count" => $array[JOBS_COUNT]
             ));
-            $PDO = null;
-            $stmt = null;
 
-            $_SESSION["info"] = "Successfully add new job '" . $array[JOBS_NAME] . "'!";
-            redirect("../" . $location, "");
+            if ($location != null) {
+                $_SESSION["info"] = "Successfully add new job '" . $array[JOBS_NAME] . "'!";
+                redirect("../" . $location, "");
+            }
         } catch (PDOException $e) {
             die("Query error: " . $e->getMessage());
         }
     } else {
         try {
-            $query = "UPDATE `jobs` SET id = :id, name = :name, count = :count WHERE id = :id";
+            $query = "UPDATE `jobs` SET id = :id, jobs_name = :jobs_name, count = :count WHERE id = :id";
             $stmt = $PDO->prepare($query);
             $stmt->execute(array(
                 "id" => $array[ID],
@@ -599,13 +689,43 @@ function saveJob(array $array, string|null $location = null): void
 
             ));
 
-            $PDO = null;
-            $stmt = null;
-
-            $_SESSION["info"] = "Successfully edit job of '" . $array[JOBS_NAME] . "'!";
-            redirect("../" . $location, "");
+            if ($location != null) {
+                $_SESSION["info"] = "Successfully edit job of '" . $array[JOBS_NAME] . "'!";
+                redirect("../" . $location, "");
+            }
         } catch (PDOException) {
             die();
+        }
+    }
+}
+
+function savePersonJob(array $array): void
+{
+    global $PDO;
+
+    if ($array[ID] == null) {
+        try {
+            // simpan data ke table person job, seharusnya tidak mengarah kemana-mana
+            $query = "INSERT INTO `person_job` (person_id, job_id) VALUES (:person_id,:job_id)";
+            $stmt = $PDO->prepare($query);
+            $stmt->execute(array(
+                "person_id" => $array[PERSON_JOBS_PERSON_ID],
+                "job_id" => $array[PERSON_JOBS_JOB_ID]
+            ));
+        } catch (PDOException $e) {
+            die("Query error: " . $e->getMessage());
+        }
+    } else {
+        try {
+            $query = "UPDATE `person_job` SET id = :id, person_id = :person_id, hobbies_id = :hobbies_id";
+            $stmt = $PDO->prepare($query);
+            $stmt->execute(array(
+                "id" => $array[ID],
+                "person_id" => $array[PERSON_JOBS_PERSON_ID],
+                "job_id" => $array[PERSON_JOBS_JOB_ID]
+            ));
+        } catch (PDOException $e) {
+            die("Query error: " . $e->getMessage());
         }
     }
 

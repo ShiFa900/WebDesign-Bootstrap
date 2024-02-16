@@ -4,7 +4,7 @@ require_once __DIR__ . "/const.php";
 session_start();
 
 $currentUser = $_SESSION["userData"];
-
+// di page my profile, user tidak perlu menambahkan hobby pada form, link ke add hobby page
 $intDate = convertDateToTimestamp($_POST["birthDate"]);
 // get all person input or person previous data (if user not input new data)
 $userInputData = getUserInputData(
@@ -17,6 +17,9 @@ $userInputData = getUserInputData(
     sex: $_POST["sex"],
     note: $_POST["note"]
 );
+
+// get user current job
+$getPersonJob = getPersonJob($currentUser[ID]);
 
 // validate person input data
 $validate = validate(
@@ -49,6 +52,7 @@ if (count($validate) == 0) {
     $person[PASSWORD] = $_POST["newPassword"] == null ? $currentUser[PASSWORD] : $_POST["newPassword"];
     $person[PERSON_STATUS] = $currentUser[PERSON_STATUS];
     $person[PERSON_BIRTH_DATE] = date('Y-m-d H:i:s', $person[PERSON_BIRTH_DATE]);
+    $person[JOBS_NAME] = $_POST["jobName"] == null ? $getPersonJob : $_POST["jobName"];
     unset($_SESSION["userData"]);
 
     // save person data if no error data

@@ -7,7 +7,9 @@ redirectIfNotAuthenticated();
 
 checkRole($_SESSION["userEmail"], "ROLE_ADMIN");
 $persons = getAll();
+$jobs = getJobs();
 $person = findFirstFromArray(array: $persons, key: ID, value: $_GET['person']);
+$getPersonJob = getPersonJob($person[ID]);
 // get person data to be edited
 $_SESSION["personData"] = $person;
 
@@ -223,25 +225,40 @@ $arrayRole = sortRole($person[PERSON_ROLE]);
                                     </div>
 
                                     <div class="col-xxl-5 col-xl-5 col-lg-5">
-                                        <div class="mb-3 form-input-add-person">
-                                            <label for="note" class="form-label"
-                                            >Internal notes</label
-                                            >
-                                            <div class="form-floating mb-4">
-                                              <textarea
-                                                      class="form-control"
-                                                      placeholder="Leave a comment here"
-                                                      id="note"
-                                                      name="note"
-                                                      value="<?php if (isset($_SESSION["userInputData"]["note"])) {
-                                                          echo $_SESSION["userInputData"]["note"];
-                                                      } else {
-                                                          echo $person[PERSON_INTERNAL_NOTE];;
-                                                      } ?>"
-                                              ></textarea>
+                                        <a href="hobbies.php?person=<?= $person[ID] ?>" class="nav-link mt-1 mb-3">
+                                            <div style="fill: #000000" class="">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon"
+                                                     viewBox="0 0 512 512">
+                                                    <path d="M467.51 248.83c-18.4-83.18-45.69-136.24-89.43-149.17A91.5 91.5 0 00352 96c-26.89 0-48.11 16-96 16s-69.15-16-96-16a99.09 99.09 0 00-27.2 3.66C89 112.59 61.94 165.7 43.33 248.83c-19 84.91-15.56 152 21.58 164.88 26 9 49.25-9.61 71.27-37 25-31.2 55.79-40.8 119.82-40.8s93.62 9.6 118.66 40.8c22 27.41 46.11 45.79 71.42 37.16 41.02-14.01 40.44-79.13 21.43-165.04z"
+                                                          fill="none" stroke="currentColor" stroke-miterlimit="10"
+                                                          stroke-width="32"/>
+                                                    <circle cx="292" cy="224" r="20"/>
+                                                    <path d="M336 288a20 20 0 1120-19.95A20 20 0 01336 288z"/>
+                                                    <circle cx="336" cy="180" r="20"/>
+                                                    <circle cx="380" cy="224" r="20"/>
+                                                    <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                                          stroke-linejoin="round" stroke-width="32"
+                                                          d="M160 176v96M208 224h-96"/>
+                                                </svg>
+                                                <span class="ps-2">Manage person hobby</span>
                                             </div>
+                                        </a>
+                                        <div class="mb-3 form-input">
+                                            <label class="form-label required" for="job-dropdown">Job</label>
+                                            <select id="job-dropdown" class="form-select form-control"
+                                                    aria-label="Small select example" name="jobName">
+                                                <!-- dropdwon pekerjaan nanti value-nya akan diisi dari database jobs, dan data dari database akan increment jika jobs di create new-->
+                                                <?php
+                                                foreach ($jobs as $job) {
+                                                    ?>
+                                                    <option value="<?= $job[JOBS_NAME] ?>" <?php if ($job[JOBS_NAME] === $getPersonJob[JOBS_NAME]) echo "selected" ?>>
+                                                        <?= $job[JOBS_NAME] ?>
+                                                    </option>
+                                                    <?php
+                                                }
+                                                ?>
+                                            </select>
                                         </div>
-
                                         <div class="mb-4 form-input">
                                             <label class="form-label" for="role-dropdown"
                                             >Role</label
@@ -274,7 +291,24 @@ $arrayRole = sortRole($person[PERSON_ROLE]);
                                                 ?>
                                             </select>
                                         </div>
-
+                                        <div class="mb-3 form-input-add-person">
+                                            <label for="note" class="form-label"
+                                            >Internal notes</label
+                                            >
+                                            <div class="form-floating mb-4">
+                                              <textarea
+                                                      class="form-control"
+                                                      placeholder="Leave a comment here"
+                                                      id="note"
+                                                      name="note"
+                                                      value="<?php if (isset($_SESSION["userInputData"]["note"])) {
+                                                          echo $_SESSION["userInputData"]["note"];
+                                                      } else {
+                                                          echo $person[PERSON_INTERNAL_NOTE];;
+                                                      } ?>"
+                                              ></textarea>
+                                            </div>
+                                        </div>
                                         <hr/>
                                         <div class="mb-3 form-input">
                                             <label for="newPass" class="form-label ">New Password</label>

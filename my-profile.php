@@ -14,6 +14,9 @@ $jobs = getJobs();
 $person = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
 $_SESSION["userData"] = $person;
 
+// get user job
+$getPersonJob = getPersonJob($person[ID]);
+
 $arraySex = sortSex($person[PERSON_SEX]);
 // get user role label for role form
 $arrayRole = sortRole($person[PERSON_ROLE]);
@@ -197,19 +200,18 @@ $personHobbies = getPersonHobbiesFromDb(personId: $person[ID]);
                                 <div class="mb-3 form-input">
                                     <label class="form-label required" for="job-dropdown">Job</label>
                                     <select id="job-dropdown" class="form-select form-control"
-                                            aria-label="Small select example" name="job">
+                                            aria-label="Small select example" name="jobName">
                                         <!-- dropdwon pekerjaan nanti value-nya akan diisi dari database jobs, dan data dari database akan increment jika jobs di create new-->
                                         <?php
                                         foreach ($jobs as $job) {
                                             ?>
-                                            <option value="<?= $job[ID] ?>" <?php if ($job[JOBS_NAME] === JOBS_DEFAULT_NAME) echo "selected" ?>>
+                                            <option value="<?= $job[JOBS_NAME] ?>" <?php if ($job[JOBS_NAME] === $getPersonJob) echo "selected" ?>>
                                                 <?= $job[JOBS_NAME] ?>
                                             </option>
                                             <?php
                                         }
                                         ?>
                                     </select>
-
                                 </div>
                             </div>
                             <div class="col-xxl-5 col-xl-5 col-lg-5">
@@ -217,7 +219,7 @@ $personHobbies = getPersonHobbiesFromDb(personId: $person[ID]);
                                 if ($personHobbies != null) {
                                     ?>
                                     <div class="mb-3 form-input">
-                                        <span class="required title">Hobby</span>
+                                        <span class="title">Hobby</span>
                                         <p>
                                             <?php
                                             foreach ($personHobbies as $hobby) {
@@ -228,6 +230,30 @@ $personHobbies = getPersonHobbiesFromDb(personId: $person[ID]);
                                             ?>
                                         </p>
                                     </div>
+                                    <a href="add-hobby.php?person=<?=$person[ID]?>" class="nav-link mt-1 mb-3">
+                                        <div style="fill: #000000">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="ionicon"
+                                                 viewBox="0 0 512 512">
+                                                <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                                      stroke-linejoin="round" stroke-width="32"
+                                                      d="M256 112v288M400 256H112"/>
+                                            </svg>
+                                            Create new hobby
+                                        </div>
+                                    </a>
+                                    <?php
+                                } else { ?>
+                                    <a href="add-hobby.php?person=<?=$person[ID]?>" class="nav-link mt-1 mb-3">
+                                        <div style="fill: #000000">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="ionicon"
+                                                 viewBox="0 0 512 512">
+                                                <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                                      stroke-linejoin="round" stroke-width="32"
+                                                      d="M256 112v288M400 256H112"/>
+                                            </svg>
+                                            Add your first hobby
+                                        </div>
+                                    </a>
                                     <?php
                                 }
                                 ?>

@@ -25,7 +25,7 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
                             <form class="new-person-form" action="action/action-add-person.php" method="post"
                                   name="addPerson">
                                 <div class="row">
-                                    <div class="col-xxl-6 col-xl-6 col-lg-6 new-person-form">
+                                    <div class="col-xxl-6 col-xl-6 col-lg-6 me-3 new-person-form">
 
                                         <div class="mb-3 form-input-add-person">
                                             <label for="f-name" class="form-label required">First Name</label>
@@ -140,8 +140,8 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
 
                                     <div class="col-xxl-5 col-xl-6 col-lg-6 new-person-form">
                                         <div class="mb-3 form-input-add-person">
-                                            <label class="form-label required" for="hobby">Hobby</label>
-                                           <input class="form-control" id="hobby"
+                                            <label class="form-label" for="hobby">Hobby</label>
+                                           <input class="form-control" id="hobby" name="hobbyName"
                                                   type="text"
                                                   placeholder="Hobby"
                                                   value="<?php if(isset($_SESSION["inputData"])){
@@ -153,7 +153,7 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
                                         <div class="mb-3 form-input-add-person">
                                             <label class="form-label required" for="job-dropdown">Job</label>
                                             <select id="job-dropdown" class="form-select form-control"
-                                                    aria-label="Small select example" name="job">
+                                                    aria-label="Small select example" name="jobName">
                                                 <!-- dropdwon pekerjaan nanti value-nya akan diisi dari database jobs, dan data dari database akan increment jika jobs di create new-->
                                                 <?php
                                                 foreach ($jobs as $job) {
@@ -201,6 +201,15 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
                                                 ?>
                                             </select>
                                         </div>
+                                        <div class="mb-3 form-input-add-person">
+                                            <label for="note" class="form-label">Internal notes</label>
+                                            <div class="form-floating mb-4">
+                                            <textarea class="form-control" placeholder="Leave a comment here" id="note"
+                                                      name="note"><?php if (isset($_SESSION["inputData"])) {
+                                                    echo $_SESSION["inputData"]["note"];
+                                                } ?></textarea>
+                                            </div>
+                                        </div>
                                         <hr/>
                                         <!--password-->
                                         <div class="mb-3 form-input-add-person">
@@ -233,16 +242,6 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
                                                 <?php
                                             }
                                             ?>
-                                        </div>
-
-                                        <div class="mb-3 form-input-add-person">
-                                            <label for="note" class="form-label">Internal notes</label>
-                                            <div class="form-floating mb-4">
-                                            <textarea class="form-control" placeholder="Leave a comment here" id="note"
-                                                      name="note"><?php if (isset($_SESSION["inputData"])) {
-                                                    echo $_SESSION["inputData"]["note"];
-                                                } ?></textarea>
-                                            </div>
                                         </div>
                                     </div>
 
