@@ -52,7 +52,7 @@ if (count($validate) == 0) {
     $person[PASSWORD] = $_POST["newPassword"] == null ? $currentUser[PASSWORD] : $_POST["newPassword"];
     $person[PERSON_STATUS] = $currentUser[PERSON_STATUS];
     $person[PERSON_BIRTH_DATE] = date('Y-m-d H:i:s', $person[PERSON_BIRTH_DATE]);
-    $person[JOBS_NAME] = $_POST["jobName"] == null ? $getPersonJob : $_POST["jobName"];
+    $person[JOBS_NAME] = $_POST["jobName"] ?? $getPersonJob[JOBS_NAME];
     unset($_SESSION["userData"]);
 
     // save person data if no error data

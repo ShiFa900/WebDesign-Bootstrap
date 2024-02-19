@@ -37,7 +37,7 @@ function showPaginationButton(
 
             <button class="btn">
                 <a class="nav-link d-flex justify-content-end"
-                   href="?page=<?= $prev ?>&category=<?= $category ?>&keyword=<?= $keyword ?>&person=<?= $personId ?>">
+                   href="?page=<?= $prev ?>&category=<?= $category ?>&keyword=<?= $keyword ?><?php if($personId != null){ echo "&person=" . $personId;} ?>">
                     <svg xmlns="http://www.w3.org/2000/svg" class="ionicon material-symbols-outlined"
                          viewBox="0 0 512 512">
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -51,7 +51,7 @@ function showPaginationButton(
             ?>
             <button class="btn">
                 <a class="nav-link d-flex justify-content-end"
-                   href="?page=<?= $prev ?>&person=<?= $personId ?>">
+                   href="?page=<?php echo $prev;  if($personId != null){ echo "&person=" . $personId;} ?>">
                     <svg xmlns="http://www.w3.org/2000/svg" class="ionicon material-symbols-outlined"
                          viewBox="0 0 512 512">
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -88,7 +88,7 @@ function showPaginationButton(
             ?>
             <button class="btn">
                 <a class="nav-link d-flex justify-content-end"
-                   href="?page=<?= $next ?>&category=<?= $category ?>&keyword=<?= $keyword ?>&person=<?= $personId ?>">
+                   href="?page=<?= $next ?>&category=<?= $category ?>&keyword=<?= $keyword ?><?php if($personId != null){ echo "&person=" . $personId;} ?>">
 
                     <svg xmlns="http://www.w3.org/2000/svg" class="ionicon material-symbols-outlined"
                          viewBox="0 0 512 512">
@@ -102,7 +102,7 @@ function showPaginationButton(
             ?>
             <button class="btn">
                 <a class="nav-link d-flex justify-content-end"
-                   href="?page=<?= $next ?>&person=<?= $personId ?>">
+                   href="?page=<?= $next; if($personId != null){ echo "&person=" . $personId;} ?>">
                     <svg xmlns="http://www.w3.org/2000/svg" class="ionicon material-symbols-outlined"
                          viewBox="0 0 512 512">
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"

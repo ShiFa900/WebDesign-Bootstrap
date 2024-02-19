@@ -215,7 +215,7 @@ mainHeader(cssIdentifier: "page-hobbies", title: "Person Hobbies", link: "person
                                                                         <div class="modal-header">
                                                                             <h1 class="modal-title"
                                                                                 id="exampleModalLabel">
-                                                                                Are you sure want to delete this hobby?
+                                                                                Are you sure want to delete hobby <?= '"' . $hobby[HOBBIES_NAME] . '" '?>?
                                                                             </h1>
                                                                             <button
                                                                                     type="button"

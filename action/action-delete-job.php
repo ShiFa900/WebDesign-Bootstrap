@@ -1,12 +1,18 @@
 <?php
 require_once __DIR__ . "/utils.php";
 global $PDO;
+session_start();
 
 // cari job dari database
 $jobs = getJobs();
 $job = findFirstFromArray(array: $jobs,key: ID,value: $_GET["job"]);
 if($job == null){
     $_SESSION["error"] = "Sorry, no data found";
+    redirect("../jobs.php", "");
+}
+
+if($job[JOBS_COUNT] > 0){
+    $_SESSION["error"] = "Sorry, this job is being used by " . $job[JOBS_COUNT] . " person";
     redirect("../jobs.php", "");
 }
 

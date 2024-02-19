@@ -83,7 +83,7 @@
     .page-edit-hobby .edit-hobby-content,
     .page-jobs .jobs-content,
     .page-add-job .add-job-content,
-    .page-edit-job .add-job-content{
+    .page-edit-job .edit-job-content{
         left: 0;
         right: 0;
     }
@@ -102,7 +102,7 @@
     .page-edit-hobby .edit-hobby-content,
     .page-jobs .jobs-content,
     .page-add-job .add-job-content,
-    .page-edit-job .add-job-content{
+    .page-edit-job .edit-job-content{
         left: 250px;
     }
 }

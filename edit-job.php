@@ -124,4 +124,4 @@ mainHeader(cssIdentifier: "page-edit-job", title: "Add Job", link: "edit-job.php
         </section>
     </main>
 
-<?php mainFooter("jobs.php");
+    <?php mainFooter("jobs.php");

@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . "/utils.php";
 require_once __DIR__ . "/const.php";
+session_start();
 
 $job = [
     ID => null,
