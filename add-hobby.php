@@ -24,6 +24,15 @@ mainHeader(cssIdentifier: "page-add-hobby", title: "Add Hobby", link: "add-hobby
                     <div class="page-header">
                         <h1 class="first-heading">Add Hobby</h1>
                     </div>
+                    <?php
+                    if (isset($_SESSION["info"])) {
+                        ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?= $_SESSION["info"] ?>!
+                        </div>
+                        <?php
+                    }
+                    ?>
                     <div class="row">
                         <div class="col-xxl-12">
                             <form class="new-person-form" action="action/action-add-hobby.php" method="post"
@@ -67,3 +76,4 @@ mainHeader(cssIdentifier: "page-add-hobby", title: "Add Hobby", link: "add-hobby
     </main>
 
 <?php mainFooter("persons.php");
+unset($_SESSION["info"]);

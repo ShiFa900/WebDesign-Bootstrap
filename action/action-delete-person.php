@@ -18,6 +18,35 @@ try {
         "person_id" => $personWillBeDeleted[ID]
     ));
 
+    // cari pekerjaan dari si person yang akan dihapus
+    $queryPersonJob = "SELECT * FROM `person_job` WHERE person_id = :person_id";
+    $stmt = $PDO->prepare($queryPersonJob);
+    $stmt->execute(array(
+        "person_id" => $personWillBeDeleted[ID]
+    ));
+    $personJob = $stmt->fetch(PDO::FETCH_ASSOC); // harusnya berisi id, person_id dan job_id
+
+    $queryDeletePersonJob = "DELETE FROM `person_job` WHERE person_id = :person_id AND job_id = :job_id";
+    $stmt = $PDO->prepare($queryDeletePersonJob);
+    $stmt->execute(array(
+        "person_id" => $personJob[PERSON_JOBS_PERSON_ID],
+        "job_id" => $personJob[PERSON_JOBS_JOB_ID]
+    ));
+
+    $job = "SELECT * FROM `jobs` WHERE id = :id";
+    $stmt = $PDO->prepare($job);
+    $stmt->execute(array(
+        "id" => $personJob[PERSON_JOBS_JOB_ID]
+    ));
+    $theJob = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $queryJob = "UPDATE `jobs` SET count = :count WHERE id = :id";
+    $stmt = $PDO->prepare($queryJob);
+    $stmt->execute(array(
+        "count" => $theJob[JOBS_COUNT] - 1,
+        "id" => $theJob[ID]
+    ));
+
     $query = "DELETE FROM `persons` WHERE id = :id";
     $stmt = $PDO->prepare($query);
     $stmt->execute(array(

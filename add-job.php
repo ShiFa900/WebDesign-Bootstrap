@@ -20,6 +20,15 @@ mainHeader(cssIdentifier: "page-add-job", title: "Add Job", link: "add-job.php",
                     <div class="page-header">
                         <h1 class="first-heading">Add Job</h1>
                     </div>
+                    <?php
+                    if (isset($_SESSION["info"])) {
+                        ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?= $_SESSION["info"] ?>!
+                        </div>
+                        <?php
+                    }
+                    ?>
                     <div class="row">
                         <div class="col-xxl-12">
                             <form class="new-person-form" action="action/action-add-job.php" method="post"
@@ -62,3 +71,4 @@ mainHeader(cssIdentifier: "page-add-job", title: "Add Job", link: "add-job.php",
     </main>
 
 <?php mainFooter("jobs.php");
+unset($_SESSION["info"]);

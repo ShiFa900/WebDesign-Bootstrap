@@ -2,7 +2,8 @@
 require_once __DIR__ . "/action/utils.php";
 require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
-require_once __DIR__ . "/include/showPaginationButton.php";
+require_once __DIR__ . "/include/show-pagination-btn.php";
+require_once __DIR__ . "/include/footer-pagination-btn.php";
 require_once __DIR__ . "/action/action-persons.php";
 require_once __DIR__ . "/action/pagination.php";
 
@@ -271,26 +272,13 @@ $noun = setNoun($persons, "Person")
                     </tbody>
                 </table>
             </div>
-            <div class="wrapper pagination-btn d-flex justify-content-end">
-                <?php
-                // show pagination button
-                if (isset($_GET["category"]) || isset($_GET["keyword"])) {
-                    showPaginationButton(
-                        displayingData: $personPaginated,
-                        prev: $prev,
-                        next: $next,
-                        page: $page,
-                        keyword: $_GET["keyword"],
-                        category: $_GET["category"]);
-                } else {
-                    showPaginationButton(
-                        displayingData: $personPaginated,
-                        prev: $prev,
-                        next: $next,
-                        page: $page);
-                }
-                ?>
-            </div>
+             <?php
+             if(isset($_GET["category"]) || isset($_GET["keyword"])){
+                 footerPaginationBtn(array: $personPaginated,prev: $prev,next: $next,page: $page,identifier: "page-persons",keyword: $_GET["keyword"],category: $_GET["category"]);
+               } else {
+                     footerPaginationBtn(array: $personPaginated,prev: $prev,next: $next,page: $page,identifier: "page-persons");
+               }
+             ?>
         </div>
 
         <?php

@@ -194,7 +194,7 @@ function getJobs()
     global $PDO;
     $result = [];
     try {
-        $query = "SELECT * FROM `jobs`";
+        $query = "SELECT * FROM `jobs` ORDER BY jobs_name ";
         $stmt = $PDO->prepare($query);
         $stmt->execute();
         $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -234,7 +234,7 @@ function getJobsData(int $limit, int $page, string|null $keyword = null)
         ));
         $count = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $query = "SELECT * FROM `jobs` WHERE jobs_name LIKE :jobs_name ORDER BY id DESC ";
+        $query = "SELECT * FROM `jobs` WHERE jobs_name LIKE :jobs_name ORDER BY jobs_name DESC ";
         $stmt = $PDO->prepare($query);
         $stmt->execute(array(
             "jobs_name" => $keyword
@@ -355,20 +355,31 @@ function getPersonHobbiesFromDb(string $personId): array
 
 /**
  * return hobby that valid by given id
- * @param string $hobbyId
+ * @param string|null $hobbyId
+ * @param string|null $personId
  * @return array
  */
-function getHobby(string $hobbyId): array
+function getHobby(string|null $hobbyId = null, string|null $personId = null): array
 {
     global $PDO;
 
     try {
-        $query = "SELECT * FROM `hobbies` WHERE id = :id";
-        $stmt = $PDO->prepare($query);
-        $stmt->execute(array(
-            "id" => $hobbyId
-        ));
-        $hobby = $stmt->fetch(PDO::FETCH_ASSOC);
+        if($hobbyId != null) {
+            $query = "SELECT * FROM `hobbies` WHERE id = :id";
+            $stmt = $PDO->prepare($query);
+            $stmt->execute(array(
+                "id" => $hobbyId
+            ));
+            $hobby = $stmt->fetch(PDO::FETCH_ASSOC);
+        } else {
+            $query = "SELECT * FROM `hobbies` WHERE person_id = :person_id";
+            $stmt = $PDO->prepare($query);
+            $stmt->execute(array(
+                "person_id" => $personId
+            ));
+            $hobby = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        }
     } catch (PDOException $e) {
         die("Query error: " . $e->getMessage());
     }
@@ -474,7 +485,7 @@ function savePerson(array $array, string $location): void
             $personId = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // lakukan pengecekan jika from hobby diisi, maka simpan datanya ke table hobby
-            if (isset($array[HOBBIES_NAME])) {
+            if (isset($array[HOBBIES_NAME]) && $array[HOBBIES_NAME] != null) {
                 $hobby = [
                     ID => null,
                     HOBBIES_NAME => $array[HOBBIES_NAME],
