@@ -10,7 +10,7 @@ $userInputData = getUserInputData(
     email: $_POST["email"],
     nik: $_POST["nik"],
     role: $_POST["role"],
-    status: $_POST["status"],
+    status: $_POST["status"] ?? "false",
     birthDate: $intDate,
     sex: $_POST["sex"],
     note: $_POST["note"]
@@ -41,7 +41,7 @@ if (count($validate) == 0) {
         PERSON_STATUS => (int)translateSwitch($userInputData["status"]),
         PERSON_LAST_LOGGED_IN => null,
         HOBBIES_NAME => $_POST["hobbyName"],
-        JOBS_NAME => $_POST["jobName"]
+        JOBS_NAME => $_POST["jobName"] == null ? JOBS_DEFAULT_NAME : $_POST["jobName"]
     ];
 
     savePerson($person, "view-person.php");

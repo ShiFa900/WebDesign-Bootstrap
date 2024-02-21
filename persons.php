@@ -35,9 +35,7 @@ $next = $personPaginated[PAGING_CURRENT_PAGE] + 1;
 $noun = setNoun($persons, "Person")
 ?>
     <div class="person-content position-absolute px-5">
-    <div
-            class="content-wrapper d-xl-flex justify-content-between d-md-block"
-    >
+    <div class="content-wrapper d-xl-flex justify-content-between d-md-block">
         <div class="left d-flex gap-4 page-header ">
             <a class="nav-link" href="persons.php">
                 <h1 class="first-heading"><?=$noun?></h1>
@@ -157,7 +155,6 @@ $noun = setNoun($persons, "Person")
         </div>
     </div>
     <?php
-
     if (isset($_SESSION["user"])) {
         ?>
         <div class="alert alert-danger alert-popup" role="alert">
@@ -197,13 +194,21 @@ $noun = setNoun($persons, "Person")
     } else {
         ?>
         <div class="table-container">
+            <?php
+                 if(isset($_GET["category"]) || isset($_GET["keyword"]))
+               {
+                 footerPaginationBtn(array: $personPaginated,prev: $prev,next: $next,page: $page,identifier: "page-persons",keyword: $_GET["keyword"],category: $_GET["category"]);
+               } else {
+                 footerPaginationBtn(array: $personPaginated,prev: $prev,next: $next,page: $page,identifier: "page-persons");
+               }
+             ?>
             <div class="table-responsive ">
                 <table class="table" id="table">
                     <thead>
                     <tr>
                         <th scope="col" class="text-center p-3">No</th>
-                        <th scope="col" class="p-3 text-center">Email</th>
-                        <th scope="col" class="p-3 text-center">Name</th>
+                        <th scope="col" class="p-3">Email</th>
+                        <th scope="col" class="p-3">Name</th>
                         <th scope="col" class="text-center p-3">Age</th>
                         <th scope="col" class="text-center p-3">Role</th>
                         <th scope="col" class="text-center p-3">Status</th>
@@ -272,13 +277,6 @@ $noun = setNoun($persons, "Person")
                     </tbody>
                 </table>
             </div>
-             <?php
-             if(isset($_GET["category"]) || isset($_GET["keyword"])){
-                 footerPaginationBtn(array: $personPaginated,prev: $prev,next: $next,page: $page,identifier: "page-persons",keyword: $_GET["keyword"],category: $_GET["category"]);
-               } else {
-                     footerPaginationBtn(array: $personPaginated,prev: $prev,next: $next,page: $page,identifier: "page-persons");
-               }
-             ?>
         </div>
 
         <?php

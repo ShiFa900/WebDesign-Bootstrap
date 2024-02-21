@@ -11,7 +11,7 @@ if (isset($_GET["reset"])) {
     redirect("jobs.php", "");
 }
 $user = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
-$jobs = getJobs();
+ $jobs = getJobs();
 $page = $_GET["page"] ?? 1;
 $totalPage = ceil((float)count($jobs) / PAGE_LIMIT);
 if ($page < 1 || $page > $totalPage || !is_numeric($page)) {
@@ -58,8 +58,7 @@ mainHeader(cssIdentifier: "page-jobs", title: "Person Job", link: "jobs.php", pa
                         class="search-form d-xl-flex column-gap-2 mt-3"
                         name="search-form"
                         action="#table"
-                        method="get"
-                >
+                        method="get">
                     <div class="wrapper d-xl-flex d-md-block column-gap-2">
                         <div class="form-search w-100">
                             <input
@@ -141,14 +140,17 @@ mainHeader(cssIdentifier: "page-jobs", title: "Person Job", link: "jobs.php", pa
                 <div class="col-xxl-12">
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12">
-                            <div class="table-wrapper d-xl-flex justify-content-center">
+                            <div class="table-wrapper ">
                                 <div class="table-container">
+                                    <?php
+                                    footerPaginationBtn(array: $jobsPaginated, prev: $prev, next: $next, page: $page, identifier: "page-jobs", keyword: $_GET["keyword"]);
+                                    ?>
                                     <div class="table-responsive">
                                         <table class="table" id="table">
                                             <thead>
                                             <tr>
                                                 <th scope="col" class="text-center p-3">No</th>
-                                                <th scope="col" class="p-3 text-center">Name</th>
+                                                <th scope="col" class="p-3">Name</th>
                                                 <th scope="col" class="p-3 text-center">People with this job</th>
                                                 <?php
                                                 if ($user[PERSON_ROLE] == ROLE_ADMIN) {
@@ -163,7 +165,7 @@ mainHeader(cssIdentifier: "page-jobs", title: "Person Job", link: "jobs.php", pa
                                             <?php
                                             $number = ($page - 1) * PAGE_LIMIT + 1;
                                             foreach ($jobs as $job) {
-                                                $theJob = findFirstFromArray(array: $jobs,key: ID,value: $job[ID]);
+                                                $theJob = findFirstFromArray(array: $jobs, key: ID, value: $job[ID]);
                                                 ?>
                                                 <tr>
                                                     <td class="text-center"><?= $number ?></td>
@@ -174,63 +176,66 @@ mainHeader(cssIdentifier: "page-jobs", title: "Person Job", link: "jobs.php", pa
                                                         ?>
                                                         <td>
                                                             <div class="person-btn d-flex justify-content-center">
-                                                                <button class="btn">
+                                                                <form class="btn-form" name="btn-form" action="#" method="post">
+                                                                    <button class="btn">
+                                                                        <a
+                                                                                href="edit-job.php?job=<?= $job[ID] ?>"
+                                                                                class="nav-link table-nav block-color-btn"
+                                                                        >Edit</a
+                                                                        >
+                                                                    </button>
 
-                                                                    <a
-                                                                            href="edit-job.php?job=<?= $job[ID] ?>"
-                                                                            class="nav-link table-nav block-color-btn"
-                                                                    >Edit</a
+                                                                    <button class="btn" type="button"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#exampleModal"
+                                                                    ><a class="delete-btn nav-link table-nav"
+                                                                        href="#"
+                                                                            >Delete</a>
+                                                                    </button>
+                                                                    <!-- Modal -->
+                                                                    <div
+
+                                                                            class="modal fade"
+                                                                            id="exampleModal"
+                                                                            tabindex="-1"
+                                                                            aria-labelledby="exampleModalLabel"
+                                                                            aria-hidden="true"
                                                                     >
-                                                                </button>
-
-                                                                <button class="btn" type="button"
-                                                                        data-bs-toggle="modal"
-                                                                        data-bs-target="#exampleModal"
-                                                                ><a class="delete-btn nav-link table-nav">Delete</a>
-                                                                </button>
-                                                                <!-- Modal -->
-<!--                                                                <div-->
-                                                                <!---->
-                                                                <!--                                                                        class="modal fade"-->
-                                                                <!--                                                                        id="exampleModal"-->
-                                                                <!--                                                                        tabindex="-1"-->
-                                                                <!--                                                                        aria-labelledby="exampleModalLabel"-->
-                                                                <!--                                                                        aria-hidden="true"-->
-                                                                <!--                                                                >-->
-                                                                <!--                                                                    <div class="modal-dialog modal-dialog-centered">-->
-                                                                <!--                                                                        <div class="modal-content">-->
-                                                                <!--                                                                            <div class="modal-header">-->
-                                                                <!--                                                                                <h1 class="modal-title"-->
-                                                                <!--                                                                                    id="exampleModalLabel">-->
-                                                                <!--                                                                                    Are you sure want to delete-->
-                                                                <!--                                                                                    job --><?php //= '"' . $job[JOBS_NAME] . '" ' ?>
-                                                                <!--                                                                                </h1>-->
-                                                                <!--                                                                                <button-->
-                                                                <!--                                                                                        type="button"-->
-                                                                <!--                                                                                        class="btn-close"-->
-                                                                <!--                                                                                        data-bs-dismiss="modal"-->
-                                                                <!--                                                                                        aria-label="Close"-->
-                                                                <!--                                                                                ></button>-->
-                                                                <!--                                                                            </div>-->
-                                                                <!--                                                                            <div class="modal-footer">-->
-                                                                <!--                                                                                <button-->
-                                                                <!--                                                                                        type="button"-->
-                                                                <!--                                                                                        class="btn btn-secondary btn-block"-->
-                                                                <!--                                                                                        data-bs-dismiss="modal"-->
-                                                                <!--                                                                                >-->
-                                                                <!--                                                                                    No-->
-                                                                <!--                                                                                </button>-->
-                                                                <!--                                                                                <button type="button"-->
-                                                                <!--                                                                                        class="btn btn-primary"-->
-                                                                <!--                                                                                        name="btnDelete">-->
-                                                                <!--                                                                                    <a class="btn pop-up-btn-hover"-->
-                                                                <!--                                                                                       href="action/action-delete-job.php?job=-->
-                                                                <?php //= $job[ID] ?><!--">Yes</a>-->
-                                                                <!--                                                                                </button>-->
-                                                                <!--                                                                            </div>-->
-                                                                <!--                                                                        </div>-->
-                                                                <!--                                                                    </div>-->
-                                                                <!--                                                                </div>-->
+                                                                        <div class="modal-dialog modal-dialog-centered">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h1 class="modal-title"
+                                                                                        id="exampleModalLabel">
+                                                                                        Are you sure want to delete
+                                                                                        job <?= '"' . $job[JOBS_NAME] . '" ' ?>
+                                                                                    </h1>
+                                                                                    <button
+                                                                                            type="button"
+                                                                                            class="btn-close"
+                                                                                            data-bs-dismiss="modal"
+                                                                                            aria-label="Close"
+                                                                                    ></button>
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button
+                                                                                            type="button"
+                                                                                            class="btn btn-secondary btn-block"
+                                                                                            data-bs-dismiss="modal"
+                                                                                    >
+                                                                                        No
+                                                                                    </button>
+                                                                                    <button type="button"
+                                                                                            class="btn btn-primary"
+                                                                                            name="btnDelete">
+                                                                                        <a class="btn pop-up-btn-hover"
+                                                                                           href="action/action-delete-job.php">
+                                                                                        Yes</a>
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
                                                             </div>
                                                         </td>
                                                         <?php
@@ -245,7 +250,6 @@ mainHeader(cssIdentifier: "page-jobs", title: "Person Job", link: "jobs.php", pa
                                         </table>
                                     </div>
                                     <?php
-                                    footerPaginationBtn(array: $jobsPaginated, prev: $prev, next: $next, page: $page, identifier: "page-jobs", keyword: $_GET["keyword"]);
                                     ?>
                                 </div>
                             </div>

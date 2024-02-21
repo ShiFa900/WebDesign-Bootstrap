@@ -14,7 +14,7 @@ $userInputData = getUserInputData(
     email: $_POST["email"],
     nik: $_POST["nik"],
     role: $_POST["role"],
-    status: $_POST["status"],
+    status: $_POST["status"] ?? "false",
     birthDate: $intDate,
     sex: $_POST["sex"],
     note: $_POST["note"]);

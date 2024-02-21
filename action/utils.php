@@ -364,7 +364,7 @@ function getHobby(string|null $hobbyId = null, string|null $personId = null): ar
     global $PDO;
 
     try {
-        if($hobbyId != null) {
+        if ($hobbyId != null) {
             $query = "SELECT * FROM `hobbies` WHERE id = :id";
             $stmt = $PDO->prepare($query);
             $stmt->execute(array(
@@ -494,7 +494,9 @@ function savePerson(array $array, string $location): void
                 saveHobby(array: $hobby);
             }
 
-            if (isset($array[JOBS_NAME])) {
+            if ($array[PERSON_STATUS] == STATUS_PASSED_AWAY) {
+                savePersonWithPassedAwayStatus($personId["id"]);
+            } elseif (isset($array[JOBS_NAME])) {
                 // cari data job yang dipilih user
                 $queryTheJob = "SELECT * FROM `jobs` WHERE jobs_name = :jobs_name";
                 $stmt = $PDO->prepare($queryTheJob); // disini errornya
@@ -558,79 +560,58 @@ function savePerson(array $array, string $location): void
                 "status" => $array[PERSON_STATUS],
                 "lastLoggedIn" => $array[PERSON_LAST_LOGGED_IN]));
 
-            // cari dulu pekerjaan sebelumnya dari si person
-            $getCurrentJob = getPersonJob($array[ID]);
-            if ($getCurrentJob[JOBS_NAME] != $array[JOBS_NAME]) {
-                // cari nama pekerjaan baru yang diinput user
-                $newJob = "SELECT * FROM `jobs` WHERE jobs_name = :jobs_name";
-                $stmt = $PDO->prepare($newJob);
-                $stmt->execute(array(
-                    "jobs_name" => $array[JOBS_NAME]
-                ));
-                // saat user mengganti pekerjaannya
-                $theJob = $stmt->fetch(PDO::FETCH_ASSOC);
-                $job = [
-                    ID => $theJob[ID],
-                    JOBS_NAME => $theJob[JOBS_NAME],
-                    JOBS_COUNT => $theJob[JOBS_COUNT] + 1
-                ];
-                saveJob($job);
+            if ($array[PERSON_STATUS] == STATUS_PASSED_AWAY) {
+                savePersonWithPassedAwayStatus($array[ID]);
+            } elseif(isset($array[JOBS_NAME])) {
+                // cari dulu pekerjaan sebelumnya dari si person
+                $getCurrentJob = getPersonJob($array[ID]);
+                if ($getCurrentJob[JOBS_NAME] != $array[JOBS_NAME]) {
+                    // cari nama pekerjaan baru yang diinput user
+                    $newJob = "SELECT * FROM `jobs` WHERE jobs_name = :jobs_name";
+                    $stmt = $PDO->prepare($newJob);
+                    $stmt->execute(array(
+                        "jobs_name" => $array[JOBS_NAME]
+                    ));
+                    // saat user mengganti pekerjaannya
+                    $theJob = $stmt->fetch(PDO::FETCH_ASSOC);
+                    $job = [
+                        ID => $theJob[ID],
+                        JOBS_NAME => $theJob[JOBS_NAME],
+                        JOBS_COUNT => $theJob[JOBS_COUNT] + 1
+                    ];
+                    saveJob($job);
+                    // update data job yang lama dari table jobs
+                    $oldJob = "UPDATE `jobs` SET count = :count WHERE id = :id";
+                    $stmt = $PDO->prepare($oldJob);
+                    $stmt->execute(array(
+                        "id" => $getCurrentJob[ID],
+                        "count" => $getCurrentJob[JOBS_COUNT] - 1
+                    ));
+                    // proses update data dari table person_job
+                    $oldPersonJob = "SELECT * FROM `person_job` WHERE person_id = :person_id AND job_id = :job_id";
+                    $stmt = $PDO->prepare($oldPersonJob);
+                    $stmt->execute(array(
+                        "person_id" => $array[ID],
+                        "job_id" => $getCurrentJob[ID]
+                    ));
+                    $prevJob = $stmt->fetch(PDO::FETCH_ASSOC);
+                    $personJob = "UPDATE `person_job` SET job_id = :job_id, person_id = :person_id WHERE id = :id";
+                    $stmt = $PDO->prepare($personJob);
+                    $stmt->execute(array(
+                        // ini nnti di set nilainya
+                        "id" => $prevJob[ID],
+                        "person_id" => $array[ID],
+                        "job_id" => $job[ID]// diisi dengan id dari job yang baru
 
-                // update data job yang lama dari table jobs
-                $oldJob = "UPDATE `jobs` SET count = :count WHERE id = :id";
-                $stmt = $PDO->prepare($oldJob);
-                $stmt->execute(array(
-                    "id" => $getCurrentJob[ID],
-                    "count" => $getCurrentJob[JOBS_COUNT] - 1
-                ));
-                // proses update data dari table person_job
-                $oldPersonJob = "SELECT * FROM `person_job` WHERE person_id = :person_id AND job_id = :job_id";
-                $stmt = $PDO->prepare($oldPersonJob);
-                $stmt->execute(array(
-                    "person_id" => $array[ID],
-                    "job_id" => $getCurrentJob[ID]
-                ));
-                $prevJob = $stmt->fetch(PDO::FETCH_ASSOC);
-                $personJob = "UPDATE `person_job` SET job_id = :job_id, person_id = :person_id WHERE id = :id";
-                $stmt = $PDO->prepare($personJob);
-                $stmt->execute(array(
-                    // ini nnti di set nilainya
-                    "id" => $prevJob[ID],
-                    "person_id" => $array[ID],
-                    "job_id" => $job[ID]// diisi dengan id dari job yang baru
-
-                ));
+                    ));
+                }
             }
-            // simpan langsung data dari jobs yang diinput, jika jobsnya sama
-//            $queryTheJob = "SELECT * FROM `jobs` WHERE jobs_name = :jobs_name";
-//            $stmt = $PDO->prepare($queryTheJob);
-//            $stmt->execute(array(
-//                "jobs_name" => $array[JOBS_NAME]
-//            ));
-//            $theJob = $stmt->fetch(PDO::FETCH_ASSOC);
-//
-//            $queryPersonJob = "UPDATE `person_job` SET person_id = :person_id, job_id = :job_id WHERE id = :id";
-//            $stmt = $PDO->prepare($queryPersonJob);
-//            $stmt->execute(array(
-//                "id" => $theJob[ID],
-//                "person_id" => $array[ID],
-//                "job_id" => $theJob[ID]
-//            ));
-//            $personJob = $stmt->fetch(PDO::FETCH_ASSOC);
-//            $arrayPersonJob = [
-//                ID => $personJob[ID],
-//                PERSON_JOBS_PERSON_ID => $personJob[PERSON_JOBS_PERSON_ID],
-//                PERSON_JOBS_JOB_ID => $personJob[PERSON_JOBS_JOB_ID]
-//            ];
-//            savePersonJob($arrayPersonJob);
-
             if ($array[PERSON_EMAIL] == $_SESSION["userEmail"]) {
                 $_SESSION["userEmail"] = $array[PERSON_EMAIL];
                 $_SESSION["editMyProfile"] = "Successfully edit your data!";
                 redirect("../" . $location, "");
 
             }
-
             $_SESSION["info"] = "Successfully edit person data of '" . $array[PERSON_FIRST_NAME] . "'!";
             redirect("../" . $location, "person=" . $array[ID]);
         } catch (PDOException $e) {
@@ -736,7 +717,7 @@ function savePersonJob(array $array): void
         }
     } else {
         try {
-            $query = "UPDATE `person_job` SET id = :id, person_id = :person_id, hobbies_id = :hobbies_id";
+            $query = "UPDATE `person_job` SET person_id = :person_id, job_id = :job_id WHERE id = :id";
             $stmt = $PDO->prepare($query);
             $stmt->execute(array(
                 "id" => $array[ID],
@@ -747,6 +728,76 @@ function savePersonJob(array $array): void
             die("Query error: " . $e->getMessage());
         }
     }
+}
+
+function savePersonWithPassedAwayStatus(int $personId): void
+{
+
+    global $PDO;
+    // cari data person dari table person job dengan menggunakan ID person
+    $queryPersonJob = "SELECT * FROM `person_job` WHERE person_id = :person_id";
+    $stmt = $PDO->prepare($queryPersonJob);
+    $stmt->execute(array(
+        "person_id" => $personId,
+    ));
+    $personJobData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$personJobData) {
+        $queryJob = "SELECT * FROM `jobs` WHERE jobs_name = :jobs_name";
+        $stmt = $PDO->prepare($queryJob);
+        $stmt->execute(array(
+            "jobs_name" => JOBS_DEFAULT_NAME
+        ));
+        $defaultJob = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // tambah 1 count default job (tidak bekerja)
+        $updateCurrentJob = "UPDATE `jobs` SET count = :count WHERE id = :id";
+        $stmt = $PDO->prepare($updateCurrentJob);
+        $stmt->execute(array(
+            "count" => $defaultJob[JOBS_COUNT] + 1,
+            "id" => $defaultJob[ID]
+        ));
+
+        // save new person job pada table person_job
+        $personJob = [
+            ID => null,
+            PERSON_JOBS_PERSON_ID => $personId,
+            PERSON_JOBS_JOB_ID => $defaultJob[ID]
+        ];
+
+    } else {
+        // mode edit person
+        // mencari current job
+        $job = getPersonJob($personId);// berupa array jobs
+        // kurangi count current job dengan 1
+        $updateCurrentJob = "UPDATE `jobs` SET count = :count WHERE id = :id";
+        $stmt = $PDO->prepare($updateCurrentJob);
+        $stmt->execute(array(
+            "count" => $job[JOBS_COUNT] - 1,
+            "id" => $job[ID]
+        ));
+
+        // set untuk default job (karena person ber-status passed away)
+        $query = "SELECT * FROM `jobs` WHERE jobs_name = :jobs_name";
+        $stmt = $PDO->prepare($query);
+        $stmt->execute(array(
+            "jobs_name" => JOBS_DEFAULT_NAME
+        ));
+        $theJob = $stmt->fetch(PDO::FETCH_ASSOC);
+        $job = [
+            ID => $theJob[ID],
+            JOBS_NAME => $theJob[JOBS_NAME],
+            JOBS_COUNT => $theJob[JOBS_COUNT] + 1
+        ];
+        saveJob(array: $job);
+        $personJob = [
+            ID => $personJobData[ID],
+            PERSON_JOBS_PERSON_ID => $personId,
+            PERSON_JOBS_JOB_ID => $theJob[ID]
+        ];
+    }
+    savePersonJob($personJob);
+
 }
 
 /**

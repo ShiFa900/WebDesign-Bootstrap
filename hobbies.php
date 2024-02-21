@@ -157,18 +157,21 @@ mainHeader(cssIdentifier: "page-hobbies", title: "Person Hobbies", link: "person
                 <div class="col-xxl-12">
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12">
-                            <div class="table-wrapper d-xl-flex justify-content-center">
+                            <div class="table-wrapper ">
                                 <div class="table-container">
+                                    <?php
+                                    footerPaginationBtn(array: $hobbyPaginated, prev: $prev, next: $next, page: $page, identifier: "page-hobbies", personId: $personData[ID], keyword: $_GET["keyword"]);
+                                    ?>
                                     <div class="table-responsive">
                                         <table class="table" id="table">
                                             <thead>
                                             <tr>
-                                                <th scope="col" class="text-center p-3">No</th>
-                                                <th scope="col" class="p-3">Name</th>
+                                                <th scope="col" class="text-center">No</th>
+                                                <th scope="col">Name</th>
                                                 <?php
                                                 if ($user[PERSON_ROLE] == ROLE_ADMIN || $user[ID] == $personData[ID]) {
                                                     ?>
-                                                    <th scope="col" class="text-center p-3">Action</th>
+                                                    <th scope="col" class="text-center">Action</th>
                                                     <?php
                                                 }
                                                 ?>
@@ -196,7 +199,7 @@ mainHeader(cssIdentifier: "page-hobbies", title: "Person Hobbies", link: "person
                                                                 <button class="btn" type="button"
                                                                         data-bs-toggle="modal"
                                                                         data-bs-target="#exampleModal"
-                                                                ><a class="delete-btn nav-link table-nav">Delete</a>
+                                                                ><a class="delete-btn nav-link table-nav" href="action/action-delete-hobby.php?person=<?=$hobby[ID]?>">Delete</a>
                                                                 </button>
                                                                 <!-- Modal -->
                                                                 <div
@@ -253,9 +256,6 @@ mainHeader(cssIdentifier: "page-hobbies", title: "Person Hobbies", link: "person
                                             </tbody>
                                         </table>
                                     </div>
-                                    <?php
-                                    footerPaginationBtn(array: $hobbyPaginated, prev: $prev, next: $next, page: $page, identifier: "page-hobbies", personId: $personData[ID], keyword: $_GET["keyword"]);
-                                    ?>
                                 </div>
                             </div>
 

@@ -16,6 +16,7 @@ mainHeader(
 
 // get user data by given email
 $persons = getAll();
+$jobs = getJobs();
 //$user = getPerson(persons: $persons,email: $_SESSION["userEmail"]);
 $user = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
 // mencari user yang dengan email yang sama dengan yang ada di database
@@ -113,6 +114,28 @@ foreach ($persons as $person) {
                             </p>
                         </div>
                     </a>
+                </div>
+                <div class="col-xxl-4">
+                    <div class="table-container">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col" class="text-center">No</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col" class="text-center">Being used</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td class="text-center">1</td>
+                                    <td>Pengangguran</td>
+                                    <td class="text-center">5</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 <div class="dashboard-card col-12 col-xxl-4 col-xl-4 col-lg-5 col-md-6">
                     <a class="card card-link" href="persons.php?category=<?= CATEGORIES_ELDERLY ?>"
