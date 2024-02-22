@@ -205,7 +205,7 @@ $personHobbies = getPersonHobbiesFromDb(personId: $person[ID]);
                                         <?php
                                         foreach ($jobs as $job) {
                                             ?>
-                                            <option value="<?= $job[JOBS_NAME] ?>" <?php if ($job[JOBS_NAME] === $getPersonJob) echo "selected" ?>>
+                                            <option value="<?= $job[JOBS_NAME] ?>" <?php if ($job[JOBS_NAME] === $getPersonJob[JOBS_NAME]) echo "selected" ?>>
                                                 <?= $job[JOBS_NAME] ?>
                                             </option>
                                             <?php

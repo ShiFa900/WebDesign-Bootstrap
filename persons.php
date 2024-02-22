@@ -193,7 +193,7 @@ $noun = setNoun($persons, "Person")
         <?php
     } else {
         ?>
-        <div class="table-container">
+        <div class="table-wrapper">
             <?php
                  if(isset($_GET["category"]) || isset($_GET["keyword"]))
                {
@@ -231,8 +231,7 @@ $noun = setNoun($persons, "Person")
                                     <td><?= $person[PERSON_FIRST_NAME] . " " . $person[PERSON_LAST_NAME] ?></td>
                                     <td class="text-center"><?= $personAge ?></td>
                                     <td class="text-center"><?= $personRole ?></td>
-                                    <td class="text-center"><?= translateIntToString($person[PERSON_STATUS]) ?>
-                                    </td>
+                                    <td class="text-center"><?= translateIntToString($person[PERSON_STATUS]) ?></td>
 
                                     <td>
                                         <div class="person-btn d-flex justify-content-center align-items-center">
@@ -278,7 +277,6 @@ $noun = setNoun($persons, "Person")
                 </table>
             </div>
         </div>
-
         <?php
     }
 

@@ -4,6 +4,7 @@ require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
 require_once __DIR__ . "/include/show-pagination-btn.php";
 require_once __DIR__ . "/include/footer-pagination-btn.php";
+require_once __DIR__ . "/include/popup-alert.php";
 require_once __DIR__ . "/action/pagination.php";
 
 $persons = getAll();
@@ -11,7 +12,7 @@ if (isset($_GET["reset"])) {
     redirect("jobs.php", "");
 }
 $user = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
- $jobs = getJobs();
+$jobs = getJobs();
 $page = $_GET["page"] ?? 1;
 $totalPage = ceil((float)count($jobs) / PAGE_LIMIT);
 if ($page < 1 || $page > $totalPage || !is_numeric($page)) {
@@ -150,7 +151,7 @@ mainHeader(cssIdentifier: "page-jobs", title: "Person Job", link: "jobs.php", pa
                                             <thead>
                                             <tr>
                                                 <th scope="col" class="text-center p-3">No</th>
-                                                <th scope="col" class="p-3">Name</th>
+                                                <th scope="col" class="p-3"><?=$noun?> Name</th>
                                                 <th scope="col" class="p-3 text-center">People with this job</th>
                                                 <?php
                                                 if ($user[PERSON_ROLE] == ROLE_ADMIN) {
@@ -176,7 +177,8 @@ mainHeader(cssIdentifier: "page-jobs", title: "Person Job", link: "jobs.php", pa
                                                         ?>
                                                         <td>
                                                             <div class="person-btn d-flex justify-content-center">
-                                                                <form class="btn-form" name="btn-form" action="#" method="post">
+                                                                <form class="btn-form" name="btn-form" action="#"
+                                                                      method="post">
                                                                     <button class="btn">
                                                                         <a
                                                                                 href="edit-job.php?job=<?= $job[ID] ?>"
@@ -187,53 +189,93 @@ mainHeader(cssIdentifier: "page-jobs", title: "Person Job", link: "jobs.php", pa
 
                                                                     <button class="btn" type="button"
                                                                             data-bs-toggle="modal"
-                                                                            data-bs-target="#exampleModal"
+                                                                            data-bs-target="#exampleModal<?= $job[ID] ?>"
                                                                     ><a class="delete-btn nav-link table-nav"
                                                                         href="#"
-                                                                            >Delete</a>
+                                                                        >Delete</a>
                                                                     </button>
                                                                     <!-- Modal -->
                                                                     <div
 
                                                                             class="modal fade"
-                                                                            id="exampleModal"
+                                                                            id="exampleModal<?= $job[ID] ?>"
                                                                             tabindex="-1"
                                                                             aria-labelledby="exampleModalLabel"
                                                                             aria-hidden="true"
                                                                     >
-                                                                        <div class="modal-dialog modal-dialog-centered">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header">
-                                                                                    <h1 class="modal-title"
-                                                                                        id="exampleModalLabel">
-                                                                                        Are you sure want to delete
-                                                                                        job <?= '"' . $job[JOBS_NAME] . '" ' ?>
-                                                                                    </h1>
-                                                                                    <button
-                                                                                            type="button"
-                                                                                            class="btn-close"
-                                                                                            data-bs-dismiss="modal"
-                                                                                            aria-label="Close"
-                                                                                    ></button>
-                                                                                </div>
-                                                                                <div class="modal-footer">
-                                                                                    <button
-                                                                                            type="button"
-                                                                                            class="btn btn-secondary btn-block"
-                                                                                            data-bs-dismiss="modal"
-                                                                                    >
-                                                                                        No
-                                                                                    </button>
-                                                                                    <button type="button"
-                                                                                            class="btn btn-primary"
-                                                                                            name="btnDelete">
-                                                                                        <a class="btn pop-up-btn-hover"
-                                                                                           href="action/action-delete-job.php">
-                                                                                        Yes</a>
-                                                                                    </button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
+                                                                        <?php
+                                                                        showPopupAlert(name: $job[JOBS_NAME],count: $job[JOBS_COUNT],id: $job[ID]);
+                                                                            ?>
+<!--                                                                            <div class="modal-dialog modal-dialog-centered">-->
+<!--                                                                                <div class="modal-content">-->
+<!--                                                                                    <div class="modal-header">-->
+<!--                                                                                        <h1 class="modal-title"-->
+<!--                                                                                            id="exampleModalLabel">-->
+<!--                                                                                            Are you sure want to delete-->
+<!--                                                                                            job --><?php //= '"' . $job[JOBS_NAME] . '" ' ?>
+<!--                                                                                        </h1>-->
+<!--                                                                                        <button-->
+<!--                                                                                                type="button"-->
+<!--                                                                                                class="btn-close"-->
+<!--                                                                                                data-bs-dismiss="modal"-->
+<!--                                                                                                aria-label="Close"-->
+<!--                                                                                        ></button>-->
+<!--                                                                                    </div>-->
+<!--                                                                                    <div class="modal-footer">-->
+<!--                                                                                        <button-->
+<!--                                                                                                type="button"-->
+<!--                                                                                                class="btn btn-secondary btn-block"-->
+<!--                                                                                                data-bs-dismiss="modal"-->
+<!--                                                                                        >-->
+<!--                                                                                            No-->
+<!--                                                                                        </button>-->
+<!--                                                                                        <button type="button"-->
+<!--                                                                                                class="btn btn-primary"-->
+<!--                                                                                                name="btnDelete">-->
+<!--                                                                                            <a class="btn pop-up-btn-hover"-->
+<!--                                                                                               href="action/action-delete-job.php?job=--><?php //= $job[ID] ?><!--">-->
+<!--                                                                                                Yes</a>-->
+<!--                                                                                        </button>-->
+<!--                                                                                    </div>-->
+<!--                                                                                </div>-->
+<!--                                                                            </div>-->
+<!--                                                                            --><?php
+//                                                                        } else { ?>
+<!--                                                                            <div class="modal-dialog modal-dialog-centered">-->
+<!--                                                                                <div class="modal-content">-->
+<!--                                                                                    <div class="modal-header">-->
+<!--                                                                                        <h1 class="modal-title"-->
+<!--                                                                                            id="exampleModalLabel">-->
+<!--                                                                                            Sorry, the job --><?php //= '"' . $job[JOBS_NAME] . '" ' ?><!-- is being used by --><?php //=$job[JOBS_COUNT]?><!-- persons.-->
+<!--                                                                                        </h1>-->
+<!--                                                                                        <button-->
+<!--                                                                                                type="button"-->
+<!--                                                                                                class="btn-close"-->
+<!--                                                                                                data-bs-dismiss="modal"-->
+<!--                                                                                                aria-label="Close"-->
+<!--                                                                                        ></button>-->
+<!--                                                                                    </div>-->
+<!--                                                                                    <div class="modal-footer">-->
+<!--                                                                                        <button-->
+<!--                                                                                                type="button"-->
+<!--                                                                                                class="btn btn-secondary btn-block"-->
+<!--                                                                                                data-bs-dismiss="modal"-->
+<!--                                                                                        >-->
+<!--                                                                                            Back-->
+<!--                                                                                        </button>-->
+<!--<!--                                                                                        <button type="button"-->-->
+<!--<!--                                                                                                class="btn btn-primary"-->-->
+<!--<!--                                                                                                name="btnDelete">-->-->
+<!--<!--                                                                                            <a class="btn pop-up-btn-hover"-->-->
+<!--<!--                                                                                               href="action/action-delete-job.php?job=-->--><?php ////= $job[ID] ?><!--<!--">-->-->
+<!--<!--                                                                                                Yes</a>-->-->
+<!--<!--                                                                                        </button>-->-->
+<!--                                                                                    </div>-->
+<!--                                                                                </div>-->
+<!--                                                                            </div>-->
+<!--                                                                            --><?php
+//                                                                        }
+//                                                                        ?>
                                                                     </div>
                                                                 </form>
                                                             </div>
@@ -249,8 +291,6 @@ mainHeader(cssIdentifier: "page-jobs", title: "Person Job", link: "jobs.php", pa
                                             </tbody>
                                         </table>
                                     </div>
-                                    <?php
-                                    ?>
                                 </div>
                             </div>
                         </div>

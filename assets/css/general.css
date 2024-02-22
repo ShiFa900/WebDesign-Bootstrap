@@ -476,10 +476,12 @@ DROPDOWN FOR VIEW BUTTON (PERSONS PAGE)
     position: absolute;
     background-color: #fff;
     min-width: auto;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
     font-size: 1rem;
     font-weight: 500;
     z-index: 999;
+    transform: translate(55px, -65px);
+
 }
 
 .page-persons .dropdown-content a {
@@ -702,10 +704,20 @@ li ul .nav-link {
     --bs-table-color: none;
 }
 
-thead tr {
+.page-dashboard .table-wrapper {
+    max-height: 400px;
+    overflow: auto;
+    /*display: inline-block;*/
+}
+
+
+.page-dashboard thead th {
+    position: sticky;
+    top: 0;
+    z-index: 999;
     background-color: #015d98;
     color: #e6f1f9;
-    text-transform: uppercase;
+    border: none;
 }
 
 tbody tr:nth-child(even) {
@@ -728,7 +740,7 @@ tbody tr:nth-child(even) {
 
 .table > :not(caption) > * > * {
     background: none;
-    /*padding: 0.5rem 2.5rem;*/
+    padding: 0.5rem 2rem;
 }
 
 .table > tbody {
@@ -738,21 +750,35 @@ tbody tr:nth-child(even) {
 thead tr {
     height: 55px;
     vertical-align: middle;
+    background-color: #015d98;
+    color: #e6f1f9;
+    text-transform: uppercase;
 }
 
-.page-persons table,
+.page-persons .table,
 .page-hobbies table,
-.page-jobs table {
+.page-jobs table,
+.page-dashboard .table-container{
     border-left: 1px solid #dddddd;
     border-right: 1px solid #dddddd;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.09);
+}
 
+table tbody tr td{
+    border-right: 1px solid #dddddd;
+    border-bottom: none;
 }
 
 .page-persons table tr td,
 .page-hobbies table tr td,
-.page-jobs table tr td {
-    line-height: 2.6rem;
+.page-jobs table tr td,
+.page-dashboard table tr td {
+    line-height: 2rem;
+}
+
+.table-header {
+    right: 0;
+    left: 0;
 }
 
 /*CARD*/
@@ -787,8 +813,8 @@ thead tr {
 }
 
 .card-text {
-    letter-spacing: 0.5px;
-    margin-top: 1.4rem;
+    letter-spacing: 1px;
+    /*margin-top: 1.4rem;*/
     padding-bottom: 0.5rem;
     color: #444;
 

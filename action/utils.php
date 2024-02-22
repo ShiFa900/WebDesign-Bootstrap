@@ -211,7 +211,8 @@ function getJobs()
             $job = [
                 ID => $j["id"],
                 JOBS_NAME => $j["jobs_name"],
-                JOBS_COUNT => $count["total"]
+                JOBS_COUNT => $count["total"],
+                JOBS_LAST_UPDATE => convertDateToTimestamp($j["last_update"])
             ];
             $result[] = $job;
         }
@@ -319,6 +320,22 @@ function getAll(): array
         $result[] = $person;
     }
     return $result;
+}
+
+function getLastRecord(string $jobsName)
+{
+    global $PDO;
+    try {
+        $query = "SELECT * FROM `jobs` ORDER BY jobs_name LIMIT 1";
+        $stmt = $PDO->prepare($query);
+        $stmt->execute(array(
+            "jobs_name" => $jobsName
+        ));
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e){
+        die("Query error: " . $e->getMessage());
+    }
+
 }
 
 /**
@@ -664,11 +681,12 @@ function saveJob(array $array, string|null $location = null): void
     global $PDO;
     if ($array[ID] == null) {
         try {
-            $query = "INSERT INTO `jobs` (jobs_name, count) VALUES (:jobs_name, :count)";
+            $query = "INSERT INTO `jobs` (jobs_name, count, last_update) VALUES (:jobs_name, :count, last_update)";
             $stmt = $PDO->prepare($query);
             $stmt->execute(array(
                 "jobs_name" => ucfirst($array[JOBS_NAME]),
-                "count" => $array[JOBS_COUNT]
+                "count" => $array[JOBS_COUNT],
+                "last_update" => $array[JOBS_LAST_UPDATE]
             ));
 
             if ($location != null) {
@@ -680,13 +698,13 @@ function saveJob(array $array, string|null $location = null): void
         }
     } else {
         try {
-            $query = "UPDATE `jobs` SET id = :id, jobs_name = :jobs_name, count = :count WHERE id = :id";
+            $query = "UPDATE `jobs` SET id = :id, jobs_name = :jobs_name, count = :count, last_update = :last_update WHERE id = :id";
             $stmt = $PDO->prepare($query);
             $stmt->execute(array(
                 "id" => $array[ID],
                 "jobs_name" => ucfirst($array[JOBS_NAME]),
-                "count" => $array[JOBS_COUNT]
-
+                "count" => $array[JOBS_COUNT],
+                "last_update" => $array[JOBS_LAST_UPDATE]
             ));
 
             if ($location != null) {

@@ -167,7 +167,7 @@ mainHeader(cssIdentifier: "page-hobbies", title: "Person Hobbies", link: "person
                                             <thead>
                                             <tr>
                                                 <th scope="col" class="text-center">No</th>
-                                                <th scope="col">Name</th>
+                                                <th scope="col"><?=$noun?> Name</th>
                                                 <?php
                                                 if ($user[PERSON_ROLE] == ROLE_ADMIN || $user[ID] == $personData[ID]) {
                                                     ?>
@@ -198,13 +198,13 @@ mainHeader(cssIdentifier: "page-hobbies", title: "Person Hobbies", link: "person
                                                                 </button>
                                                                 <button class="btn" type="button"
                                                                         data-bs-toggle="modal"
-                                                                        data-bs-target="#exampleModal"
-                                                                ><a class="delete-btn nav-link table-nav" href="action/action-delete-hobby.php?person=<?=$hobby[ID]?>">Delete</a>
+                                                                        data-bs-target="#exampleModal<?=$hobby[ID]?>"
+                                                                ><a class="delete-btn nav-link table-nav">Delete</a>
                                                                 </button>
                                                                 <!-- Modal -->
                                                                 <div
                                                                         class="modal fade"
-                                                                        id="exampleModal"
+                                                                        id="exampleModal<?=$hobby[ID]?>"
                                                                         tabindex="-1"
                                                                         aria-labelledby="exampleModalLabel"
                                                                         aria-hidden="true"

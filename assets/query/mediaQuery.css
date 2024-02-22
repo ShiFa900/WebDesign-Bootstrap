@@ -10,24 +10,33 @@
     .page-edit-hobby .edit-hobby-content,
     .page-jobs .jobs-content,
     .page-add-job .add-job-content,
-    .page-edit-job .edit-job-content{
+    .page-edit-job .edit-job-content {
         left: 250px;
     }
 
     .page-add-hobby .form-card,
     .page-edit-hobby .form-card,
     .page-add-job .form-card,
-    .page-edit-job .form-card{
+    .page-edit-job .form-card {
         width: 40%;
     }
+
+    .page-dashboard .dashboard-table {
+        margin: 3.6rem 0;
+    }
+
 }
 
-@media (max-width: 1400px){
+@media (max-width: 1400px) {
     .page-edit-hobby .form-card,
     .page-add-hobby .form-card,
     .page-add-job .form-card,
-    .page-edit-job .form-card{
+    .page-edit-job .form-card {
         width: 50%;
+    }
+
+    .page-dashboard .dashboard-table {
+        margin: 3.6rem 0;
     }
 }
 
@@ -36,21 +45,24 @@
         width: 50%;
     }
 
+    .page-dashboard .dashboard-table {
+        margin: 0;
+    }
+
     .page-add-hobby .form-card,
     .page-edit-hobby .form-card,
     .page-add-job .form-card,
-    .page-edit-job .form-card{
+    .page-edit-job .form-card {
         width: 50%;
     }
 
-    .page-dashboard .dashboard-card:last-child {
-        margin-bottom: 3.6rem;
-    }
-
+    /*.page-dashboard .dashboard-card:last-child {*/
+    /*    margin-bottom: 3.6rem;*/
+    /*}*/
     .page-persons .search-form .wrapper,
     .page-persons .search-form .wrapper .form-search,
     .page-hobbies .form-search,
-    .page-jobs .form-search{
+    .page-jobs .form-search {
         padding-bottom: 0.75rem;
     }
 }
@@ -64,7 +76,7 @@
     .page-add-hobby .form-card,
     .page-edit-hobby .form-card,
     .page-add-job .form-card,
-    .page-edit-job .form-card{
+    .page-edit-job .form-card {
         width: 50%;
     }
 
@@ -83,11 +95,15 @@
     .page-edit-hobby .edit-hobby-content,
     .page-jobs .jobs-content,
     .page-add-job .add-job-content,
-    .page-edit-job .edit-job-content{
+    .page-edit-job .edit-job-content {
         left: 0;
         right: 0;
     }
 
+    .page-dashboard .dashboard-card:last-child,
+    .page-dashboard .dashboard-table {
+        margin-bottom: 3.6rem;
+    }
 }
 
 @media (min-width: 992px) {
@@ -102,14 +118,22 @@
     .page-edit-hobby .edit-hobby-content,
     .page-jobs .jobs-content,
     .page-add-job .add-job-content,
-    .page-edit-job .edit-job-content{
+    .page-edit-job .edit-job-content {
         left: 250px;
+    }
+
+    .page-dashboard .dashboard-table {
+        margin: 3.6rem 0;
     }
 }
 
 @media (max-width: 768px) {
     .page-dashboard .dashboard-card {
         width: 100%;
+    }
+
+    .page-dashboard .table-container {
+        margin-top: 0;
     }
 
     .page-persons .form-select-sm {
@@ -119,7 +143,7 @@
     .page-add-hobby .form-card,
     .page-edit-hobby .form-card,
     .page-add-job .form-card,
-    .page-edit-job .form-card{
+    .page-edit-job .form-card {
         width: 100%;
     }
 

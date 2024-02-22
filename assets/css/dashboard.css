@@ -2,8 +2,12 @@
 .page-dashboard .header-sm-title {
     font-size: 1.2rem;
     margin-bottom: 0;
-
     line-height: 1.6;
+}
+
+.page-dashboard .subheading{
+    font-family: "Montserrat", serif;
+    font-weight: 600;
 }
 
 .page-dashboard .dashboard-content {
@@ -25,6 +29,17 @@
     transform: translateY(-0.9rem);
 }
 
+.page-dashboard table tbody{
+    padding-bottom: 2rem;
+}
+
+/*.page-dashboard .table-container{*/
+/*    margin: 3.6rem 0;*/
+/*}*/
+
+/*.page-dashboard table tr td{*/
+/*    border-bottom: 1px solid #dddddd;*/
+/*}*/
 /*.page-dashboard .card-body{*/
 /*  box-shadow: 0 3.2rem 6.4rem rgba(215, 215, 215, 0.32);*/
 /*}*/

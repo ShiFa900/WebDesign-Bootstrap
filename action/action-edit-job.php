@@ -9,7 +9,8 @@ $jobInput = $_POST["jobName"];
 $job = [
     ID => $currentJob[ID],
     JOBS_NAME => $jobInput == null ? $currentJob[JOBS_NAME] : htmlspecialchars($jobInput),
-    JOBS_COUNT => $currentJob[JOBS_COUNT]
+    JOBS_COUNT => $currentJob[JOBS_COUNT],
+    JOBS_LAST_UPDATE => date("Y-m-d", time())
 ];
 
 saveJob(array: $job, location: "jobs.php");
