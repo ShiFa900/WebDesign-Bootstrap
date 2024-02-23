@@ -12,7 +12,6 @@ if ($currentJob == null) {
     $_SESSION["error"] = "Sorry, no data found";
     redirect("jobs.php", "");
 }
-// dapatkan nama" orang yang menggunakan job currentJob
 $_SESSION["job"] = $currentJob;
 
 mainHeader(cssIdentifier: "page-edit-job", title: "Add Job", link: "edit-job.php", pageStyles: ["jobs.css"]);
@@ -43,7 +42,7 @@ mainHeader(cssIdentifier: "page-edit-job", title: "Add Job", link: "edit-job.php
                                                     <label for="jobName" class="form-label">Edit job</label>
                                                     <input type="text" id="jobName" class="form-control"
                                                            name="jobName" maxlength="30" minlength="3"
-                                                           placeholder="New job" value="<?= $currentJob[JOBS_NAME] ?>">
+                                                           value="<?= $currentJob[JOBS_NAME] ?>">
 
                                                     <div class="btn-container d-flex column-gap-3">
                                                         <a class="btn btn-primary btn--form has-border" type="submit"
@@ -53,7 +52,7 @@ mainHeader(cssIdentifier: "page-edit-job", title: "Add Job", link: "edit-job.php
                                                         <?php
                                                         if ($currentJob[JOBS_COUNT] > 0) {
                                                             ?>
-                                                            <button class="btn btn-primary btn--form" type="button"
+                                                            <button class="btn btn-primary btn--form" type="submit"
                                                                     data-bs-toggle="modal"
                                                                     data-bs-target="#exampleModal"
                                                             ><a>Save</a>
@@ -90,7 +89,7 @@ mainHeader(cssIdentifier: "page-edit-job", title: "Add Job", link: "edit-job.php
                                                                             >
                                                                                 Cancel
                                                                             </button>
-                                                                            <button type="button"
+                                                                            <button type="submit"
                                                                                     class="btn btn-primary"
                                                                                     name="btnDelete">
                                                                                 <a href="#"

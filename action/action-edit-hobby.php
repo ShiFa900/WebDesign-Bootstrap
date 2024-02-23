@@ -3,9 +3,16 @@ require_once __DIR__ . "/utils.php";
 require_once __DIR__ . "/const.php";
 session_start();
 $currentHobby = $_SESSION["currentHobby"];
-
+$newHobby = $_POST["hobbyName"];
+$personHobby = getHobby(personId: $_SESSION["personId"]); // ini harusnya isinya adalah array hobby dari si person
+foreach ($personHobby as $hobby){
+    if(strcasecmp($hobby[HOBBIES_NAME], $newHobby) == 0){
+        $_SESSION["info"] = "Sorry, this hobby is already exist";
+        redirect("../edit-hobby.php", "?hobby=" . $currentHobby[ID]);
+    }
+}
 $userInput = [
-    "hobbyName" => $_POST["hobbyName"]
+    "hobbyName" => $newHobby
 ];
 
 $hobby = [

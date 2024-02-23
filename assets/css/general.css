@@ -550,8 +550,7 @@ DROPDOWN FOR VIEW BUTTON (PERSONS PAGE)
 
 .form-input input,
 .form-input select {
-    border: none;
-    background-color: #fafafa;
+    background-color: #ffffff;
 }
 
 .form-select-lg {
@@ -702,6 +701,7 @@ li ul .nav-link {
     height: 100%;
     min-width: 800px;
     --bs-table-color: none;
+
 }
 
 .page-dashboard .table-wrapper {
@@ -809,7 +809,6 @@ table tbody tr td{
 
 .card-body {
     padding: 1.2rem;
-
 }
 
 .card-text {

@@ -11,13 +11,8 @@ color palette: 0C356A, 0174BE, FFC436, FFF0CE
 - revisi
 
 - last logged in hanya akan terisi dengan waktu saat si user log out, bagaimana ketika session user berakhir?
-- tampilan untuk data tabular jobs (dashboard)
 - sederhanakan tiap page (?)
-- 🔵delete jobs dan alert sebelum delete
-- 🔵delete hobbies dengan alert sebelum mengahapus
 - cek validasi dan error
-- dashboard table tubular
-- set job last update
 
 - saat akan menghapus column dari table parent, column anakan yang terkait harus dihapus terlebih dahulu.
 - saat akan menghapus jobs, berikan alert dulu jika job yang akan dihapus sudah digunakan oleh persons, dan jobs yang sudah di gunakan bisa dihapus ketika person yang menggunakan job tersebut di set menjadi pengangguran dulu.

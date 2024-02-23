@@ -97,7 +97,6 @@ mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-
                                             <?php
                                         }
                                         ?>
-
                                         <div class="mb-3 form-input">
                                             <span class="required title">NIK</span>
                                             <p>

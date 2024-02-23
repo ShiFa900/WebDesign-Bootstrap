@@ -40,19 +40,19 @@ try {
     ));
     $theJob = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    $queryJob = "UPDATE `jobs` SET count = :count WHERE id = :id";
+    $queryJob = "UPDATE `jobs` SET count = :count, last_update = :last_update WHERE id = :id";
     $stmt = $PDO->prepare($queryJob);
     $stmt->execute(array(
         "count" => $theJob[JOBS_COUNT] - 1,
-        "id" => $theJob[ID]
-    ));
+        "id" => $theJob[ID],
+        "last_update" => date("Y-m-d H:i", time())
 
+    ));
     $query = "DELETE FROM `persons` WHERE id = :id";
     $stmt = $PDO->prepare($query);
     $stmt->execute(array(
         "id" => $personWillBeDeleted[ID]
     ));
-
 
     $_SESSION["deleteSuccess"] = "Successfully delete person data of '" . $personWillBeDeleted[PERSON_FIRST_NAME] . "' !";
 } catch (PDOException $e) {

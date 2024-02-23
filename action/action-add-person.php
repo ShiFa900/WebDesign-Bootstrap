@@ -15,6 +15,8 @@ $userInputData = getUserInputData(
     sex: $_POST["sex"],
     note: $_POST["note"]
 );
+$userInputData[HOBBIES_NAME] = $_POST["hobbyName"];
+$userInputData[JOBS_NAME] = $_POST["jobName"];
 
 // validate for input data
 $validate = validate(
@@ -30,7 +32,7 @@ if (count($validate) == 0) {
     $person = [
         ID => null,
         PERSON_FIRST_NAME => ucwords($userInputData["firstName"]),
-        PERSON_LAST_NAME => ucwords($userInputData["lastName"]),
+        PERSON_LAST_NAME => $userInputData["lastName"] == "" ? null : ucwords($userInputData["lastName"]),
         PERSON_NIK => $userInputData["nik"],
         PERSON_EMAIL => $userInputData["email"],
         PERSON_BIRTH_DATE => $userInputData["birthDate"],

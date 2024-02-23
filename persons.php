@@ -202,7 +202,7 @@ $noun = setNoun($persons, "Person")
                  footerPaginationBtn(array: $personPaginated,prev: $prev,next: $next,page: $page,identifier: "page-persons");
                }
              ?>
-            <div class="table-responsive ">
+            <div class="table-responsive">
                 <table class="table" id="table">
                     <thead>
                     <tr>

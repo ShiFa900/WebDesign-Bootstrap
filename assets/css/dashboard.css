@@ -5,6 +5,10 @@
     line-height: 1.6;
 }
 
+.page-dashboard .content-wrapper{
+    margin-top: 3.6rem;
+}
+
 .page-dashboard .subheading{
     font-family: "Montserrat", serif;
     font-weight: 600;
@@ -16,8 +20,7 @@
 }
 
 .page-dashboard .dashboard {
-    row-gap: 3.6rem;
-    margin-top: 3.6rem;
+    row-gap: 2.6rem;
 }
 
 .page-dashboard .dashboard-card {
@@ -32,14 +35,3 @@
 .page-dashboard table tbody{
     padding-bottom: 2rem;
 }
-
-/*.page-dashboard .table-container{*/
-/*    margin: 3.6rem 0;*/
-/*}*/
-
-/*.page-dashboard table tr td{*/
-/*    border-bottom: 1px solid #dddddd;*/
-/*}*/
-/*.page-dashboard .card-body{*/
-/*  box-shadow: 0 3.2rem 6.4rem rgba(215, 215, 215, 0.32);*/
-/*}*/

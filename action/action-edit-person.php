@@ -33,12 +33,10 @@ if (count($validate) == 0) {
     unset($_SESSION["errorData"]);
     unset($_SESSION["userInputData"]);
 
-
     // set person data before saving
     $person = setPersonData(
         person: $currentUser,
         firstName: ucwords($userInputData["firstName"]),
-        lastName: ucwords($userInputData["lastName"]),
         nik: $userInputData["nik"],
         email: $userInputData["email"],
         birthDate: $intDate,
@@ -48,6 +46,7 @@ if (count($validate) == 0) {
         note: $userInputData["note"] == "" ? null : $userInputData["note"]);
 
     $person[ID] = $currentUser[ID];
+    $person[PERSON_LAST_NAME] = $userInputData["lastName"];
     $person[PASSWORD] = $_POST["newPassword"] == null ? $currentUser[PASSWORD] : $_POST["newPassword"];
     $person[PERSON_BIRTH_DATE] = date('Y-m-d H:i:s', $person[PERSON_BIRTH_DATE]);
     $person[PERSON_LAST_LOGGED_IN] = $currentUser[PERSON_LAST_LOGGED_IN] == null ? null : date('Y-m-d H:i:s', $currentUser[PERSON_LAST_LOGGED_IN]);

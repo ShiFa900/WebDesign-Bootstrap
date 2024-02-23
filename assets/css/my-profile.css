@@ -2,3 +2,9 @@
     top: 100px;
     right: 0;
 }
+
+.page-my-profile input,
+.page-my-profile select{
+    border: none;
+    background-color: #fafafa;
+}

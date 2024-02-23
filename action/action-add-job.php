@@ -17,6 +17,6 @@ $job = [
     ID => null,
     JOBS_NAME => htmlspecialchars($newJob),
     JOBS_COUNT => 0,
-    JOBS_LAST_UPDATE => null
+    JOBS_LAST_UPDATE => time()
 ];
 saveJob($job,"jobs.php");

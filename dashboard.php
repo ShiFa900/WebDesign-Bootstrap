@@ -70,129 +70,138 @@ foreach ($persons as $person) {
                 </div>
             </div>
 
-            <div class="row dashboard">
-                <div class="dashboard-card col-12 col-xxl-3 col-xl-4 col-lg-5 col-md-6">
-                    <a class="card card-link" href="persons.php?category=<?= CATEGORIES_ALL ?>"
-                       title="Total number of persons.">
-                        <div class="card-body">
-                            <div class="wrapper d-flex align-items-center column-gap-3">
-                                <p class="number"><?= count($persons) ?></p>
-                                <h4 class="card-subtitle third-heading mb-2 text-body-secondary">
-                                    Number of persons
-                                </h4>
-                            </div>
-                            <p class="card-text">
-                                Total number of persons.
-                            </p>
-
-                        </div>
-                    </a>
-                </div>
-
-                <div class="dashboard-card col-12 col-xxl-3 col-xl-4 col-lg-5 col-md-6">
-                    <a class="card card-link" href="persons.php?category=<?= CATEGORIES_PRODUCTIVE_AGE ?>"
-                       title="Total number of persons aged more than 15 years old, and less than 45 years old.">
-                        <div class="card-body">
-                            <div class="wrapper d-flex align-items-center column-gap-3">
-                                <p class="number"><?= count($personProductive) ?></p>
-                                <h4 class="card-subtitle third-heading text-body-secondary">
-                                   Productive ages
-                                </h4>
-                            </div>
-                            <p class="card-text">
-                                Total number of persons aged more than 15 years old, and less than 45 years old.
-                            </p>
-                        </div>
-                    </a>
-                </div>
-                <div class="dashboard-card col-12 col-xxl-3 col-xl-4 col-lg-5 col-md-6">
-                    <a class="card card-link" href="persons.php?category=<?= CATEGORIES_CHILD ?>"
-                       title="Total number of children, aged less than 15 years old.">
-                        <div class="card-body">
-                            <div class="wrapper d-flex align-items-center column-gap-3">
-                                <p class="number"><?= count($personChild) ?></p>
-                                <h4 class="card-subtitle third-heading mb-2 text-body-secondary">
-                                    Children
-                                </h4>
-                            </div>
-                            <p class="card-text">
-                                Total number of children, aged less than 15 years old.
-                            </p>
-                        </div>
-                    </a>
-                </div>
-                <div class="dashboard-card col-12 col-xxl-3 col-xl-4 col-lg-5 col-md-6">
-                    <a class="card card-link" href="persons.php?category=<?= CATEGORIES_ELDERLY ?>"
-                       title="Total number of persons aged more than 50 years old.">
-                        <div class="card-body">
-                            <div class="wrapper d-flex align-items-center column-gap-3">
-                                <p class="number"><?= count($personElderly) ?></p>
-                                <h4 class="card-subtitle third-heading mb-2 text-body-secondary">
-                                    Elderly
-                                </h4>
-                            </div>
-                            <p class="card-text">
-                                Total number of persons aged more than 50 years old.
-                            </p>
-                        </div>
-                    </a>
-                </div>
-                <div class="dashboard-card col-12 col-xxl-3 col-xl-4 col-lg-5 col-md-6">
-                    <a class="card card-link" href="persons.php?category=<?= CATEGORIES_PASSED_AWAY ?>"
-                       title="Total number of people who have died.">
-                        <div class="card-body">
-                            <div class="wrapper d-flex align-items-center column-gap-3">
-                                <p class="number"><?= count($personPassedAway) ?></p>
-                                <h4 class="card-subtitle third-heading mb-2 text-body-secondary">
-                                    Passed away
-                                </h4>
-                            </div>
-                            <p class="card-text">
-                                Total number of people who have died.
-                            </p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <div class="row dashboard-table">
-                <div class="subheading mb-2">
+            <div class="content-wrapper">
+                <div class="subheading mb-3 ms-2">
                     <div class="col-xxl-8">
                         <h1 class="second-heading">
-                            Jobs list
+                            Cards list
                         </h1>
                     </div>
                 </div>
-                <div class="col-xxl-12 col-lg-12 col-md-12 p-0">
-                    <div class="table-container">
-                        <div class="table-responsive">
-                            <div class="wrapper table-wrapper">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col" class="text-center">No</th>
-                                        <th scope="col">Job name</th>
-                                        <th scope="col" class="text-center">Being used by people</th>
-                                        <th scope="col">Last update</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <?php
-                                    $number = 1;
-                                    foreach ($jobs as $job) {
-                                        ?>
+                <div class="row dashboard">
+                    <div class="dashboard-card col-12 col-xxl-3 col-xl-4 col-lg-5 col-md-6">
+                        <a class="card card-link" href="persons.php?category=<?= CATEGORIES_ALL ?>"
+                           title="Total number of persons.">
+                            <div class="card-body">
+                                <div class="wrapper d-flex align-items-center column-gap-3">
+                                    <p class="number"><?= count($persons) ?></p>
+                                    <h4 class="card-subtitle third-heading mb-2 text-body-secondary">
+                                        Number of persons
+                                    </h4>
+                                </div>
+                                <p class="card-text">
+                                    Total number of persons.
+                                </p>
+
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="dashboard-card col-12 col-xxl-3 col-xl-4 col-lg-5 col-md-6">
+                        <a class="card card-link" href="persons.php?category=<?= CATEGORIES_PRODUCTIVE_AGE ?>"
+                           title="Total number of persons aged more than 15 years old, and less than 45 years old.">
+                            <div class="card-body">
+                                <div class="wrapper d-flex align-items-center column-gap-3">
+                                    <p class="number"><?= count($personProductive) ?></p>
+                                    <h4 class="card-subtitle third-heading text-body-secondary">
+                                        Productive ages
+                                    </h4>
+                                </div>
+                                <p class="card-text">
+                                    Total number of persons aged more than 15 years old, and less than 45 years old.
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="dashboard-card col-12 col-xxl-3 col-xl-4 col-lg-5 col-md-6">
+                        <a class="card card-link" href="persons.php?category=<?= CATEGORIES_CHILD ?>"
+                           title="Total number of children, aged less than 15 years old.">
+                            <div class="card-body">
+                                <div class="wrapper d-flex align-items-center column-gap-3">
+                                    <p class="number"><?= count($personChild) ?></p>
+                                    <h4 class="card-subtitle third-heading mb-2 text-body-secondary">
+                                        Children
+                                    </h4>
+                                </div>
+                                <p class="card-text">
+                                    Total number of children, aged less than 15 years old.
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="dashboard-card col-12 col-xxl-3 col-xl-4 col-lg-5 col-md-6">
+                        <a class="card card-link" href="persons.php?category=<?= CATEGORIES_ELDERLY ?>"
+                           title="Total number of persons aged more than 50 years old.">
+                            <div class="card-body">
+                                <div class="wrapper d-flex align-items-center column-gap-3">
+                                    <p class="number"><?= count($personElderly) ?></p>
+                                    <h4 class="card-subtitle third-heading mb-2 text-body-secondary">
+                                        Elderly
+                                    </h4>
+                                </div>
+                                <p class="card-text">
+                                    Total number of persons aged more than 50 years old.
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="dashboard-card col-12 col-xxl-3 col-xl-4 col-lg-5 col-md-6">
+                        <a class="card card-link" href="persons.php?category=<?= CATEGORIES_PASSED_AWAY ?>"
+                           title="Total number of people who have died.">
+                            <div class="card-body">
+                                <div class="wrapper d-flex align-items-center column-gap-3">
+                                    <p class="number"><?= count($personPassedAway) ?></p>
+                                    <h4 class="card-subtitle third-heading mb-2 text-body-secondary">
+                                        Passed away
+                                    </h4>
+                                </div>
+                                <p class="card-text">
+                                    Total number of people who have died.
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row dashboard-table">
+                    <div class="subheading mb-2">
+                        <div class="col-xxl-8">
+                            <h1 class="second-heading">
+                                Jobs list
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="col-xxl-12 col-lg-12 col-md-12 p-0">
+                        <div class="table-container">
+                            <div class="table-responsive">
+                                <div class="wrapper table-wrapper">
+                                    <table class="table">
+                                        <thead>
                                         <tr>
-                                            <td class="text-center"><?= $number ?></td>
-                                            <td><?= $job[JOBS_NAME] ?></td>
-                                            <td class="text-center"><?= $job[JOBS_COUNT] ?></td>
-                                            <td><?= date("d F Y H:i", $job[JOBS_LAST_UPDATE]) ?></td>
+                                            <th scope="col" class="text-center">No</th>
+                                            <th scope="col">Job name</th>
+                                            <th scope="col" class="text-center">Being used by people</th>
+                                            <th scope="col">Last update</th>
                                         </tr>
+                                        </thead>
+                                        <tbody>
                                         <?php
-                                        $number++;
-                                    }
-                                    ?>
-                                    </tbody>
-                                </table>
+                                        $number = 1;
+                                        foreach ($jobs as $job) {
+                                            ?>
+                                            <tr>
+                                                <td class="text-center"><?= $number ?></td>
+                                                <td><?= $job[JOBS_NAME] ?></td>
+                                                <td class="text-center"><?= $job[JOBS_COUNT] ?></td>
+                                                <td><?= date("d F Y H:i", $job[JOBS_LAST_UPDATE]) ?></td>
+                                            </tr>
+                                            <?php
+                                            $number++;
+                                        }
+                                        ?>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

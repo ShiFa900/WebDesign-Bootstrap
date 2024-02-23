@@ -4,6 +4,8 @@ use JetBrains\PhpStorm\NoReturn;
 
 require_once __DIR__ . "/../include/db.php";
 require_once __DIR__ . "/const.php";
+date_default_timezone_set("Asia/Singapore");
+
 
 //==============================
 //****** CHECK AUTHORISED ******
@@ -52,7 +54,7 @@ function redirectIfUserAlreadyLogin(): void
 }
 
 /**
- * Checks the role of signed-in user,
+ * Checks the role of signed in user,
  * and then set 'userNotAuthenticate' label in session if the user's role is a MEMBER
  * @param string $userEmail
  * @param string $role
@@ -92,7 +94,7 @@ function getPersons(int $limit, int|string $page, string|null $category = null, 
         $str = "%$search%";
         // 1. query untuk banyaknya data
         // mendapatkan banyak data dari database
-        $queryCount = 'SELECT COUNT(*) as `total` FROM `persons` WHERE firstName like :firstName or lastName like :lastName or email like :email';
+        $queryCount = 'SELECT COUNT(*) as `total` FROM `persons` WHERE firstName LIKE :firstName OR lastName LIKE :lastName OR email LIKE :email';
         $statement = $PDO->prepare($queryCount);
         $statement->execute(
             array(
@@ -103,7 +105,7 @@ function getPersons(int $limit, int|string $page, string|null $category = null, 
         );
         $count = $statement->fetch(PDO::FETCH_ASSOC);
 
-        $queryData = "SELECT * FROM persons WHERE firstName like :firstName OR lastName like :lastName OR email like :email ORDER BY id DESC";
+        $queryData = "SELECT * FROM persons WHERE firstName LIKE :firstName OR lastName LIKE :lastName OR email LIKE :email ORDER BY id DESC";
         // 2. query untuk data
         // get person data by given keyword
         $statement = $PDO->prepare($queryData);
@@ -198,8 +200,6 @@ function getJobs()
         $stmt = $PDO->prepare($query);
         $stmt->execute();
         $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
         foreach ($jobs as $j) {
             $queryJob = "SELECT COUNT(*) as total FROM `person_job` WHERE job_id = :job_id";
             $stmt = $PDO->prepare($queryJob);
@@ -241,13 +241,24 @@ function getJobsData(int $limit, int $page, string|null $keyword = null)
             "jobs_name" => $keyword
         ));
         $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $sort = sortingDataForPagination(page: $page, limit: $limit, array: $jobs);
+        $result = [];
+        foreach ($jobs as $job) {
+            $jobResult = [
+                ID => $job[ID],
+                JOBS_NAME => $job[JOBS_NAME],
+                JOBS_COUNT => $job[JOBS_COUNT],
+                JOBS_LAST_UPDATE => convertDateToTimestamp($job[JOBS_LAST_UPDATE])
+            ];
+            $result[] = $jobResult;
+        }
+
+        $sort = sortingDataForPagination(page: $page, limit: $limit, array: $result);
 
         if ($count["total"] > 0 && $count) {
             return [
-                PAGING_TOTAL_PAGE => ceil(count($jobs) / $limit),
+                PAGING_TOTAL_PAGE => ceil(count($result) / $limit),
                 PAGING_CURRENT_PAGE => $page,
-                PAGING_DATA => array_slice($jobs, $sort["indexStart"], $sort["length"])
+                PAGING_DATA => array_slice($result, $sort["indexStart"], $sort["length"])
             ];
         }
 
@@ -274,7 +285,6 @@ function sortingDataForPagination(int $page, int $limit, array $array): array
         "length" => $length,
         "indexStart" => $indexStart
     );
-
 }
 
 /**
@@ -322,31 +332,14 @@ function getAll(): array
     return $result;
 }
 
-function getLastRecord(string $jobsName)
-{
-    global $PDO;
-    try {
-        $query = "SELECT * FROM `jobs` ORDER BY jobs_name LIMIT 1";
-        $stmt = $PDO->prepare($query);
-        $stmt->execute(array(
-            "jobs_name" => $jobsName
-        ));
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    } catch (PDOException $e){
-        die("Query error: " . $e->getMessage());
-    }
-
-}
-
 /**
  * get Person hobbies from database
- * @param string $id
+ * @param string $personId
  * @return array of hobbies
  */
 function getPersonHobbiesFromDb(string $personId): array
 {
     global $PDO;
-
     try {
         $query = "SELECT * FROM `hobbies` WHERE `person_id` = :person_id";
         $stmt = $PDO->prepare($query);
@@ -528,7 +521,6 @@ function savePerson(array $array, string $location): void
                 $stmt->execute(array(
                     "job_id" => $theJob[ID]
                 ));
-
                 // nilai count akan ditambah jika ada person yang memiliki job tersebut (orang yang berbeda)
                 // nilai count akan dikurangi jika person mengganti pekerjaannya atau person meninggal atau person dihapus
                 $countJob = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -539,10 +531,10 @@ function savePerson(array $array, string $location): void
                 $job = [
                     ID => $theJob[ID],
                     JOBS_NAME => $theJob[JOBS_NAME],
-                    JOBS_COUNT => $countJob
+                    JOBS_COUNT => $countJob,
+                    JOBS_LAST_UPDATE => date("Y-m-d H:i:s", time())
                 ];
                 saveJob($job);
-
                 // save id person dan id job ke table person_job
                 $personJob = [
                     ID => null,
@@ -550,9 +542,7 @@ function savePerson(array $array, string $location): void
                     PERSON_JOBS_JOB_ID => $theJob[ID]
                 ];
                 savePersonJob($personJob);
-
             }
-
             $_SESSION["info"] = "Successfully add person data of '" . $array[PERSON_FIRST_NAME] . "'!";
             redirect("../" . $location, "person=" . $array[PERSON_EMAIL]);
 
@@ -579,7 +569,7 @@ function savePerson(array $array, string $location): void
 
             if ($array[PERSON_STATUS] == STATUS_PASSED_AWAY) {
                 savePersonWithPassedAwayStatus($array[ID]);
-            } elseif(isset($array[JOBS_NAME])) {
+            } elseif (isset($array[JOBS_NAME])) {
                 // cari dulu pekerjaan sebelumnya dari si person
                 $getCurrentJob = getPersonJob($array[ID]);
                 if ($getCurrentJob[JOBS_NAME] != $array[JOBS_NAME]) {
@@ -594,15 +584,17 @@ function savePerson(array $array, string $location): void
                     $job = [
                         ID => $theJob[ID],
                         JOBS_NAME => $theJob[JOBS_NAME],
-                        JOBS_COUNT => $theJob[JOBS_COUNT] + 1
+                        JOBS_COUNT => $theJob[JOBS_COUNT] + 1,
+                        JOBS_LAST_UPDATE => date("Y-m-d H:i:s", time())
                     ];
                     saveJob($job);
                     // update data job yang lama dari table jobs
-                    $oldJob = "UPDATE `jobs` SET count = :count WHERE id = :id";
+                    $oldJob = "UPDATE `jobs` SET count = :count, last_update = :last_update WHERE id = :id";
                     $stmt = $PDO->prepare($oldJob);
                     $stmt->execute(array(
                         "id" => $getCurrentJob[ID],
-                        "count" => $getCurrentJob[JOBS_COUNT] - 1
+                        "count" => $getCurrentJob[JOBS_COUNT] - 1,
+                        "last_update" => date("Y-m-d H:i:s", time())
                     ));
                     // proses update data dari table person_job
                     $oldPersonJob = "SELECT * FROM `person_job` WHERE person_id = :person_id AND job_id = :job_id";
@@ -681,12 +673,12 @@ function saveJob(array $array, string|null $location = null): void
     global $PDO;
     if ($array[ID] == null) {
         try {
-            $query = "INSERT INTO `jobs` (jobs_name, count, last_update) VALUES (:jobs_name, :count, last_update)";
+            $query = "INSERT INTO `jobs` (jobs_name, count, last_update) VALUES (:jobs_name, :count, :last_update)";
             $stmt = $PDO->prepare($query);
             $stmt->execute(array(
                 "jobs_name" => ucfirst($array[JOBS_NAME]),
                 "count" => $array[JOBS_COUNT],
-                "last_update" => $array[JOBS_LAST_UPDATE]
+                "last_update" => date("Y-m-d H:i:s", time())
             ));
 
             if ($location != null) {
@@ -704,7 +696,7 @@ function saveJob(array $array, string|null $location = null): void
                 "id" => $array[ID],
                 "jobs_name" => ucfirst($array[JOBS_NAME]),
                 "count" => $array[JOBS_COUNT],
-                "last_update" => $array[JOBS_LAST_UPDATE]
+                "last_update" => date("Y-m-d H:i:s", time())
             ));
 
             if ($location != null) {
@@ -750,7 +742,6 @@ function savePersonJob(array $array): void
 
 function savePersonWithPassedAwayStatus(int $personId): void
 {
-
     global $PDO;
     // cari data person dari table person job dengan menggunakan ID person
     $queryPersonJob = "SELECT * FROM `person_job` WHERE person_id = :person_id";
@@ -769,18 +760,20 @@ function savePersonWithPassedAwayStatus(int $personId): void
         $defaultJob = $stmt->fetch(PDO::FETCH_ASSOC);
 
         // tambah 1 count default job (tidak bekerja)
-        $updateCurrentJob = "UPDATE `jobs` SET count = :count WHERE id = :id";
+        $updateCurrentJob = "UPDATE `jobs` SET count = :count, last_update = :last_update WHERE id = :id";
         $stmt = $PDO->prepare($updateCurrentJob);
         $stmt->execute(array(
             "count" => $defaultJob[JOBS_COUNT] + 1,
-            "id" => $defaultJob[ID]
+            "id" => $defaultJob[ID],
+            "last_update" => date("Y-m-d H:i:s", time())
         ));
 
         // save new person job pada table person_job
         $personJob = [
             ID => null,
             PERSON_JOBS_PERSON_ID => $personId,
-            PERSON_JOBS_JOB_ID => $defaultJob[ID]
+            PERSON_JOBS_JOB_ID => $defaultJob[ID],
+            JOBS_LAST_UPDATE => date("Y-m-d H:i:s",time())
         ];
 
     } else {
@@ -788,11 +781,12 @@ function savePersonWithPassedAwayStatus(int $personId): void
         // mencari current job
         $job = getPersonJob($personId);// berupa array jobs
         // kurangi count current job dengan 1
-        $updateCurrentJob = "UPDATE `jobs` SET count = :count WHERE id = :id";
+        $updateCurrentJob = "UPDATE `jobs` SET count = :count, last_update = :last_update WHERE id = :id";
         $stmt = $PDO->prepare($updateCurrentJob);
         $stmt->execute(array(
             "count" => $job[JOBS_COUNT] - 1,
-            "id" => $job[ID]
+            "id" => $job[ID],
+            "last_update" => date("Y-m-d H:i:s", time())
         ));
 
         // set untuk default job (karena person ber-status passed away)
@@ -805,7 +799,8 @@ function savePersonWithPassedAwayStatus(int $personId): void
         $job = [
             ID => $theJob[ID],
             JOBS_NAME => $theJob[JOBS_NAME],
-            JOBS_COUNT => $theJob[JOBS_COUNT] + 1
+            JOBS_COUNT => $theJob[JOBS_COUNT] + 1,
+            JOBS_LAST_UPDATE => date("Y-m-d H:i:s", time())
         ];
         saveJob(array: $job);
         $personJob = [

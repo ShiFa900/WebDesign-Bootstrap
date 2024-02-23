@@ -141,13 +141,13 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
                                     <div class="col-xxl-5 col-xl-6 col-lg-6 new-person-form">
                                         <div class="mb-3 form-input-add-person">
                                             <label class="form-label" for="hobby">Hobby</label>
-                                           <input class="form-control" id="hobby" name="hobbyName"
-                                                  type="text"
-                                                  placeholder="Hobby"
-                                                  value="<?php if(isset($_SESSION["inputData"])){
-                                               echo $_SESSION["inputData"]["hobby"];
-                                           } ?>"
-                                           />
+                                            <input class="form-control" id="hobby" name="hobbyName"
+                                                   type="text"
+                                                   placeholder="Hobby" maxlength="30"
+                                                   value="<?php if (isset($_SESSION["inputData"])) {
+                                                       echo $_SESSION["inputData"][HOBBIES_NAME];
+                                                   } ?>"
+                                            />
                                             <span class="smallText"><em>Sorry, only one hobby can be added. Hobby can be manage at View Hobby page for users.</em></span>
                                         </div>
                                         <div class="mb-3 form-input-add-person">
@@ -157,11 +157,19 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
                                                 <!-- dropdwon pekerjaan nanti value-nya akan diisi dari database jobs, dan data dari database akan increment jika jobs di create new-->
                                                 <?php
                                                 foreach ($jobs as $job) {
-                                                    ?>
-                                                    <option value="<?= $job[JOBS_NAME] ?>" <?php if($job[JOBS_NAME] === JOBS_DEFAULT_NAME) echo "selected" ?>>
-                                                        <?=$job[JOBS_NAME]?>
-                                                    </option>
-                                                    <?php
+                                                    if (isset($_SESSION["inputData"])) {
+                                                        ?>
+                                                        <option value="<?= $job[JOBS_NAME] ?>" <?php if ($job[JOBS_NAME] === $_SESSION["inputData"][JOBS_NAME]) echo "selected" ?>>
+                                                            <?= $job[JOBS_NAME] ?>
+                                                        </option>
+                                                        <?php
+                                                    } else {
+                                                        ?>
+                                                        <option value="<?= $job[JOBS_NAME] ?>" <?php if ($job[JOBS_NAME] === JOBS_DEFAULT_NAME) echo "selected" ?>>
+                                                            <?= $job[JOBS_NAME] ?>
+                                                        </option>
+                                                        <?php
+                                                    }
                                                 }
                                                 ?>
                                             </select>

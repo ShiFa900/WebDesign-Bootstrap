@@ -25,6 +25,15 @@ mainHeader(cssIdentifier: "page-edit-hobby", title: "Edit Hobby", link: "edit-ho
                     <div class="page-header">
                         <h1 class="first-heading">Edit Hobby</h1>
                     </div>
+                    <?php
+                    if (isset($_SESSION["info"])) {
+                        ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?= $_SESSION["info"] ?>!
+                        </div>
+                        <?php
+                    }
+                    ?>
                     <div class="row">
                         <div class="col-xxl-12">
                             <form class="new-person-form" action="action/action-edit-hobby.php" method="post"

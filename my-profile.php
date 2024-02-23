@@ -97,7 +97,7 @@ $personHobbies = getPersonHobbiesFromDb(personId: $person[ID]);
                                             } else {
                                                 echo $person[PERSON_NIK];
                                             } ?>"
-                                            class="form-control"
+                                            class="form-control form-input"
                                             name="nik"
                                             maxlength="16"
                                             minlength="16"
@@ -360,11 +360,11 @@ $personHobbies = getPersonHobbiesFromDb(personId: $person[ID]);
                                 >
                                     Cancel
                                 </a>
-                                <input
+                                <button
                                         class="btn btn-primary btn--form"
-                                        type="submit"
-                                        value="Save"
-                                />
+                                        type="submit" name="btn">
+                                    Save
+                                </button>
                             </div>
                         </div>
                     </form>
