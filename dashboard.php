@@ -80,8 +80,7 @@ foreach ($persons as $person) {
                 </div>
                 <div class="row dashboard">
                     <div class="dashboard-card col-12 col-xxl-3 col-xl-4 col-lg-5 col-md-6">
-                        <a class="card card-link" href="persons.php?category=<?= CATEGORIES_ALL ?>"
-                           title="Total number of persons.">
+                        <a class="card card-link" href="persons.php?category=<?= CATEGORIES_ALL ?>">
                             <div class="card-body">
                                 <div class="wrapper d-flex align-items-center column-gap-3">
                                     <p class="number"><?= count($persons) ?></p>
@@ -98,8 +97,7 @@ foreach ($persons as $person) {
                     </div>
 
                     <div class="dashboard-card col-12 col-xxl-3 col-xl-4 col-lg-5 col-md-6">
-                        <a class="card card-link" href="persons.php?category=<?= CATEGORIES_PRODUCTIVE_AGE ?>"
-                           title="Total number of persons aged more than 15 years old, and less than 45 years old.">
+                        <a class="card card-link" href="persons.php?category=<?= CATEGORIES_PRODUCTIVE_AGE ?>">
                             <div class="card-body">
                                 <div class="wrapper d-flex align-items-center column-gap-3">
                                     <p class="number"><?= count($personProductive) ?></p>
@@ -114,8 +112,7 @@ foreach ($persons as $person) {
                         </a>
                     </div>
                     <div class="dashboard-card col-12 col-xxl-3 col-xl-4 col-lg-5 col-md-6">
-                        <a class="card card-link" href="persons.php?category=<?= CATEGORIES_CHILD ?>"
-                           title="Total number of children, aged less than 15 years old.">
+                        <a class="card card-link" href="persons.php?category=<?= CATEGORIES_CHILD ?>">
                             <div class="card-body">
                                 <div class="wrapper d-flex align-items-center column-gap-3">
                                     <p class="number"><?= count($personChild) ?></p>
@@ -130,8 +127,7 @@ foreach ($persons as $person) {
                         </a>
                     </div>
                     <div class="dashboard-card col-12 col-xxl-3 col-xl-4 col-lg-5 col-md-6">
-                        <a class="card card-link" href="persons.php?category=<?= CATEGORIES_ELDERLY ?>"
-                           title="Total number of persons aged more than 50 years old.">
+                        <a class="card card-link" href="persons.php?category=<?= CATEGORIES_ELDERLY ?>">
                             <div class="card-body">
                                 <div class="wrapper d-flex align-items-center column-gap-3">
                                     <p class="number"><?= count($personElderly) ?></p>
@@ -146,8 +142,7 @@ foreach ($persons as $person) {
                         </a>
                     </div>
                     <div class="dashboard-card col-12 col-xxl-3 col-xl-4 col-lg-5 col-md-6">
-                        <a class="card card-link" href="persons.php?category=<?= CATEGORIES_PASSED_AWAY ?>"
-                           title="Total number of people who have died.">
+                        <a class="card card-link" href="persons.php?category=<?= CATEGORIES_PASSED_AWAY ?>">
                             <div class="card-body">
                                 <div class="wrapper d-flex align-items-center column-gap-3">
                                     <p class="number"><?= count($personPassedAway) ?></p>

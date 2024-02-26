@@ -23,13 +23,23 @@
     row-gap: 2.6rem;
 }
 
-.page-dashboard .dashboard-card {
-    transition: all 0.4s;
+.page-dashboard .dashboard-card,
+.page-dashboard .card-body{
+    transition: ease-in 0.4s;
 }
 
 .page-dashboard .dashboard-card:hover {
     box-shadow: 0 2.2rem 1.4rem rgba(215, 215, 215, 21%);
     transform: translateY(-0.9rem);
+}
+
+.page-dashboard .card-body:hover{
+    .card-text{
+        line-height: 1.5rem;
+        overflow: visible;
+        white-space: normal;
+    }
+    height: 150px;
 }
 
 .page-dashboard table tbody{

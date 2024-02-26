@@ -9,7 +9,7 @@ require_once __DIR__ . "/action/pagination.php";
 redirectIfNotAuthenticated();
 $persons = getAll();
 $user = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
-
+//reset category and keyword
 if (isset($_GET["reset"])) {
     redirect("hobbies.php", "person=" . $_SESSION["personId"]);
 }
@@ -188,8 +188,8 @@ mainHeader(cssIdentifier: "page-hobbies", title: "Person Hobbies", link: "person
                                                     if ($user[PERSON_ROLE] == ROLE_ADMIN || $user[ID] == $personData[ID]) {
                                                         ?>
                                                         <td>
-                                                            <div class="person-btn d-flex justify-content-center">
-                                                                <button class="btn">
+                                                            <div class="person-btn d-flex justify-content-center align-items-center">
+                                                                <button class="btn p-0">
                                                                     <a
                                                                             href="edit-hobby.php?hobby=<?= $hobby[ID] ?>"
                                                                             class="nav-link table-nav block-color-btn"
@@ -258,7 +258,6 @@ mainHeader(cssIdentifier: "page-hobbies", title: "Person Hobbies", link: "person
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -267,14 +266,18 @@ mainHeader(cssIdentifier: "page-hobbies", title: "Person Hobbies", link: "person
         } else {
             ?>
             <div class="wrapper">
-                <button class="btn">
-                    <a class="nav-link d-flex justify-content-end" href="persons.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon material-symbols-outlined"
+                <button class="btn mt-2">
+                    <a class="nav-link btn-back d-flex justify-content-end"
+                       href="persons.php">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="ionicon material-symbols-outlined"
                              viewBox="0 0 512 512">
                             <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                  stroke-linejoin="round" stroke-width="48" d="M328 112L184 256l144 144"/>
+                                  stroke-linejoin="round" stroke-width="48"
+                                  d="M328 112L184 256l144 144"/>
                         </svg>
-                        Back
+                        <span class="short">Back</span>
+                        <span class="long">Persons page</span>
                     </a>
                 </button>
             </div>

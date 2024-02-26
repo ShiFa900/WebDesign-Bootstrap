@@ -39,7 +39,7 @@ $arrayRole = sortRole($person[PERSON_ROLE]);
                     <div class="row">
                         <div class="col-xxl-12">
 
-                            <form class="new-person-form" action="action/action-edit-person.php" method="post"
+                            <form class="edit-person-form" action="action/action-edit-person.php" method="post"
                                   name="editPerson">
                                 <div class="row">
                                     <div class="col-xxl-6 col-xl-6 col-lg-6 me-4">
@@ -258,6 +258,17 @@ $arrayRole = sortRole($person[PERSON_ROLE]);
                                                 }
                                                 ?>
                                             </select>
+                                            <a href="add-job.php" class="nav-link mt-1 add-icon">
+                                                <div style="fill: #000000">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon"
+                                                         viewBox="0 0 512 512">
+                                                        <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                                              stroke-linejoin="round" stroke-width="32"
+                                                              d="M256 112v288M400 256H112"/>
+                                                    </svg>
+                                                    Create new option
+                                                </div>
+                                            </a>
                                         </div>
                                         <div class="mb-4 form-input">
                                             <label class="form-label" for="role-dropdown"

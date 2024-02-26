@@ -4,10 +4,12 @@ require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
 require_once __DIR__ . "/include/show-pagination-btn.php";
 require_once __DIR__ . "/include/footer-pagination-btn.php";
-require_once __DIR__ . "/action/action-persons.php";
 require_once __DIR__ . "/action/pagination.php";
 
 redirectIfNotAuthenticated();
+if (isset($_GET["reset"])) {
+    redirect("../persons.php", "page=1");
+}
 mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.php", pageStyles: ['persons.css']);
 
 $persons = getAll();
@@ -26,13 +28,13 @@ if(isset($_GET["keyword"]) || isset($_GET["category"])){
 $personPaginated = getPersons(PAGE_LIMIT, $page,$_GET["category"], $_GET["keyword"]);
 }
 else {
-    // get default data person
+    // get default data person (all persons)
 $personPaginated = getPersons(PAGE_LIMIT, $page, CATEGORIES_ALL);
 }
 $persons = $personPaginated[PAGING_DATA];
 $prev = $personPaginated[PAGING_CURRENT_PAGE] - 1;
 $next = $personPaginated[PAGING_CURRENT_PAGE] + 1;
-$noun = setNoun($persons, "Person")
+$noun = setNoun($persons, "Person"); // set pronounce
 ?>
     <div class="person-content position-absolute px-5">
     <div class="content-wrapper d-xl-flex justify-content-between d-md-block">
@@ -56,7 +58,6 @@ $noun = setNoun($persons, "Person")
                 </a>
             </div>
         </div>
-
         <div class="right">
             <!--SEARCH-->
             <form

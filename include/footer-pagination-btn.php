@@ -4,7 +4,6 @@ function footerPaginationBtn(array $array, int $prev, int $next, int $page, stri
 {
     if ($identifier == "page-hobbies" || $identifier == "page-jobs") {
         ?>
-
         <div class="pagination-btn-wrapper d-flex justify-content-between mb-3">
         <div class="wrapper">
             <button class="btn mt-2">

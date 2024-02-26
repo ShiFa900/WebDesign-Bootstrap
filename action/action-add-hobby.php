@@ -3,11 +3,11 @@ require_once __DIR__ . "/utils.php";
 require_once __DIR__ . "/const.php";
 // jika person dihapus, maka hobby juga terhapus (agar tidak menimbulkan error nantinya)
 session_start();
-$newHobby = $_POST["hobbyName"];
+$newHobby = $_POST["name"];
 $personHobby = getHobby(personId: $_SESSION["personId"]); // ini harusnya isinya adalah array hobby dari si person
 foreach ($personHobby as $hobby){
     if(strcasecmp($hobby[HOBBIES_NAME], $newHobby) == 0){
-        $_SESSION["info"] = "Sorry, this hobby is already exist";
+        $_SESSION["info"] = "Sorry, this hobby is already exist!";
         redirect("../add-hobby.php", "?person=" . $_SESSION["personId"]);
     }
 }

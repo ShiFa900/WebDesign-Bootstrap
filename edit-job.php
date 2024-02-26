@@ -12,6 +12,7 @@ if ($currentJob == null) {
     $_SESSION["error"] = "Sorry, no data found";
     redirect("jobs.php", "");
 }
+// dapatkan nama" orang yang menggunakan job currentJob
 $_SESSION["job"] = $currentJob;
 
 mainHeader(cssIdentifier: "page-edit-job", title: "Add Job", link: "edit-job.php", pageStyles: ["jobs.css"]);
@@ -26,23 +27,32 @@ mainHeader(cssIdentifier: "page-edit-job", title: "Add Job", link: "edit-job.php
                     <div class="page-header">
                         <h1 class="first-heading">Edit Job</h1>
                     </div>
+                    <?php
+                    if (isset($_SESSION["info"])) {
+                        ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?= $_SESSION["info"] ?>!
+                        </div>
+                        <?php
+                    }
+                    ?>
                     <div class="row">
                         <div class="col-xxl-12">
-                            <form class="new-person-form" action="action/action-edit-job.php" method="post"
-                                  name="addJob">
-                                <div class="row">
-                                    <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+                            <div class="row">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+                                    <form class="new-person-form" action="action/action-edit-job.php" method="post"
+                                          name="addJob">
                                         <div class="card-wrapper">
                                             <div class="form-card">
-                                                <div class="card-img">
+                                                <div class="wrapper-card-img">
                                                     <img src="assets/properties/Work%20time-amico.svg"
-                                                         alt="Person while work" class="job-img">
+                                                         alt="Person while work" class="card-img">
                                                 </div>
                                                 <div class="card-field">
                                                     <label for="jobName" class="form-label">Edit job</label>
                                                     <input type="text" id="jobName" class="form-control"
                                                            name="jobName" maxlength="30" minlength="3"
-                                                           value="<?= $currentJob[JOBS_NAME] ?>">
+                                                           placeholder="New job" value="<?= $currentJob[JOBS_NAME] ?>">
 
                                                     <div class="btn-container d-flex column-gap-3">
                                                         <a class="btn btn-primary btn--form has-border" type="submit"
@@ -113,9 +123,9 @@ mainHeader(cssIdentifier: "page-edit-job", title: "Add Job", link: "edit-job.php
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -123,4 +133,5 @@ mainHeader(cssIdentifier: "page-edit-job", title: "Add Job", link: "edit-job.php
         </section>
     </main>
 
-    <?php mainFooter("jobs.php");
+<?php mainFooter("jobs.php");
+unset($_SESSION["info"]);

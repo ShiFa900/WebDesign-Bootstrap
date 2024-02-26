@@ -6,3 +6,9 @@
 .page-edit-person .form-select {
     padding: 0.75rem;
 }
+
+.page-edit-person input,
+.page-edit-person select{
+    border: none;
+    background-color: #fafafa;
+}

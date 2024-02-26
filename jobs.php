@@ -151,7 +151,7 @@ mainHeader(cssIdentifier: "page-jobs", title: "Person Job", link: "jobs.php", pa
                                             <thead>
                                             <tr>
                                                 <th scope="col" class="text-center p-3">No</th>
-                                                <th scope="col" class="p-3"><?=$noun?> Name</th>
+                                                <th scope="col" class="p-3"><?= $noun ?> Name</th>
                                                 <th scope="col" class="p-3 text-center">People with this job</th>
                                                 <th scope="col" class="p-3 text-center">Last update</th>
                                                 <?php
@@ -173,43 +173,40 @@ mainHeader(cssIdentifier: "page-jobs", title: "Person Job", link: "jobs.php", pa
                                                     <td class="text-center"><?= $number ?></td>
                                                     <td><?= $job[JOBS_NAME] ?></td>
                                                     <td class="text-center"><?= $job[JOBS_COUNT] ?></td>
-                                                    <td class="text-center"><?= date("d F Y H:i", $job[JOBS_LAST_UPDATE])?></td>
+                                                    <td class="text-center"><?= date("d F Y H:i", $job[JOBS_LAST_UPDATE]) ?></td>
                                                     <?php
                                                     if ($user[PERSON_ROLE] == ROLE_ADMIN) {
                                                         ?>
                                                         <td>
-                                                            <div class="person-btn d-flex justify-content-center">
-                                                                <form class="btn-form" name="btn-form" action="#"
-                                                                      method="post">
-                                                                    <button class="btn">
-                                                                        <a
-                                                                                href="edit-job.php?job=<?= $job[ID] ?>"
-                                                                                class="nav-link table-nav block-color-btn"
-                                                                        >Edit</a
-                                                                        >
-                                                                    </button>
-
-                                                                    <button class="btn" type="button"
-                                                                            data-bs-toggle="modal"
-                                                                            data-bs-target="#exampleModal<?= $job[ID] ?>"
-                                                                    ><a class="delete-btn nav-link table-nav"
-                                                                        href="#"
-                                                                        >Delete</a>
-                                                                    </button>
-                                                                    <!-- Modal -->
-                                                                    <div
-
-                                                                            class="modal fade"
-                                                                            id="exampleModal<?= $job[ID] ?>"
-                                                                            tabindex="-1"
-                                                                            aria-labelledby="exampleModalLabel"
-                                                                            aria-hidden="true"
+                                                            <div class="person-btn d-flex justify-content-center align-items-center">
+                                                                <button class="btn p-0">
+                                                                    <a
+                                                                            href="edit-job.php?job=<?= $job[ID] ?>"
+                                                                            class="nav-link table-nav block-color-btn"
+                                                                    >Edit</a
                                                                     >
-                                                                        <?php
-                                                                        showPopupAlert(name: $job[JOBS_NAME],count: $job[JOBS_COUNT],id: $job[ID]);
-                                                                            ?>
-                                                                    </div>
-                                                                </form>
+                                                                </button>
+
+                                                                <button class="btn" type="button"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#exampleModal<?= $job[ID] ?>"
+                                                                ><a class="delete-btn nav-link table-nav"
+                                                                    href="#"
+                                                                    >Delete</a>
+                                                                </button>
+                                                                <!-- Modal -->
+                                                                <div
+
+                                                                        class="modal fade"
+                                                                        id="exampleModal<?= $job[ID] ?>"
+                                                                        tabindex="-1"
+                                                                        aria-labelledby="exampleModalLabel"
+                                                                        aria-hidden="true"
+                                                                >
+                                                                    <?php
+                                                                    showPopupAlert(name: $job[JOBS_NAME], count: $job[JOBS_COUNT], id: $job[ID]);
+                                                                    ?>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                         <?php
@@ -233,14 +230,18 @@ mainHeader(cssIdentifier: "page-jobs", title: "Person Job", link: "jobs.php", pa
         } else {
             ?>
             <div class="wrapper">
-                <button class="btn">
-                    <a class="nav-link d-flex justify-content-end" href="persons.php">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon material-symbols-outlined"
+                <button class="btn mt-2">
+                    <a class="nav-link btn-back d-flex justify-content-end"
+                       href="persons.php">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="ionicon material-symbols-outlined"
                              viewBox="0 0 512 512">
                             <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                  stroke-linejoin="round" stroke-width="48" d="M328 112L184 256l144 144"/>
+                                  stroke-linejoin="round" stroke-width="48"
+                                  d="M328 112L184 256l144 144"/>
                         </svg>
-                        Back
+                        <span class="short">Back</span>
+                        <span class="long">Persons page</span>
                     </a>
                 </button>
             </div>

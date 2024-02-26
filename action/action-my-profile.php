@@ -32,7 +32,6 @@ $validate = validate(
     id: $currentUser[ID]);
 
 if (count($validate) == 0) {
-
     unset($_SESSION["errorData"]);
     unset($_SESSION["userInputData"]);
 

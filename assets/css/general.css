@@ -158,7 +158,9 @@ body {
     opacity: 65%;
 }
 
-.page-add-person .form-input-add-person svg {
+.page-add-person .form-input-add-person svg,
+.page-my-profile .my-profile-form .add-icon svg,
+.page-edit-person .edit-person-form .add-icon svg{
     width: 1.6rem;
     color: #666666;
 }
@@ -179,13 +181,23 @@ body {
     background-color: #f0f4ff;
 }
 
-.page-add-hobby .hobby-img,
-.page-edit-hobby .hobby-img,
-.page-add-job .job-img,
-.page-edit-job .job-img {
+/*.page-add-hobby .hobby-img,*/
+/*.page-edit-hobby .hobby-img,*/
+/*.page-add-job .job-img,*/
+/*.page-edit-job .job-img {*/
+/*    width: 100%;*/
+/*    height: 40vh;*/
+/*    opacity: 86%;*/
+/*}*/
+
+.card-img{
     width: 100%;
     height: 40vh;
     opacity: 86%;
+}
+
+.wrapper-card-img{
+    background-color: #fafafa;
 }
 
 .page-add-job .job-img,
@@ -193,12 +205,12 @@ body {
     opacity: 83%;
 }
 
-.page-add-hobby .card-img,
-.page-edit-hobby .card-img,
-.page-add-job .card-img,
-.page-edit-job .card-img {
-    background-color: #fafafa;
-}
+/*.page-add-hobby .card-img,*/
+/*.page-edit-hobby .card-img,*/
+/*.page-add-job .card-img,*/
+/*.page-edit-job .card-img {*/
+/*    background-color: #fafafa;*/
+/*}*/
 
 .page-add-hobby .card-field,
 .page-edit-hobby .card-field,
@@ -383,7 +395,7 @@ body {
 
 .page-hobbies .delete-btn,
 .page-jobs .delete-btn {
-    padding: 0.3rem 0.75rem;
+    padding: 0.4rem 0.75rem;
     letter-spacing: 1px;
     color: #ffffff;
 }
@@ -710,7 +722,9 @@ li ul .nav-link {
     /*display: inline-block;*/
 }
 
-
+.table-responsive{
+    margin-bottom: 3.6rem;
+}
 .page-dashboard thead th {
     position: sticky;
     top: 0;
@@ -731,7 +745,7 @@ tbody tr:nth-child(even) {
 }
 
 .table-nav {
-    padding: 0.2rem 0.75rem;
+    padding: 0.3rem 0.75rem;
     border: 1px solid #015d98;
     color: #333;
     border-radius: 2px;
@@ -783,9 +797,8 @@ table tbody tr td{
 
 /*CARD*/
 .number {
-    font-size: 4.4rem;
+    font-size: 3.5rem;
     font-weight: 600;
-    margin-bottom: 1.2rem;
     opacity: 80%;
 
     /* text-align: center; */

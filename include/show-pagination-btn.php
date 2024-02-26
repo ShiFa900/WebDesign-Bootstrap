@@ -5,9 +5,9 @@
  * @param int $prev
  * @param int $next
  * @param int $page
+ * @param string|null $personId
  * @param string|null $keyword
  * @param string|null $category
- *
  */
 function showPaginationButton(
     array       $displayingData,
@@ -29,7 +29,6 @@ function showPaginationButton(
                 </svg>
             </a>
         </button>
-
         <?php
     } else {
         if (isset($_GET["keyword"]) || isset($_GET["category"])) {
@@ -62,11 +61,8 @@ function showPaginationButton(
             </button>
             <?php
         }
-        ?>
-        <?php
     }
     ?>
-
     <div class="d-flex align-items-center">
         <?= $displayingData[PAGING_CURRENT_PAGE] . " of " . $displayingData[PAGING_TOTAL_PAGE] ?>
     </div>
@@ -112,8 +108,6 @@ function showPaginationButton(
             </button>
             <?php
         }
-        ?>
-        <?php
     }
 }
 

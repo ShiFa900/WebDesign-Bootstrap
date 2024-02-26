@@ -9,14 +9,13 @@ const ROLE_LABEL = [
     "ROLE_MEMBER_LABEL" => "Member"
 ];
 
-const STATUS_ALIVE = 1;
 const STATUS_PASSED_AWAY = 0;
 const PASSWORD = "password";
 const PAGING_TOTAL_PAGE = "PAGING_TOTAL_PAGE";
 const PAGING_DATA = "PAGING_DATA";
 const PAGING_CURRENT_PAGE = "PAGING_CURRENT_PAGE";
 const PAGE_LIMIT = 7;
-const PAGE_HOBBIES_LIMIT = 4;
+const PAGE_HOBBIES_LIMIT = 5;
 const JOBS_DEFAULT_NAME = "Tidak bekerja";
 
 

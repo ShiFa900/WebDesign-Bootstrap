@@ -235,7 +235,7 @@ function getJobsData(int $limit, int $page, string|null $keyword = null)
         ));
         $count = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $query = "SELECT * FROM `jobs` WHERE jobs_name LIKE :jobs_name ORDER BY jobs_name DESC ";
+        $query = "SELECT * FROM `jobs` WHERE jobs_name LIKE :jobs_name ORDER BY id DESC ";
         $stmt = $PDO->prepare($query);
         $stmt->execute(array(
             "jobs_name" => $keyword
@@ -505,7 +505,7 @@ function savePerson(array $array, string $location): void
             }
 
             if ($array[PERSON_STATUS] == STATUS_PASSED_AWAY) {
-                savePersonWithPassedAwayStatus($personId["id"]);
+                savePersonJobWithPassedAwayStatus($personId["id"]);
             } elseif (isset($array[JOBS_NAME])) {
                 // cari data job yang dipilih user
                 $queryTheJob = "SELECT * FROM `jobs` WHERE jobs_name = :jobs_name";
@@ -563,12 +563,12 @@ function savePerson(array $array, string $location): void
                 "sex" => $array[PERSON_SEX],
                 "internalNote" => $array[PERSON_INTERNAL_NOTE],
                 "role" => $array[PERSON_ROLE],
-                "password" => $array[PASSWORD],
+                "password" => password_hash($array[PASSWORD], PASSWORD_DEFAULT),
                 "status" => $array[PERSON_STATUS],
                 "lastLoggedIn" => $array[PERSON_LAST_LOGGED_IN]));
 
             if ($array[PERSON_STATUS] == STATUS_PASSED_AWAY) {
-                savePersonWithPassedAwayStatus($array[ID]);
+                savePersonJobWithPassedAwayStatus($array[ID]);
             } elseif (isset($array[JOBS_NAME])) {
                 // cari dulu pekerjaan sebelumnya dari si person
                 $getCurrentJob = getPersonJob($array[ID]);
@@ -619,7 +619,6 @@ function savePerson(array $array, string $location): void
                 $_SESSION["userEmail"] = $array[PERSON_EMAIL];
                 $_SESSION["editMyProfile"] = "Successfully edit your data!";
                 redirect("../" . $location, "");
-
             }
             $_SESSION["info"] = "Successfully edit person data of '" . $array[PERSON_FIRST_NAME] . "'!";
             redirect("../" . $location, "person=" . $array[ID]);
@@ -740,7 +739,7 @@ function savePersonJob(array $array): void
     }
 }
 
-function savePersonWithPassedAwayStatus(int $personId): void
+function savePersonJobWithPassedAwayStatus(int $personId): void
 {
     global $PDO;
     // cari data person dari table person job dengan menggunakan ID person
@@ -810,7 +809,6 @@ function savePersonWithPassedAwayStatus(int $personId): void
         ];
     }
     savePersonJob($personJob);
-
 }
 
 /**
@@ -826,7 +824,6 @@ function convertDateToTimestamp(mixed $date): int|null
     }
     return null;
 }
-
 
 /**
  * get person data by given ID or EMAIl if isn't null
@@ -1313,4 +1310,47 @@ function sortRole(string $value): array
         $role[] = ROLE_ADMIN;
     }
     return $role;
+}
+
+/**
+ * sort category for category form
+ * @param string $value
+ * @return array
+ */
+function sortCategories(string $value): array
+{
+    $categories = [];
+
+    if ($value == CATEGORIES_ALL) {
+        $categories[] = CATEGORIES_ALL;
+        $categories[] = CATEGORIES_PRODUCTIVE_AGE;
+        $categories[] = CATEGORIES_CHILD;
+        $categories[] = CATEGORIES_ELDERLY;
+        $categories[] = CATEGORIES_PASSED_AWAY;
+    } elseif ($value == CATEGORIES_PRODUCTIVE_AGE) {
+        $categories[] = CATEGORIES_PRODUCTIVE_AGE;
+        $categories[] = CATEGORIES_CHILD;
+        $categories[] = CATEGORIES_ELDERLY;
+        $categories[] = CATEGORIES_PASSED_AWAY;
+        $categories[] = CATEGORIES_ALL;
+    } elseif ($value == CATEGORIES_CHILD) {
+        $categories[] = CATEGORIES_CHILD;
+        $categories[] = CATEGORIES_ELDERLY;
+        $categories[] = CATEGORIES_PASSED_AWAY;
+        $categories[] = CATEGORIES_ALL;
+        $categories[] = CATEGORIES_PRODUCTIVE_AGE;
+    } elseif ($value == CATEGORIES_ELDERLY) {
+        $categories[] = CATEGORIES_ELDERLY;
+        $categories[] = CATEGORIES_PASSED_AWAY;
+        $categories[] = CATEGORIES_ALL;
+        $categories[] = CATEGORIES_PRODUCTIVE_AGE;
+        $categories[] = CATEGORIES_CHILD;
+    } else {
+        $categories[] = CATEGORIES_PASSED_AWAY;
+        $categories[] = CATEGORIES_ALL;
+        $categories[] = CATEGORIES_PRODUCTIVE_AGE;
+        $categories[] = CATEGORIES_CHILD;
+        $categories[] = CATEGORIES_ELDERLY;
+    }
+    return $categories;
 }

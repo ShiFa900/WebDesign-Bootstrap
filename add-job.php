@@ -2,6 +2,7 @@
 require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
 require_once __DIR__ . "/action/utils.php";
+require_once __DIR__ . "/include/body-card.php";
 
 redirectIfNotAuthenticated();
 $persons = getAll();
@@ -31,38 +32,13 @@ mainHeader(cssIdentifier: "page-add-job", title: "Add Job", link: "add-job.php",
                     ?>
                     <div class="row">
                         <div class="col-xxl-12">
-                            <form class="new-person-form" action="action/action-add-job.php" method="post"
-                                  name="addJob">
-                                <div class="row">
-                                    <div class="col-xl-12 col-lg-12 col-md-12 col-12">
-                                        <div class="card-wrapper">
-                                            <div class="form-card">
-                                                <div class="card-img">
-                                                    <img src="assets/properties/Work%20time-amico.svg"
-                                                         alt="Person while work" class="job-img">
-                                                </div>
-                                                <div class="card-field">
-                                                    <label for="jobName" class="form-label required">Add job</label>
-                                                    <input type="text" id="jobName" class="form-control"
-                                                           name="name" maxlength="30" minlength="3"
-                                                           placeholder="New job" required>
-
-                                                    <div class="btn-container d-flex column-gap-3">
-                                                        <a class="btn btn-primary btn--form has-border" type="submit"
-                                                           href="jobs.php">
-                                                            Cancel
-                                                        </a>
-                                                        <button class="btn btn-primary btn--form" type="submit"
-                                                                name="btn">
-                                                            Save
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="row">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+                                    <?php
+                                    cardBody(action:"action-add-job.php",location: "jobs.php", imgSrc: "Work time-amico.svg", label: "Add job");
+                                    ?>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>

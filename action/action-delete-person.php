@@ -45,7 +45,7 @@ try {
     $stmt->execute(array(
         "count" => $theJob[JOBS_COUNT] - 1,
         "id" => $theJob[ID],
-        "last_update" => date("Y-m-d H:i", time())
+        "last_update" => date("Y-m-d H:i:s", time())
 
     ));
     $query = "DELETE FROM `persons` WHERE id = :id";

@@ -8,7 +8,7 @@ $jobs = getJobs();
 $newJob = $_POST["name"];
 foreach ($jobs as $job){
     if(strcasecmp($job[JOBS_NAME], $newJob) == 0){
-        $_SESSION["info"] = "Sorry, this job is already exist in database";
+        $_SESSION["info"] = "Sorry, this job is already exist!";
         redirect("../add-job.php", "");
     }
 }
