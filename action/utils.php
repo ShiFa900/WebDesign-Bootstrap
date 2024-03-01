@@ -94,7 +94,7 @@ function getPersons(int $limit, int|string $page, string|null $category = null, 
         $str = "%$search%";
         // 1. query untuk banyaknya data
         // mendapatkan banyak data dari database
-        $queryCount = 'SELECT COUNT(*) as `total` FROM `persons` WHERE firstName LIKE :firstName OR lastName LIKE :lastName OR email LIKE :email';
+        $queryCount = 'SELECT COUNT(*) as `total` FROM `persons` WHERE firstName LIKE :firstName OR lastName LIKE :lastName OR email LIKE :email LIMIT 7';
         $statement = $PDO->prepare($queryCount);
         $statement->execute(
             array(
@@ -105,7 +105,9 @@ function getPersons(int $limit, int|string $page, string|null $category = null, 
         );
         $count = $statement->fetch(PDO::FETCH_ASSOC);
 
-        $queryData = "SELECT * FROM persons WHERE firstName LIKE :firstName OR lastName LIKE :lastName OR email LIKE :email ORDER BY id DESC";
+        $offset = ($page - 1) * $limit;
+        // ganti teknik pengambilan data dengan hanya mengambil data dengan jumlah sesuai limitnya
+        $queryData = "SELECT * FROM persons WHERE firstName LIKE :firstName OR lastName LIKE :lastName OR email LIKE :email LIMIT 7 OFFSET $offset ORDER BY id DESC ";
         // 2. query untuk data
         // get person data by given keyword
         $statement = $PDO->prepare($queryData);
@@ -128,8 +130,13 @@ function getPersons(int $limit, int|string $page, string|null $category = null, 
             return array(
                 PAGING_TOTAL_PAGE => ceil(count($getPersonCategory) / $limit),
                 PAGING_CURRENT_PAGE => $page,
-                PAGING_DATA => array_slice($getPersonCategory, $sort["indexStart"], $sort["length"])
+                PAGING_DATA => $data
             );
+//            return array(
+//                PAGING_TOTAL_PAGE => ceil(count($getPersonCategory) / $limit),
+//                PAGING_CURRENT_PAGE => $page,
+//                PAGING_DATA => array_slice($getPersonCategory, $sort["indexStart"], $sort["length"])
+//            );
         }
     } catch (PDOException $e) {
         die('Query error: ' . $e->getMessage());
