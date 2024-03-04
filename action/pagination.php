@@ -5,7 +5,6 @@
  * @param array $array
  * @param string $page
  * @param int $limit
- * @param int $totalPage
  * @return array
  */
 function getPaginatedData(array $array, string $page, int $limit): array

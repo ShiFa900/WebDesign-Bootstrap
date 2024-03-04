@@ -236,34 +236,48 @@ $noun = setNoun($persons, "Person"); // set pronounce
 
                                     <td>
                                         <div class="person-btn d-flex justify-content-center align-items-center">
-                                            <div class="dropdown">
-                                                <button class="btn main-nav-link dropdown-btn block-color-btn" name="btn-view">
-                                                    View
-                                                </button>
-                                                <div class="dropdown-content">
-                                                    <a <?php
-                                                        if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
-                                                        ?> href="view-person.php?person=<?php echo $person[ID] ?>"
-                                                        <?php
-                                                        }
-                                                        ?> class="dropdown-item" href="my-profile.php">View person
-                                                    </a>
-                                                        <a class="dropdown-item" href="hobbies.php?person=<?php echo $person[ID] ?>">View hobby</a>
-                                                </div>
-                                            </div>
+                                            <button class="btn" name="btn-view">
+                                                <a
 
-                                            <button class="btn">
+                                                    <?php
+                                                    if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
+                                                        ?>
+                                                        href="view-person.php?person=<?php echo $person[ID] ?>"
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                        href="my-profile.php"
+                                                        class="nav-link table-nav block-color-btn"
+                                                >View</a
+                                                >
+                                            </button>
                                                 <?php
                                                 if ($userRole[PERSON_ROLE] == ROLE_ADMIN) {
                                                 ?>
+                                            <button class="btn">
+
                                                     <a <?php
                                                         if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
-                                                        ?> href="edit-person.php?person=<?php echo $person[ID] ?>" <?php
-                                                                                                                }
-                                                                                                                    ?> href="my-profile.php" class="nav-link table-nav border-btn">Edit</a>
-                                                <?php
-                                                }
-                                                ?>
+                                                        ?> href="edit-person.php?person=<?php echo $person[ID] ?>"
+                                                        <?php
+                                                        }
+                                                        ?> href="my-profile.php" class="nav-link table-nav border-btn">Edit</a>
+                                            </button>
+                                         <?php
+                                            }
+                                            ?>
+                                            <button class="btn" name="btn-view">
+                                                <a
+                                                    <?php
+                                                    if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
+                                                        ?>
+                                                        href="hobbies.php?person=<?php echo $person[ID] ?>"
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                        class="nav-link table-nav btn-block"
+                                                >Hobby</a
+                                                >
                                             </button>
                                         </div>
                                     </td>

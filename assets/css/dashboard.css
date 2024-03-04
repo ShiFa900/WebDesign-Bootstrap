@@ -45,3 +45,7 @@
 .page-dashboard table tbody{
     padding-bottom: 2rem;
 }
+
+.page-dashboard table tr td{
+    line-height: 3rem;
+}

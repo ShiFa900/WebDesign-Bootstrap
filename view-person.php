@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
+require_once __DIR__ . "/include/table-3-column.php";
 require_once __DIR__ . "/action/utils.php";
 
 redirectIfNotAuthenticated();
@@ -33,15 +34,21 @@ $_SESSION["personId"] = $person[ID];
 
 // get current user
 $currentUser = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
-mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-person.php", pageStyles: ["view-person.css"]);
 
-?>
+if (isset($_SESSION["personData"])) {
+    $personHobbies = getPersonHobbiesFromDb($_SESSION["personData"][ID]);
+} else {
+    $personHobbies = getPersonHobbiesFromDb($person[ID]);
+}
+
+$noun = setNoun($personHobbies, 'Hobby');
+mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-person.php", pageStyles: ["view-person.css"]);
+    ?>
     <main xmlns="http://www.w3.org/1999/html">
         <section class="view-section d-flex position-relative">
             <?php
             desktopSidebar("persons.php");
             ?>
-
             <div class="w-100">
                 <div class="view-person-content position-absolute px-5">
                     <div class="page-header content-wrapper">
@@ -135,9 +142,7 @@ mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-
                                                 }
                                                 ?>
                                             </p>
-
                                         </div>
-
                                         <div class="mb-3 form-input">
                                             <span class="required title">Sex</span>
                                             <p>
@@ -150,6 +155,8 @@ mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-
                                                 ?>
                                             </p>
                                         </div>
+                                    </div>
+                                    <div class="col-xxl-5 col-xl-2 col-lg-5">
                                         <div class="mb-3 form-input">
                                             <span class="required title">Status</span>
                                             <p>
@@ -162,9 +169,6 @@ mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-
                                                 ?>
                                             </p>
                                         </div>
-                                    </div>
-
-                                    <div class="col-xxl-5 col-xl-2 col-lg-5">
                                         <div class="mb-3 form-input">
                                             <span class="required title">Job</span>
                                             <p>
@@ -172,27 +176,6 @@ mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-
                                             </p>
                                         </div>
                                         <?php
-                                        if (isset($_SESSION["personData"])) {
-                                            $personHobbies = getPersonHobbiesFromDb($_SESSION["personData"][ID]);
-                                        } else {
-                                            $personHobbies = getPersonHobbiesFromDb($person[ID]);
-                                        }
-                                        if ($personHobbies != null) {
-                                            ?>
-                                            <div class="mb-3 form-input">
-                                                <span class="title">Hobby</span>
-
-                                                <p class="text-value">
-                                                    <?php
-                                                    foreach ($personHobbies as $hobby) {
-                                                        echo $hobby[HOBBIES_NAME] . ", ";
-                                                    }
-                                                    ?>
-                                                    <br>
-                                                </p>
-                                            </div>
-                                            <?php
-                                        }
                                         if ($currentUser[PERSON_ROLE] == ROLE_ADMIN) {
                                             if (isset($_SESSION["personData"][PERSON_INTERNAL_NOTE])) {
                                                 ?>
@@ -233,10 +216,22 @@ mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-
                                         </div>
                                     </div>
                                 </div>
-
+                                <?php
+                                if ($personHobbies != null) {?>
+                                <div class="subheading mb-2 mt-4">
+                                    <div class="col-xxl-8">
+                                        <h1 class="third-heading">
+                                            <?=$noun?> list
+                                        </h1>
+                                    </div>
+                                </div>
+                                <?php
+                                    tableThreeColumn(identifier: 'view-person', user: $currentUser, constName: HOBBIES_NAME, modalText: "Are you sure want to delete", array: $personHobbies, noun: 'Hobbies', personId: $person[ID]);
+                                }
+                                ?>
                                 <div class="btn-container d-flex ">
                                     <div class="btn-wrapper d-flex column-gap-3">
-                                        <a href="persons.php?page=1"
+                                        <a href="persons.php?"
                                            class="btn btn-primary btn--form has-border"
                                            type="submit"
                                         >Back
@@ -312,8 +307,9 @@ mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-
         </section>
     </main>
     <!-- footer -->
-<?php
-mainFooter("persons.php");
+    <?php
+    mainFooter("persons.php");
 // unset all session if user switch to other page
-unset($_SESSION["personData"]);
-unset($_SESSION["info"]);
+    unset($_SESSION["personData"]);
+    unset($_SESSION["info"]);
+    unset($_SESSION["personId"]);

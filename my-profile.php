@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
+require_once __DIR__ . "/include/table-3-column.php";
 require_once __DIR__ . "/action/utils.php";
 
 redirectIfNotAuthenticated();
@@ -21,7 +22,7 @@ $arraySex = sortSex($person[PERSON_SEX]);
 // get user role label for role form
 $arrayRole = sortRole($person[PERSON_ROLE]);
 $personHobbies = getPersonHobbiesFromDb(personId: $person[ID]);
-
+$noun = setNoun(array: $personHobbies, text: 'Hobby');
 ?>
     <main>
         <section class="profile-section d-flex position-relative">
@@ -195,24 +196,22 @@ $personHobbies = getPersonHobbiesFromDb(personId: $person[ID]);
                                         }
                                         ?>
                                     </select>
-                                </div>
-                                <?php
-                                if ($personHobbies != null) {
-                                    ?>
-                                    <div class="form-input">
-                                        <span class="title">Hobby</span>
-                                        <p class="mb-0">
+                                    <div class="mb-3 form-input">
+                                        <label class="form-label required" for="job-dropdown">Job</label>
+                                        <select id="job-dropdown" class="form-select form-control"
+                                                aria-label="Small select example" name="jobName">
+                                            <!-- dropdwon pekerjaan nanti value-nya akan diisi dari database jobs, dan data dari database akan increment jika jobs di create new-->
                                             <?php
-                                            foreach ($personHobbies as $hobby) {
-                                                if ($hobby[HOBBIES_PERSON_ID] == $person[ID]) {
-                                                    echo $hobby[HOBBIES_NAME] . ", ";
-                                                }
+                                            foreach ($jobs as $job) {
+                                                ?>
+                                                <option value="<?= $job[JOBS_NAME] ?>" <?php if ($job[JOBS_NAME] === $getPersonJob[JOBS_NAME]) echo "selected" ?>>
+                                                    <?= $job[JOBS_NAME] ?>
+                                                </option>
+                                                <?php
                                             }
                                             ?>
-                                        </p>
-
-                                        <a href="add-hobby.php?person<?= $person[ID] ?>"
-                                           class="nav-link mt-1 mb-3 add-icon">
+                                        </select>
+                                        <a href="add-job.php" class="nav-link mt-1 add-icon">
                                             <div style="fill: #000000">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="ionicon"
                                                      viewBox="0 0 512 512">
@@ -220,62 +219,14 @@ $personHobbies = getPersonHobbiesFromDb(personId: $person[ID]);
                                                           stroke-linejoin="round" stroke-width="32"
                                                           d="M256 112v288M400 256H112"/>
                                                 </svg>
-                                                <span class="ps-2">Create new hobby</span>
+                                                Create new option
                                             </div>
                                         </a>
                                     </div>
-                                    <?php
-                                } else { ?>
-                                    <a href="add-hobby.php?person=<?= $person[ID] ?>" class="nav-link mt-1 mb-3">
-                                        <div style="fill: #000000">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="ionicon"
-                                                 viewBox="0 0 512 512">
-                                                <path d="M467.51 248.83c-18.4-83.18-45.69-136.24-89.43-149.17A91.5 91.5 0 00352 96c-26.89 0-48.11 16-96 16s-69.15-16-96-16a99.09 99.09 0 00-27.2 3.66C89 112.59 61.94 165.7 43.33 248.83c-19 84.91-15.56 152 21.58 164.88 26 9 49.25-9.61 71.27-37 25-31.2 55.79-40.8 119.82-40.8s93.62 9.6 118.66 40.8c22 27.41 46.11 45.79 71.42 37.16 41.02-14.01 40.44-79.13 21.43-165.04z"
-                                                      fill="none" stroke="currentColor" stroke-miterlimit="10"
-                                                      stroke-width="32"/>
-                                                <circle cx="292" cy="224" r="20"/>
-                                                <path d="M336 288a20 20 0 1120-19.95A20 20 0 01336 288z"/>
-                                                <circle cx="336" cy="180" r="20"/>
-                                                <circle cx="380" cy="224" r="20"/>
-                                                <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                                      stroke-linejoin="round" stroke-width="32"
-                                                      d="M160 176v96M208 224h-96"/>
-                                            </svg>
-                                            <span class="ps-2">Add your first hobby</span>
-                                        </div>
-                                    </a>
-                                    <?php
-                                }
-                                ?>
+                                </div>
+
                             </div>
                             <div class="col-xxl-5 col-xl-5 col-lg-5">
-                                <div class="mb-3 form-input">
-                                    <label class="form-label required" for="job-dropdown">Job</label>
-                                    <select id="job-dropdown" class="form-select form-control"
-                                            aria-label="Small select example" name="jobName">
-                                        <!-- dropdwon pekerjaan nanti value-nya akan diisi dari database jobs, dan data dari database akan increment jika jobs di create new-->
-                                        <?php
-                                        foreach ($jobs as $job) {
-                                            ?>
-                                            <option value="<?= $job[JOBS_NAME] ?>" <?php if ($job[JOBS_NAME] === $getPersonJob[JOBS_NAME]) echo "selected" ?>>
-                                                <?= $job[JOBS_NAME] ?>
-                                            </option>
-                                            <?php
-                                        }
-                                        ?>
-                                    </select>
-                                    <a href="add-job.php" class="nav-link mt-1 add-icon">
-                                        <div style="fill: #000000">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="ionicon"
-                                                 viewBox="0 0 512 512">
-                                                <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                                      stroke-linejoin="round" stroke-width="32"
-                                                      d="M256 112v288M400 256H112"/>
-                                            </svg>
-                                            Create new option
-                                        </div>
-                                    </a>
-                                </div>
                                 <div class="mb-3 form-input">
                                     <span class="required title">Role</span>
                                     <p>
@@ -352,7 +303,6 @@ $personHobbies = getPersonHobbiesFromDb(personId: $person[ID]);
                                         <?php
                                     }
                                     ?>
-
                                 </div>
                                 <div class="mb-3 form-input">
                                     <label for="confirmPass" class="form-label">Confirm Password </label>
@@ -372,6 +322,42 @@ $personHobbies = getPersonHobbiesFromDb(personId: $person[ID]);
                                     ?>
                                 </div>
                             </div>
+
+                            <?php
+                            if ($personHobbies != null) {?>
+                                <div class="subheading mb-2 mt-4">
+                                    <div class="col-xxl-8">
+                                        <h1 class="third-heading">
+                                            <?=$noun?> list
+                                        </h1>
+                                    </div>
+                                </div>
+                                <?php
+                                tableThreeColumn(identifier: 'page-my-profile', user: $person, constName: HOBBIES_NAME, modalText: "Are you sure want to delete", array: $personHobbies, noun: $noun, personId: $person[ID]);
+                            } else {
+                                ?>
+                                <a href="add-hobby.php?person=<?= $person[ID] ?>" class="nav-link mt-1 mb-3">
+                                    <div style="fill: #000000">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon"
+                                             viewBox="0 0 512 512">
+                                            <path d="M467.51 248.83c-18.4-83.18-45.69-136.24-89.43-149.17A91.5 91.5 0 00352 96c-26.89 0-48.11 16-96 16s-69.15-16-96-16a99.09 99.09 0 00-27.2 3.66C89 112.59 61.94 165.7 43.33 248.83c-19 84.91-15.56 152 21.58 164.88 26 9 49.25-9.61 71.27-37 25-31.2 55.79-40.8 119.82-40.8s93.62 9.6 118.66 40.8c22 27.41 46.11 45.79 71.42 37.16 41.02-14.01 40.44-79.13 21.43-165.04z"
+                                                  fill="none" stroke="currentColor" stroke-miterlimit="10"
+                                                  stroke-width="32"/>
+                                            <circle cx="292" cy="224" r="20"/>
+                                            <path d="M336 288a20 20 0 1120-19.95A20 20 0 01336 288z"/>
+                                            <circle cx="336" cy="180" r="20"/>
+                                            <circle cx="380" cy="224" r="20"/>
+                                            <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                                  stroke-linejoin="round" stroke-width="32"
+                                                  d="M160 176v96M208 224h-96"/>
+                                        </svg>
+                                        <span class="ps-2">Add your first hobby</span>
+                                    </div>
+                                </a>
+                                <?php
+                            }
+                            ?>
+
                             <div class="btn-container d-flex column-gap-3 justify-content-start">
                                 <a class="btn btn-primary btn--form has-border"
                                    type="submit"

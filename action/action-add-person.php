@@ -15,6 +15,8 @@ $userInputData = getUserInputData(
     sex: $_POST["sex"],
     note: $_POST["note"]
 );
+$userInputData[HOBBIES_NAME] = $_POST["hobbyName"];
+$userInputData[JOBS_NAME] = $_POST["jobName"];
 
 // validate for input data
 $validate = validate(

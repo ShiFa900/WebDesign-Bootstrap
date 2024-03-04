@@ -40,7 +40,7 @@ mainHeader(cssIdentifier: "page-edit-hobby", title: "Edit Hobby", link: "edit-ho
                             <div class="row">
                                 <div class="col-xl-12">
                                     <?php
-                                    cardBody(action: "action-edit-hobby.php", location: "jobs.php", imgSrc: "About%20me-amico.svg", label: "Hobby name", currentData: $currentHobby[HOBBIES_NAME]);
+                                    cardBody(action: "action-edit-hobby.php", location: "persons.php", imgSrc: "About%20me-amico.svg", label: "Hobby name", currentData: $currentHobby[HOBBIES_NAME]);
                                     ?>
                                 </div>
                             </div>

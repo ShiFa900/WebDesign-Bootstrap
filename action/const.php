@@ -60,6 +60,7 @@ const CATEGORIES_PASSED_AWAY = "CATEGORIES_PASSED_AWAY";
 // cons for hobby
 const HOBBIES_PERSON_ID = "person_id";
 const HOBBIES_NAME = "hobbies_name";
+const HOBBIES_LAST_UPDATE = "last_update";
 
 // const for jobs
 const JOBS_NAME = "jobs_name";

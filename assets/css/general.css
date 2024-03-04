@@ -394,7 +394,8 @@ body {
 }
 
 .page-hobbies .delete-btn,
-.page-jobs .delete-btn {
+.page-jobs .delete-btn,
+.page-view-person .delete-btn{
     padding: 0.4rem 0.75rem;
     letter-spacing: 1px;
     color: #ffffff;
@@ -427,7 +428,9 @@ body {
 
 .page-persons .block-color-btn,
 .page-hobbies .block-color-btn,
-.page-jobs .block-color-btn {
+.page-jobs .block-color-btn,
+.page-view-person .block-color-btn,
+.page-my-profile .block-color-btn{
     background-color: #015d98;
     color: #fff;
     letter-spacing: 1px;
@@ -725,6 +728,12 @@ li ul .nav-link {
 .table-responsive{
     margin-bottom: 3.6rem;
 }
+
+.page-my-profile .table-responsive,
+.page-view-person .table-responsive{
+    margin-bottom: 0.5rem;
+}
+
 .page-dashboard thead th {
     position: sticky;
     top: 0;
@@ -746,7 +755,7 @@ tbody tr:nth-child(even) {
 
 .table-nav {
     padding: 0.3rem 0.75rem;
-    border: 1px solid #015d98;
+    /*border: 1px solid #015d98;*/
     color: #333;
     border-radius: 2px;
 }
@@ -772,7 +781,9 @@ thead tr {
 .page-persons .table,
 .page-hobbies table,
 .page-jobs table,
-.page-dashboard .table-container{
+.page-dashboard .table-container,
+.page-view-person .table,
+.page-my-profile table{
     border-left: 1px solid #dddddd;
     border-right: 1px solid #dddddd;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.09);
@@ -785,8 +796,7 @@ table tbody tr td{
 
 .page-persons table tr td,
 .page-hobbies table tr td,
-.page-jobs table tr td,
-.page-dashboard table tr td {
+.page-jobs table tr td{
     line-height: 2rem;
 }
 

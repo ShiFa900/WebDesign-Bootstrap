@@ -4,6 +4,7 @@ require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
 require_once __DIR__ . "/include/show-pagination-btn.php";
 require_once __DIR__ . "/include/footer-pagination-btn.php";
+require_once __DIR__ . "/include/table-3-column.php";
 require_once __DIR__ . "/action/pagination.php";
 
 redirectIfNotAuthenticated();
@@ -152,117 +153,19 @@ mainHeader(cssIdentifier: "page-hobbies", title: "Person Hobbies", link: "person
             <?php
         }
         if (count($hobbies) != 0) {
-            ?>
-            <div class="row">
-                <div class="col-xxl-12">
-                    <div class="row">
-                        <div class="col-xl-12 col-lg-12 col-md-12">
-                            <div class="table-wrapper ">
-                                <div class="table-container">
-                                    <?php
-                                    footerPaginationBtn(array: $hobbyPaginated, prev: $prev, next: $next, page: $page, identifier: "page-hobbies", personId: $personData[ID], keyword: $_GET["keyword"]);
-                                    ?>
-                                    <div class="table-responsive">
-                                        <table class="table" id="table">
-                                            <thead>
-                                            <tr>
-                                                <th scope="col" class="text-center">No</th>
-                                                <th scope="col"><?=$noun?> Name</th>
-                                                <?php
-                                                if ($user[PERSON_ROLE] == ROLE_ADMIN || $user[ID] == $personData[ID]) {
-                                                    ?>
-                                                    <th scope="col" class="text-center">Action</th>
-                                                    <?php
-                                                }
-                                                ?>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <?php
-                                            $number = ($page - 1) * PAGE_HOBBIES_LIMIT + 1;
-                                            foreach ($hobbies as $hobby) {?>
-                                                <tr>
-                                                    <td class="text-center"><?= $number ?></td>
-                                                    <td><?= $hobby[HOBBIES_NAME] ?></td>
-                                                    <?php
-                                                    if ($user[PERSON_ROLE] == ROLE_ADMIN || $user[ID] == $personData[ID]) {
-                                                        ?>
-                                                        <td>
-                                                            <div class="person-btn d-flex justify-content-center align-items-center">
-                                                                <button class="btn p-0">
-                                                                    <a
-                                                                            href="edit-hobby.php?hobby=<?= $hobby[ID] ?>"
-                                                                            class="nav-link table-nav block-color-btn"
-                                                                    >Edit</a
-                                                                    >
-                                                                </button>
-                                                                <button class="btn" type="button"
-                                                                        data-bs-toggle="modal"
-                                                                        data-bs-target="#exampleModal<?=$hobby[ID]?>"
-                                                                ><a class="delete-btn nav-link table-nav">Delete</a>
-                                                                </button>
-                                                                <!-- Modal -->
-                                                                <div
-                                                                        class="modal fade"
-                                                                        id="exampleModal<?=$hobby[ID]?>"
-                                                                        tabindex="-1"
-                                                                        aria-labelledby="exampleModalLabel"
-                                                                        aria-hidden="true"
-                                                                >
-                                                                    <div class="modal-dialog modal-dialog-centered">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h1 class="modal-title"
-                                                                                    id="exampleModalLabel">
-                                                                                    Are you sure want to delete
-                                                                                    hobby <?= '"' . $hobby[HOBBIES_NAME] . '" ' ?>
-                                                                                    ?
-                                                                                </h1>
-                                                                                <button
-                                                                                        type="button"
-                                                                                        class="btn-close"
-                                                                                        data-bs-dismiss="modal"
-                                                                                        aria-label="Close"
-                                                                                ></button>
-                                                                            </div>
-                                                                            <div class="modal-footer">
-                                                                                <button
-                                                                                        type="button"
-                                                                                        class="btn btn-secondary btn-block"
-                                                                                        data-bs-dismiss="modal"
-                                                                                >
-                                                                                    No
-                                                                                </button>
-                                                                                <button type="button"
-                                                                                        class="btn btn-primary"
-                                                                                        name="btnDelete">
-                                                                                    <a href="action/action-delete-hobby.php?hobby=<?= $hobby[ID] ?>"
-                                                                                       class="btn">Yes</a>
-                                                                                </button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <?php
-                                                    }
-                                                    ?>
-                                                </tr>
-                                                <?php
-                                                $number++;
-                                            }
-                                            ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <?php
+            tableThreeColumn(
+                    identifier: 'page-hobbies',
+                user: $user,
+                constName: HOBBIES_NAME,
+                modalText: "Are you sure want to delete",
+                dataPaginated: $hobbyPaginated,
+                prev: $prev,
+                next: $next,
+                page: $page,
+                limit: PAGE_HOBBIES_LIMIT,
+                noun: $noun,
+                personId: $personData[ID],
+                keyword: $_GET["keyword"]);
         } else {
             ?>
             <div class="wrapper">

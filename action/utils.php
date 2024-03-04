@@ -88,13 +88,13 @@ function checkRole(string $userEmail, string $role): void
 function getPersons(int $limit, int|string $page, string|null $category = null, string|null $search = null): array
 {
     global $PDO;
+    $persons = getAll();
     // query data to db:
-    // 'SELECT * FROM persons WHERE name like "%:search%" ORDER BY id DESC LIMIT :limit OFFSET :page'
     try {
         $str = "%$search%";
         // 1. query untuk banyaknya data
         // mendapatkan banyak data dari database
-        $queryCount = 'SELECT COUNT(*) as `total` FROM `persons` WHERE firstName LIKE :firstName OR lastName LIKE :lastName OR email LIKE :email LIMIT 7';
+        $queryCount = 'SELECT COUNT(*) as `total` FROM `persons` WHERE firstName LIKE :firstName OR lastName LIKE :lastName OR email LIKE :email';
         $statement = $PDO->prepare($queryCount);
         $statement->execute(
             array(
@@ -105,9 +105,8 @@ function getPersons(int $limit, int|string $page, string|null $category = null, 
         );
         $count = $statement->fetch(PDO::FETCH_ASSOC);
 
-        $offset = ($page - 1) * $limit;
         // ganti teknik pengambilan data dengan hanya mengambil data dengan jumlah sesuai limitnya
-        $queryData = "SELECT * FROM persons WHERE firstName LIKE :firstName OR lastName LIKE :lastName OR email LIKE :email LIMIT 7 OFFSET $offset ORDER BY id DESC ";
+        $queryData = "SELECT * FROM persons WHERE firstName LIKE :firstName OR lastName LIKE :lastName OR email LIKE :email ORDER BY id DESC";
         // 2. query untuk data
         // get person data by given keyword
         $statement = $PDO->prepare($queryData);
@@ -115,28 +114,22 @@ function getPersons(int $limit, int|string $page, string|null $category = null, 
             array(
                 'firstName' => $str,
                 'lastName' => $str,
-                'email' => $str,
+                'email' => $str
             )
         );
         $data = $statement->fetchAll(PDO::FETCH_ASSOC);
         // get person's category for person that related to given keyword
         $getPersonCategory = getAgeCategory($data, $category);
 
-        // sorting array person that will be shown for pagination
-        $sort = sortingDataForPagination(page: $page, limit: $limit, array: $getPersonCategory);
+        $sort = sortingDataForPagination(page: $page,limit: $limit,array: $getPersonCategory);
 
         // return information for persons page
         if ($count && $count['total'] > 0 && is_numeric($page)) {
             return array(
                 PAGING_TOTAL_PAGE => ceil(count($getPersonCategory) / $limit),
                 PAGING_CURRENT_PAGE => $page,
-                PAGING_DATA => $data
+                PAGING_DATA => array_slice($getPersonCategory, $sort['indexStart'], $sort['length'])
             );
-//            return array(
-//                PAGING_TOTAL_PAGE => ceil(count($getPersonCategory) / $limit),
-//                PAGING_CURRENT_PAGE => $page,
-//                PAGING_DATA => array_slice($getPersonCategory, $sort["indexStart"], $sort["length"])
-//            );
         }
     } catch (PDOException $e) {
         die('Query error: ' . $e->getMessage());
@@ -165,8 +158,8 @@ function getHobbies(int $limit, int $page, int $personId, string|null $keyword =
         ));
 
         $count = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        $queryData = "SELECT * FROM `hobbies` WHERE hobbies_name LIKE :hobbies_name AND person_id = :person_id ORDER BY id DESC ";
+        $offset = ($page - 1) * $limit;
+        $queryData = "SELECT * FROM `hobbies` WHERE hobbies_name LIKE :hobbies_name AND person_id = :person_id ORDER BY id DESC LIMIT $limit OFFSET $offset";
         $stmt = $PDO->prepare($queryData);
         $stmt->execute(array(
             "hobbies_name" => $keyword,
@@ -175,15 +168,12 @@ function getHobbies(int $limit, int $page, int $personId, string|null $keyword =
 
         $hobbyData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // sorting array person that will be shown for pagination
-        $sort = sortingDataForPagination(page: $page, limit: $limit, array: $hobbyData);
-
         // return information for persons page
         if ($count && $count["total"] > 0) {
             return array(
-                PAGING_TOTAL_PAGE => ceil(count($hobbyData) / $limit),
+                PAGING_TOTAL_PAGE => ceil($count['total'] / $limit),
                 PAGING_CURRENT_PAGE => $page,
-                PAGING_DATA => array_slice($hobbyData, $sort["indexStart"], $sort["length"])
+                PAGING_DATA => $hobbyData
             );
         }
     } catch (PDOException $e) {
@@ -196,7 +186,6 @@ function getHobbies(int $limit, int $page, int $personId, string|null $keyword =
         PAGING_DATA => []
     );
 }
-
 
 function getJobs()
 {
@@ -242,14 +231,15 @@ function getJobsData(int $limit, int $page, string|null $keyword = null)
         ));
         $count = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $query = "SELECT * FROM `jobs` WHERE jobs_name LIKE :jobs_name ORDER BY id DESC ";
+        $offset = ($page - 1) * $limit;
+        $query = "SELECT * FROM `jobs` WHERE jobs_name LIKE :jobs_name ORDER BY id DESC LIMIT $limit OFFSET $offset";
         $stmt = $PDO->prepare($query);
         $stmt->execute(array(
             "jobs_name" => $keyword
         ));
-        $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $getJobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $result = [];
-        foreach ($jobs as $job) {
+        foreach ($getJobs as $job) {
             $jobResult = [
                 ID => $job[ID],
                 JOBS_NAME => $job[JOBS_NAME],
@@ -259,13 +249,11 @@ function getJobsData(int $limit, int $page, string|null $keyword = null)
             $result[] = $jobResult;
         }
 
-        $sort = sortingDataForPagination(page: $page, limit: $limit, array: $result);
-
         if ($count["total"] > 0 && $count) {
             return [
-                PAGING_TOTAL_PAGE => ceil(count($result) / $limit),
+                PAGING_TOTAL_PAGE => ceil($count['total'] / $limit),
                 PAGING_CURRENT_PAGE => $page,
-                PAGING_DATA => array_slice($result, $sort["indexStart"], $sort["length"])
+                PAGING_DATA => $result
             ];
         }
 
@@ -292,6 +280,7 @@ function sortingDataForPagination(int $page, int $limit, array $array): array
         "length" => $length,
         "indexStart" => $indexStart
     );
+
 }
 
 /**
@@ -363,7 +352,8 @@ function getPersonHobbiesFromDb(string $personId): array
         $hobby = [
             ID => $personHobbies[$i][ID],
             HOBBIES_NAME => $personHobbies[$i][HOBBIES_NAME],
-            HOBBIES_PERSON_ID => $personHobbies[$i][HOBBIES_PERSON_ID]
+            HOBBIES_PERSON_ID => $personHobbies[$i][HOBBIES_PERSON_ID],
+            HOBBIES_LAST_UPDATE => convertDateToTimestamp($personHobbies[$i][HOBBIES_LAST_UPDATE])
         ];
         $result[] = $hobby;
     }
@@ -506,7 +496,8 @@ function savePerson(array $array, string $location): void
                 $hobby = [
                     ID => null,
                     HOBBIES_NAME => $array[HOBBIES_NAME],
-                    HOBBIES_PERSON_ID => $personId["id"]
+                    HOBBIES_PERSON_ID => $personId["id"],
+                    HOBBIES_LAST_UPDATE => date('Y-m-d H:i:s', time())
                 ];
                 saveHobby(array: $hobby);
             }
@@ -644,7 +635,8 @@ function saveHobby(array $array, string|null $location = null): void
             $stmt = $PDO->prepare($query);
             $stmt->execute(array(
                 "hobbies_name" => ucfirst($array[HOBBIES_NAME]),
-                "person_id" => $array[HOBBIES_PERSON_ID]
+                "person_id" => $array[HOBBIES_PERSON_ID],
+                "last_update" => date('Y-m-d H:i:s', time())
             ));
 
             $_SESSION["info"] = "Successfully save new hobby '" . $array[HOBBIES_NAME] . "'!";
@@ -661,7 +653,8 @@ function saveHobby(array $array, string|null $location = null): void
             $stmt->execute(array(
                 "id" => $array[ID],
                 "hobbies_name" => ucfirst($array[HOBBIES_NAME]),
-                "person_id" => $array[HOBBIES_PERSON_ID]
+                "person_id" => $array[HOBBIES_PERSON_ID],
+                "last_update" => date('Y-m-d H:i:s', time())
             ));
 
             if ($location != null) {
@@ -779,7 +772,7 @@ function savePersonJobWithPassedAwayStatus(int $personId): void
             ID => null,
             PERSON_JOBS_PERSON_ID => $personId,
             PERSON_JOBS_JOB_ID => $defaultJob[ID],
-            JOBS_LAST_UPDATE => date("Y-m-d H:i:s",time())
+            JOBS_LAST_UPDATE => date("Y-m-d H:i:s", time())
         ];
 
     } else {
@@ -1246,7 +1239,6 @@ function getElderlyCategory(array $persons): array
 function getAgeCategory(array &$persons, string $category): array
 {
     $personCategory = [];
-    $convertingPersons = [];
     // convert person's birthdate to timestamp before sorting persons by their category
     for ($i = 0; $i < count($persons); $i++) {
         $persons[$i][PERSON_BIRTH_DATE] = convertDateToTimestamp($persons[$i][PERSON_BIRTH_DATE]);
