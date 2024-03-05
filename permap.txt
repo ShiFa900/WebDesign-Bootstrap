@@ -9,7 +9,6 @@ color palette: 0C356A, 0174BE, FFC436, FFF0CE
 
 - jika user menginput new password tapi tidak confirm, maka tampilkan pesan error untuk editd data person atau my profile
 - revisi
-    - coba tampilkan table hobby di view person page
 
 - saat melakukan paginated dengan menggunakan limit, data yang diterima jumlahnya akan sesuai limit
 - last logged in hanya akan terisi dengan waktu saat si user log out, bagaimana ketika session user berakhir?

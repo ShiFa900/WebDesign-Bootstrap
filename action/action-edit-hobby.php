@@ -18,6 +18,7 @@ $userInput = [
 $hobby = [
     ID => $currentHobby[ID],
     HOBBIES_NAME => $userInput["hobbyName"] == null ? $currentHobby[HOBBIES_NAME] : htmlspecialchars($userInput["hobbyName"]),
-    HOBBIES_PERSON_ID => $currentHobby[HOBBIES_PERSON_ID]
+    HOBBIES_PERSON_ID => $currentHobby[HOBBIES_PERSON_ID],
+    HOBBIES_LAST_UPDATE => time()
 ];
 saveHobby(array: $hobby, location: "hobbies.php");

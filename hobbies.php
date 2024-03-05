@@ -158,6 +158,7 @@ mainHeader(cssIdentifier: "page-hobbies", title: "Person Hobbies", link: "person
                 user: $user,
                 constName: HOBBIES_NAME,
                 modalText: "Are you sure want to delete",
+                array: $hobbies,
                 dataPaginated: $hobbyPaginated,
                 prev: $prev,
                 next: $next,

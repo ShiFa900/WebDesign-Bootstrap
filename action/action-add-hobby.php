@@ -15,6 +15,7 @@ foreach ($personHobby as $hobby){
 $hobby = [
     ID => null,
     HOBBIES_NAME => htmlspecialchars($newHobby),
-    HOBBIES_PERSON_ID => $_SESSION["personId"]
+    HOBBIES_PERSON_ID => $_SESSION["personId"],
+    HOBBIES_LAST_UPDATE => time()
 ];
 saveHobby($hobby, "hobbies.php");

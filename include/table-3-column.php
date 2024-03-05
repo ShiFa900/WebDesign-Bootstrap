@@ -50,7 +50,7 @@ function tableThreeColumn(
                                         <tr>
                                             <td class="text-center"><?= $number ?></td>
                                             <td><?= $data[HOBBIES_NAME] ?></td>
-                                            <td class="text-center"><?= date('d F Y H:i:s', $data[HOBBIES_LAST_UPDATE]) ?></td>
+                                            <td class="text-center"><?= date('d F Y H:i', $data[HOBBIES_LAST_UPDATE]) ?></td>
                                             <?php
                                             if ($user[PERSON_ROLE] == ROLE_ADMIN || $user[ID] == $personId) {
                                                 ?>

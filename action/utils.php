@@ -167,13 +167,23 @@ function getHobbies(int $limit, int $page, int $personId, string|null $keyword =
         ));
 
         $hobbyData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $result = [];
+        foreach ($hobbyData as $hobby){
+            $arrayHobby = [
+                ID => $hobby[ID],
+                HOBBIES_NAME => $hobby[HOBBIES_NAME],
+                HOBBIES_PERSON_ID => $hobby[HOBBIES_PERSON_ID],
+                HOBBIES_LAST_UPDATE => convertDateToTimestamp($hobby[HOBBIES_LAST_UPDATE])
+            ];
+            $result[] = $arrayHobby;
+        }
 
         // return information for persons page
         if ($count && $count["total"] > 0) {
             return array(
                 PAGING_TOTAL_PAGE => ceil($count['total'] / $limit),
                 PAGING_CURRENT_PAGE => $page,
-                PAGING_DATA => $hobbyData
+                PAGING_DATA => $result
             );
         }
     } catch (PDOException $e) {
@@ -337,7 +347,7 @@ function getPersonHobbiesFromDb(string $personId): array
 {
     global $PDO;
     try {
-        $query = "SELECT * FROM `hobbies` WHERE `person_id` = :person_id";
+        $query = "SELECT * FROM `hobbies` WHERE `person_id` = :person_id ORDER BY id DESC ";
         $stmt = $PDO->prepare($query);
         $stmt->execute(array(
             "person_id" => $personId
@@ -631,12 +641,12 @@ function saveHobby(array $array, string|null $location = null): void
     global $PDO;
     if ($array[ID] == null) {
         try {
-            $query = "INSERT INTO `hobbies` (hobbies_name, person_id) VALUES (:hobbies_name, :person_id)";
+            $query = "INSERT INTO `hobbies` (hobbies_name, person_id,last_update) VALUES (:hobbies_name, :person_id, :last_update)";
             $stmt = $PDO->prepare($query);
             $stmt->execute(array(
                 "hobbies_name" => ucfirst($array[HOBBIES_NAME]),
                 "person_id" => $array[HOBBIES_PERSON_ID],
-                "last_update" => date('Y-m-d H:i:s', time())
+                "last_update" => date('Y-m-d H:i:s', $array[HOBBIES_LAST_UPDATE])
             ));
 
             $_SESSION["info"] = "Successfully save new hobby '" . $array[HOBBIES_NAME] . "'!";
@@ -648,13 +658,13 @@ function saveHobby(array $array, string|null $location = null): void
         }
     } else {
         try {
-            $query = "UPDATE `hobbies` SET id = :id, hobbies_name= :hobbies_name, person_id= :person_id WHERE id = :id";
+            $query = "UPDATE `hobbies` SET id = :id, hobbies_name= :hobbies_name, person_id= :person_id,last_update = :last_update WHERE id = :id";
             $stmt = $PDO->prepare($query);
             $stmt->execute(array(
                 "id" => $array[ID],
                 "hobbies_name" => ucfirst($array[HOBBIES_NAME]),
                 "person_id" => $array[HOBBIES_PERSON_ID],
-                "last_update" => date('Y-m-d H:i:s', time())
+                "last_update" => date('Y-m-d H:i:s', $array[HOBBIES_LAST_UPDATE])
             ));
 
             if ($location != null) {
@@ -677,7 +687,7 @@ function saveJob(array $array, string|null $location = null): void
             $stmt->execute(array(
                 "jobs_name" => ucfirst($array[JOBS_NAME]),
                 "count" => $array[JOBS_COUNT],
-                "last_update" => date("Y-m-d H:i:s", time())
+                "last_update" => date("Y-m-d H:i:s", $array[JOBS_LAST_UPDATE])
             ));
 
             if ($location != null) {
@@ -695,7 +705,7 @@ function saveJob(array $array, string|null $location = null): void
                 "id" => $array[ID],
                 "jobs_name" => ucfirst($array[JOBS_NAME]),
                 "count" => $array[JOBS_COUNT],
-                "last_update" => date("Y-m-d H:i:s", time())
+                "last_update" => date("Y-m-d H:i:s", $array[JOBS_LAST_UPDATE])
             ));
 
             if ($location != null) {

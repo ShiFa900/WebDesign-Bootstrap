@@ -43,7 +43,7 @@ if (isset($_SESSION["personData"])) {
 
 $noun = setNoun($personHobbies, 'Hobby');
 mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-person.php", pageStyles: ["view-person.css"]);
-    ?>
+?>
     <main xmlns="http://www.w3.org/1999/html">
         <section class="view-section d-flex position-relative">
             <?php
@@ -217,16 +217,16 @@ mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-
                                     </div>
                                 </div>
                                 <?php
-                                if ($personHobbies != null) {?>
-                                <div class="subheading mb-2 mt-4">
-                                    <div class="col-xxl-8">
-                                        <h1 class="third-heading">
-                                            <?=$noun?> list
-                                        </h1>
+                                if ($personHobbies != null) { ?>
+                                    <div class="subheading mb-2 mt-4">
+                                        <div class="col-xxl-8">
+                                            <h1 class="third-heading">
+                                                <?= $noun ?> list
+                                            </h1>
+                                        </div>
                                     </div>
-                                </div>
-                                <?php
-                                    tableThreeColumn(identifier: 'view-person', user: $currentUser, constName: HOBBIES_NAME, modalText: "Are you sure want to delete", array: $personHobbies, noun: 'Hobbies', personId: $person[ID]);
+                                    <?php
+                                    tableThreeColumn(identifier: 'page-my-profile', user: $person, constName: HOBBIES_NAME, modalText: "Are you sure want to delete", array: $personHobbies, noun: $noun, personId: $person[ID]);
                                 }
                                 ?>
                                 <div class="btn-container d-flex ">
@@ -307,9 +307,9 @@ mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-
         </section>
     </main>
     <!-- footer -->
-    <?php
-    mainFooter("persons.php");
+<?php
+mainFooter("persons.php");
 // unset all session if user switch to other page
-    unset($_SESSION["personData"]);
-    unset($_SESSION["info"]);
-    unset($_SESSION["personId"]);
+unset($_SESSION["personData"]);
+unset($_SESSION["info"]);
+unset($_SESSION["personId"]);
