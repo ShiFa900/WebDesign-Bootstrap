@@ -211,7 +211,7 @@ $noun = setNoun(array: $personHobbies, text: 'Hobby');
                                             }
                                             ?>
                                         </select>
-                                        <a href="add-job.php" class="nav-link mt-1 add-icon">
+                                        <a href="add-job.php" class="nav-link mt-2 add-icon">
                                             <div style="fill: #000000">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="ionicon"
                                                      viewBox="0 0 512 512">

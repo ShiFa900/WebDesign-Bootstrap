@@ -226,7 +226,7 @@ mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-
                                         </div>
                                     </div>
                                     <?php
-                                    tableThreeColumn(identifier: 'page-my-profile', user: $person, constName: HOBBIES_NAME, modalText: "Are you sure want to delete", array: $personHobbies, noun: $noun, personId: $person[ID]);
+                                    tableThreeColumn(identifier: 'page-view-person', user: $person, constName: HOBBIES_NAME, modalText: "Are you sure want to delete", array: $personHobbies, noun: $noun, personId: $person[ID]);
                                 }
                                 ?>
                                 <div class="btn-container d-flex ">

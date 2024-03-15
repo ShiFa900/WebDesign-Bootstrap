@@ -160,7 +160,8 @@ body {
 
 .page-add-person .form-input-add-person svg,
 .page-my-profile .my-profile-form .add-icon svg,
-.page-edit-person .edit-person-form .add-icon svg{
+.page-edit-person .edit-person-form .add-icon svg,
+.page-view-person .add-icon svg {
     width: 1.6rem;
     color: #666666;
 }
@@ -400,6 +401,7 @@ body {
     padding: 0.4rem 0.75rem;
     letter-spacing: 1px;
     color: #ffffff;
+    border-radius: 2px;
 }
 
 
