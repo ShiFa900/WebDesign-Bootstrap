@@ -10,7 +10,7 @@ $jobs = getJobs();
 foreach ($jobs as $job){
     if(strcasecmp($job[JOBS_NAME], $jobInput) == 0 && $job[ID] != $currentJob[ID]){
         $_SESSION["info"] = "Sorry, this job is already exist!";
-        redirect("../edit-job.php", "?job=" . $currentJob[ID]);
+        redirect("../edit-job.php", "job=" . $currentJob[ID]);
     }
 }
 $job = [

@@ -52,3 +52,4 @@ mainHeader(cssIdentifier: "page-edit-hobby", title: "Edit Hobby", link: "edit-ho
     </main>
 
 <?php mainFooter("persons.php");
+unset($_SESSION['info']);
