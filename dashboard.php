@@ -17,8 +17,8 @@ mainHeader(
 // get user data by given email
 $persons = getAll();
 $jobs = getJobs();
-//$user = getPerson(persons: $persons,email: $_SESSION["userEmail"]);
-$user = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
+$user = findFirstFromArray(tableName: 'persons', key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
+$user[PERSON_LAST_LOGGED_IN] = convertDateToTimestamp($user[PERSON_LAST_LOGGED_IN]);
 // mencari user yang dengan email yang sama dengan yang ada di database
 
 // get count of each category

@@ -7,8 +7,7 @@ date_default_timezone_set('Asia/Singapore');
 // user logout
 if (isset($_SESSION["userEmail"])) {
     global $PDO;
-    $persons = getAll();
-    $logoutPerson = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
+    $logoutPerson = findFirstFromArray(tableName: 'persons', key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
 
     try {
         $query = "UPDATE `persons` SET lastLoggedIn = :lastLoggedIn WHERE id = :id";

@@ -6,6 +6,10 @@ session_start();
 // job jangan sampai duplicate
 $jobs = getJobs();
 $newJob = $_POST["name"];
+if($newJob === ''){
+    $_SESSION['info'] = "Please write a job name";
+    redirect("../add-job.php", "");
+}
 foreach ($jobs as $job){
     if(strcasecmp($job[JOBS_NAME], $newJob) == 0){
         $_SESSION["info"] = "Sorry, this job is already exist!";

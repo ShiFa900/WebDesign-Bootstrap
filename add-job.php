@@ -5,8 +5,7 @@ require_once __DIR__ . "/action/utils.php";
 require_once __DIR__ . "/include/body-card.php";
 
 redirectIfNotAuthenticated();
-$persons = getAll();
-$person = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
+$person = findFirstFromArray(tableName: 'persons', key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
 checkRole($_SESSION["userEmail"], "ROLE_ADMIN");
 
 mainHeader(cssIdentifier: "page-add-job", title: "Add Job", link: "add-job.php", pageStyles: ["jobs.css"]);

@@ -61,8 +61,8 @@ function redirectIfUserAlreadyLogin(): void
  */
 function checkRole(string $userEmail, string $role): void
 {
-    $persons = getAll();
-    $user = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $userEmail);
+    $user = findFirstFromArray(tableName: 'persons', key: PERSON_EMAIL, value: $userEmail);
+    $user = setPersonValueFromDb($user);
     if ($user[PERSON_ROLE] != $role) {
         $_SESSION["user"] = "Sorry, your role is MEMBER. Only ADMIN can create, edit and delete data.";
         redirect("persons.php", "");
@@ -88,7 +88,6 @@ function checkRole(string $userEmail, string $role): void
 function getPersons(int $limit, int|string $page, string|null $category = null, string|null $search = null): array
 {
     global $PDO;
-    $persons = getAll();
     // query data to db:
     try {
         $str = "%$search%";
@@ -121,7 +120,7 @@ function getPersons(int $limit, int|string $page, string|null $category = null, 
         // get person's category for person that related to given keyword
         $getPersonCategory = getAgeCategory($data, $category);
 
-        $sort = sortingDataForPagination(page: $page,limit: $limit,array: $getPersonCategory);
+        $sort = sortingDataForPagination(page: $page, limit: $limit, array: $getPersonCategory);
 
         // return information for persons page
         if ($count && $count['total'] > 0 && is_numeric($page)) {
@@ -168,7 +167,7 @@ function getHobbies(int $limit, int $page, int $personId, string|null $keyword =
 
         $hobbyData = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $result = [];
-        foreach ($hobbyData as $hobby){
+        foreach ($hobbyData as $hobby) {
             $arrayHobby = [
                 ID => $hobby[ID],
                 HOBBIES_NAME => $hobby[HOBBIES_NAME],
@@ -202,7 +201,7 @@ function getJobs()
     global $PDO;
     $result = [];
     try {
-        $query = "SELECT * FROM `jobs` ORDER BY jobs_name ";
+        $query = "SELECT * FROM `jobs` ORDER BY jobs_name";
         $stmt = $PDO->prepare($query);
         $stmt->execute();
         $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -263,7 +262,8 @@ function getJobsData(int $limit, int $page, string|null $keyword = null)
             return [
                 PAGING_TOTAL_PAGE => ceil($count['total'] / $limit),
                 PAGING_CURRENT_PAGE => $page,
-                PAGING_DATA => $result
+                PAGING_DATA => $result,
+                PAGING_TOTAL_DATA => $count['total']
             ];
         }
 
@@ -517,7 +517,7 @@ function savePerson(array $array, string $location): void
             } elseif (isset($array[JOBS_NAME])) {
                 // cari data job yang dipilih user
                 $queryTheJob = "SELECT * FROM `jobs` WHERE jobs_name = :jobs_name";
-                $stmt = $PDO->prepare($queryTheJob); // disini errornya
+                $stmt = $PDO->prepare($queryTheJob);
                 $stmt->execute(array(
                     "jobs_name" => $array[JOBS_NAME]
                 ));
@@ -540,7 +540,7 @@ function savePerson(array $array, string $location): void
                     ID => $theJob[ID],
                     JOBS_NAME => $theJob[JOBS_NAME],
                     JOBS_COUNT => $countJob,
-                    JOBS_LAST_UPDATE => date("Y-m-d H:i:s", time())
+                    JOBS_LAST_UPDATE =>  time()
                 ];
                 saveJob($job);
                 // save id person dan id job ke table person_job
@@ -593,7 +593,7 @@ function savePerson(array $array, string $location): void
                         ID => $theJob[ID],
                         JOBS_NAME => $theJob[JOBS_NAME],
                         JOBS_COUNT => $theJob[JOBS_COUNT] + 1,
-                        JOBS_LAST_UPDATE => date("Y-m-d H:i:s", time())
+                        JOBS_LAST_UPDATE =>  time()
                     ];
                     saveJob($job);
                     // update data job yang lama dari table jobs
@@ -836,64 +836,43 @@ function convertDateToTimestamp(mixed $date): int|null
 }
 
 /**
- * get person data by given ID or EMAIl if isn't null
- * @param array $persons
- * @param string|null $email
- * @return array
- */
-function getPerson(array $persons, string|null $email = null): array
-{
-    global $PDO;
-//    mencari person dengan menggunakan email
-    try {
-        $query = "SELECT * FROM `persons` WHERE email = :email LIMIT 1";
-        $statement = $PDO->prepare($query);
-        $statement->execute(array(
-            "email" => $email
-        ));
-    } catch (PDOException $e) {
-        $_SESSION['error'] = 'Query error: ' . $e->getMessage();
-        var_dump($e->getMessage());
-        die();
-    }
-
-    $person = $statement->fetch(PDO::FETCH_ASSOC);
-    foreach ($persons as $p) {
-        if ($person[PERSON_EMAIL] == $p[PERSON_EMAIL]) {
-            return $p;
-        }
-    }
-
-    return [];
-}
-
-/**
  * get first data from array by specific key and value
- * @param array $array
  * @param string $key
  * @param string $value
  * @param int|null $id
  * @return mixed
  */
-function &findFirstFromArray(array &$array, string $key, string $value, int|null $id = null): mixed
+function &findFirstFromArray(string $tableName, string $key, string $value, int|null $id = null): mixed
 {
-    $default = [];
-    for ($i = 0; $i < count($array); $i++) {
-        if ($id == null) {
-            if ($array[$i][$key] == $value) {
-                return $array[$i];
-            }
+    global $PDO;
+    try {
+        if ($id === null) {
+            $queryFormat = 'SELECT * FROM %s WHERE %s = %s LIMIT 1';
+            $query = sprintf($queryFormat, $tableName, $key, ':value');
+            $stmt = $PDO->prepare($query);
+            $stmt->execute(array(
+                'value' => $value
+            ));
+            $firstData = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $firstData;
         } else {
-            // do especially when ID is not null (edit)
-            if ($array[$i][$key] == $value && $array[$i][ID] != $id) {
-                return $array[$i];
-            }
+            $queryFormat = 'SELECT * FROM %s WHERE %s = %s AND id != :id lIMIT 1';
+            $query = sprintf($queryFormat, $tableName, $key, ':value');
+            $stmt = $PDO->prepare($query);
+            $stmt->execute(array(
+                'value' => $value,
+                'id' => $id
+            ));
+            $firstData = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $firstData;
         }
+    } catch (PDOException $e) {
+        die($e->getMessage());
     }
-    return $default;
+
 }
 
-function &findAllFromArray(array &$array, string $key, string $value): array
+function &findAllFromArray(array $array, string $key, string $value): array
 {
     $default = [];
     for ($i = 0; $i < count($array); $i++) {
@@ -912,6 +891,13 @@ function &findAllFromArray(array &$array, string $key, string $value): array
 function translateIntToString(int $status): string
 {
     return $status == 1 ? "Alive" : "Passed Away";
+}
+
+function setPersonValueFromDb(array $array): array{
+    $array[PERSON_BIRTH_DATE] = convertDateToTimestamp($array[PERSON_BIRTH_DATE]);
+    $array[PERSON_SEX] = transformSexFromDb($array[PERSON_SEX]);
+    $array[PERSON_ROLE] = transformRoleFromDb($array[PERSON_ROLE]);
+    return $array;
 }
 
 function setNoun(array $array, string $text): string
@@ -1057,7 +1043,6 @@ function validate(
 ): array
 {
 
-    $persons = getAll();
     $validate = [];
     if (isNikExist($nik, $id) == -1) {
         $validate["errorNik"] = "Sorry, this NIK is already exist";
@@ -1082,10 +1067,10 @@ function validate(
         $validate["errorBirthDate"] = "Sorry, this BIRTH DATE is not valid. Please check again.";
     }
 
-    //        untuk di myProfile, user tidak bisa menganti password jika current password salah, namun tetap bisa diganti dengan bantuan admin
+    //untuk di myProfile, user tidak bisa menganti password jika current password salah, namun tetap bisa diganti dengan bantuan admin
     if ($currentPassword != null) {
 
-        if (getValidCurrentPassword($currentPassword, $persons) == -1) {
+        if (getValidCurrentPassword($currentPassword, $id) == -1) {
             $validate["errorCurrentPassword"] = "Sorry, your PASSWORD was wrong. Please check again.";
         }
     }
@@ -1099,19 +1084,19 @@ function validate(
  * @param int|null $id
  * @return int
  */
-function isNikExist(string $nik, int|null $id = null): int
+function isNikExist(string $nik, int|null $id): int
 {
-    $persons = getAll();
     $result = findFirstFromArray(
-        array: $persons,
+        tableName: 'persons',
         key: PERSON_NIK,
         value: $nik,
         id: $id
     );
-    if (count($result) == 0) {
-        return 0;
+
+    if ($result) {
+        return -1;
     }
-    return -1;
+    return 0;
 }
 
 /**
@@ -1136,17 +1121,16 @@ function getValidBirthDate(string $birthDate): int
  */
 function isEmailExist(string $email, int|null $id = null): int
 {
-    $persons = getAll();
     $result = findFirstFromArray(
-        array: $persons,
+        tableName: 'persons',
         key: PERSON_EMAIL,
         value: $email,
         id: $id
     );
-    if (count($result) == 0) {
-        return 0;
+    if ($result) {
+        return -1;
     }
-    return -1;
+    return 0;
 }
 
 /**
@@ -1174,13 +1158,22 @@ function getValidPassword(string|null $password = null): string|int
  * @param array $persons
  * @return int
  */
-function getValidCurrentPassword(string $password, array $persons): int
+function getValidCurrentPassword(string $password, int $id): int
 {
-    foreach ($persons as $person) {
-        $password = password_verify($password, $person[PASSWORD]);
-        if (!$password) {
+    global $PDO;
+    try {
+        $query = 'SELECT * FROM persons WHERE id = :id';
+        $stmt = $PDO->prepare($query);
+        $stmt->execute(array(
+            'id' => $id
+        ));
+        $person = $stmt->fetch(PDO::FETCH_ASSOC);
+        if(!password_verify($password, $person[PASSWORD])){
             return -1;
         }
+
+    } catch (PDOException $e){
+        die($e->getMessage());
     }
     return 0;
 }

@@ -18,6 +18,8 @@ const PAGE_LIMIT = 7;
 const PAGE_HOBBIES_LIMIT = 5;
 const JOBS_DEFAULT_NAME = "Tidak bekerja";
 
+const PAGING_TOTAL_DATA = "PAGING_TOTAL_DATA";
+
 
 // Const for person personal data
 const PERSON_FIRST_NAME = "firstName";

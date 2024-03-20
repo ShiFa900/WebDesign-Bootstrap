@@ -7,11 +7,11 @@ require_once __DIR__ . "/include/footer-pagination-btn.php";
 require_once __DIR__ . "/include/popup-alert.php";
 require_once __DIR__ . "/action/pagination.php";
 
-$persons = getAll();
 if (isset($_GET["reset"])) {
     redirect("jobs.php", "");
 }
-$user = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
+$user = findFirstFromArray(tableName: 'persons', key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
+$user = setPersonValueFromDb($user);
 $jobs = getJobs();
 $page = $_GET["page"] ?? 1;
 $totalPage = ceil((float)count($jobs) / PAGE_LIMIT);
@@ -144,7 +144,7 @@ mainHeader(cssIdentifier: "page-jobs", title: "Person Job", link: "jobs.php", pa
                             <div class="table-wrapper ">
                                 <div class="table-container">
                                     <?php
-                                    footerPaginationBtn(array: $jobsPaginated, prev: $prev, next: $next, page: $page, identifier: "page-jobs", keyword: $_GET["keyword"]);
+                                    paginationButton(array: $jobsPaginated, prev: $prev, next: $next, page: $page, identifier: "page-jobs", keyword: $_GET["keyword"]);
                                     ?>
                                     <div class="table-responsive">
                                         <table class="table" id="table">
@@ -167,7 +167,7 @@ mainHeader(cssIdentifier: "page-jobs", title: "Person Job", link: "jobs.php", pa
                                             <?php
                                             $number = ($page - 1) * PAGE_LIMIT + 1;
                                             foreach ($jobs as $job) {
-                                                $theJob = findFirstFromArray(array: $jobs, key: ID, value: $job[ID]);
+                                                $theJob = findFirstFromArray(tableName:'jobs',key: ID, value: $job[ID]);
                                                 ?>
                                                 <tr>
                                                     <td class="text-center"><?= $number ?></td>

@@ -23,7 +23,7 @@ function tableThreeColumn(
                         <div class="table-container">
                             <?php
                             if ($identifier == 'page-hobbies') {
-                                footerPaginationBtn(array: $dataPaginated, prev: $prev, next: $next, page: $page, identifier: $identifier, personId: $personId, keyword: $keyword);
+                                paginationButton(array: $dataPaginated, prev: $prev, next: $next, page: $page, identifier: $identifier, personId: $personId, keyword: $keyword);
                             }
                             ?>
                             <div class="table-responsive">
@@ -122,20 +122,26 @@ function tableThreeColumn(
                                 </table>
                             </div>
 
-                            <div class="form-input">
-                                <a href="../add-hobby.php?person=<?= $personId ?>"
-                                   class="nav-link mt-1 mb-3 add-icon">
-                                    <div style="fill: #000000">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon"
-                                             viewBox="0 0 512 512">
-                                            <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                                  stroke-linejoin="round" stroke-width="32"
-                                                  d="M256 112v288M400 256H112"/>
-                                        </svg>
-                                        <span class="ps-2">Create new hobby</span>
-                                    </div>
-                                </a>
-                            </div>
+                            <?php
+                            if ($identifier !== 'page-hobbies') {
+                                ?>
+                                <div class="form-input">
+                                    <a href="../add-hobby.php?person=<?= $personId ?>"
+                                       class="nav-link mt-1 mb-3 add-icon">
+                                        <div style="fill: #000000">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="ionicon"
+                                                 viewBox="0 0 512 512">
+                                                <path fill="none" stroke="currentColor" stroke-linecap="round"
+                                                      stroke-linejoin="round" stroke-width="32"
+                                                      d="M256 112v288M400 256H112"/>
+                                            </svg>
+                                            <span class="ps-2">Create new hobby</span>
+                                        </div>
+                                    </a>
+                                </div>
+                                <?php
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>

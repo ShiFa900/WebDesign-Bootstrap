@@ -47,7 +47,7 @@ if (count($validate) == 0) {
         note: $userInputData["note"] == null ? $currentUser[PERSON_INTERNAL_NOTE] : $userInputData["note"]);
 
     $person[ID] = $currentUser[ID];
-    $person[PERSON_LAST_LOGGED_IN] = date('Y-m-d H:i:s', $currentUser[PERSON_LAST_LOGGED_IN]);
+    $person[PERSON_LAST_LOGGED_IN] =  $currentUser[PERSON_LAST_LOGGED_IN];
     $person[PASSWORD] = $_POST["newPassword"] == null ? $currentUser[PASSWORD] : $_POST["newPassword"];
     $person[PERSON_STATUS] = $currentUser[PERSON_STATUS];
     $person[PERSON_BIRTH_DATE] = date('Y-m-d H:i:s', $person[PERSON_BIRTH_DATE]);

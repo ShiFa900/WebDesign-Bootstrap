@@ -12,16 +12,11 @@ if (isset($_GET["reset"])) {
 }
 mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.php", pageStyles: ['persons.css']);
 
-$persons = getAll();
 // get current user data
-$userRole = findFirstFromArray(array: $persons,key: PERSON_EMAIL,value: $_SESSION["userEmail"]);
+$userRole = findFirstFromArray(tableName: 'persons',key: PERSON_EMAIL,value: $_SESSION["userEmail"]);
+$userRole = setPersonValueFromDb($userRole);
 
 $page = $_GET["page"] ?? 1;
-// set page for paginated data, page cannot less than 1, bigger than total page and not a numeric
-$totalPage = ceil((float)count($persons) / PAGE_LIMIT);
-if($page < 1 || $page > $totalPage || !is_numeric($page)){
-    $page = 1;
-}
 
 if(isset($_GET["keyword"]) || isset($_GET["category"])){
     // get person data if keyword OR category is not null
@@ -30,6 +25,11 @@ $personPaginated = getPersons(PAGE_LIMIT, $page,$_GET["category"], $_GET["keywor
 else {
     // get default data person (all persons)
 $personPaginated = getPersons(PAGE_LIMIT, $page, CATEGORIES_ALL);
+}
+
+// set page for paginated data, page cannot less than 1, bigger than total page and not a numeric
+if($page < 1 || $page > $personPaginated[PAGING_TOTAL_PAGE] || !is_numeric($page)){
+    $page = 1;
 }
 $persons = $personPaginated[PAGING_DATA];
 $prev = $personPaginated[PAGING_CURRENT_PAGE] - 1;
@@ -198,9 +198,9 @@ $noun = setNoun($persons, "Person"); // set pronounce
             <?php
                  if(isset($_GET["category"]) || isset($_GET["keyword"]))
                {
-                 footerPaginationBtn(array: $personPaginated,prev: $prev,next: $next,page: $page,identifier: "page-persons",keyword: $_GET["keyword"],category: $_GET["category"]);
+                 paginationButton(array: $personPaginated,prev: $prev,next: $next,page: $page,identifier: "page-persons",keyword: $_GET["keyword"],category: $_GET["category"]);
                } else {
-                 footerPaginationBtn(array: $personPaginated,prev: $prev,next: $next,page: $page,identifier: "page-persons");
+                 paginationButton(array: $personPaginated,prev: $prev,next: $next,page: $page,identifier: "page-persons");
                }
              ?>
             <div class="table-responsive">

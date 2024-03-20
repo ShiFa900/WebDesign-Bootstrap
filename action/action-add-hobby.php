@@ -4,6 +4,11 @@ require_once __DIR__ . "/const.php";
 // jika person dihapus, maka hobby juga terhapus (agar tidak menimbulkan error nantinya)
 session_start();
 $newHobby = $_POST["name"];
+if($newHobby === ''){
+    $_SESSION['info'] = "Please write a hobby name";
+    redirect("../add-hobby.php", "person=" . $_SESSION["personId"]);
+}
+
 $personHobby = getHobby(personId: $_SESSION["personId"]); // ini harusnya isinya adalah array hobby dari si person
 foreach ($personHobby as $hobby){
     if(strcasecmp($hobby[HOBBIES_NAME], $newHobby) == 0){

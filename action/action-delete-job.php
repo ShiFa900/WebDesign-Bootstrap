@@ -5,7 +5,7 @@ session_start();
 
 // cari job dari database
 $jobs = getJobs();
-$job = findFirstFromArray(array: $jobs, key: ID, value: $_GET["job"]);
+$job = findFirstFromArray(tableName: 'jobs', key: ID, value: $_GET["job"]);
 if ($job == null) {
     $_SESSION["error"] = "Sorry, no data found";
     redirect("../jobs.php", "");

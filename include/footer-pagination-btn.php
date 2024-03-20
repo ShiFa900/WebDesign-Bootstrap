@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . "/show-pagination-btn.php";
-function footerPaginationBtn(array $array, int $prev, int $next, int $page, string $identifier, int|null $personId = null, string|null $keyword = null, string|null $category = null): void
+function paginationButton(array $array, int $prev, int $next, int $page, string $identifier, int|null $personId = null, string|null $keyword = null, string|null $category = null): void
 {
     if ($identifier == "page-hobbies" || $identifier == "page-jobs") {
         ?>

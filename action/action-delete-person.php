@@ -3,9 +3,8 @@ require_once __DIR__ . "/utils.php";
 session_start();
 
 // get person data to be deleted
-$persons = getAll();
 global $PDO;
-$personWillBeDeleted = findFirstFromArray(array: $persons, key: ID, value: $_SESSION["personId"]);
+$personWillBeDeleted = findFirstFromArray(tableName: 'persons', key: ID, value: $_SESSION["personId"]);
 if ($personWillBeDeleted == null) {
     $_SESSION["error"] = "Sorry, no person found";
     redirect("../persons.php", "");

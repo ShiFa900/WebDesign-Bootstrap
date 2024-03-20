@@ -6,18 +6,16 @@ require_once __DIR__ . "/action/utils.php";
 
 redirectIfNotAuthenticated();
 
-$persons = getAll();
 $jobs = getJobs();
 // get person data by given person ID
 //$person = getPerson($persons, id: $_GET['person']);
-$person = findFirstFromArray(array: $persons, key: ID, value: $_GET["person"]);
+$person = findFirstFromArray(tableName: 'persons', key: ID, value: $_GET["person"]);
 
 if ($person == null) {
-    $person = getPerson($persons, $_GET["person"]);
-    if ($person == null) {
-        $_SESSION["error"] = "Sorry, no person found.";
-        redirect("persons.php", "");
-    }
+    $_SESSION["error"] = "Sorry, no person found.";
+    redirect("persons.php", "");
+} else {
+    $person = setPersonValueFromDb($person);
 }
 if (isset($_SESSION["personData"])) {
     $personJob = getPersonJob($_SESSION["personData"][ID]);
@@ -33,7 +31,8 @@ $arrayRole = sortRole($person[PERSON_ROLE]);
 $_SESSION["personId"] = $person[ID];
 
 // get current user
-$currentUser = findFirstFromArray(array: $persons, key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
+$currentUser = findFirstFromArray(tableName: 'persons', key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
+$currentUser = setPersonValueFromDb($currentUser);
 
 if (isset($_SESSION["personData"])) {
     $personHobbies = getPersonHobbiesFromDb($_SESSION["personData"][ID]);

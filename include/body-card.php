@@ -1,4 +1,5 @@
 <?php
+
 function cardBody(string $action, string $location, string $imgSrc, string $label, string|null $currentData = null): void
 {
     ?>
@@ -7,7 +8,7 @@ function cardBody(string $action, string $location, string $imgSrc, string $labe
             <div class="form-card">
                 <div class="wrapper-card-img">
                     <img src="assets/properties/<?= $imgSrc?>"
-                         alt="Person has hobbies" class="card-img">
+                         alt="Card image" class="card-img" style="opacity: 75%">
                 </div>
                 <div class="card-field">
                     <div class="mb-3 form-input">

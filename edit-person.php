@@ -2,14 +2,14 @@
 require_once __DIR__ . "/action/utils.php";
 require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
+require_once __DIR__ . "/include/inputForm.php";
 
 redirectIfNotAuthenticated();
 
 checkRole($_SESSION["userEmail"], "ROLE_ADMIN");
-$persons = getAll();
 $jobs = getJobs();
-$person = findFirstFromArray(array: $persons, key: ID, value: $_GET['person']);
-$getPersonJob = getPersonJob($person[ID]);
+$person = findFirstFromArray(tableName: 'persons', key: ID, value: $_GET['person']);
+$person = setPersonValueFromDb($person);
 // get person data to be edited
 $_SESSION["personData"] = $person;
 
@@ -43,160 +43,13 @@ $arrayRole = sortRole($person[PERSON_ROLE]);
                                   name="editPerson">
                                 <div class="row">
                                     <div class="col-xxl-6 col-xl-6 col-lg-6 me-4">
-                                        <div class="mb-3 form-input">
-                                            <label for="f-name" class="form-label required"
-                                            >First Name</label
-                                            >
-
-                                            <input
-                                                    id="f-name"
-                                                    type="text"
-                                                    value="<?php if (isset($_SESSION["userInputData"]["firstName"])) {
-                                                        echo $_SESSION["userInputData"]["firstName"];
-                                                    } else {
-                                                        echo $person[PERSON_FIRST_NAME];
-                                                    } ?>"
-                                                    required
-                                                    class="form-control"
-                                                    name="firstName"
-                                                    maxlength="30"
-
-                                            />
-                                        </div>
-                                        <div class="mb-3 form-input">
-                                            <label for="l-name" class="form-label">Last Name</label>
-
-                                            <input
-                                                    id="l-name"
-                                                    type="text"
-                                                    value="<?php if (isset($_SESSION["userInputData"]["lastName"])) {
-                                                        echo $_SESSION["userInputData"]["lastName"];
-                                                    } else {
-                                                        echo $person[PERSON_LAST_NAME];
-                                                    } ?>"
-                                                    class="form-control"
-                                                    name="lastName"
-                                                    maxlength="15"
-                                            />
-                                        </div>
-                                        <div class="mb-3 form-input">
-                                            <label for="nik" class="form-label required">NIK</label>
-                                            <input
-                                                    id="nik"
-                                                    type="text"
-                                                    value="<?php if (isset($_SESSION["userInputData"]["nik"])) {
-                                                        echo $_SESSION["userInputData"]["nik"];
-                                                    } else {
-                                                        echo $person[PERSON_NIK];
-                                                    } ?>"
-                                                    required
-                                                    class="form-control"
-                                                    name="nik"
-                                                    maxlength="16"
-                                                    minlength="16"
-                                            />
-                                            <?php
-                                            if (isset($_SESSION["errorData"]["errorNik"])) {
-                                                ?>
-
-                                                <div class="alert alert-danger" role="alert">
-                                                    <?= $_SESSION["errorData"]["errorNik"] ?>
-                                                </div>
-                                                <?php
-                                            }
-                                            ?>
-                                        </div>
-                                        <div class="mb-3 form-input">
-                                            <label for="staticEmail" class="form-label required"
-                                            >Email</label
-                                            >
-                                            <input
-                                                    id="staticEmail"
-                                                    type="email"
-                                                    value="<?php if (isset($_SESSION["userInputData"]["email"])) {
-                                                        echo $_SESSION["userInputData"]["email"];
-                                                    } else {
-                                                        echo $person[PERSON_EMAIL];
-                                                    } ?>"
-                                                    required
-                                                    class="form-control"
-                                                    name="email"
-                                            />
-                                            <?php
-                                            if (isset($_SESSION["errorData"]["errorEmail"])) {
-                                                ?>
-
-                                                <div class="alert alert-danger" role="alert">
-                                                    <?= $_SESSION["errorData"]["errorEmail"] ?>
-                                                </div>
-                                                <?php
-                                            }
-                                            ?>
-                                        </div>
-
-                                        <div class="mb-3 form-input">
-                                            <label for="datePicker" class="form-label required"
-                                            >Date of Birth</label
-                                            >
-                                            <input
-                                                    id="datePicker"
-                                                    type="date"
-                                                    value="<?php if (isset($_SESSION["userInputData"]["birthDate"])) {
-                                                        echo $_SESSION["userInputData"]["birthDate"];
-                                                    } else {
-                                                        echo date("Y-m-d", $person[PERSON_BIRTH_DATE]);
-                                                    } ?>"
-                                                    required
-                                                    class="form-control"
-                                                    name="birthDate"
-                                            />
-                                            <?php
-                                            if (isset($_SESSION["errorData"]["errorBirthDate"])) {
-                                                ?>
-
-                                                <div class="alert alert-danger" role="alert">
-                                                    <?= $_SESSION["errorData"]["errorBirthDate"] ?>
-                                                </div>
-                                                <?php
-                                            }
-                                            ?>
-                                        </div>
-
-                                        <div class="mb-3 form-input">
-                                            <label class="form-label required" for="sex-dropdown"
-                                            >Sex</label
-                                            >
-                                            <select
-                                                    class="form-select form-control"
-                                                    id="sex-dropdown"
-                                                    required
-                                                    aria-label="Small select example"
-                                                    name="sex"
-                                            >
-                                                <?php
-                                                if (isset($_SESSION["userInputData"]["sex"])) {
-                                                    $arraySex = sortSex($_SESSION["userInputData"]["sex"]);
-                                                    foreach ($arraySex as $sex) { ?>
-                                                        <option
-                                                                value="<?= $sex ?>"<?php if ($sex === $_SESSION["userInputData"]["sex"]) echo "selected" ?>>
-                                                            <?= SEX_LABEL[$sex . "_LABEL"] ?></option>
-                                                        }
-                                                        <?php
-                                                    }
-                                                } else {
-                                                    foreach ($arraySex as $sex) {
-                                                        ?>
-                                                        <option
-                                                                value="<?= $sex ?>"<?php if ($sex === $person[PERSON_SEX]) echo "selected" ?>>
-                                                            <?= SEX_LABEL[$sex . "_LABEL"] ?></option>
-                                                        <?php
-                                                    }
-                                                }
-                                                ?>
-
-                                            </select>
-                                        </div>
-
+                                        <?php
+                                        if(isset($_SESSION['userInputData']) && isset($_SESSION['errorData'])) {
+                                            formInputValues(person: $person, arraySex: $arraySex, jobs: $jobs, userInputData: $_SESSION['userInputData'], errorData: $_SESSION['errorData']);
+                                        } else {
+                                            formInputValues(person: $person, arraySex: $arraySex, jobs: $jobs);
+                                        }
+                                        ?>
                                         <div class="form-input mt-0 mb-3">
                                             <div
                                                     class="form-check form-switch d-flex align-items-center column-gap-3"
@@ -243,33 +96,6 @@ $arrayRole = sortRole($person[PERSON_ROLE]);
                                                 <span class="ps-2">Manage person hobby</span>
                                             </div>
                                         </a>
-                                        <div class="mb-3 form-input">
-                                            <label class="form-label required" for="job-dropdown">Job</label>
-                                            <select id="job-dropdown" class="form-select form-control"
-                                                    aria-label="Small select example" name="jobName">
-                                                <!-- dropdwon pekerjaan nanti value-nya akan diisi dari database jobs, dan data dari database akan increment jika jobs di create new-->
-                                                <?php
-                                                foreach ($jobs as $job) {
-                                                    ?>
-                                                    <option value="<?= $job[JOBS_NAME] ?>" <?php if ($job[JOBS_NAME] === $getPersonJob[JOBS_NAME]) echo "selected" ?>>
-                                                        <?= $job[JOBS_NAME] ?>
-                                                    </option>
-                                                    <?php
-                                                }
-                                                ?>
-                                            </select>
-                                            <a href="add-job.php" class="nav-link mt-1 add-icon">
-                                                <div style="fill: #000000">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon"
-                                                         viewBox="0 0 512 512">
-                                                        <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                                              stroke-linejoin="round" stroke-width="32"
-                                                              d="M256 112v288M400 256H112"/>
-                                                    </svg>
-                                                    Create new option
-                                                </div>
-                                            </a>
-                                        </div>
                                         <div class="mb-4 form-input">
                                             <label class="form-label" for="role-dropdown"
                                             >Role</label
