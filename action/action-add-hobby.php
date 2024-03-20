@@ -8,7 +8,7 @@ $personHobby = getHobby(personId: $_SESSION["personId"]); // ini harusnya isinya
 foreach ($personHobby as $hobby){
     if(strcasecmp($hobby[HOBBIES_NAME], $newHobby) == 0){
         $_SESSION["info"] = "Sorry, this hobby is already exist!";
-        redirect("../add-hobby.php", "?person=" . $_SESSION["personId"]);
+        redirect("../add-hobby.php", "person=" . $_SESSION["personId"]);
     }
 }
 
