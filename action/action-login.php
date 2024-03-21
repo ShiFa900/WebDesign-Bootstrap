@@ -25,15 +25,6 @@ if (isset($_POST['login'])) { //ini
     }
 }
 
-/**
- * check user status, cannot login with account of Passed away status
- * @param array $person
- */
-function checkPersonStatus(array $person)
-{
-    if ($person[PERSON_STATUS] == STATUS_PASSED_AWAY) return true;
-}
-
 
 function userExist(string $email, string $password): array
 {

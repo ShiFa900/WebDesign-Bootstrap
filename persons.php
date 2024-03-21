@@ -19,10 +19,13 @@ $userRole = setPersonValueFromDb($userRole);
 $page = $_GET["page"] ?? 1;
 
 if(isset($_GET["keyword"]) || isset($_GET["category"])){
+//    if(!isset($_GET["keyword"]) || !isset($_GET["category"])){
+//        $_GET["keyword"] = "";
+//        $_GET["category"] = "";
+//    }
     // get person data if keyword OR category is not null
 $personPaginated = getPersons(PAGE_LIMIT, $page,$_GET["category"], $_GET["keyword"]);
-}
-else {
+} else {
     // get default data person (all persons)
 $personPaginated = getPersons(PAGE_LIMIT, $page, CATEGORIES_ALL);
 }
@@ -221,7 +224,7 @@ $noun = setNoun($persons, "Person"); // set pronounce
                         $number = ($page - 1) * PAGE_LIMIT + 1;
                     foreach ($persons as $person) {
                         $personsRole = sortRole(transformRoleFromDb($person[PERSON_ROLE]));
-                        try{$personAge = calculateAge($person[PERSON_BIRTH_DATE]);}catch(Exception $e){die("Calculate error: " . $e->getMessage());}
+                        try{$personAge = calculateAge(convertDateToTimestamp($person[PERSON_BIRTH_DATE]));}catch(Exception $e){die("Calculate error: " . $e->getMessage());}
                         foreach ($personsRole as $role) {
                             if ($role == transformRoleFromDb($person[PERSON_ROLE])) {
                                 $personRole = ROLE_LABEL[$role . "_LABEL"];

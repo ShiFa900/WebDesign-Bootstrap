@@ -4,7 +4,7 @@ session_start();
 
 // get person data to be deleted
 global $PDO;
-$personWillBeDeleted = findFirstFromArray(tableName: 'persons', key: ID, value: $_SESSION["personId"]);
+$personWillBeDeleted = findFirstFromArray(tableName: 'persons', key: ID, value: $_GET['person']);
 if ($personWillBeDeleted == null) {
     $_SESSION["error"] = "Sorry, no person found";
     redirect("../persons.php", "");

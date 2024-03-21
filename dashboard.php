@@ -15,7 +15,7 @@ mainHeader(
 );
 
 // get user data by given email
-$persons = getAll();
+$countAllPerson = getCountAllPerson();
 $jobs = getJobs();
 $user = findFirstFromArray(tableName: 'persons', key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
 $user[PERSON_LAST_LOGGED_IN] = convertDateToTimestamp($user[PERSON_LAST_LOGGED_IN]);
@@ -23,20 +23,15 @@ $user[PERSON_LAST_LOGGED_IN] = convertDateToTimestamp($user[PERSON_LAST_LOGGED_I
 
 // get count of each category
 try {
-    $personProductive = getProductiveCategory($persons);
-    $personChild = getChildCategory($persons);
-    $personElderly = getElderlyCategory($persons);
+    $personProductive = getProductiveCategory();
+    $personChild = getChildCategory();
+    $personElderly = getElderlyCategory();
 } catch (Exception $e) {
     die("Query error: " . $e->getMessage());
 }
 
 // get persons data with status passed away
-$personPassedAway = [];
-foreach ($persons as $person) {
-    if (!$person[PERSON_STATUS]) {
-        $personPassedAway[] = $person;
-    }
-}
+$personPassedAway = checkPersonStatus();
 ?>
     <div class="w-100">
         <div class="dashboard-content px-5 position-absolute">
@@ -83,7 +78,7 @@ foreach ($persons as $person) {
                         <a class="card card-link" href="persons.php?category=<?= CATEGORIES_ALL ?>">
                             <div class="card-body">
                                 <div class="wrapper d-flex align-items-center column-gap-3">
-                                    <p class="number"><?= count($persons) ?></p>
+                                    <p class="number"><?= $countAllPerson ?></p>
                                     <h4 class="card-subtitle third-heading mb-2 text-body-secondary">
                                         Number of persons
                                     </h4>

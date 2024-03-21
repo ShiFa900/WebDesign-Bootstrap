@@ -290,7 +290,7 @@ mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-
                                                     </button>
                                                     <button type="button" class="btn btn-primary"
                                                             name="btnDelete">
-                                                        <a href="action/action-delete-person.php"
+                                                        <a href="action/action-delete-person.php?person=<?=$person[ID]?>"
                                                            class="btn pop-up-btn-hover">Yes</a>
                                                     </button>
                                                 </div>
