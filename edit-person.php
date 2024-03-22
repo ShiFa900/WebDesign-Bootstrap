@@ -135,10 +135,9 @@ $arrayRole = sortRole($person[PERSON_ROLE]);
                                             <div class="form-floating mb-4">
                                               <textarea
                                                       class="form-control"
-                                                      placeholder="Leave a comment here"
                                                       id="note"
                                                       name="note"
-                                                      value="<?php if (isset($_SESSION["userInputData"]["note"])) {
+                                                      value="<?php if (isset($_SESSION["userInputData"])) {
                                                           echo $_SESSION["userInputData"]["note"];
                                                       } else {
                                                           echo $person[PERSON_INTERNAL_NOTE];;

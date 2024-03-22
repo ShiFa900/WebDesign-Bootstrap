@@ -101,7 +101,7 @@ $personPassedAway = checkPersonStatus();
                                     </h4>
                                 </div>
                                 <p class="card-text">
-                                    Total number of persons aged more than 15 years old, and less than 45 years old.
+                                    Total number of persons aged more than 17 years old, and less than 65 years old.
                                 </p>
                             </div>
                         </a>
@@ -116,7 +116,7 @@ $personPassedAway = checkPersonStatus();
                                     </h4>
                                 </div>
                                 <p class="card-text">
-                                    Total number of children, aged less than 15 years old.
+                                    Total number of children, aged less than 17 years old.
                                 </p>
                             </div>
                         </a>
@@ -131,7 +131,7 @@ $personPassedAway = checkPersonStatus();
                                     </h4>
                                 </div>
                                 <p class="card-text">
-                                    Total number of persons aged more than 50 years old.
+                                    Total number of persons aged more than 65 years old.
                                 </p>
                             </div>
                         </a>

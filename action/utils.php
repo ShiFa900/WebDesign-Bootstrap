@@ -72,9 +72,8 @@ function checkRole(string $userEmail, string $role): void
 /**
  * check user status, cannot log in with account of Passed away status
  * @param array|null $person
- * @return array|bool
  */
-function checkPersonStatus(array|null $person = null): bool|array
+function checkPersonStatus(array|null $person = null)
 {
     global $PDO;
     if ($person !== null) {
@@ -183,8 +182,64 @@ function getPersons(int $limit, int|string $page, string|null $category = null, 
     // query data to db:
     // query data tanpa category(?)
     try {
+        if ($category === CATEGORIES_PRODUCTIVE_AGE) {
+            $queryData = "SELECT * FROM persons p WHERE (p.firstName LIKE :firstName OR p.lastName LIKE :lastName OR p.email LIKE :email) AND YEAR(NOW()) - YEAR(p.birthDate) >= 17 AND YEAR(NOW()) - YEAR(p.birthDate) <= 65 ORDER BY id DESC";
+            $statement = $PDO->prepare($queryData);
+            $statement->execute(
+                array(
+                    'firstName' => $str,
+                    'lastName' => $str,
+                    'email' => $str
+                )
+            );
+            $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+            // get person's category for person that related to given keyword
+            return returnShowData(datas: $data, count: $count, page: $page, limit: $limit);
+        } elseif ($category === CATEGORIES_ELDERLY) {
+            $queryData = "SELECT * FROM persons p WHERE (p.firstName LIKE :firstName OR p.lastName LIKE :lastName OR p.email LIKE :email) AND YEAR(NOW()) - YEAR(p.birthDate) > 65 ORDER BY id DESC";
+            $statement = $PDO->prepare($queryData);
+            $statement->execute(
+                array(
+                    'firstName' => $str,
+                    'lastName' => $str,
+                    'email' => $str
+                )
+            );
+            $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+            return returnShowData(datas: $data, count: $count, page: $page, limit: $limit);
+        } elseif ($category === CATEGORIES_CHILD) {
+            $queryData = "SELECT * FROM persons p WHERE (p.firstName LIKE :firstName OR p.lastName LIKE :lastName OR p.email LIKE :email) AND YEAR(NOW()) - YEAR(p.birthDate) < 17 ORDER BY id DESC";
+            // 2. query untuk data
+            // get person data by given keyword
+            $statement = $PDO->prepare($queryData);
+            $statement->execute(
+                array(
+                    'firstName' => $str,
+                    'lastName' => $str,
+                    'email' => $str
+                )
+            );
+            $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+            return returnShowData(datas: $data, count: $count, page: $page, limit: $limit);
+        } elseif ($category === CATEGORIES_PASSED_AWAY) {
+            $queryData = "SELECT * FROM persons p WHERE (p.firstName LIKE :firstName OR p.lastName LIKE :lastName OR p.mail LIKE :email AND status = :status) ORDER BY id DESC";
+            // 2. query untuk data
+            // get person data by given keyword
+            $statement = $PDO->prepare($queryData);
+            $statement->execute(
+                array(
+                    'firstName' => $str,
+                    'lastName' => $str,
+                    'email' => $str,
+                    'status' => STATUS_PASSED_AWAY
+                )
+            );
+            $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+            return returnShowData(datas: $data, count: $count, page: $page, limit: $limit);
+        }
+
         // ganti teknik pengambilan data dengan hanya mengambil data dengan jumlah sesuai limitnya
-        $queryData = "SELECT *, UNIX_TIMESTAMP(birthDate) as ts FROM persons WHERE firstName LIKE :firstName OR lastName LIKE :lastName OR email LIKE :email ORDER BY id DESC";
+        $queryData = "SELECT * FROM persons WHERE firstName LIKE :firstName OR lastName LIKE :lastName OR email LIKE :email ORDER BY id DESC";
         // 2. query untuk data
         // get person data by given keyword
         $statement = $PDO->prepare($queryData);
@@ -196,83 +251,7 @@ function getPersons(int $limit, int|string $page, string|null $category = null, 
             )
         );
         $data = $statement->fetchAll(PDO::FETCH_ASSOC);
-        $personCategory = getAgeCategory(category: $category, persons: $data);
-        // get person's category for person that related to given keyword
-        return returnShowData(datas: $personCategory, count: $count, page: $page, limit: $limit);
-
-//            $sort = sortingDataForPagination(page: $page, limit: $limit, array: $data);
-//
-//            // return information for persons page
-//            if ($count && $count['total'] > 0 && is_numeric($page)) {
-//                return array(
-//                    PAGING_TOTAL_PAGE => ceil(count($data) / $limit),
-//                    PAGING_CURRENT_PAGE => $page,
-//                    PAGING_DATA => array_slice($data, $sort['indexStart'], $sort['length'])
-//                );
-//            }
-//        } else {
-//            if($category === CATEGORIES_PRODUCTIVE_AGE) {
-//                getProductiveCategory();
-////                $queryData = "SELECT *, UNIX_TIMESTAMP(birthDate) as ts FROM persons WHERE firstName LIKE :firstName OR lastName LIKE :lastName OR email LIKE :email AND DATE_FORMAT(FROM_DAYS(DATEDIFF(NOW(), birthDate)), '%Y') <= 45 AND DATE_FORMAT(FROM_DAYS(DATEDIFF(NOW(), birthDate)), '%Y') >= 15 ORDER BY id DESC";
-////                // 2. query untuk data
-////                // get person data by given keyword
-////                $statement = $PDO->prepare($queryData);
-////                $statement->execute(
-////                    array(
-////                        'firstName' => $str,
-////                        'lastName' => $str,
-////                        'email' => $str
-////                    )
-////                );
-////                $data = $statement->fetchAll(PDO::FETCH_ASSOC);
-////                // get person's category for person that related to given keyword
-////                return returnShowData(datas: $data, count: $count, page: $page, limit: $limit);
-//            } elseif ($category === CATEGORIES_ELDERLY){
-//                getElderlyCategory();
-////                $queryData = "SELECT *, UNIX_TIMESTAMP(birthDate) as ts FROM persons WHERE firstName LIKE :firstName OR lastName LIKE :lastName OR email LIKE :email AND DATE_FORMAT(FROM_DAYS(DATEDIFF(NOW(), birthDate)), '%Y') > 50 ORDER BY id DESC";
-////                // 2. query untuk data
-////                // get person data by given keyword
-////                $statement = $PDO->prepare($queryData);
-////                $statement->execute(
-////                    array(
-////                        'firstName' => $str,
-////                        'lastName' => $str,
-////                        'email' => $str
-////                    )
-////                );
-////                $data = $statement->fetchAll(PDO::FETCH_ASSOC);
-////                return returnShowData(datas: $data, count: $count, page: $page, limit: $limit);
-//            } elseif ($category === CATEGORIES_CHILD){
-//                $data = getChildCategory();
-////                $queryData = "SELECT *, UNIX_TIMESTAMP(birthDate) as ts FROM persons WHERE DATE_FORMAT(FROM_DAYS(DATEDIFF(NOW(), birthDate)), '%Y') <= 14 AND firstName LIKE :firstName OR lastName LIKE :lastName OR email LIKE :email ORDER BY id DESC";
-////                // 2. query untuk data
-////                // get person data by given keyword
-////                $statement = $PDO->prepare($queryData);
-////                $statement->execute(
-////                    array(
-////                        'firstName' => $str,
-////                        'lastName' => $str,
-////                        'email' => $str
-////                    )
-////                );
-////                $data = $statement->fetchAll(PDO::FETCH_ASSOC);
-//                return returnShowData(datas: $data, count: $count, page: $page, limit: $limit);
-//            } elseif ($category === CATEGORIES_PASSED_AWAY){
-//                $queryData = "SELECT *, UNIX_TIMESTAMP(birthDate) as ts FROM persons WHERE firstName LIKE :firstName OR lastName LIKE :lastName OR email LIKE :email AND status = :status ORDER BY id DESC";
-//                // 2. query untuk data
-//                // get person data by given keyword
-//                $statement = $PDO->prepare($queryData);
-//                $statement->execute(
-//                    array(
-//                        'firstName' => $str,
-//                        'lastName' => $str,
-//                        'email' => $str,
-//                        'status' => STATUS_PASSED_AWAY
-//                    )
-//                );
-//                $data = $statement->fetchAll(PDO::FETCH_ASSOC);
-//                return returnShowData(datas: $data, count: $count, page: $page, limit: $limit);
-//            }
+        return returnShowData(datas: $data, count: $count, page: $page, limit: $limit);
 
     } catch (PDOException $e) {
         die('Query error: ' . $e->getMessage());
@@ -280,11 +259,11 @@ function getPersons(int $limit, int|string $page, string|null $category = null, 
         die("Query error: " . $e->getMessage());
     }
 
-//    return array(
-//        PAGING_TOTAL_PAGE => 1,
-//        PAGING_CURRENT_PAGE => 1,
-//        PAGING_DATA => []
-//    );
+    return array(
+        PAGING_TOTAL_PAGE => 1,
+        PAGING_CURRENT_PAGE => 1,
+        PAGING_DATA => []
+    );
 }
 
 function returnShowData(array $datas, array $count, int $page, int $limit)
@@ -660,7 +639,7 @@ function savePerson(array $array, string $location): void
                     ID => null,
                     HOBBIES_NAME => $array[HOBBIES_NAME],
                     HOBBIES_PERSON_ID => $personId["id"],
-                    HOBBIES_LAST_UPDATE => date('Y-m-d H:i:s', time())
+                    HOBBIES_LAST_UPDATE => time()
                 ];
                 saveHobby(array: $hobby);
             }
@@ -668,31 +647,23 @@ function savePerson(array $array, string $location): void
             if ($array[PERSON_STATUS] == STATUS_PASSED_AWAY) {
                 savePersonJobWithPassedAwayStatus($personId["id"]);
             } elseif (isset($array[JOBS_NAME])) {
-                // cari data job yang dipilih user
-                $queryTheJob = "SELECT * FROM `jobs` WHERE jobs_name = :jobs_name";
-                $stmt = $PDO->prepare($queryTheJob);
+                $queryJob = "UPDATE jobs SET count = count + 1, last_update = :update WHERE jobs_name = :jobs_name";
+                $stmt = $PDO->prepare($queryJob);
                 $stmt->execute(array(
-                    "jobs_name" => $array[JOBS_NAME]
+                    'update' => date('Y-m-d H:i:s', time()),
+                    'jobs_name' => $array[JOBS_NAME]
                 ));
-                $theJob = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                $job = [
-                    ID => $theJob[ID],
-                    JOBS_NAME => $theJob[JOBS_NAME],
-                    JOBS_COUNT => $theJob[JOBS_COUNT] + 1,
-                    JOBS_LAST_UPDATE => time()
-                ];
-                saveJob($job);
                 // save id person dan id job ke table person_job
-                $personJob = [
-                    ID => null,
-                    PERSON_JOBS_PERSON_ID => $personId["id"],
-                    PERSON_JOBS_JOB_ID => $theJob[ID]
-                ];
-                savePersonJob($personJob);
+                $queryPersonJob = "INSERT INTO person_job ( person_id, job_id) VALUES (:person_id, (SELECT id FROM jobs WHERE jobs_name = :jobs_name))";
+                $stmt = $PDO->prepare($queryPersonJob);
+                $stmt->execute(array(
+                    'person_id' => $personId['id'],
+                    'jobs_name' => $array[JOBS_NAME]
+                ));
             }
             $_SESSION["info"] = "Successfully add person data of '" . $array[PERSON_FIRST_NAME] . "'!";
-            redirect("../" . $location, "person=" . $array[PERSON_EMAIL]);
+            redirect("../" . $location, "person=" . $personId['id']);
 
         } catch (PDOException $e) {
             die('Query error: ' . $e->getMessage());
@@ -744,21 +715,13 @@ function saveJobForPerson(string $job, int $personId): void
     // ketika person melakukan edit data dengan data jobnya diganti
     $getCurrentJob = getPersonJob($personId);
     if ($getCurrentJob[JOBS_NAME] != $job) {
-        // cari nama pekerjaan baru yang diinput user
-        $newJob = "SELECT * FROM `jobs` WHERE jobs_name = :jobs_name";
-        $stmt = $PDO->prepare($newJob);
-        $stmt->execute(array(
-            "jobs_name" => $job
+        $newJob = "UPDATE `jobs` SET count = count + 1, last_update = :update WHERE jobs_name = :jobs_name";
+        $newJob = $PDO->prepare($newJob);
+        $newJob->execute(array(
+            'update' => date("Y-m-d H:i:s", time()),
+            'jobs_name' => $job
         ));
-        // saat user mengganti pekerjaannya
-        $theJob = $stmt->fetch(PDO::FETCH_ASSOC);
-        $job = [
-            ID => $theJob[ID],
-            JOBS_NAME => $theJob[JOBS_NAME],
-            JOBS_COUNT => $theJob[JOBS_COUNT] + 1,
-            JOBS_LAST_UPDATE => time()
-        ];
-        saveJob($job);
+
         // update data job yang lama dari table jobs
         $oldJob = "UPDATE `jobs` SET count = :count, last_update = :last_update WHERE id = :id";
         $stmt = $PDO->prepare($oldJob);
@@ -768,21 +731,12 @@ function saveJobForPerson(string $job, int $personId): void
             "last_update" => date("Y-m-d H:i:s", time())
         ));
         // proses update data dari table person_job
-        $oldPersonJob = "SELECT * FROM `person_job` WHERE person_id = :person_id AND job_id = :job_id";
-        $stmt = $PDO->prepare($oldPersonJob);
-        $stmt->execute(array(
-            "person_id" => $personId,
-            "job_id" => $getCurrentJob[ID]
-        ));
-        $prevJob = $stmt->fetch(PDO::FETCH_ASSOC);
-        $personJob = "UPDATE `person_job` SET job_id = :job_id, person_id = :person_id WHERE id = :id";
-        $stmt = $PDO->prepare($personJob);
-        $stmt->execute(array(
-            // ini nnti di set nilainya
-            "id" => $prevJob[ID],
-            "person_id" => $personId,
-            "job_id" => $job[ID]// diisi dengan id dari job yang baru
-
+        $oldPersonJob = "UPDATE `person_job` SET job_id = (SELECT id FROM jobs WHERE jobs_name = :jobs_name) WHERE person_id = :person_id AND job_id = :old_job";
+        $oldPersonJob = $PDO->prepare($oldPersonJob);
+        $oldPersonJob->execute(array(
+            'person_id' => $personId,
+            'old_job' => $getCurrentJob[ID],
+            'jobs_name' => $job
         ));
     }
 }
@@ -903,15 +857,16 @@ function savePersonJob(array $array): void
 function savePersonJobWithPassedAwayStatus(int $personId): void
 {
     global $PDO;
+    // mode create person data
     // cari data person dari table person job dengan menggunakan ID person
     $queryPersonJob = "SELECT * FROM `person_job` WHERE person_id = :person_id";
-    $stmt = $PDO->prepare($queryPersonJob);
+    $stmt = $PDO->prepare($queryPersonJob); // saat create person data, seharusnya ID person belum ada di table person job
     $stmt->execute(array(
         "person_id" => $personId,
     ));
     $personJobData = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$personJobData) {
+    if ($personJobData === null) {
         $queryJob = "SELECT * FROM `jobs` WHERE jobs_name = :jobs_name";
         $stmt = $PDO->prepare($queryJob);
         $stmt->execute(array(
@@ -935,6 +890,7 @@ function savePersonJobWithPassedAwayStatus(int $personId): void
             PERSON_JOBS_JOB_ID => $defaultJob[ID],
             JOBS_LAST_UPDATE => date("Y-m-d H:i:s", time())
         ];
+        savePersonJob($personJob);
 
     } else {
         // mode edit person
@@ -950,26 +906,21 @@ function savePersonJobWithPassedAwayStatus(int $personId): void
         ));
 
         // set untuk default job (karena person ber-status passed away)
-        $query = "SELECT * FROM `jobs` WHERE jobs_name = :jobs_name";
+        $query = "UPDATE `jobs` SET count = count + 1, last_update = :last_update WHERE jobs_name = :name";
         $stmt = $PDO->prepare($query);
         $stmt->execute(array(
-            "jobs_name" => JOBS_DEFAULT_NAME
+            'last_update' => date("Y-m-d H:i:s", time()),
+            'name' => JOBS_DEFAULT_NAME
         ));
-        $theJob = $stmt->fetch(PDO::FETCH_ASSOC);
-        $job = [
-            ID => $theJob[ID],
-            JOBS_NAME => $theJob[JOBS_NAME],
-            JOBS_COUNT => $theJob[JOBS_COUNT] + 1,
-            JOBS_LAST_UPDATE => date("Y-m-d H:i:s", time())
-        ];
-        saveJob(array: $job);
-        $personJob = [
-            ID => $personJobData[ID],
-            PERSON_JOBS_PERSON_ID => $personId,
-            PERSON_JOBS_JOB_ID => $theJob[ID]
-        ];
+
+        $query = 'UPDATE `person_jobs` SET job_id = (SELECT id FROM jobs WHERE jobs_name = :jobs_name) WHERE person_id = :person_id';
+        $stmt = $PDO->prepare($query);
+        $stmt->execute(array(
+            'jobs_name' => JOBS_DEFAULT_NAME,
+            'person_id' => $personId
+        ));
+
     }
-    savePersonJob($personJob);
 }
 
 /**
@@ -1328,8 +1279,7 @@ function getChildCategory(): array
 {
     global $PDO;
     try {
-        $query = "SELECT * FROM persons WHERE DATE_FORMAT(FROM_DAYS(DATEDIFF(NOW(), birthDate)), '%Y') <= 14";
-//        $query = sprintf($queryFormat, $conditions, $compareNum);
+        $query = "SELECT * FROM persons p WHERE (YEAR(NOW()) - YEAR(p.birthDate) < 17)";
         $stmt = $PDO->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -1346,11 +1296,8 @@ function getChildCategory(): array
 function getProductiveCategory(): array
 {
     global $PDO;
-    $conditions = "DATE_FORMAT(FROM_DAYS(DATEDIFF(NOW(), birthDate)), '%Y')";
-    $compareNum = [45, 15];
     try {
-        $query = "SELECT * FROM persons WHERE DATE_FORMAT(FROM_DAYS(DATEDIFF(NOW(), birthDate)), '%Y') <= 45 AND DATE_FORMAT(FROM_DAYS(DATEDIFF(NOW(), birthDate)), '%Y') >= 15";
-//        $query = sprintf($queryFormat, $conditions, $compareNum[0], $compareNum[1]);
+        $query = "SELECT * FROM persons p WHERE (YEAR(NOW()) - YEAR(p.birthDate) <= 65 AND YEAR(NOW()) - YEAR(p.birthDate) >= 17)";
         $stmt = $PDO->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -1368,7 +1315,7 @@ function getElderlyCategory(): array
 {
     global $PDO;
     try {
-        $query = "SELECT * FROM persons WHERE DATE_FORMAT(FROM_DAYS(DATEDIFF(NOW(), birthDate)), '%Y') > 50";
+        $query = "SELECT * FROM persons p WHERE (YEAR(NOW()) - YEAR(p.birthDate) > 65)";
         $stmt = $PDO->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -1377,40 +1324,6 @@ function getElderlyCategory(): array
     }
 }
 
-
-/**
- * classify all person by given category
- * @param array $persons
- * @param string $category
- * @return array
- * @throws Exception
- */
-function getAgeCategory(string $category, array $persons): array
-{
-    // param array persons ini akan berisi 1 field lagi, yaitu age
-    $personCategory = [];
-    // return all person if category = CATEGORIES_ALL
-    if ($category === CATEGORIES_ALL) {
-        return $persons;
-    }
-
-    for ($i = 0; $i < count($persons); $i++) {
-        if ($category == CATEGORIES_CHILD && calculateAge($persons[$i]['ts']) <= 14) {
-            $personCategory[] = $persons[$i];
-        } elseif ($category == CATEGORIES_ELDERLY && calculateAge($persons[$i]['ts']) > 50) {
-            $personCategory[] = $persons[$i];
-        } elseif ($category == CATEGORIES_PRODUCTIVE_AGE && calculateAge($persons[$i]['ts']) >= 15 && calculateAge($persons[$i]['ts']) <= 45) {
-            $personCategory[] = $persons[$i];
-        }
-
-        // find all person with status passed away
-        if ($category == CATEGORIES_PASSED_AWAY && $persons[$i][PERSON_STATUS] === STATUS_PASSED_AWAY) {
-            $personCategory[] = $persons[$i];
-        }
-    }
-
-    return $personCategory;
-}
 
 /**
  * sort person sex value for form select sex
