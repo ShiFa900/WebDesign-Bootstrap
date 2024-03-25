@@ -47,5 +47,10 @@
 }
 
 .page-dashboard table tr td{
-    line-height: 3rem;
+    line-height: 2rem;
+}
+
+.page-dashboard .table > :not(caption) > * > * {
+    /*background: none;*/
+    padding: 0.75rem 2rem;
 }

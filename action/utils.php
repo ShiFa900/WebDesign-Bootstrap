@@ -109,76 +109,12 @@ function checkPersonStatus(array|null $person = null)
  *   'data' => array()
  * ]
  */
-//function getPersons(int $limit, int|string $page, string|null $category = null, string|null $search = null): array
-//{
-//    global $PDO;
-//    // query data to db:
-//    // query data tanpa category(?)
-//    try {
-//        if ($category === null) {
-//            $str = "%$search%";
-//
-//            $count = getCountPerson($str);
-//            // return data" yanga sesuai dengan keyword pencarian saja
-//            // 1. query untuk banyaknya data
-//            // mendapatkan banyak data dari database
-//            $queryCount = 'SELECT COUNT(*) as `total` FROM `persons` WHERE firstName LIKE :firstName OR lastName LIKE :lastName OR email LIKE :email';
-//            $statement = $PDO->prepare($queryCount);
-//            $statement->execute(
-//                array(
-//                    'firstName' => $str,
-//                    'lastName' => $str,
-//                    'email' => $str,
-//                )
-//            );
-//            $count = $statement->fetch(PDO::FETCH_ASSOC);
-//
-//            // ganti teknik pengambilan data dengan hanya mengambil data dengan jumlah sesuai limitnya
-//            $queryData = "SELECT * FROM persons WHERE firstName LIKE :firstName OR lastName LIKE :lastName OR email LIKE :email ORDER BY id DESC";
-//            // 2. query untuk data
-//            // get person data by given keyword
-//            $statement = $PDO->prepare($queryData);
-//            $statement->execute(
-//                array(
-//                    'firstName' => $str,
-//                    'lastName' => $str,
-//                    'email' => $str
-//                )
-//            );
-//            $data = $statement->fetchAll(PDO::FETCH_ASSOC);
-//            // get person's category for person that related to given keyword
-//
-//            $sort = sortingDataForPagination(page: $page, limit: $limit, array: $data);
-//
-//            // return information for persons page
-//            if ($count && $count['total'] > 0 && is_numeric($page)) {
-//                return array(
-//                    PAGING_TOTAL_PAGE => ceil(count($data) / $limit),
-//                    PAGING_CURRENT_PAGE => $page,
-//                    PAGING_DATA => array_slice($data, $sort['indexStart'], $sort['length'])
-//                );
-//            }
-//        } else {
-//
-//        }
-//    } catch (PDOException $e) {
-//        die('Query error: ' . $e->getMessage());
-//    } catch (Exception $e) {
-//        die("Query error: " . $e->getMessage());
-//    }
-//
-//    return array(
-//        PAGING_TOTAL_PAGE => 1,
-//        PAGING_CURRENT_PAGE => 1,
-//        PAGING_DATA => []
-//    );
-//}
-
 function getPersons(int $limit, int|string $page, string|null $category = null, string|null $search = null): array
 {
     global $PDO;
     $str = "%$search%";
     $count = getCountPerson($str);
+    $data = [];
     // query data to db:
     // query data tanpa category(?)
     try {
@@ -194,7 +130,6 @@ function getPersons(int $limit, int|string $page, string|null $category = null, 
             );
             $data = $statement->fetchAll(PDO::FETCH_ASSOC);
             // get person's category for person that related to given keyword
-            return returnShowData(datas: $data, count: $count, page: $page, limit: $limit);
         } elseif ($category === CATEGORIES_ELDERLY) {
             $queryData = "SELECT * FROM persons p WHERE (p.firstName LIKE :firstName OR p.lastName LIKE :lastName OR p.email LIKE :email) AND YEAR(NOW()) - YEAR(p.birthDate) > 65 ORDER BY id DESC";
             $statement = $PDO->prepare($queryData);
@@ -206,7 +141,6 @@ function getPersons(int $limit, int|string $page, string|null $category = null, 
                 )
             );
             $data = $statement->fetchAll(PDO::FETCH_ASSOC);
-            return returnShowData(datas: $data, count: $count, page: $page, limit: $limit);
         } elseif ($category === CATEGORIES_CHILD) {
             $queryData = "SELECT * FROM persons p WHERE (p.firstName LIKE :firstName OR p.lastName LIKE :lastName OR p.email LIKE :email) AND YEAR(NOW()) - YEAR(p.birthDate) < 17 ORDER BY id DESC";
             // 2. query untuk data
@@ -220,9 +154,8 @@ function getPersons(int $limit, int|string $page, string|null $category = null, 
                 )
             );
             $data = $statement->fetchAll(PDO::FETCH_ASSOC);
-            return returnShowData(datas: $data, count: $count, page: $page, limit: $limit);
         } elseif ($category === CATEGORIES_PASSED_AWAY) {
-            $queryData = "SELECT * FROM persons p WHERE (p.firstName LIKE :firstName OR p.lastName LIKE :lastName OR p.mail LIKE :email AND status = :status) ORDER BY id DESC";
+            $queryData = "SELECT * FROM persons p WHERE (p.firstName LIKE :firstName OR p.lastName LIKE :lastName OR p.email LIKE :email) AND  p.status = :status ORDER BY id DESC";
             // 2. query untuk data
             // get person data by given keyword
             $statement = $PDO->prepare($queryData);
@@ -235,28 +168,30 @@ function getPersons(int $limit, int|string $page, string|null $category = null, 
                 )
             );
             $data = $statement->fetchAll(PDO::FETCH_ASSOC);
-            return returnShowData(datas: $data, count: $count, page: $page, limit: $limit);
+        } elseif ($category === CATEGORIES_ALL) {
+            // ganti teknik pengambilan data dengan hanya mengambil data dengan jumlah sesuai limitnya
+            $queryData = "SELECT * FROM persons WHERE firstName LIKE :firstName OR lastName LIKE :lastName OR email LIKE :email ORDER BY id DESC";
+            // 2. query untuk data
+            // get person data by given keyword
+            $statement = $PDO->prepare($queryData);
+            $statement->execute(
+                array(
+                    'firstName' => $str,
+                    'lastName' => $str,
+                    'email' => $str
+                )
+            );
+            $data = $statement->fetchAll(PDO::FETCH_ASSOC);
         }
-
-        // ganti teknik pengambilan data dengan hanya mengambil data dengan jumlah sesuai limitnya
-        $queryData = "SELECT * FROM persons WHERE firstName LIKE :firstName OR lastName LIKE :lastName OR email LIKE :email ORDER BY id DESC";
-        // 2. query untuk data
-        // get person data by given keyword
-        $statement = $PDO->prepare($queryData);
-        $statement->execute(
-            array(
-                'firstName' => $str,
-                'lastName' => $str,
-                'email' => $str
-            )
-        );
-        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
-        return returnShowData(datas: $data, count: $count, page: $page, limit: $limit);
 
     } catch (PDOException $e) {
         die('Query error: ' . $e->getMessage());
     } catch (Exception $e) {
         die("Query error: " . $e->getMessage());
+    }
+
+    if(count($data) !== 0) {
+        return returnShowData(datas: $data, count: $count, page: $page, limit: $limit);
     }
 
     return array(
@@ -939,6 +874,7 @@ function convertDateToTimestamp(mixed $date): int|null
 
 /**
  * get first data from array by specific key and value
+ * @param string $tableName
  * @param string $key
  * @param string $value
  * @param int|null $id
@@ -1020,7 +956,6 @@ function translateSwitch(string|null $on): bool
  * @param $birth_date_ts
  * @return int age of person by given birthdate
  * @throws Exception
- *
  */
 function calculateAge($birth_date_ts): int
 {

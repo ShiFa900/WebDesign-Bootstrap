@@ -213,7 +213,7 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
                                             <label for="note" class="form-label">Internal notes</label>
                                             <div class="form-floating mb-4">
                                             <textarea class="form-control" placeholder="Leave a comment here" id="note"
-                                                      name="note"><?php if (isset($_SESSION["inputData"])) {
+                                                      name="note" maxlength="360"><?php if (isset($_SESSION["inputData"])) {
                                                     echo $_SESSION["inputData"]["note"];
                                                 } ?></textarea>
                                             </div>

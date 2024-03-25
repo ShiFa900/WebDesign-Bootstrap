@@ -1,7 +1,7 @@
 <?php
 function showPopupAlert(string $name, int $count, int $id): void
 {
-    if ($count == 0) {
+    if ($count === 0) {
         ?>
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">

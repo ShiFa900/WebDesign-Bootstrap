@@ -37,8 +37,9 @@ mainHeader(cssIdentifier: "page-jobs", title: "Person Job", link: "jobs.php", pa
             <div class="left d-flex">
                 <div class="page-header d-flex gap-4 align-items-center">
                     <!--tampilkan singular dan plural-->
-                    <h1 class="first-heading"><?= $noun ?>
-                    </h1>
+                    <a href="jobs.php" class="nav-link">
+                        <h1 class="first-heading"><?= $noun ?></h1>
+                    </a>
                     <div class="added d-flex justify-content-end mb-0">
                         <a href="add-job.php"
                            class="nav-link btn-content">
@@ -167,7 +168,7 @@ mainHeader(cssIdentifier: "page-jobs", title: "Person Job", link: "jobs.php", pa
                                             <?php
                                             $number = ($page - 1) * PAGE_LIMIT + 1;
                                             foreach ($jobs as $job) {
-                                                $theJob = findFirstFromArray(tableName:'jobs',key: ID, value: $job[ID]);
+                                                $theJob = findFirstFromArray(tableName: 'jobs', key: ID, value: $job[ID]);
                                                 ?>
                                                 <tr>
                                                     <td class="text-center"><?= $number ?></td>
@@ -196,7 +197,6 @@ mainHeader(cssIdentifier: "page-jobs", title: "Person Job", link: "jobs.php", pa
                                                                 </button>
                                                                 <!-- Modal -->
                                                                 <div
-
                                                                         class="modal fade"
                                                                         id="exampleModal<?= $job[ID] ?>"
                                                                         tabindex="-1"

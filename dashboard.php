@@ -157,7 +157,7 @@ $personPassedAway = checkPersonStatus();
                     <div class="subheading mb-2">
                         <div class="col-xxl-8">
                             <h1 class="second-heading">
-                                Jobs list
+                                <a href="jobs.php" class="nav-link">Jobs list</a>
                             </h1>
                         </div>
                     </div>
@@ -171,7 +171,7 @@ $personPassedAway = checkPersonStatus();
                                             <th scope="col" class="text-center">No</th>
                                             <th scope="col">Job name</th>
                                             <th scope="col" class="text-center">Being used by people</th>
-                                            <th scope="col">Last update</th>
+                                            <th scope="col" class="text-center">Last update</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -183,7 +183,7 @@ $personPassedAway = checkPersonStatus();
                                                 <td class="text-center"><?= $number ?></td>
                                                 <td><?= $job[JOBS_NAME] ?></td>
                                                 <td class="text-center"><?= $job[JOBS_COUNT] ?></td>
-                                                <td><?= date("d F Y H:i", $job[JOBS_LAST_UPDATE]) ?></td>
+                                                <td class="text-center"><?= date("d F Y H:i", $job[JOBS_LAST_UPDATE]) ?></td>
                                             </tr>
                                             <?php
                                             $number++;

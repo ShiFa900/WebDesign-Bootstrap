@@ -21,10 +21,7 @@ $page = $_GET["page"] ?? 1;
 if(isset($_GET["keyword"]) || isset($_GET["category"])){
     if(!isset($_GET['keyword'])){
         $_GET["keyword"] = '';
-        $personPaginated = getPersons(PAGE_LIMIT, $page,$_GET["category"], $_GET["keyword"]);
-    }
-    // get person data if keyword OR category is not null
-$personPaginated = getPersons(PAGE_LIMIT, $page,$_GET["category"]);
+        }$personPaginated = getPersons(PAGE_LIMIT, $page,$_GET["category"], $_GET["keyword"]);
 } else {
     // get default data person (all persons)
 $personPaginated = getPersons(PAGE_LIMIT, $page, CATEGORIES_ALL);

@@ -12,8 +12,8 @@ mainHeader(cssIdentifier: "page-my-profile", title: "My Profile", link: "my-prof
 $jobs = getJobs();
 // get user data by given email
 //$person = getPerson(persons: $persons, email: $_SESSION["userEmail"]);
-$person = findFirstFromArray(tableName:'persons',key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
-if($person !== null){
+$person = findFirstFromArray(tableName: 'persons', key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
+if ($person !== null) {
     $person = setPersonValueFromDb($person);
 }
 
@@ -53,7 +53,7 @@ $noun = setNoun(array: $personHobbies, text: 'Hobby');
                         <div class="row">
                             <div class="col-xxl-6 col-xl-6 col-lg-6 me-4">
                                 <?php
-                                if(isset($_SESSION['userInputData']) && isset($_SESSION['errorData'])) {
+                                if (isset($_SESSION['userInputData']) && isset($_SESSION['errorData'])) {
                                     formInputValues(person: $person, arraySex: $arraySex, jobs: $jobs, userInputData: $_SESSION['userInputData'], errorData: $_SESSION['errorData']);
                                 } else {
                                     formInputValues(person: $person, arraySex: $arraySex, jobs: $jobs);
@@ -62,43 +62,10 @@ $noun = setNoun(array: $personHobbies, text: 'Hobby');
                                 ?>
                             </div>
                             <div class="col-xxl-5 col-xl-5 col-lg-5">
-                                <div class="mb-3 form-input">
-                                    <span class="required title">Role</span>
-                                    <p>
-                                        <?php
-                                        foreach ($arrayRole as $role) {
-                                            if ($role == $person[PERSON_ROLE]) {
-                                                echo ROLE_LABEL[$person[PERSON_ROLE] . "_LABEL"];
-                                            }
-                                        }
-                                        ?>
-                                    </p>
-                                </div>
                                 <?php
-                                if ($person[PERSON_ROLE] == ROLE_ADMIN) {
-                                    if ($person[PERSON_INTERNAL_NOTE] != null) {
-                                        ?>
-                                        <div class="mb-3 form-input">
-                                            <label for="note" class="form-label"
-                                            >Internal notes</label>
-                                            <div class="form-floating mb-4">
-                                              <textarea
-                                                      class="form-control"
-                                                      placeholder="Leave a comment here"
-                                                      id="note"
-                                                      name="note"
-                                              ><?php
-                                                  if (isset($_SESSION["userInputData"])) {
-                                                      echo $_SESSION["userInputData"]["note"];
-                                                  } else {
-                                                      echo $person[PERSON_INTERNAL_NOTE];
-                                                  } ?></textarea>
-                                            </div>
-                                        </div>
-                                        <?php
-                                    }
-                                }
+                                showGetRoleAndNote(arrayRole: $arrayRole, person: $person, userInputData: $_SESSION["userInputData"]);
                                 ?>
+
                                 <div class="mb-3 form-input mt-4">
                                     <hr/>
                                     <label for="currentPass" class="form-label">Current Password</label>
@@ -119,50 +86,16 @@ $noun = setNoun(array: $personHobbies, text: 'Hobby');
                                     ?>
 
                                 </div>
-                                <div class="mb-3 form-input">
-                                    <label for="newPass" class="form-label ">New Password</label>
-                                    <input
-                                            id="newPass"
-                                            type="password"
-                                            class="form-control"
-                                            name="newPassword"
-                                            minlength="8"
-
-                                    />
-                                    <?php
-                                    if (isset($_SESSION["errorData"]["errorPassword"])) {
-                                        ?>
-                                        <div class="alert alert-danger errorText" role="alert">
-                                            <?= $_SESSION["errorData"]["errorPassword"] ?>
-                                        </div>
-                                        <?php
-                                    }
-                                    ?>
-                                </div>
-                                <div class="mb-3 form-input">
-                                    <label for="confirmPass" class="form-label">Confirm Password </label>
-                                    <input
-                                            id="confirmPass"
-                                            type="password"
-                                            class="form-control"
-                                            name="confirmPassword"/>
-                                    <?php
-                                    if (isset($_SESSION["errorData"]["errorConfirm"])) {
-                                        ?>
-                                        <div class="alert alert-danger errorText" role="alert">
-                                            <?= $_SESSION["errorData"]["errorConfirm"] ?>
-                                        </div>
-                                        <?php
-                                    }
-                                    ?>
-                                </div>
+                                <?php
+                                showPassForm($_SESSION["errorData"]);
+                                ?>
                             </div>
                             <?php
-                            if ($personHobbies != null) {?>
+                            if ($personHobbies != null) { ?>
                                 <div class="subheading mb-2 mt-4">
                                     <div class="col-xxl-8">
                                         <h1 class="third-heading">
-                                            <?=$noun?> list
+                                            <?= $noun ?> list
                                         </h1>
                                     </div>
                                 </div>

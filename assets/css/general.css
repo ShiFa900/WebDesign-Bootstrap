@@ -345,7 +345,7 @@ body {
 }
 
 .btn-container {
-    margin-bottom: 2.4rem;
+    margin-bottom: 0.75rem;
     margin-top: 1.4rem;
 }
 
@@ -383,6 +383,11 @@ body {
     color: #333;
 }
 
+.modal-footer .btn-block:active{
+    background-color: #ffc436;
+    color: inherit;
+}
+
 .delete-btn {
     padding: 0.75rem 1.4rem;
     letter-spacing: 2px;
@@ -398,7 +403,7 @@ body {
 .page-jobs .delete-btn,
 .page-view-person .delete-btn,
 .page-my-profile .delete-btn{
-    padding: 0.4rem 0.75rem;
+    padding: 0.3rem 0.75rem;
     letter-spacing: 1px;
     color: #ffffff;
     border-radius: 2px;
@@ -564,6 +569,8 @@ DROPDOWN FOR VIEW BUTTON (PERSONS PAGE)
 
 .form-input .form-floating textarea {
     height: 100px;
+    line-height: 2px;
+
 }
 
 .form-input input,
@@ -728,9 +735,12 @@ li ul .nav-link {
     /*display: inline-block;*/
 }
 
-.table-responsive{
+.page-persons .table-responsive,
+.page-jobs .table-responsive,
+.page-hobbies .table-responsive{
     margin-bottom: 3.6rem;
 }
+
 
 .page-my-profile .table-responsive,
 .page-view-person .table-responsive{
@@ -795,12 +805,6 @@ thead tr {
 table tbody tr td{
     border-right: 1px solid #dddddd;
     border-bottom: none;
-}
-
-.page-persons table tr td,
-.page-hobbies table tr td,
-.page-jobs table tr td{
-    line-height: 2rem;
 }
 
 .table-header {

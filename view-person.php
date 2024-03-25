@@ -174,32 +174,6 @@ mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-
                                                 <?= $personJob[JOBS_NAME] ?>
                                             </p>
                                         </div>
-                                        <?php
-                                        if ($currentUser[PERSON_ROLE] == ROLE_ADMIN) {
-                                            if (isset($_SESSION["personData"][PERSON_INTERNAL_NOTE])) {
-                                                ?>
-                                                <div class="mb-3 form-input">
-
-                                                    <span class="title">Internal Note</span>
-                                                    <p><?= $_SESSION["personData"][PERSON_INTERNAL_NOTE]; ?>
-                                                    </p>
-                                                </div>
-                                                <?php
-                                            } else {
-                                                if (isset($person[PERSON_INTERNAL_NOTE])) {
-                                                    ?>
-                                                    <div class="mb-3 form-input">
-
-                                                        <span class="title">Internal Note</span>
-                                                        <p><?= $person[PERSON_INTERNAL_NOTE]; ?>
-                                                        </p>
-                                                    </div>
-                                                    <?php
-                                                }
-
-                                            }
-                                        }
-                                        ?>
                                         <!-- ROLE -->
                                         <div class="mb-3 form-input">
                                             <span class="required title">Role</span>
@@ -213,6 +187,32 @@ mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-
                                                 ?>
                                             </p>
                                         </div>
+                                        <?php
+                                        if ($currentUser[PERSON_ROLE] == ROLE_ADMIN) {
+                                            if (isset($_SESSION["personData"][PERSON_INTERNAL_NOTE])) {
+                                                ?>
+                                                <div class="mb-3 form-input">
+
+                                                    <span class="title">Internal Note</span>
+                                                    <p style="line-height: 1.5rem"><?= $_SESSION["personData"][PERSON_INTERNAL_NOTE]; ?>
+                                                    </p>
+                                                </div>
+                                                <?php
+                                            } else {
+                                                if (isset($person[PERSON_INTERNAL_NOTE])) {
+                                                    ?>
+                                                    <div class="mb-3 form-input">
+
+                                                        <span class="title">Internal Note</span>
+                                                        <p style="line-height: 1.5rem"><?= $person[PERSON_INTERNAL_NOTE]; ?>
+                                                        </p>
+                                                    </div>
+                                                    <?php
+                                                }
+
+                                            }
+                                        }
+                                        ?>
                                     </div>
                                 </div>
                                 <?php
