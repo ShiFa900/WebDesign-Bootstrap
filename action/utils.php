@@ -72,10 +72,12 @@ function checkRole(string $userEmail, string $role): void
 /**
  * check user status, cannot log in with account of Passed away status
  * @param array|null $person
+ * @return array|bool
  */
-function checkPersonStatus(array|null $person = null)
+function checkPersonStatus(array|null $person = null): array|bool
 {
     global $PDO;
+    $category = [];
     if ($person !== null) {
         if ($person[PERSON_STATUS] == STATUS_PASSED_AWAY) return true;
     } else {
@@ -89,8 +91,8 @@ function checkPersonStatus(array|null $person = null)
         } catch (PDOException $e) {
             die($e->getMessage());
         }
-        return $category;
     }
+    return $category;
 }
 
 //==============================
@@ -113,8 +115,11 @@ function getPersons(int $limit, int|string $page, string|null $category = null, 
 {
     global $PDO;
     $str = "%$search%";
-    $count = getCountPerson($str);
+    $count = countPerson($str);
     $data = [];
+    if($category === ''){
+        $category = CATEGORIES_ALL;
+    }
     // query data to db:
     // query data tanpa category(?)
     try {
@@ -190,8 +195,8 @@ function getPersons(int $limit, int|string $page, string|null $category = null, 
         die("Query error: " . $e->getMessage());
     }
 
-    if(count($data) !== 0) {
-        return returnShowData(datas: $data, count: $count, page: $page, limit: $limit);
+    if (count($data) !== 0) {
+        return returnShowData(array: $data, count: $count, page: $page, limit: $limit);
     }
 
     return array(
@@ -201,22 +206,22 @@ function getPersons(int $limit, int|string $page, string|null $category = null, 
     );
 }
 
-function returnShowData(array $datas, array $count, int $page, int $limit)
+function returnShowData(array $array, array $count, int $page, int $limit)
 {
 
-    $sort = sortingDataForPagination(page: $page, limit: $limit, array: $datas);
+    $sort = sortingDataForPagination(page: $page, limit: $limit, array: $array);
 
     // return information for persons page
     if ($count && $count['total'] > 0) {
         return array(
-            PAGING_TOTAL_PAGE => ceil(count($datas) / $limit),
+            PAGING_TOTAL_PAGE => ceil(count($array) / $limit),
             PAGING_CURRENT_PAGE => $page,
-            PAGING_DATA => array_slice($datas, $sort['indexStart'], $sort['length'])
+            PAGING_DATA => array_slice($array, $sort['indexStart'], $sort['length'])
         );
     }
 }
 
-function getCountPerson($str)
+function countPerson($str)
 {
     global $PDO;
     // 1. query untuk banyaknya data
@@ -387,7 +392,7 @@ function sortingDataForPagination(int $page, int $limit, array $array): array
  * load json data into an array
  * @return int
  */
-function getCountAllPerson(): int
+function getNumberOfPersons(): int
 {
     global $PDO;
 

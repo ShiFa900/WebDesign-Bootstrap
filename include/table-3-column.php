@@ -12,7 +12,7 @@ function tableThreeColumn(
     int|null    $limit = null,
     string|null $noun = null,
     int|null    $personId = null,
-    int|null    $keyword = null): void
+    string|null    $keyword = null): void
 {
     ?>
     <div class="row">
@@ -34,7 +34,7 @@ function tableThreeColumn(
                                         <th scope="col"><?= $noun ?> Name</th>
                                         <th scope="col" class="text-center">Last update</th>
                                         <?php
-                                        if ($user[PERSON_ROLE] == ROLE_ADMIN || $user[ID] == $personId) {
+                                        if ($identifier === 'page-my-profile' || $identifier === 'page-view-person' && $user[PERSON_ROLE] == ROLE_ADMIN || $identifier === 'page-hobbies' && $user[PERSON_ROLE] == ROLE_ADMIN) {
                                             ?>
                                             <th scope="col" class="text-center">Action</th>
                                             <?php
@@ -48,11 +48,11 @@ function tableThreeColumn(
                                     $dataArray = $dataPaginated[PAGING_DATA] ?? $array;
                                     foreach ($dataArray as $data) { ?>
                                         <tr>
-                                            <td class="text-center"><?= $number ?></td>
+                                            <td class="text-center p-3"><?= $number ?></td>
                                             <td><?= $data[HOBBIES_NAME] ?></td>
-                                            <td class="text-center"><?= date('d F Y H:i', $data[HOBBIES_LAST_UPDATE]) ?></td>
+                                            <td class="text-center p-3"><?= date('d F Y H:i', $data[HOBBIES_LAST_UPDATE]) ?></td>
                                             <?php
-                                            if ($user[PERSON_ROLE] == ROLE_ADMIN || $user[ID] == $personId) {
+                                            if ($identifier === 'page-my-profile' || $identifier === 'page-view-person' && $user[PERSON_ROLE] == ROLE_ADMIN || $identifier === 'page-hobbies' && $user[PERSON_ROLE] == ROLE_ADMIN) {
                                                 ?>
                                                 <td>
                                                     <div class="person-btn d-flex justify-content-center align-items-center">
@@ -123,7 +123,7 @@ function tableThreeColumn(
                             </div>
 
                             <?php
-                            if ($identifier !== 'page-hobbies') {
+                            if ($identifier === 'page-my-profile' || ($identifier === 'page-view-person' && $user[PERSON_ROLE] === ROLE_ADMIN)) {
                                 ?>
                                 <div class="form-input">
                                     <a href="../add-hobby.php?person=<?= $personId ?>"

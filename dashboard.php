@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
+require_once __DIR__ . "/include/card.php";
 require_once __DIR__ . "/action/utils.php";
 
 redirectIfNotAuthenticated();
@@ -15,7 +16,7 @@ mainHeader(
 );
 
 // get user data by given email
-$countAllPerson = getCountAllPerson();
+$countAllPerson = getNumberOfPersons();
 $jobs = getJobs();
 $user = findFirstFromArray(tableName: 'persons', key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
 $user[PERSON_LAST_LOGGED_IN] = convertDateToTimestamp($user[PERSON_LAST_LOGGED_IN]);
@@ -29,7 +30,6 @@ try {
 } catch (Exception $e) {
     die("Query error: " . $e->getMessage());
 }
-
 // get persons data with status passed away
 $personPassedAway = checkPersonStatus();
 ?>
@@ -74,85 +74,14 @@ $personPassedAway = checkPersonStatus();
                     </div>
                 </div>
                 <div class="row dashboard">
-                    <div class="dashboard-card col-12 col-xxl-3 col-xl-4 col-lg-5 col-md-6">
-                        <a class="card card-link" href="persons.php?category=<?= CATEGORIES_ALL ?>">
-                            <div class="card-body">
-                                <div class="wrapper d-flex align-items-center column-gap-3">
-                                    <p class="number"><?= $countAllPerson ?></p>
-                                    <h4 class="card-subtitle third-heading mb-2 text-body-secondary">
-                                        Number of persons
-                                    </h4>
-                                </div>
-                                <p class="card-text">
-                                    Total number of persons.
-                                </p>
-
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="dashboard-card col-12 col-xxl-3 col-xl-4 col-lg-5 col-md-6">
-                        <a class="card card-link" href="persons.php?category=<?= CATEGORIES_PRODUCTIVE_AGE ?>">
-                            <div class="card-body">
-                                <div class="wrapper d-flex align-items-center column-gap-3">
-                                    <p class="number"><?= count($personProductive) ?></p>
-                                    <h4 class="card-subtitle third-heading text-body-secondary">
-                                        Productive ages
-                                    </h4>
-                                </div>
-                                <p class="card-text">
-                                    Total number of persons aged more than 17 years old, and less than 65 years old.
-                                </p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="dashboard-card col-12 col-xxl-3 col-xl-4 col-lg-5 col-md-6">
-                        <a class="card card-link" href="persons.php?category=<?= CATEGORIES_CHILD ?>">
-                            <div class="card-body">
-                                <div class="wrapper d-flex align-items-center column-gap-3">
-                                    <p class="number"><?= count($personChild) ?></p>
-                                    <h4 class="card-subtitle third-heading mb-2 text-body-secondary">
-                                        Children
-                                    </h4>
-                                </div>
-                                <p class="card-text">
-                                    Total number of children, aged less than 17 years old.
-                                </p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="dashboard-card col-12 col-xxl-3 col-xl-4 col-lg-5 col-md-6">
-                        <a class="card card-link" href="persons.php?category=<?= CATEGORIES_ELDERLY ?>">
-                            <div class="card-body">
-                                <div class="wrapper d-flex align-items-center column-gap-3">
-                                    <p class="number"><?= count($personElderly) ?></p>
-                                    <h4 class="card-subtitle third-heading mb-2 text-body-secondary">
-                                        Elderly
-                                    </h4>
-                                </div>
-                                <p class="card-text">
-                                    Total number of persons aged more than 65 years old.
-                                </p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="dashboard-card col-12 col-xxl-3 col-xl-4 col-lg-5 col-md-6">
-                        <a class="card card-link" href="persons.php?category=<?= CATEGORIES_PASSED_AWAY ?>">
-                            <div class="card-body">
-                                <div class="wrapper d-flex align-items-center column-gap-3">
-                                    <p class="number"><?= count($personPassedAway) ?></p>
-                                    <h4 class="card-subtitle third-heading mb-2 text-body-secondary">
-                                        Passed away
-                                    </h4>
-                                </div>
-                                <p class="card-text">
-                                    Total number of people who have died.
-                                </p>
-                            </div>
-                        </a>
-                    </div>
+                    <?php
+                    cardDashboard(cardName: 'Number of persons', link: 'persons.php?category=' . CATEGORIES_ALL, cardText: 'Total number of person in our database.', number: $countAllPerson);
+                    cardDashboard(cardName: 'Productive ages', link: 'persons.php?category=' . CATEGORIES_PRODUCTIVE_AGE, cardText: 'Total number of persons aged more than 17 years old, and less than 65 years old.', number: count($personProductive));
+                    cardDashboard(cardName: 'Children', link: 'persons.php?category=' . CATEGORIES_CHILD, cardText: 'Total number of children, aged less than 17 years old.', number: count($personChild));
+                    cardDashboard(cardName: 'Elderly', link: 'persons.php?category=' . CATEGORIES_ELDERLY, cardText: 'Total number of persons aged more than 65 years old.', number: count($personElderly));
+                    cardDashboard(cardName: 'Passed away', link: 'persons.php?category=' . CATEGORIES_PASSED_AWAY, cardText: 'Total number of people who have died.', number: count($personPassedAway));
+                    ?>
                 </div>
-
                 <div class="row dashboard-table">
                     <div class="subheading mb-2">
                         <div class="col-xxl-8">

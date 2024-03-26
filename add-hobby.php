@@ -1,7 +1,8 @@
 <?php
 require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
-require_once __DIR__ . "/include/body-card.php";
+require_once __DIR__ . "/include/card.php";
+require_once __DIR__ . "/include/popup-alert.php";
 require_once __DIR__ . "/action/utils.php";
 
 redirectIfNotAuthenticated();
@@ -24,12 +25,8 @@ mainHeader(cssIdentifier: "page-add-hobby", title: "Add Hobby", link: "add-hobby
                         <h1 class="first-heading">Add Hobby</h1>
                     </div>
                     <?php
-                    if (isset($_SESSION["info"])) {
-                        ?>
-                        <div class="alert alert-danger" role="alert">
-                            <?= $_SESSION["info"] ?>!
-                        </div>
-                        <?php
+                    if (isset($_SESSION["error"])) {
+                        showPopUpAlert(alertName: 'alert-danger',info:$_SESSION["info"] );
                     }
                     ?>
                     <div class="row">

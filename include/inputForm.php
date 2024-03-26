@@ -1,5 +1,5 @@
 <?php
-function formInputValues(array $person, array $arraySex, array $jobs, array|null $userInputData = null, array|null $errorData = null): void
+function formInputValues(array $person, string $userRole, array $arraySex, array $jobs, array|null $userInputData = null, array|null $errorData = null): void
 {
     $getPersonJob = getPersonJob($person[ID]);
     ?>
@@ -169,22 +169,28 @@ function formInputValues(array $person, array $arraySex, array $jobs, array|null
             }
             ?>
         </select>
-        <a href="../add-job.php" class="nav-link mt-1 add-icon">
-            <div style="fill: #000000">
-                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon"
-                     viewBox="0 0 512 512">
-                    <path fill="none" stroke="currentColor" stroke-linecap="round"
-                          stroke-linejoin="round" stroke-width="32"
-                          d="M256 112v288M400 256H112"/>
-                </svg>
-                Create new option
-            </div>
-        </a>
+        <?php
+        if ($userRole === ROLE_ADMIN) {
+            ?>
+            <a href="../add-job.php" class="nav-link mt-1 add-icon">
+                <div style="fill: #000000">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon"
+                         viewBox="0 0 512 512">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round"
+                              stroke-linejoin="round" stroke-width="32"
+                              d="M256 112v288M400 256H112"/>
+                    </svg>
+                    Create new option
+                </div>
+            </a>
+            <?php
+        }
+        ?>
     </div>
     <?php
 }
 
-function formInputValuesOnRight(array $person, array $arrayRole, array|null $userInputData = null, array|null $errorData = null): void
+function formInputValuesOnRight(array $person, array $arrayRole, string $user, array|null $userInputData = null, array|null $errorData = null): void
 {
     ?>
     <a href="../hobbies.php?person=<?= $person[ID] ?>" class="nav-link mt-1 mb-3">
@@ -206,14 +212,14 @@ function formInputValuesOnRight(array $person, array $arrayRole, array|null $use
         </div>
     </a>
     <?php
-    showGetRoleAndNote(arrayRole: $arrayRole, person: $person, userInputData: $userInputData);
+    showGetRoleAndNote(arrayRole: $arrayRole, person: $person, user: $user, userInputData: $userInputData);
     ?>
     <hr/>
     <?php
     showPassForm($errorData);
 }
 
-function showGetRoleAndNote(array $arrayRole, array $person, array|null $userInputData = null): void
+function showGetRoleAndNote(array $arrayRole, array $person, string $user, array|null $userInputData = null): void
 { ?>
     <div class="mb-4 form-input">
         <label class="form-label" for="role-dropdown"
@@ -247,10 +253,13 @@ function showGetRoleAndNote(array $arrayRole, array $person, array|null $userInp
             ?>
         </select>
     </div>
-    <div class="mb-3 form-input">
-        <label for="note" class="form-label"
-        >Internal notes</label>
-        <div class="form-floating mb-4">
+    <?php
+    if ($user === ROLE_ADMIN) {
+        ?>
+        <div class="mb-3 form-input">
+            <label for="note" class="form-label"
+            >Internal notes</label>
+            <div class="form-floating mb-4">
               <textarea
                       class="form-control"
                       placeholder="Leave a comment here"
@@ -263,9 +272,10 @@ function showGetRoleAndNote(array $arrayRole, array $person, array|null $userInp
                   } else {
                       echo $person[PERSON_INTERNAL_NOTE];
                   } ?></textarea>
+            </div>
         </div>
-    </div>
-    <?php
+        <?php
+    }
 }
 
 function showPassForm(array|null $errorData = null): void
@@ -305,6 +315,158 @@ function showPassForm(array|null $errorData = null): void
                 <?= $errorData["errorConfirm"] ?>
             </div>
             <?php
+        }
+        ?>
+    </div>
+    <?php
+}
+
+function showTextValue(array $person, array $arraySex, array $arrayRole, string $personJob, string $userRole, array|null $personData = null)
+{
+    ?>
+    <div class="col-xxl-6 col-xl-6 col-lg-6 me-4">
+        <div class="mb-3 form-input">
+
+            <span class="required title">First Name</span>
+            <p>
+                <?php
+                if (isset($personData[PERSON_FIRST_NAME])) {
+                    echo $personData[PERSON_FIRST_NAME];
+                } else {
+                    echo $person[PERSON_FIRST_NAME];
+                }
+                ?>
+            </p>
+        </div>
+
+        <?php
+        // showing person last name if person have it
+        if ($person[PERSON_LAST_NAME] != "") {
+            ?>
+            <div class="mb-3 form-input">
+
+                <span class="title">Last Name</span>
+                <p>
+                    <?php
+                    if (isset($personData[PERSON_LAST_NAME])) {
+                        echo $personData[PERSON_LAST_NAME];
+                    } else {
+                        echo $person[PERSON_LAST_NAME];
+                    }
+                    ?>
+                </p>
+            </div>
+            <?php
+        }
+        ?>
+        <div class="mb-3 form-input">
+            <span class="required title">NIK</span>
+            <p>
+                <?php
+                if (isset($personData[PERSON_NIK])) {
+                    echo $personData[PERSON_NIK];
+                } else {
+                    echo $person[PERSON_NIK];
+                }
+                ?>
+            </p>
+
+        </div>
+        <div class="mb-3 form-input">
+            <span class="required title">Email</span>
+            <p>
+                <?php
+                if (isset($personData[PERSON_EMAIL])) {
+                    echo $personData[PERSON_EMAIL];
+                } else {
+                    echo $person[PERSON_EMAIL];
+                }
+                ?>
+            </p>
+
+        </div>
+
+        <div class="mb-3 form-input">
+            <span class="required title">Birth Of Date</span>
+            <p>
+                <?php
+                if (isset($personData[PERSON_BIRTH_DATE])) {
+                    echo date("d F Y", $personData[PERSON_BIRTH_DATE]);
+                } else {
+                    echo date("d F Y", $person[PERSON_BIRTH_DATE]);
+                }
+                ?>
+            </p>
+        </div>
+        <div class="mb-3 form-input">
+            <span class="required title">Sex</span>
+            <p>
+                <?php
+                foreach ($arraySex as $sex) {
+                    if ($sex == $person[PERSON_SEX]) {
+                        echo SEX_LABEL[$person[PERSON_SEX] . "_LABEL"];
+                    }
+                }
+                ?>
+            </p>
+        </div>
+    </div>
+    <div class="col-xxl-5 col-xl-2 col-lg-5">
+        <div class="mb-3 form-input">
+            <span class="required title">Status</span>
+            <p>
+                <?php
+                if (isset($personData[PERSON_STATUS])) {
+                    echo translateIntToString($personData[PERSON_STATUS]);
+                } else {
+                    echo translateIntToString($person[PERSON_STATUS]);
+                }
+                ?>
+            </p>
+        </div>
+        <div class="mb-3 form-input">
+            <span class="required title">Job</span>
+            <p>
+                <?= $personJob ?>
+            </p>
+        </div>
+        <!-- ROLE -->
+        <div class="mb-3 form-input">
+            <span class="required title">Role</span>
+            <p>
+                <?php
+                foreach ($arrayRole as $role) {
+                    if ($role == $person[PERSON_ROLE]) {
+                        echo ROLE_LABEL[$person[PERSON_ROLE] . "_LABEL"];
+                    }
+                }
+                ?>
+            </p>
+        </div>
+        <?php
+        if ($userRole == ROLE_ADMIN) {
+            if (isset($personData[PERSON_INTERNAL_NOTE])) {
+                ?>
+                <div class="mb-3 form-input">
+
+                    <span class="title">Internal Note</span>
+                    <p style="line-height: 1.5rem"><?= $personData[PERSON_INTERNAL_NOTE]; ?>
+                    </p>
+                </div>
+                <?php
+            } else {
+                if (isset($person[PERSON_INTERNAL_NOTE])) {
+                    ?>
+                    <div class="mb-3 form-input">
+
+                        <span class="title">Internal Note</span>
+                        <p style="line-height: 1.5rem"><?= $person[PERSON_INTERNAL_NOTE]; ?>
+                        </p>
+                    </div>
+                    <?php
+                }
+
+            }
         }
         ?>
     </div>

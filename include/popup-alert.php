@@ -1,5 +1,5 @@
 <?php
-function showPopupAlert(string $name, int $count, int $id): void
+function showModalAlert(string $name, int $count, int $id): void
 {
     if ($count === 0) {
         ?>
@@ -9,7 +9,7 @@ function showPopupAlert(string $name, int $count, int $id): void
                     <h1 class="modal-title"
                         id="exampleModalLabel">
                         Are you sure want to delete
-                        job <?= '"' . $name . '" ' ?>
+                        job <?= '"' . $name . '" ' ?>?
                     </h1>
                     <button
                             type="button"
@@ -63,6 +63,22 @@ function showPopupAlert(string $name, int $count, int $id): void
                     </button>
                 </div>
             </div>
+        </div>
+        <?php
+    }
+}
+
+function showPopUpAlert(string $alertName, string $info, string|null $optionalClass = null): void
+{
+    if ($optionalClass !== null) {
+        ?>
+        <div class="alert <?= $alertName ?>" role="alert">
+            <?= $info ?>
+        </div>
+        <?php
+    } else { ?>
+        <div class="alert <?= $alertName . " " . $optionalClass ?>" role="alert">
+            <?= $info ?>
         </div>
         <?php
     }

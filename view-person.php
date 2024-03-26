@@ -2,6 +2,7 @@
 require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
 require_once __DIR__ . "/include/table-3-column.php";
+require_once __DIR__ . "/include/inputForm.php";
 require_once __DIR__ . "/action/utils.php";
 
 redirectIfNotAuthenticated();
@@ -67,153 +68,14 @@ mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-
                         <div class="col-xxl-12">
                             <form class="new-person-form" action="#" method="post">
                                 <div class="row">
+                                    <?php
+                                    if (isset($_SESSION["personData"])) {
+                                        showTextValue(person: $person, arraySex: $arraySex, arrayRole: $arrayRole, personJob: $personJob[JOBS_NAME], userRole: $currentUser[PERSON_ROLE], personData: $_SESSION["personData"]);
+                                    } else {
+                                        showTextValue(person: $person, arraySex: $arraySex, arrayRole: $arrayRole, personJob: $personJob[JOBS_NAME], userRole: $currentUser[PERSON_ROLE]);
+                                    }
+                                    ?>
 
-                                    <div class="col-xxl-6 col-xl-6 col-lg-6 me-4">
-                                        <div class="mb-3 form-input">
-
-                                            <span class="required title">First Name</span>
-                                            <p>
-                                                <?php
-                                                if (isset($_SESSION["personData"][PERSON_FIRST_NAME])) {
-                                                    echo $_SESSION["personData"][PERSON_FIRST_NAME];
-                                                } else {
-                                                    echo $person[PERSON_FIRST_NAME];
-                                                }
-                                                ?>
-                                            </p>
-                                        </div>
-
-                                        <?php
-                                        // showing person last name if person have it
-                                        if ($person[PERSON_LAST_NAME] != "") {
-                                            ?>
-                                            <div class="mb-3 form-input">
-
-                                                <span class="title">Last Name</span>
-                                                <p>
-                                                    <?php
-                                                    if (isset($_SESSION["personData"][PERSON_LAST_NAME])) {
-                                                        echo $_SESSION["personData"][PERSON_LAST_NAME];
-                                                    } else {
-                                                        echo $person[PERSON_LAST_NAME];
-                                                    }
-                                                    ?>
-                                                </p>
-                                            </div>
-                                            <?php
-                                        }
-                                        ?>
-                                        <div class="mb-3 form-input">
-                                            <span class="required title">NIK</span>
-                                            <p>
-                                                <?php
-                                                if (isset($_SESSION["personData"][PERSON_NIK])) {
-                                                    echo $_SESSION["personData"][PERSON_NIK];
-                                                } else {
-                                                    echo $person[PERSON_NIK];
-                                                }
-                                                ?>
-                                            </p>
-
-                                        </div>
-                                        <div class="mb-3 form-input">
-                                            <span class="required title">Email</span>
-                                            <p>
-                                                <?php
-                                                if (isset($_SESSION["personData"][PERSON_EMAIL])) {
-                                                    echo $_SESSION["personData"][PERSON_EMAIL];
-                                                } else {
-                                                    echo $person[PERSON_EMAIL];
-                                                }
-                                                ?>
-                                            </p>
-
-                                        </div>
-
-                                        <div class="mb-3 form-input">
-                                            <span class="required title">Birth Of Date</span>
-                                            <p>
-                                                <?php
-                                                if (isset($_SESSION["personData"][PERSON_BIRTH_DATE])) {
-                                                    echo date("d F Y", $_SESSION["personData"][PERSON_BIRTH_DATE]);
-                                                } else {
-                                                    echo date("d F Y", $person[PERSON_BIRTH_DATE]);
-                                                }
-                                                ?>
-                                            </p>
-                                        </div>
-                                        <div class="mb-3 form-input">
-                                            <span class="required title">Sex</span>
-                                            <p>
-                                                <?php
-                                                foreach ($arraySex as $sex) {
-                                                    if ($sex == $person[PERSON_SEX]) {
-                                                        echo SEX_LABEL[$person[PERSON_SEX] . "_LABEL"];
-                                                    }
-                                                }
-                                                ?>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-xxl-5 col-xl-2 col-lg-5">
-                                        <div class="mb-3 form-input">
-                                            <span class="required title">Status</span>
-                                            <p>
-                                                <?php
-                                                if (isset($_SESSION["personData"][PERSON_STATUS])) {
-                                                    echo translateIntToString($_SESSION["personData"][PERSON_STATUS]);
-                                                } else {
-                                                    echo translateIntToString($person[PERSON_STATUS]);
-                                                }
-                                                ?>
-                                            </p>
-                                        </div>
-                                        <div class="mb-3 form-input">
-                                            <span class="required title">Job</span>
-                                            <p>
-                                                <?= $personJob[JOBS_NAME] ?>
-                                            </p>
-                                        </div>
-                                        <!-- ROLE -->
-                                        <div class="mb-3 form-input">
-                                            <span class="required title">Role</span>
-                                            <p>
-                                                <?php
-                                                foreach ($arrayRole as $role) {
-                                                    if ($role == $person[PERSON_ROLE]) {
-                                                        echo ROLE_LABEL[$person[PERSON_ROLE] . "_LABEL"];
-                                                    }
-                                                }
-                                                ?>
-                                            </p>
-                                        </div>
-                                        <?php
-                                        if ($currentUser[PERSON_ROLE] == ROLE_ADMIN) {
-                                            if (isset($_SESSION["personData"][PERSON_INTERNAL_NOTE])) {
-                                                ?>
-                                                <div class="mb-3 form-input">
-
-                                                    <span class="title">Internal Note</span>
-                                                    <p style="line-height: 1.5rem"><?= $_SESSION["personData"][PERSON_INTERNAL_NOTE]; ?>
-                                                    </p>
-                                                </div>
-                                                <?php
-                                            } else {
-                                                if (isset($person[PERSON_INTERNAL_NOTE])) {
-                                                    ?>
-                                                    <div class="mb-3 form-input">
-
-                                                        <span class="title">Internal Note</span>
-                                                        <p style="line-height: 1.5rem"><?= $person[PERSON_INTERNAL_NOTE]; ?>
-                                                        </p>
-                                                    </div>
-                                                    <?php
-                                                }
-
-                                            }
-                                        }
-                                        ?>
-                                    </div>
                                 </div>
                                 <?php
                                 if ($personHobbies != null) { ?>
@@ -225,7 +87,7 @@ mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-
                                         </div>
                                     </div>
                                     <?php
-                                    tableThreeColumn(identifier: 'page-view-person', user: $person, constName: HOBBIES_NAME, modalText: "Are you sure want to delete", array: $personHobbies, noun: $noun, personId: $person[ID]);
+                                    tableThreeColumn(identifier: 'page-view-person', user: $currentUser, constName: HOBBIES_NAME, modalText: "Are you sure want to delete", array: $personHobbies, noun: $noun, personId: $person[ID]);
                                 }
                                 ?>
                                 <div class="btn-container d-flex ">
@@ -290,7 +152,7 @@ mainHeader(cssIdentifier: "page-view-person", title: "View Person", link: "view-
                                                     </button>
                                                     <button type="button" class="btn btn-primary"
                                                             name="btnDelete">
-                                                        <a href="action/action-delete-person.php?person=<?=$person[ID]?>"
+                                                        <a href="action/action-delete-person.php?person=<?= $person[ID] ?>"
                                                            class="btn pop-up-btn-hover">Yes</a>
                                                     </button>
                                                 </div>

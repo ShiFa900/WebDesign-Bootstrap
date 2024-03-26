@@ -9,6 +9,8 @@ redirectIfNotAuthenticated();
 checkRole($_SESSION["userEmail"], "ROLE_ADMIN");
 $jobs = getJobs();
 $person = findFirstFromArray(tableName: 'persons', key: ID, value: $_GET['person']);
+$user = findFirstFromArray(tableName: 'persons',key: PERSON_EMAIL,value: $_SESSION["userEmail"]);
+$user = setPersonValueFromDb($user);
 $person = setPersonValueFromDb($person);
 // get person data to be edited
 $_SESSION["personData"] = $person;
@@ -22,7 +24,6 @@ mainHeader(cssIdentifier: "page-edit-person", title: "Edit Person", link: "edit-
 // sort person role when edited
 $arraySex = sortSex($person[PERSON_SEX]);
 $arrayRole = sortRole($person[PERSON_ROLE]);
-
 ?>
     <main>
         <section class="edit-section d-flex position-relative">
@@ -44,10 +45,10 @@ $arrayRole = sortRole($person[PERSON_ROLE]);
                                 <div class="row">
                                     <div class="col-xxl-6 col-xl-6 col-lg-6 me-4">
                                         <?php
-                                        if(isset($_SESSION['userInputData']) && isset($_SESSION['errorData'])) {
-                                            formInputValues(person: $person, arraySex: $arraySex, jobs: $jobs, userInputData: $_SESSION['userInputData'], errorData: $_SESSION['errorData']);
+                                        if (isset($_SESSION['userInputData']) && isset($_SESSION['errorData'])) {
+                                            formInputValues(person: $person, userRole: $person[PERSON_ROLE], arraySex: $arraySex, jobs: $jobs, userInputData: $_SESSION['userInputData'], errorData: $_SESSION['errorData']);
                                         } else {
-                                            formInputValues(person: $person, arraySex: $arraySex, jobs: $jobs);
+                                            formInputValues(person: $person, userRole: $person[PERSON_ROLE], arraySex: $arraySex, jobs: $jobs);
                                         }
                                         ?>
                                         <div class="form-input mt-0 mb-3">
@@ -79,7 +80,11 @@ $arrayRole = sortRole($person[PERSON_ROLE]);
 
                                     <div class="col-xxl-5 col-xl-5 col-lg-5">
                                         <?php
-                                        formInputValuesOnRight(person: $person, arrayRole: $arrayRole, userInputData: $_SESSION["userInputData"], errorData: $_SESSION["errorData"]);
+                                        if (isset($_SESSION["userInputData"]) && isset($_SESSION["errorData"])) {
+                                            formInputValuesOnRight(person: $person, arrayRole: $arrayRole,  user: $user[PERSON_ROLE], userInputData: $_SESSION["userInputData"], errorData: $_SESSION["errorData"]);
+                                        } else {
+                                            formInputValuesOnRight(person: $person, arrayRole: $arrayRole, user: $user[PERSON_ROLE]);
+                                        }
                                         ?>
                                     </div>
                                 </div>

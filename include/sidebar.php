@@ -24,7 +24,7 @@ function desktopSidebar($activeMenu): void
                 </li>
 
                 <li class="nav-item <?php if ($activeMenu === 'persons.php') echo 'active'; ?>">
-                    <a href="../persons.php?page=1" class="nav-link">
+                    <a href="../persons.php" class="nav-link">
                         <div style="fill: #000000" class="img-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
                                 <path d="M402 168c-2.93 40.67-33.1 72-66 72s-63.12-31.32-66-72c-3-42.31 26.37-72 66-72s69 30.46 66 72z"
@@ -136,7 +136,7 @@ function mobileSidebar($activeMenu): void
                         </li>
 
                         <li class="nav-item <?php if ($activeMenu === 'persons.php') echo 'active'; ?>">
-                            <a href="../persons.php?page=1" class="nav-link">
+                            <a href="../persons.php" class="nav-link">
                                 <div style="fill: #000000" class="img-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
                                         <path d="M402 168c-2.93 40.67-33.1 72-66 72s-63.12-31.32-66-72c-3-42.31 26.37-72 66-72s69 30.46 66 72z"

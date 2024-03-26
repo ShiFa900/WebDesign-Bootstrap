@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
+require_once __DIR__ . "/include/popup-alert.php";
 require_once __DIR__ . "/action/utils.php";
 
 redirectIfNotAuthenticated();
@@ -26,12 +27,8 @@ mainHeader(cssIdentifier: "page-edit-job", title: "Add Job", link: "edit-job.php
                         <h1 class="first-heading">Edit Job</h1>
                     </div>
                     <?php
-                    if (isset($_SESSION["info"])) {
-                        ?>
-                        <div class="alert alert-danger" role="alert">
-                            <?= $_SESSION["info"] ?>!
-                        </div>
-                        <?php
+                    if (isset($_SESSION["error"])) {
+                        showPopUpAlert(alertName: 'alert-danger',info:$_SESSION["error"] );
                     }
                     ?>
                     <div class="row">
@@ -52,7 +49,7 @@ mainHeader(cssIdentifier: "page-edit-job", title: "Add Job", link: "edit-job.php
                                                            name="jobName" maxlength="30" minlength="3"
                                                            placeholder="New job" value="<?= $currentJob[JOBS_NAME] ?>">
 
-                                                    <div class="btn-container d-flex column-gap-3">
+                                                    <div class="btn-container d-flex column-gap-3 mt-3">
                                                         <a class="btn btn-primary btn--form has-border" type="submit"
                                                            href="jobs.php">
                                                             Cancel
@@ -117,7 +114,6 @@ mainHeader(cssIdentifier: "page-edit-job", title: "Add Job", link: "edit-job.php
                                                             <?php
                                                         }
                                                         ?>
-
                                                     </div>
                                                 </div>
                                             </div>

@@ -54,16 +54,16 @@ $noun = setNoun(array: $personHobbies, text: 'Hobby');
                             <div class="col-xxl-6 col-xl-6 col-lg-6 me-4">
                                 <?php
                                 if (isset($_SESSION['userInputData']) && isset($_SESSION['errorData'])) {
-                                    formInputValues(person: $person, arraySex: $arraySex, jobs: $jobs, userInputData: $_SESSION['userInputData'], errorData: $_SESSION['errorData']);
+                                    formInputValues(person: $person, userRole: $person[PERSON_ROLE], arraySex: $arraySex, jobs: $jobs, userInputData: $_SESSION['userInputData'], errorData: $_SESSION['errorData']);
                                 } else {
-                                    formInputValues(person: $person, arraySex: $arraySex, jobs: $jobs);
+                                    formInputValues(person: $person, userRole: $person[PERSON_ROLE], arraySex: $arraySex, jobs: $jobs);
 
                                 }
                                 ?>
                             </div>
                             <div class="col-xxl-5 col-xl-5 col-lg-5">
                                 <?php
-                                showGetRoleAndNote(arrayRole: $arrayRole, person: $person, userInputData: $_SESSION["userInputData"]);
+                                showGetRoleAndNote(arrayRole: $arrayRole, person: $person, user: $person[PERSON_ROLE], userInputData: $_SESSION["userInputData"]);
                                 ?>
 
                                 <div class="mb-3 form-input mt-4">
@@ -84,7 +84,6 @@ $noun = setNoun(array: $personHobbies, text: 'Hobby');
                                         <?php
                                     }
                                     ?>
-
                                 </div>
                                 <?php
                                 showPassForm($_SESSION["errorData"]);
@@ -124,7 +123,6 @@ $noun = setNoun(array: $personHobbies, text: 'Hobby');
                                 <?php
                             }
                             ?>
-
                             <div class="btn-container d-flex column-gap-3 justify-content-start">
                                 <a class="btn btn-primary btn--form has-border"
                                    type="submit"

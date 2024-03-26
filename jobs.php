@@ -5,6 +5,8 @@ require_once __DIR__ . "/include/footer.php";
 require_once __DIR__ . "/include/show-pagination-btn.php";
 require_once __DIR__ . "/include/footer-pagination-btn.php";
 require_once __DIR__ . "/include/popup-alert.php";
+require_once __DIR__ . "/include/formHeader.php";
+require_once __DIR__ . "/include/include-btn-img.php";
 require_once __DIR__ . "/action/pagination.php";
 
 if (isset($_GET["reset"])) {
@@ -33,111 +35,18 @@ $noun = setNoun(array: $jobs, text: "Job");
 mainHeader(cssIdentifier: "page-jobs", title: "Person Job", link: "jobs.php", pageStyles: ["jobs.css"]);
 ?>
     <div class="jobs-content position-absolute px-5">
-        <div class="content-wrapper d-xl-flex justify-content-between d-md-block">
-            <div class="left d-flex">
-                <div class="page-header d-flex gap-4 align-items-center">
-                    <!--tampilkan singular dan plural-->
-                    <a href="jobs.php" class="nav-link">
-                        <h1 class="first-heading"><?= $noun ?></h1>
-                    </a>
-                    <div class="added d-flex justify-content-end mb-0">
-                        <a href="add-job.php"
-                           class="nav-link btn-content">
-                            <div style="fill: #000000" class="header-page-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
-                                    <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                          stroke-linejoin="round"
-                                          stroke-width="32" d="M256 112v288M400 256H112"/>
-                                </svg>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="right">
-                <!--SEARCH-->
-                <form
-                        class="search-form d-xl-flex column-gap-2 mt-3"
-                        name="search-form"
-                        action="#table"
-                        method="get">
-                    <div class="wrapper d-xl-flex d-md-block column-gap-2">
-                        <div class="form-search w-100">
-                            <input
-                                    id="search"
-                                    class="form-control form-control-sm"
-                                    type="search"
-                                    placeholder="Search..."
-                                    aria-label="Search"
-                                    name="keyword"
-                                    value="<?php if (isset($_GET["keyword"])) {
-                                        echo $_GET["keyword"];
-                                    } else {
-                                        $_GET["keyword"] = null;
-                                    } ?>"
-                                    minlength="3"
-                            />
-                        </div>
-                        <div class="btn-wrapper d-flex justify-content-end">
-                            <button class="btn btn-outline-success d-flex align-items-center column-gap-1"
-                                    type="submit">
-                                <span class="d-xl-none d-flex flex-column">Search</span>
-                                <div style="fill: #000000" class="header-page-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon search-icon"
-                                         viewBox="0 0 512 512">
-                                        <path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
-                                              fill="none" stroke="currentColor" stroke-miterlimit="10"
-                                              stroke-width="32"/>
-                                        <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                              stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448"/>
-                                    </svg>
-                                </div>
-                            </button>
-
-                            <!--btn ini hanya tampil saat filter atau keyword pencarian ada-->
-                            <?php
-                            if (isset($_GET["keyword"])) {
-                                ?>
-                                <button class="btn btn-reset ms-2" name="reset">
-                                    <div style="fill: #000000" class="header-page-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
-                                            <path d="M320 146s24.36-12-64-12a160 160 0 10160 160" fill="none"
-                                                  stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10"
-                                                  stroke-width="32"/>
-                                            <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                                  stroke-linejoin="round" stroke-width="32" d="M256 58l80 80-80 80"/>
-                                        </svg>
-                                    </div>
-                                </button>
-                                <?php
-                            }
-                            ?>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
         <?php
+        formHeaderPage(identifier: 'page-jobs', link: 'add-job.php', noun: $noun);
+
         if (isset($_SESSION["deleteSuccess"])) {
-            ?>
-            <div class="alert alert-success" role="alert">
-                <?= $_SESSION["deleteSuccess"] ?>
-            </div>
-            <?php
+            showPopUpAlert(alertName: 'alert-success', info: $_SESSION["deleteSuccess"]);
         } elseif (isset($_SESSION["info"])) {
-            ?>
-            <div class="alert alert-success" role="alert">
-                <?= $_SESSION["info"] ?>
-            </div>
-            <?php
-        } elseif (isset($_SESSION["error"])) { ?>
-            <div class="alert alert-danger" role="alert">
-                <?= $_SESSION["error"] ?>
-            </div>
-            <?php
+            showPopUpAlert(alertName: 'alert-success', info: $_SESSION["info"]);
+        } elseif (isset($_SESSION["error"])) {
+            showPopUpAlert(alertName: 'alert-danger', info: $_SESSION["error"]);
         }
-        if (count($jobs) != 0) {
-            ?>
+
+        if (count($jobs) != 0) { ?>
             <div class="row">
                 <div class="col-xxl-12">
                     <div class="row">
@@ -151,14 +60,14 @@ mainHeader(cssIdentifier: "page-jobs", title: "Person Job", link: "jobs.php", pa
                                         <table class="table" id="table">
                                             <thead>
                                             <tr>
-                                                <th scope="col" class="text-center p-3">No</th>
-                                                <th scope="col" class="p-3"><?= $noun ?> Name</th>
-                                                <th scope="col" class="p-3 text-center">People with this job</th>
-                                                <th scope="col" class="p-3 text-center">Last update</th>
+                                                <th scope="col" class="text-center">No</th>
+                                                <th scope="col"><?= $noun ?> Name</th>
+                                                <th scope="col" class="text-center">People with this job</th>
+                                                <th scope="col" class="text-center">Last update</th>
                                                 <?php
                                                 if ($user[PERSON_ROLE] == ROLE_ADMIN) {
                                                     ?>
-                                                    <th scope="col" class="text-center p-3">Action</th>
+                                                    <th scope="col" class="text-center">Action</th>
                                                     <?php
                                                 }
                                                 ?>
@@ -171,10 +80,10 @@ mainHeader(cssIdentifier: "page-jobs", title: "Person Job", link: "jobs.php", pa
                                                 $theJob = findFirstFromArray(tableName: 'jobs', key: ID, value: $job[ID]);
                                                 ?>
                                                 <tr>
-                                                    <td class="text-center"><?= $number ?></td>
+                                                    <td class="text-center p-3"><?= $number ?></td>
                                                     <td><?= $job[JOBS_NAME] ?></td>
-                                                    <td class="text-center"><?= $job[JOBS_COUNT] ?></td>
-                                                    <td class="text-center"><?= date("d F Y H:i", $job[JOBS_LAST_UPDATE]) ?></td>
+                                                    <td class="text-center p-3"><?= $job[JOBS_COUNT] ?></td>
+                                                    <td class="text-center p-3"><?= date("d F Y H:i", $job[JOBS_LAST_UPDATE]) ?></td>
                                                     <?php
                                                     if ($user[PERSON_ROLE] == ROLE_ADMIN) {
                                                         ?>
@@ -204,7 +113,7 @@ mainHeader(cssIdentifier: "page-jobs", title: "Person Job", link: "jobs.php", pa
                                                                         aria-hidden="true"
                                                                 >
                                                                     <?php
-                                                                    showPopupAlert(name: $job[JOBS_NAME], count: $job[JOBS_COUNT], id: $job[ID]);
+                                                                    showModalAlert(name: $job[JOBS_NAME], count: $job[JOBS_COUNT], id: $job[ID]);
                                                                     ?>
                                                                 </div>
                                                             </div>
@@ -228,31 +137,8 @@ mainHeader(cssIdentifier: "page-jobs", title: "Person Job", link: "jobs.php", pa
             </div>
             <?php
         } else {
-            ?>
-            <div class="wrapper">
-                <button class="btn mt-2">
-                    <a class="nav-link btn-back d-flex justify-content-end"
-                       href="persons.php">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             class="ionicon material-symbols-outlined"
-                             viewBox="0 0 512 512">
-                            <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                  stroke-linejoin="round" stroke-width="48"
-                                  d="M328 112L184 256l144 144"/>
-                        </svg>
-                        <span class="short">Back</span>
-                        <span class="long">Persons page</span>
-                    </a>
-                </button>
-            </div>
-            <div class="row">
-                <div class="col-xl-12 d-flex flex-column justify-content-center align-items-center mt-5">
-                    <div class="col-xxl-6 col-xl-8 col-lg-10 col-md-12 col-sm-12">
-                        <img class="no-data-img" alt="no data found on server" src="assets/properties/no-data-pana.svg">
-                    </div>
-                </div>
-            </div>
-            <?php
+            showBtnBack('persons.php');
+            showNoDataImg();
         }
         ?>
     </div>

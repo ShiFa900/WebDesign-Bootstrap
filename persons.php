@@ -4,297 +4,177 @@ require_once __DIR__ . "/include/header.php";
 require_once __DIR__ . "/include/footer.php";
 require_once __DIR__ . "/include/show-pagination-btn.php";
 require_once __DIR__ . "/include/footer-pagination-btn.php";
+require_once __DIR__ . "/include/formHeader.php";
+require_once __DIR__ . "/include/include-btn-img.php";
+require_once __DIR__ . "/include/popup-alert.php";
 require_once __DIR__ . "/action/pagination.php";
 
 redirectIfNotAuthenticated();
 if (isset($_GET["reset"])) {
-    redirect("../persons.php", "page=1");
+    redirect("../persons.php", "");
 }
 mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.php", pageStyles: ['persons.css']);
 
 // get current user data
-$userRole = findFirstFromArray(tableName: 'persons',key: PERSON_EMAIL,value: $_SESSION["userEmail"]);
+$userRole = findFirstFromArray(tableName: 'persons', key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
 $userRole = setPersonValueFromDb($userRole);
-
 $page = $_GET["page"] ?? 1;
-
-if(isset($_GET["keyword"]) || isset($_GET["category"])){
-    if(!isset($_GET['keyword'])){
-        $_GET["keyword"] = '';
-        }$personPaginated = getPersons(PAGE_LIMIT, $page,$_GET["category"], $_GET["keyword"]);
-} else {
-    // get default data person (all persons)
-$personPaginated = getPersons(PAGE_LIMIT, $page, CATEGORIES_ALL);
-}
-
 // set page for paginated data, page cannot less than 1, bigger than total page and not a numeric
-if($page < 1 || $page > $personPaginated[PAGING_TOTAL_PAGE] || !is_numeric($page)){
+if ($page < 1 || !is_numeric($page)) {
     $page = 1;
 }
+if (isset($_GET["keyword"]) || isset($_GET["category"])) {
+    if (!isset($_GET['keyword'])) {
+        $_GET["keyword"] = '';
+    }
+    $personPaginated = getPersons(PAGE_LIMIT, $page, $_GET["category"], $_GET["keyword"]);
+    if ($page > $personPaginated[PAGING_TOTAL_PAGE]) {
+        $page = 1;
+        $personPaginated = getPersons(PAGE_LIMIT, $page, $_GET["category"], $_GET["keyword"]);
+    }
+} else {
+    // get default data person (all persons)
+    $personPaginated = getPersons(PAGE_LIMIT, $page, CATEGORIES_ALL);
+    if ($page > $personPaginated[PAGING_TOTAL_PAGE]) {
+        $page = 1;
+        $personPaginated = getPersons(PAGE_LIMIT, $page, CATEGORIES_ALL);
+    }
+}
+
 $persons = $personPaginated[PAGING_DATA];
 $prev = $personPaginated[PAGING_CURRENT_PAGE] - 1;
 $next = $personPaginated[PAGING_CURRENT_PAGE] + 1;
 $noun = setNoun($persons, "Person"); // set pronounce
 ?>
     <div class="person-content position-absolute px-5">
-    <div class="content-wrapper d-xl-flex justify-content-between d-md-block">
-        <div class="left d-flex gap-4 page-header ">
-            <a class="nav-link" href="persons.php">
-                <h1 class="first-heading"><?=$noun?></h1>
-            </a>
-            <div class="add-person d-flex justify-content-end mb-0">
-                <a href="add-person.php" class="nav-link btn-content">
-                    <div style="fill: #000000" class="header-page-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
-                            <path d="M376 144c-3.92 52.87-44 96-88 96s-84.15-43.12-88-96c-4-55 35-96 88-96s92 42 88 96z"
-                                  fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                  stroke-width="32"/>
-                            <path d="M288 304c-87 0-175.3 48-191.64 138.6-2 10.92 4.21 21.4 15.65 21.4H464c11.44 0 17.62-10.48 15.65-21.4C463.3 352 375 304 288 304z"
-                                  fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/>
-                            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                  stroke-width="32" d="M88 176v112M144 232H32"/>
-                        </svg>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="right">
-            <!--SEARCH-->
-            <form
-                    class="search-form d-xl-flex column-gap-2 mt-3"
-                    name="search-form"
-                    action="#table"
-                    method="get"
-            >
-                <div class="wrapper ">
-                    <!-- menggunakan select -->
-                    <select
-                            id="form-select-catagories"
-                            class="form-select form-select-lg"
-                            aria-label="Select age category"
-                            name="category"
+        <?php
+        if (isset($_GET["category"])) {
+            if($_GET["category"] === '') $_GET["category"] = CATEGORIES_ALL;
+            formHeaderPage(identifier: 'page-persons', link: 'add-person.php', noun: $noun, category: $_GET["category"]);
+        } else {
+            formHeaderPage(identifier: 'page-persons', link: 'add-person.php', noun: $noun);
+        }
 
-                    >
+        if (isset($_SESSION["user"])) {
+            showPopUpAlert(alertName: 'alert-danger', info: $_SESSION['user']);
+        } elseif (isset($_SESSION["deleteSuccess"])) {
+            showPopUpAlert(alertName: 'alert-success', info: $_SESSION["deleteSuccess"]);
+        } elseif (isset($_SESSION["error"])) {
+            showPopUpAlert(alertName: 'alert-danger', info: $_SESSION["error"]);
+        } elseif ((isset($_SESSION["info"]))) {
+            showPopUpAlert(alertName: 'alert-succes', info: $_SESSION["info"]);
+        }
+
+        if (count($persons) == 0) {
+            // show this img if person data not found
+            showNoDataImg();
+        } else {
+            ?>
+            <div class="table-wrapper">
+                <?php
+                if (isset($_GET["category"]) || isset($_GET["keyword"])) {
+                    paginationButton(array: $personPaginated, prev: $prev, next: $next, page: $page, identifier: "page-persons", keyword: $_GET["keyword"], category: $_GET["category"]);
+                } else {
+                    paginationButton(array: $personPaginated, prev: $prev, next: $next, page: $page, identifier: "page-persons");
+                }
+                ?>
+                <div class="table-responsive">
+                    <table class="table" id="table">
+                        <thead>
+                        <tr>
+                            <th scope="col" class="text-center p-3">No</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Name</th>
+                            <th scope="col" class="text-center p-3">Age</th>
+                            <th scope="col" class="text-center p-3">Role</th>
+                            <th scope="col" class="text-center p-3">Status</th>
+                            <th scope="col" class="text-center">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
                         <?php
-                        // showing search category
-                        if (isset($_GET["category"])) {
-                            $arrayCategories = sortCategories($_GET["category"]);
-                            foreach ($arrayCategories as $category) {
-                                ?>
-                                <option
-                                        value="<?= $category ?>"<?php if ($category === $_GET["category"]) echo "selected name='category'" ?>>
-                                    <?= CATEGORY_LABEL[$category . "_LABEL"] ?></option>
-                                <?php
-                            }
-                        } else {
-                            // show this for default
-                            ?>
-                            <option value="<?= CATEGORIES_ALL ?>"><?= CATEGORY_LABEL["CATEGORIES_ALL_LABEL"] ?></option>
-                            <option value="<?= CATEGORIES_PRODUCTIVE_AGE ?>"><?= CATEGORY_LABEL["CATEGORIES_PRODUCTIVE_AGE_LABEL"] ?></option>
-                            <option value="<?= CATEGORIES_CHILD ?>"><?= CATEGORY_LABEL["CATEGORIES_CHILD_LABEL"] ?></option>
-                            <option value="<?= CATEGORIES_ELDERLY ?>"><?= CATEGORY_LABEL["CATEGORIES_ELDERLY_LABEL"] ?></option>
-                            <option value="<?= CATEGORIES_PASSED_AWAY ?>"><?= CATEGORY_LABEL["CATEGORIES_PASSED_AWAY_LABEL"] ?></option>
-                            <?php
-                        }
-                        ?>
-                    </select>
-                </div>
-
-                <div class="wrapper d-xl-flex d-md-block column-gap-2">
-                    <div class="form-search w-100">
-                        <input
-                                id="search"
-                                class="form-control form-control-sm"
-                                type="search"
-                                placeholder="Search..."
-                                aria-label="Search"
-                                name="keyword"
-                                value="<?php if (isset($_GET["keyword"])) {
-                                    echo $_GET["keyword"];
-                                } else {
-                                    $_GET["keyword"] = null;
-                                } ?>"
-                                minlength="3"
-                        />
-                    </div>
-                    <div class="btn-wrapper d-flex justify-content-end">
-                        <button class="btn btn-outline-success d-flex align-items-center column-gap-1"
-                                type="submit">
-                            <span class="d-xl-none d-flex flex-column">Search</span>
-                            <div style="fill: #000000" class="header-page-icon search-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
-                                    <path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"
-                                          fill="none" stroke="currentColor" stroke-miterlimit="10"
-                                          stroke-width="32"/>
-                                    <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                          stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448"/>
-                                </svg>
-                            </div>
-                        </button>
-
-                        <!--btn ini hanya tampil saat filter atau keyword pencarian ada-->
-                        <?php
-                        if (isset($_GET["keyword"]) || isset($_GET["category"])) {
-                            ?>
-                            <button class="btn btn-reset ms-2" name="reset">
-                                <div style="fill: #000000" class="header-page-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512">
-                                        <path d="M320 146s24.36-12-64-12a160 160 0 10160 160" fill="none"
-                                              stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10"
-                                              stroke-width="32"/>
-                                        <path fill="none" stroke="currentColor" stroke-linecap="round"
-                                              stroke-linejoin="round" stroke-width="32" d="M256 58l80 80-80 80"/>
-                                    </svg>
-                                </div>
-                            </button>
-                            <?php
-                        }
-                        ?>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-    <?php
-    if (isset($_SESSION["user"])) {
-        ?>
-        <div class="alert alert-danger alert-popup" role="alert">
-            <?=$_SESSION['user']?>
-        </div>
-        <?php
-    } elseif (isset($_SESSION["deleteSuccess"])) {
-        ?>
-        <div class="alert alert-success" role="alert">
-            <?=$_SESSION["deleteSuccess"]?>
-        </div>
-        <?php
-    } elseif (isset($_SESSION["error"])) {
-        ?>
-        <div class="alert alert-danger" role="alert">
-            <?=$_SESSION["error"]?>
-        </div>
-        <?php
-    } elseif ((isset($_SESSION["info"]))){?>
-        <div class="alert alert-success" role="alert">
-            <?=$_SESSION["info"]?>
-        </div>
-    <?php
-    }
-    // show this img if person data not found
-    if (count($persons) == 0) {
-        ?>
-        <div class="row">
-            <div class="col-xl-12 d-flex flex-column justify-content-center align-items-center mt-5">
-                <div class="col-xxl-6 col-xl-8 col-lg-10 col-md-12 col-sm-12">
-
-                    <img class="no-data-img" alt="no data found on server" src="assets/properties/no-data-pana.svg">
-                </div>
-            </div>
-        </div>
-        <?php
-    } else {
-        ?>
-        <div class="table-wrapper">
-            <?php
-                 if(isset($_GET["category"]) || isset($_GET["keyword"]))
-               {
-                 paginationButton(array: $personPaginated,prev: $prev,next: $next,page: $page,identifier: "page-persons",keyword: $_GET["keyword"],category: $_GET["category"]);
-               } else {
-                 paginationButton(array: $personPaginated,prev: $prev,next: $next,page: $page,identifier: "page-persons");
-               }
-             ?>
-            <div class="table-responsive">
-                <table class="table" id="table">
-                    <thead>
-                    <tr>
-                        <th scope="col" class="text-center p-3">No</th>
-                        <th scope="col" class="p-3">Email</th>
-                        <th scope="col" class="p-3">Name</th>
-                        <th scope="col" class="text-center p-3">Age</th>
-                        <th scope="col" class="text-center p-3">Role</th>
-                        <th scope="col" class="text-center p-3">Status</th>
-                        <th scope="col" class="text-center p-3">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php
                         $number = ($page - 1) * PAGE_LIMIT + 1;
-                    foreach ($persons as $person) {
-                        $personsRole = sortRole(transformRoleFromDb($person[PERSON_ROLE]));
-                        try{$personAge = calculateAge(convertDateToTimestamp($person[PERSON_BIRTH_DATE]));}catch(Exception $e){die("Calculate error: " . $e->getMessage());}
-                        foreach ($personsRole as $role) {
-                            if ($role == transformRoleFromDb($person[PERSON_ROLE])) {
-                                $personRole = ROLE_LABEL[$role . "_LABEL"];
-                                ?>
-                                <tr>
-                                    <td class="text-center"><?= $number ?></td>
-                                    <td><?= $person[PERSON_EMAIL] ?></td>
-                                    <td><?= $person[PERSON_FIRST_NAME] . " " . $person[PERSON_LAST_NAME] ?></td>
-                                    <td class="text-center"><?= $personAge ?></td>
-                                    <td class="text-center"><?= $personRole ?></td>
-                                    <td class="text-center"><?= translateIntToString($person[PERSON_STATUS]) ?></td>
+                        foreach ($persons as $person) {
+                            $personsRole = sortRole(transformRoleFromDb($person[PERSON_ROLE]));
+                            try {
+                                $personAge = calculateAge(convertDateToTimestamp($person[PERSON_BIRTH_DATE]));
+                            } catch (Exception $e) {
+                                die("Calculate error: " . $e->getMessage());
+                            }
+                            foreach ($personsRole as $role) {
+                                if ($role == transformRoleFromDb($person[PERSON_ROLE])) {
+                                    $personRole = ROLE_LABEL[$role . "_LABEL"];
+                                    ?>
+                                    <tr>
+                                        <td class="text-center"><?= $number ?></td>
+                                        <td><?= $person[PERSON_EMAIL] ?></td>
+                                        <td><?= $person[PERSON_FIRST_NAME] . " " . $person[PERSON_LAST_NAME] ?></td>
+                                        <td class="text-center"><?= $personAge ?></td>
+                                        <td class="text-center"><?= $personRole ?></td>
+                                        <td class="text-center"><?= translateIntToString($person[PERSON_STATUS]) ?></td>
 
-                                    <td>
-                                        <div class="person-btn d-flex justify-content-center align-items-center">
-                                            <button class="btn" name="btn-view">
-                                                <a
+                                        <td>
+                                            <div class="person-btn d-flex justify-content-center align-items-center">
+                                                <button class="btn" name="btn-view">
+                                                    <a
 
-                                                    <?php
-                                                    if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
-                                                        ?>
-                                                        href="view-person.php?person=<?php echo $person[ID] ?>"
                                                         <?php
-                                                    }
-                                                    ?>
-                                                        href="my-profile.php"
-                                                        class="nav-link table-nav block-color-btn"
-                                                >View</a
-                                                >
-                                            </button>
+                                                        if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
+                                                            ?>
+                                                            href="view-person.php?person=<?php echo $person[ID] ?>"
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                            href="my-profile.php"
+                                                            class="nav-link table-nav block-color-btn"
+                                                    >View</a
+                                                    >
+                                                </button>
                                                 <?php
                                                 if ($userRole[PERSON_ROLE] == ROLE_ADMIN) {
-                                                ?>
-                                            <button class="btn">
+                                                    ?>
+                                                    <button class="btn">
 
-                                                    <a <?php
+                                                        <a <?php
                                                         if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
-                                                        ?> href="edit-person.php?person=<?php echo $person[ID] ?>"
-                                                        <?php
+                                                            ?> href="edit-person.php?person=<?php echo $person[ID] ?>"
+                                                            <?php
                                                         }
                                                         ?> href="my-profile.php" class="nav-link table-nav border-btn">Edit</a>
-                                            </button>
-                                         <?php
-                                            }
-                                            ?>
-                                            <button class="btn" name="btn-view">
-                                                <a
+                                                    </button>
                                                     <?php
-                                                    if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
-                                                        ?>
-                                                        href="hobbies.php?person=<?php echo $person[ID] ?>"
+                                                }
+                                                ?>
+                                                <button class="btn" name="btn-view">
+                                                    <a
                                                         <?php
-                                                    }
-                                                    ?>
-                                                        class="nav-link table-nav btn-block"
-                                                >Hobby</a
-                                                >
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <?php
+                                                        if ($person[PERSON_EMAIL] != $_SESSION["userEmail"]) {
+                                                            ?>
+                                                            href="hobbies.php?person=<?php echo $person[ID] ?>"
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                            class="nav-link table-nav btn-block"
+                                                    >Hobby</a
+                                                    >
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
                             }
+                            $number++;
                         }
-                        $number++;
-                    }
-                    ?>
-                    </tbody>
-                </table>
+                        ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-        <?php
-    }
-
+            <?php
+        } ?>
+    </div>
+<?php
 mainFooter("persons.php");
 unset($_SESSION["deleteSuccess"]);
 unset($_SESSION["user"]);

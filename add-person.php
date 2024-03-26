@@ -53,12 +53,7 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
                                                    } ?>"/>
                                             <?php
                                             if (isset($_SESSION["errorData"]["errorNik"])) {
-                                                ?>
-
-                                                <div class="alert alert-danger" role="alert">
-                                                    <?= $_SESSION["errorData"]["errorNik"] ?>
-                                                </div>
-                                                <?php
+                                                showPopUpAlert(alertName: 'alert-danger',info: $_SESSION["errorData"]["errorNik"]);
                                             } else {
                                                 ?>
                                                 <span class="smallText"><em>NIK must be at least 16 characters.</em></span>
@@ -76,11 +71,7 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
 
                                             <?php
                                             if (isset($_SESSION["errorData"]["errorEmail"])) {
-                                                ?>
-                                                <div class="alert alert-danger" role="alert">
-                                                    <?= $_SESSION["errorData"]["errorEmail"] ?>
-                                                </div>
-                                                <?php
+                                                showPopUpAlert(alertName: 'alert-danger', info: $_SESSION["errorData"]["errorEmail"]);
                                             }
                                             ?>
                                         </div>
@@ -94,12 +85,7 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
                                                    } ?>"/>
                                             <?php
                                             if (isset($_SESSION["errorData"]["errorBirthDate"])) {
-                                                ?>
-                                                <div class="alert alert-danger" role="alert">
-                                                    <?= $_SESSION["errorData"]["errorBirthDate"] ?>
-                                                </div>
-
-                                                <?php
+                                                showPopUpAlert(alertName: 'alert-danger',info: $_SESSION["errorData"]["errorBirthDate"]);
                                             }
                                             ?>
                                         </div>
@@ -184,7 +170,6 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
                                                     Create new option
                                             </a>
                                         </div>
-
                                         <div class="mb-3 form-input-add-person">
                                             <label class="form-label required" for="role-dropdown">Role</label>
                                             <select id="role-dropdown" class="form-select form-control" required
@@ -226,15 +211,10 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
                                                    name="password"/>
                                             <?php
                                             if (isset($_SESSION["errorData"]["errorPassword"])) {
-                                                ?>
-                                                <div class="alert alert-danger errorText" role="alert">
-                                                    <?= $_SESSION["errorData"]["errorPassword"] ?>
-                                                </div>
-                                                <?php
+                                                showPopUpAlert(alertName: 'alert-danger',info: $_SESSION["errorData"]["errorPassword"],optionalClass: 'errorText');
                                             }
                                             ?>
                                         </div>
-
                                         <!--konfirmasi password-->
                                         <div class="mb-3 form-input-add-person">
                                             <label for="confirm-pass" class="form-label required">Confirm Your
@@ -243,16 +223,11 @@ mainHeader(cssIdentifier: "page-add-person", title: "Add Person", link: "add-per
                                                    name="confirmPass"/>
                                             <?php
                                             if (isset($_SESSION["errorData"]["errorConfirm"])) {
-                                                ?>
-                                                <div class="alert alert-danger" role="alert">
-                                                    <?= $_SESSION["errorData"]["errorConfirm"] ?>
-                                                </div>
-                                                <?php
+                                                showPopUpAlert(alertName: 'alert-danger',info:$_SESSION["errorData"]["errorConfirm"]);
                                             }
                                             ?>
                                         </div>
                                     </div>
-
                                 </div>
 
                                 <div class="btn-container d-flex column-gap-3">
