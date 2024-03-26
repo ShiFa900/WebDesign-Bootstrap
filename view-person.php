@@ -10,7 +10,7 @@ redirectIfNotAuthenticated();
 $jobs = getJobs();
 // get person data by given person ID
 //$person = getPerson($persons, id: $_GET['person']);
-$person = findFirstFromArray(tableName: 'persons', key: ID, value: $_GET["person"]);
+$person = findFirstFromDb(tableName: 'persons', key: ID, value: $_GET["person"]);
 
 if ($person == null) {
     $_SESSION["error"] = "Sorry, no person found.";
@@ -32,7 +32,7 @@ $arrayRole = sortRole($person[PERSON_ROLE]);
 $_SESSION["personId"] = $person[ID];
 
 // get current user
-$currentUser = findFirstFromArray(tableName: 'persons', key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
+$currentUser = findFirstFromDb(tableName: 'persons', key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
 $currentUser = setPersonValueFromDb($currentUser);
 
 if (isset($_SESSION["personData"])) {

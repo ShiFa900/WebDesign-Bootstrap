@@ -16,7 +16,7 @@ if (isset($_GET["reset"])) {
 mainHeader(cssIdentifier: "page-persons", title: "Persons View", link: "persons.php", pageStyles: ['persons.css']);
 
 // get current user data
-$userRole = findFirstFromArray(tableName: 'persons', key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
+$userRole = findFirstFromDb(tableName: 'persons', key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
 $userRole = setPersonValueFromDb($userRole);
 $page = $_GET["page"] ?? 1;
 // set page for paginated data, page cannot less than 1, bigger than total page and not a numeric

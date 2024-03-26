@@ -12,7 +12,7 @@ mainHeader(cssIdentifier: "page-my-profile", title: "My Profile", link: "my-prof
 $jobs = getJobs();
 // get user data by given email
 //$person = getPerson(persons: $persons, email: $_SESSION["userEmail"]);
-$person = findFirstFromArray(tableName: 'persons', key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
+$person = findFirstFromDb(tableName: 'persons', key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
 if ($person !== null) {
     $person = setPersonValueFromDb($person);
 }

@@ -32,7 +32,7 @@
     .page-add-hobby .form-card,
     .page-add-job .form-card,
     .page-edit-job .form-card {
-        width: 50%;
+        width: 40%;
     }
 
     .page-dashboard .dashboard-table {

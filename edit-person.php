@@ -8,8 +8,8 @@ redirectIfNotAuthenticated();
 
 checkRole($_SESSION["userEmail"], "ROLE_ADMIN");
 $jobs = getJobs();
-$person = findFirstFromArray(tableName: 'persons', key: ID, value: $_GET['person']);
-$user = findFirstFromArray(tableName: 'persons',key: PERSON_EMAIL,value: $_SESSION["userEmail"]);
+$person = findFirstFromDb(tableName: 'persons', key: ID, value: $_GET['person']);
+$user = findFirstFromDb(tableName: 'persons',key: PERSON_EMAIL,value: $_SESSION["userEmail"]);
 $user = setPersonValueFromDb($user);
 $person = setPersonValueFromDb($person);
 // get person data to be edited

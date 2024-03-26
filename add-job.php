@@ -6,7 +6,7 @@ require_once __DIR__ . "/include/card.php";
 require_once __DIR__ . "/include/popup-alert.php";
 
 redirectIfNotAuthenticated();
-$person = findFirstFromArray(tableName: 'persons', key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
+$person = findFirstFromDb(tableName: 'persons', key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
 checkRole($_SESSION["userEmail"], "ROLE_ADMIN");
 
 mainHeader(cssIdentifier: "page-add-job", title: "Add Job", link: "add-job.php", pageStyles: ["jobs.css"]);

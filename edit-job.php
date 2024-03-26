@@ -7,7 +7,7 @@ require_once __DIR__ . "/action/utils.php";
 redirectIfNotAuthenticated();
 checkRole($_SESSION["userEmail"], "ROLE_ADMIN");
 
-$currentJob = findFirstFromArray(tableName: 'jobs', key: ID, value: $_GET["job"]);
+$currentJob = findFirstFromDb(tableName: 'jobs', key: ID, value: $_GET["job"]);
 if ($currentJob == null) {
     $_SESSION["error"] = "Sorry, no data found";
     redirect("jobs.php", "");

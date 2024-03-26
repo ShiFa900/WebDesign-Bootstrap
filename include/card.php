@@ -37,10 +37,10 @@ function cardBody(string $action, string $location, string $imgSrc, string $labe
     <?php
 }
 
-function cardDashboard(string $cardName, string $link, string $cardText, int $number)
+function cardDashboard(string $cardName, string $link, string $cardText, int $number): void
 {
     ?>
-    <div class="dashboard-card col-12 col-xxl-3 col-xl-4 col-lg-5 col-md-6">
+    <div class="dashboard-card col-12 col-xl-3 col-lg-5 col-md-6">
         <a class="card card-link" href="<?=$link?>">
             <div class="card-body">
                 <div class="wrapper d-flex align-items-center column-gap-3">

@@ -12,7 +12,7 @@ require_once __DIR__ . "/action/pagination.php";
 if (isset($_GET["reset"])) {
     redirect("jobs.php", "");
 }
-$user = findFirstFromArray(tableName: 'persons', key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
+$user = findFirstFromDb(tableName: 'persons', key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
 $user = setPersonValueFromDb($user);
 $jobs = getJobs();
 $page = $_GET["page"] ?? 1;
@@ -77,7 +77,7 @@ mainHeader(cssIdentifier: "page-jobs", title: "Person Job", link: "jobs.php", pa
                                             <?php
                                             $number = ($page - 1) * PAGE_LIMIT + 1;
                                             foreach ($jobs as $job) {
-                                                $theJob = findFirstFromArray(tableName: 'jobs', key: ID, value: $job[ID]);
+                                                $theJob = findFirstFromDb(tableName: 'jobs', key: ID, value: $job[ID]);
                                                 ?>
                                                 <tr>
                                                     <td class="text-center p-3"><?= $number ?></td>

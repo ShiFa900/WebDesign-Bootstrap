@@ -4,7 +4,7 @@ session_start();
 global $PDO;
 
 $hobby = getHobby($_GET["hobby"]);
-$personWithHobby = findFirstFromArray(tableName: 'persons', key: ID, value: $hobby[HOBBIES_PERSON_ID]);
+$personWithHobby = findFirstFromDb(tableName: 'persons', key: ID, value: $hobby[HOBBIES_PERSON_ID]);
 
 if ($hobby == null) {
     $_SESSION["noHobbyFound"] = "Sorry, no hobby found";

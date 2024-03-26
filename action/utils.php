@@ -61,7 +61,7 @@ function redirectIfUserAlreadyLogin(): void
  */
 function checkRole(string $userEmail, string $role): void
 {
-    $user = findFirstFromArray(tableName: 'persons', key: PERSON_EMAIL, value: $userEmail);
+    $user = findFirstFromDb(tableName: 'persons', key: PERSON_EMAIL, value: $userEmail);
     $user = setPersonValueFromDb($user);
     if ($user[PERSON_ROLE] != $role) {
         $_SESSION["user"] = "Sorry, your role is MEMBER. Only ADMIN can create, edit and delete data.";
@@ -117,7 +117,7 @@ function getPersons(int $limit, int|string $page, string|null $category = null, 
     $str = "%$search%";
     $count = countPerson($str);
     $data = [];
-    if($category === ''){
+    if ($category === '') {
         $category = CATEGORIES_ALL;
     }
     // query data to db:
@@ -885,34 +885,52 @@ function convertDateToTimestamp(mixed $date): int|null
  * @param int|null $id
  * @return mixed
  */
-function &findFirstFromArray(string $tableName, string $key, string $value, int|null $id = null): mixed
+function &findFirstFromDb(string $tableName, string $key, string $value, int|null $id = null): mixed
 {
     global $PDO;
     try {
-        if ($id === null) {
-            $queryFormat = 'SELECT * FROM %s WHERE %s = %s LIMIT 1';
-            $query = sprintf($queryFormat, $tableName, $key, ':value');
-            $stmt = $PDO->prepare($query);
-            $stmt->execute(array(
-                'value' => $value
-            ));
-            $firstData = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $firstData;
-        } else {
-            $queryFormat = 'SELECT * FROM %s WHERE %s = %s AND id != :id lIMIT 1';
-            $query = sprintf($queryFormat, $tableName, $key, ':value');
-            $stmt = $PDO->prepare($query);
-            $stmt->execute(array(
-                'value' => $value,
-                'id' => $id
-            ));
-            $firstData = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $firstData;
+        $query = "SELECT * FROM $tableName WHERE $key = :value";
+        $queryParam = array(
+            'value' => $value
+        );
+        if ($id !== null) {
+            $query = $query . " AND id != :id";
+            $queryParam['id'] = $id;
         }
+        $query .= ' LIMIT 1';
+
+        $stmt = $PDO->prepare($query);
+        $stmt->execute($queryParam);
+        $firstData = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $firstData;
     } catch (PDOException $e) {
         die($e->getMessage());
     }
+}
 
+function isJobExists(string $job, int|null $jobId): bool
+{
+    global $PDO;
+
+    $query = 'SELECT * FROM Jobs WHERE  UPPER(job_name) = :jobName';
+    $queryParams = array(
+        'jobName' => strtoupper($job)
+    );
+
+    if ($jobId != null) {
+        $query = $query . ' AND ID != :jobId';
+        $queryParams['jobId'] = $jobId;
+    }
+
+    $statement = $PDO->prepare($query);
+    $statement->execute($queryParams);
+    $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    if ($data != null) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 
@@ -1119,7 +1137,7 @@ function validate(
  */
 function isNikExist(string $nik, int|null $id): int
 {
-    $result = findFirstFromArray(
+    $result = findFirstFromDb(
         tableName: 'persons',
         key: PERSON_NIK,
         value: $nik,
@@ -1154,7 +1172,7 @@ function getValidBirthDate(string $birthDate): int
  */
 function isEmailExist(string $email, int|null $id = null): int
 {
-    $result = findFirstFromArray(
+    $result = findFirstFromDb(
         tableName: 'persons',
         key: PERSON_EMAIL,
         value: $email,

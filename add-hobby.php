@@ -6,8 +6,8 @@ require_once __DIR__ . "/include/popup-alert.php";
 require_once __DIR__ . "/action/utils.php";
 
 redirectIfNotAuthenticated();
-$person = findFirstFromArray(tableName: 'persons', key: ID, value: $_GET["person"]);
-$user = findFirstFromArray(tableName: 'persons', key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
+$person = findFirstFromDb(tableName: 'persons', key: ID, value: $_GET["person"]);
+$user = findFirstFromDb(tableName: 'persons', key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
 $_SESSION["personId"] = $person[ID];
 if ($user[PERSON_EMAIL] != $person[PERSON_EMAIL] && $user[PERSON_ROLE] != ROLE_ADMIN) {
     checkRole($_SESSION["userEmail"], "ROLE_ADMIN");

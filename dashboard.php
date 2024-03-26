@@ -18,7 +18,7 @@ mainHeader(
 // get user data by given email
 $countAllPerson = getNumberOfPersons();
 $jobs = getJobs();
-$user = findFirstFromArray(tableName: 'persons', key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
+$user = findFirstFromDb(tableName: 'persons', key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
 $user[PERSON_LAST_LOGGED_IN] = convertDateToTimestamp($user[PERSON_LAST_LOGGED_IN]);
 // mencari user yang dengan email yang sama dengan yang ada di database
 
@@ -75,11 +75,14 @@ $personPassedAway = checkPersonStatus();
                 </div>
                 <div class="row dashboard">
                     <?php
-                    cardDashboard(cardName: 'Number of persons', link: 'persons.php?category=' . CATEGORIES_ALL, cardText: 'Total number of person in our database.', number: $countAllPerson);
+                    cardDashboard(cardName: 'Number of persons', link: 'persons.php?category=' . CATEGORIES_ALL, cardText: 'Total number of person in our database. Lorem, ipsum dolor sit amet consectetur
+                                    adipisicing elit.', number: $countAllPerson);
                     cardDashboard(cardName: 'Productive ages', link: 'persons.php?category=' . CATEGORIES_PRODUCTIVE_AGE, cardText: 'Total number of persons aged more than 17 years old, and less than 65 years old.', number: count($personProductive));
-                    cardDashboard(cardName: 'Children', link: 'persons.php?category=' . CATEGORIES_CHILD, cardText: 'Total number of children, aged less than 17 years old.', number: count($personChild));
-                    cardDashboard(cardName: 'Elderly', link: 'persons.php?category=' . CATEGORIES_ELDERLY, cardText: 'Total number of persons aged more than 65 years old.', number: count($personElderly));
-                    cardDashboard(cardName: 'Passed away', link: 'persons.php?category=' . CATEGORIES_PASSED_AWAY, cardText: 'Total number of people who have died.', number: count($personPassedAway));
+                    cardDashboard(cardName: 'Children', link: 'persons.php?category=' . CATEGORIES_CHILD, cardText: 'Total number of children, aged less than 17 years old, Laudantium rem hic illum praesentium
+                                    repellat quam.', number: count($personChild));
+                    cardDashboard(cardName: 'Elderly', link: 'persons.php?category=' . CATEGORIES_ELDERLY, cardText: 'Total number of persons aged more than 65 years old, voluptate sapiente doloribus, odit maiores,
+                                    fuga magnam.', number: count($personElderly));
+                    cardDashboard(cardName: 'Passed away', link: 'persons.php?category=' . CATEGORIES_PASSED_AWAY, cardText: 'Total number of people who have died, ipsum dolor sit amet consectetur.', number: count($personPassedAway));
                     ?>
                 </div>
                 <div class="row dashboard-table">

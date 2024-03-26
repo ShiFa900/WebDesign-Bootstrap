@@ -39,7 +39,7 @@
         overflow: visible;
         white-space: normal;
     }
-    height: 200px;
+    height: auto;
 }
 
 .page-dashboard table tbody{

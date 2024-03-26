@@ -11,7 +11,7 @@ require_once __DIR__ . "/include/popup-alert.php";
 require_once __DIR__ . "/action/pagination.php";
 
 redirectIfNotAuthenticated();
-$user = findFirstFromArray(tableName: 'persons', key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
+$user = findFirstFromDb(tableName: 'persons', key: PERSON_EMAIL, value: $_SESSION["userEmail"]);
 $user = setPersonValueFromDb($user);
 //reset category and keyword
 if (isset($_GET["reset"])) {
@@ -19,7 +19,7 @@ if (isset($_GET["reset"])) {
 }
 if (isset($_GET["person"])) {
     $hobbies = getPersonHobbiesFromDb($_GET["person"]);
-    $person = findFirstFromArray(tableName: 'persons', key: ID, value: $_GET["person"]);
+    $person = findFirstFromDb(tableName: 'persons', key: ID, value: $_GET["person"]);
     if ($hobbies == null && $person == null) {
         $_SESSION["error"] = "Sorry, no data found";
         redirect("persons.php", "");
@@ -29,7 +29,7 @@ if (isset($_GET["person"])) {
 } else {
     $hobbies = getPersonHobbiesFromDb($_SESSION["personId"]);
 }
-$personData = findFirstFromArray(tableName: 'persons', key: ID, value: $_SESSION["personId"]);
+$personData = findFirstFromDb(tableName: 'persons', key: ID, value: $_SESSION["personId"]);
 $page = $_GET["page"] ?? 1;
 // set page for paginated data, page cannot less than 1, bigger than total page and not a numeric
 $totalPage = ceil((float)count($hobbies) / PAGE_HOBBIES_LIMIT);
