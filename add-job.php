@@ -23,7 +23,7 @@ mainHeader(cssIdentifier: "page-add-job", title: "Add Job", link: "add-job.php",
                     </div>
                     <?php
                     if (isset($_SESSION["error"])) {
-                        showPopUpAlert(alertName: 'alert-danger', info:$_SESSION["info"] );
+                        showPopUpAlert(alertName: 'alert-danger', info:$_SESSION["error"] );
                     }
                     ?>
                     <div class="row">
@@ -42,4 +42,4 @@ mainHeader(cssIdentifier: "page-add-job", title: "Add Job", link: "add-job.php",
         </section>
     </main>
 <?php mainFooter("jobs.php");
-unset($_SESSION["info"]);
+unset($_SESSION["error"]);

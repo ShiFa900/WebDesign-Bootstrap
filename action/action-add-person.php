@@ -20,11 +20,11 @@ $userInputData[JOBS_NAME] = $_POST["jobName"];
 
 // validate for input data
 $validate = validate(
-    nik: $_POST["nik"],
-    email: $_POST["email"],
-    birthDate: $_POST["birthDate"],
-    password: $_POST["password"],
-    confirmPassword: $_POST["confirmPass"]);
+    nik: $userInputData["nik"],
+    email: $userInputData["email"],
+    birthDate: $userInputData["birthDate"],
+    password: $userInputData["password"],
+    confirmPassword: $userInputData["confirmPass"]);
 if (count($validate) == 0) {
     unset($_SESSION["errorData"]);
     unset($_SESSION["inputData"]);
@@ -32,12 +32,12 @@ if (count($validate) == 0) {
     $person = [
         ID => null,
         PERSON_FIRST_NAME => ucwords($userInputData["firstName"]),
-        PERSON_LAST_NAME => $userInputData["lastName"] == "" ? null : ucwords($userInputData["lastName"]),
+        PERSON_LAST_NAME => $userInputData["lastName"] === "" ? null : ucwords($userInputData["lastName"]),
         PERSON_NIK => $userInputData["nik"],
         PERSON_EMAIL => $userInputData["email"],
         PERSON_BIRTH_DATE => $userInputData["birthDate"],
         PERSON_SEX => transformSexFromInput($userInputData["sex"]),
-        PERSON_INTERNAL_NOTE => $userInputData["note"] == "" ? null : $userInputData["note"],
+        PERSON_INTERNAL_NOTE => $userInputData["note"] === "" ? null : $userInputData["note"],
         PERSON_ROLE => transformRoleFromInput($userInputData["role"]),
         PASSWORD => password_hash($_POST["password"], PASSWORD_DEFAULT),
         PERSON_STATUS => (int)translateSwitch($userInputData["status"]),

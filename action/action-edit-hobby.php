@@ -4,20 +4,20 @@ require_once __DIR__ . "/const.php";
 session_start();
 $currentHobby = $_SESSION["currentHobby"];
 $newHobby = $_POST["name"];
-$personHobby = getHobby(personId: $_SESSION["personId"]); // ini harusnya isinya adalah array hobby dari si person
-foreach ($personHobby as $hobby){
-    if(strcasecmp($hobby[HOBBIES_NAME], $newHobby) == 0 && $hobby[ID] != $currentHobby[ID]){
-        $_SESSION["error"] = "Sorry, this hobby is already exist!";
-        redirect("../edit-hobby.php", "hobby=" . $currentHobby[ID]);
-    }
+if (ctype_space($newHobby) || $newHobby === '') {
+    $_SESSION['error'] = "Please write a hobby name!";
+    redirect("../edit-hobby.php", "hobby=" . $currentHobby[ID]);
 }
-$userInput = [
-    "hobbyName" => $newHobby
-];
+$hobby = findFirstFromDb(tableName: 'hobbies', key: strtoupper('hobbies_name'), value: strtoupper($newHobby), id: $currentHobby[ID]);
+if (is_array($hobby)) {
+    $_SESSION["error"] = "Sorry, this " . $newHobby . "' is already exist!";
+    redirect("../edit-hobby.php", "hobby=" . $currentHobby[ID]);
+}
 
+$newHobby = trim($newHobby);
 $hobby = [
     ID => $currentHobby[ID],
-    HOBBIES_NAME => $userInput["hobbyName"] == null ? $currentHobby[HOBBIES_NAME] : htmlspecialchars($userInput["hobbyName"]),
+    HOBBIES_NAME => ctype_space($newHobby) ? $currentHobby[HOBBIES_NAME] : htmlspecialchars($newHobby),
     HOBBIES_PERSON_ID => $currentHobby[HOBBIES_PERSON_ID],
     HOBBIES_LAST_UPDATE => time()
 ];

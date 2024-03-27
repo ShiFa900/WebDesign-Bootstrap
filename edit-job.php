@@ -13,7 +13,7 @@ if ($currentJob == null) {
     redirect("jobs.php", "");
 }
 // dapatkan nama" orang yang menggunakan job currentJob
-$_SESSION["job"] = $currentJob;
+$_SESSION["currentJob"] = $currentJob;
 
 mainHeader(cssIdentifier: "page-edit-job", title: "Add Job", link: "edit-job.php", pageStyles: ["jobs.css"]);
 ?>
@@ -129,5 +129,5 @@ mainHeader(cssIdentifier: "page-edit-job", title: "Add Job", link: "edit-job.php
     </main>
 
 <?php mainFooter("jobs.php");
-unset($_SESSION["info"]);
+unset($_SESSION["error"]);
 

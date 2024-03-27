@@ -208,7 +208,6 @@ function getPersons(int $limit, int|string $page, string|null $category = null, 
 
 function returnShowData(array $array, array $count, int $page, int $limit)
 {
-
     $sort = sortingDataForPagination(page: $page, limit: $limit, array: $array);
 
     // return information for persons page
@@ -908,32 +907,6 @@ function &findFirstFromDb(string $tableName, string $key, string $value, int|nul
     }
 }
 
-function isJobExists(string $job, int|null $jobId): bool
-{
-    global $PDO;
-
-    $query = 'SELECT * FROM Jobs WHERE  UPPER(job_name) = :jobName';
-    $queryParams = array(
-        'jobName' => strtoupper($job)
-    );
-
-    if ($jobId != null) {
-        $query = $query . ' AND ID != :jobId';
-        $queryParams['jobId'] = $jobId;
-    }
-
-    $statement = $PDO->prepare($query);
-    $statement->execute($queryParams);
-    $data = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-    if ($data != null) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-
 /**
  * translate person status, alive for true and passed away otherwise
  * @param int $status
@@ -1057,16 +1030,16 @@ function getUserInputData(
 {
 
     return [
-        'firstName' => htmlspecialchars($firstName),
-        'lastName' => htmlspecialchars($lastName),
-        'nik' => htmlspecialchars($nik),
+        'firstName' => htmlspecialchars(trim($firstName)),
+        'lastName' => htmlspecialchars(trim($lastName)),
+        'nik' => htmlspecialchars(trim($nik)),
         'birthDate' => date("Y-m-d", $birthDate),
-        'email' => filter_var($email, FILTER_VALIDATE_EMAIL),
+        'email' => filter_var(trim($email), FILTER_VALIDATE_EMAIL),
         'role' => $role,
         'sex' => $sex,
         'status' => $status,
-        'note' => htmlspecialchars($note),
-        'hobbyName' => htmlspecialchars($hobbyName),
+        'note' => htmlspecialchars(trim($note)),
+        'hobbyName' => htmlspecialchars(trim($hobbyName)),
         'jobName' => $jobName
     ];
 }

@@ -388,6 +388,7 @@ body {
 .delete-btn {
     padding: 0.75rem 1.4rem;
     letter-spacing: 2px;
+    border-radius: 2px;
 
     color: #ffffff;
     transition: all 0.3s ease;
@@ -398,14 +399,12 @@ body {
 
 .page-hobbies .delete-btn,
 .page-jobs .delete-btn,
-.page-view-person .delete-btn,
-.page-my-profile .delete-btn {
+.page-my-profile .delete-btn,
+.page-view-person .btn .delete-btn{
     padding: 0.3rem 0.75rem;
     letter-spacing: 1px;
     color: #ffffff;
-    border-radius: 2px;
 }
-
 
 .delete-btn:hover,
 .delete-btn:active {

@@ -21,11 +21,11 @@ $userInputData = getUserInputData(
 
 // do validate person input data
 $validate = validate(
-    nik: $_POST["nik"],
-    email: $_POST["email"],
-    birthDate: $_POST["birthDate"],
-    password: $_POST["newPassword"],
-    confirmPassword: $_POST["confirmPassword"],
+    nik: $userInputData["nik"],
+    email: $userInputData["email"],
+    birthDate: $userInputData["birthDate"],
+    password: $userInputData["newPassword"],
+    confirmPassword: $userInputData["confirmPassword"],
     id: $currentUser[ID]);
 
 
@@ -46,7 +46,7 @@ if (count($validate) == 0) {
         note: $userInputData["note"] == "" ? null : $userInputData["note"]);
 
     $person[ID] = $currentUser[ID];
-    $person[PERSON_LAST_NAME] = $userInputData["lastName"];
+    $person[PERSON_LAST_NAME] = $userInputData["lastName"] === '' ? null : $userInputData["lastName"];
     $person[PASSWORD] = $_POST["newPassword"] == null ? $currentUser[PASSWORD] : $_POST["newPassword"];
     $person[PERSON_BIRTH_DATE] = date('Y-m-d H:i:s', $person[PERSON_BIRTH_DATE]);
     $person[PERSON_LAST_LOGGED_IN] = $currentUser[PERSON_LAST_LOGGED_IN] == null ? null :  $currentUser[PERSON_LAST_LOGGED_IN];

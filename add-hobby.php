@@ -26,7 +26,7 @@ mainHeader(cssIdentifier: "page-add-hobby", title: "Add Hobby", link: "add-hobby
                     </div>
                     <?php
                     if (isset($_SESSION["error"])) {
-                        showPopUpAlert(alertName: 'alert-danger',info:$_SESSION["info"] );
+                        showPopUpAlert(alertName: 'alert-danger',info:$_SESSION["error"] );
                     }
                     ?>
                     <div class="row">
@@ -47,4 +47,4 @@ mainHeader(cssIdentifier: "page-add-hobby", title: "Add Hobby", link: "add-hobby
     </main>
 
 <?php mainFooter("persons.php");
-unset($_SESSION["info"]);
+unset($_SESSION["error"]);
